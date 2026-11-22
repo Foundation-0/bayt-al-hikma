@@ -329,6 +329,30 @@ class TestOraclePrimitives(unittest.TestCase):
             o.en_content_stems("cat dog sky running mapped indeed themselves whereas ourselves yourselves"),
             set(),
         )
+        # Verify bayt-al-hikma#4 non-equivalent mutants: suffix endswith specificity, elif exclusivity,
+        # strict lowercase-alpha tokenization, case-folding, and exact 87-word EN_STOPWORDS parity.
+        self.assertEqual(
+            o.en_content_stems("hamstrung accusing exceeding accursed classes reward justice certain"),
+            {"hamstrung", "accus", "exceed", "accurs", "class", "reward", "justice", "certain"},
+        )
+        self.assertEqual(o.en_content_stems("Allah's mercy"), {"mercy"})
+        self.assertEqual(o.en_content_stems("Walked"), {"walk"})
+        self.assertEqual(o.en_content_stems("alpha-beta_gamma 1234"), {"alpha", "beta", "gamma"})
+        expected_en_stopwords = frozenset({
+            "about", "after", "against", "allah", "also", "because", "been", "before", "being",
+            "between", "came", "come", "could", "does", "done", "doth", "during", "except",
+            "from", "gave", "give", "hast", "hath", "have", "himself", "indeed", "into", "knew",
+            "know", "lord", "made", "make", "more", "most", "only", "ours", "ourselves", "over",
+            "said", "says", "shall", "shalt", "should", "some", "such", "surely", "take", "than",
+            "that", "thee", "their", "them", "themselves", "then", "there", "therein", "thereof",
+            "thereto", "thereon", "these", "they", "this", "those", "thou", "through", "took",
+            "unto", "upon", "verily", "were", "what", "when", "where", "whereas", "wherein",
+            "whereof", "which", "while", "whom", "whose", "will", "wilt", "with", "without",
+            "would", "your", "yourselves",
+        })
+        self.assertEqual(len(expected_en_stopwords), 87)
+        self.assertEqual(o.EN_STOPWORDS, expected_en_stopwords)
+        self.assertEqual(o.en_content_stems(" ".join(sorted(expected_en_stopwords))), set())
 
     def test_block_jaccard_and_naming_guard(self):
         self.assertEqual(o.block_jaccard_cohesion_exact(["a", "b", "b", "c"], 2), (1, 3, Fraction(1, 3)))
