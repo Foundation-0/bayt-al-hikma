@@ -2,8 +2,7 @@ import ast, os
 RR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # repository root
 tot = 0
 for root, _d, fs in os.walk(RR):
-    if "/.git" in root or "/verification" in root:
-        continue
+    _d[:] = sorted(d for d in _d if d not in {".git", "verification", "corpora"})  # prune in place, fixed walk order
     for f in sorted(fs):
         if f.endswith(".py"):
             p = os.path.join(root, f)

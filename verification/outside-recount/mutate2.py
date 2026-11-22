@@ -72,7 +72,7 @@ for mu in M:
     d = "%s/mut_%s" % (SCR, mu["id"])
     if os.path.exists(d):
         raise SystemExit("scratch folder already exists, use a new one: " + d)
-    shutil.copytree(SRC, d, ignore=shutil.ignore_patterns(".git", "verification"))
+    shutil.copytree(SRC, d, ignore=shutil.ignore_patterns(".git", "verification", "corpora"))
     p = "%s/%s/%s" % (d, mu["pkg"], mu["file"])
     with open(p, encoding="utf-8") as fh:
         s = fh.read()

@@ -20,10 +20,10 @@ def praw(ge, n=ND):
     return Fraction(1 + ge, n + 1)
 
 
-def band(vals, n=None):
+def band(vals):
     s = sorted(vals)
     n = len(s)
-    return s[int(0.025 * n)], s[int(0.975 * n) - 1]
+    return s[(n * 25) // 1000], s[(n * 975) // 1000 - 1]
 
 
 def holm_report(label, ge_map, n=ND):
@@ -171,7 +171,7 @@ for c in CASES:
     if not n_.startswith("VARIANT"):
         GE[n_] = ge
 holm_report("6 Qur'an inclusio tests", GE)
-tol = R.holm_tolerance({"all": 30, "odd": 50, "even": 48, "all_strip10": 11, "odd_strip10": 6, "even_strip10": 64}, 250)
+tol = R.holm_tolerance({k: FA["ring_metrics"]["delta_nulls"][k]["ge_count"] for k in ("all", "odd", "even", "all_strip10", "odd_strip10", "even_strip10")}, 250)
 print("   authors' B=250 reported ge counts (30,50,48,11,6,64): none rejected; exceedance count at which each WOULD still be rejected (largest ge keeping Holm<=0.05, others fixed):", tol)
 mge = sum(1 for x in nm if x >= obs["all"][1]); mle = sum(1 for x in nm if x <= obs["all"][1])
 print("mirror (all 79): obs %s ; null >= obs %d/%d, null <= obs %d/%d ; lower-tail p=%s upper-tail p=%s" % (fx(obs["all"][1]), mge, ND, mle, ND, fx(praw(mle), 5), fx(praw(mge), 5)))

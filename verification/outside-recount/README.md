@@ -62,7 +62,7 @@ The saved output of each command is in `outputs/`, one file per mode (`Ib` is `-
 | `recount2b.py` | `checks=34 match=34 diff=0` |
 | `nulls2.py` | `nulls2 done`. All 12 layer cells and all 9 context tests rejected at 0.05 after Holm. None of the 6 inclusio tests rejected (smallest adjusted p 0.2939). Pickthall `Erj` is rejected (0.0430) and `wzn` is not |
 | `holm_tables.py` | At 250 draws the 12-cell family has smallest adjusted p 12/251 = 0.04781 |
-| `sens.py` | The 7-root Sahih loss is 50.9% under the repository's rule and 24.3% to 64.0% under three other rules |
+| `sens.py` | The 7-root Sahih loss is 50.9% under the repository's rule. It is 24.3% to 64.0% under three other rules with a minimum word length of 4 or more, and 8.0% and 6.3% under the two rules that admit three-letter words (these let function words in). All five alternatives together span 6.3% to 64.0% |
 | `variant_basmala.py` | Removing the basmala changes the raw, rasm and stem lifts by at most 0.09 |
 | `lineage_probes.py` | Both checkers reject the order, overlap, teacher, self-loop and missing-citation probes, and accept the legal edge with a nonsense citation |
 | `mutate2.py` | `summary: 47 tried, 45 caught, 2 survived` (the English minimum word length, in both packages) |

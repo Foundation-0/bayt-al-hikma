@@ -1,12 +1,11 @@
-import glob, os, re
+import os, re
 import sys
 RR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # repository root
 base = RR
 files = []
 for root, _d, fs in os.walk(base):
-    if "/.git" in root or "/verification" in root:
-        continue
-    for f in fs:
+    _d[:] = sorted(d for d in _d if d not in {".git", "verification", "corpora"})  # prune in place, fixed walk order
+    for f in sorted(fs):
         if f.endswith((".md", ".py", ".json", ".txt")):
             files.append(os.path.join(root, f))
 if len(sys.argv) > 1:
