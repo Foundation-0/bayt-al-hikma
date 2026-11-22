@@ -1,0 +1,352 @@
+{
+  "audit_id": "AUDIT-092",
+  "certificate_sha256": "746e331e0fe2a05613b9fa72e7336b30995b3172a41d310d9e66acd692d9d57e",
+  "live_vault_verification": {
+    "file_digests": {
+      "round10/arm2-unification-and-novelty/unification_bridge_certificate.json": {
+        "bytes": 17640,
+        "sha256": "a662374cdb5e08adab3323477584b155ce92dbdbcb54e45871d354fccaf17642",
+        "verified": true
+      },
+      "round10/arm5-transformational-steelman/transformational_steelman_certificate.json": {
+        "bytes": 20507,
+        "sha256": "e21ceea368a945dfa1f6b6d6152714e8b2ae7df5191620f3ef37436696eb21a6",
+        "verified": true
+      },
+      "round10/portals/continuum/pr_1_files/continuum.md": {
+        "bytes": 10121,
+        "sha256": "516f6080563f223a4d8da437d37aaff479988f08f9079bfa48116cbb4fdc3150",
+        "verified": true
+      }
+    },
+    "mode": "live_read_only",
+    "verified_vault_anchors": 3
+  },
+  "pillar1_continuum_vs_atomism": {
+    "biruni_ibn_sina_discrete_obstruction": {
+      "all_v2_odd": true,
+      "concentric_step_is_integer": false,
+      "concentric_wheel_2to1_inner_step": "1/2",
+      "diagonal_squared_metric_distortion": "2/1",
+      "v2_parity_checks": [
+        {
+          "2N^2": 2,
+          "N": 1,
+          "v2_2N2": 1,
+          "v2_odd": true
+        },
+        {
+          "2N^2": 8,
+          "N": 2,
+          "v2_2N2": 3,
+          "v2_odd": true
+        },
+        {
+          "2N^2": 18,
+          "N": 3,
+          "v2_2N2": 1,
+          "v2_odd": true
+        },
+        {
+          "2N^2": 72,
+          "N": 6,
+          "v2_2N2": 3,
+          "v2_odd": true
+        },
+        {
+          "2N^2": 288,
+          "N": 12,
+          "v2_2N2": 5,
+          "v2_odd": true
+        }
+      ]
+    },
+    "thabit_amicable_theorem": [
+      {
+        "A": 220,
+        "B": 284,
+        "all_three_prime": true,
+        "is_amicable": true,
+        "n": 2,
+        "p": 5,
+        "q": 11,
+        "r": 71,
+        "sigma_proper_A": 284,
+        "sigma_proper_B": 220
+      },
+      {
+        "A": 2024,
+        "B": 2296,
+        "all_three_prime": false,
+        "is_amicable": false,
+        "n": 3,
+        "p": 11,
+        "q": 23,
+        "r": 287,
+        "sigma_proper_A": 2296,
+        "sigma_proper_B": 2744
+      },
+      {
+        "A": 17296,
+        "B": 18416,
+        "all_three_prime": true,
+        "is_amicable": true,
+        "n": 4,
+        "p": 23,
+        "q": 47,
+        "r": 1151,
+        "sigma_proper_A": 18416,
+        "sigma_proper_B": 17296
+      }
+    ],
+    "thabit_parabola_quadrature": {
+      "N": 100,
+      "bracket_width": "1/100",
+      "exact_integral": "2/3",
+      "lower_darboux": "13233/20000",
+      "sandwiches_two_thirds": true,
+      "upper_darboux": "13433/20000",
+      "width_equals_one_over_N": true
+    }
+  },
+  "pillar2_haytham_khayyam_rushd": {
+    "alhazen_spherical_mirror_quartic": {
+      "asymmetric_points": {
+        "A": [
+          "2/1",
+          "0/1"
+        ],
+        "B": [
+          "0/1",
+          "3/1"
+        ]
+      },
+      "depressed_p_q_r": [
+        "-110/27",
+        "980/729",
+        "512/2187"
+      ],
+      "ferrari_resolvent_cubic_int": [
+        531441,
+        -4330260,
+        8323236,
+        -960400
+      ],
+      "ferrari_resolvent_rational_roots": [],
+      "quartic_coeffs_desc": [
+        "9/1",
+        "4/1",
+        "-36/1",
+        "4/1",
+        "3/1"
+      ],
+      "quartic_rational_roots": [],
+      "real_root_sign_changes": 4,
+      "ruler_and_compass_impossible_exact": true,
+      "symmetric_t0_residual": "0/1"
+    },
+    "haytham_khayyam_quadrilateral_trichotomy": {
+      "euclidean_cos_summit": "0/1",
+      "euclidean_right": true,
+      "hyperbolic_acute": true,
+      "hyperbolic_cos_summit": "5/16",
+      "spherical_cos_summit": "-3/13",
+      "spherical_obtuse": true
+    },
+    "ibn_rushd_anti_epicycle_witness": {
+      "dof": 3,
+      "held_out_x10_error": "45/1",
+      "in_sample_l1_error": "0/1",
+      "n_train": 3
+    }
+  },
+  "pillar3_transformational_algebra_laurent": {
+    "khwarizmi_six_canonical_forms": {
+      "type1": {
+        "canonical_type": 1,
+        "form": "x^2 = px",
+        "p": "5/1",
+        "positive_root": "5/1",
+        "q": "0/1"
+      },
+      "type2": {
+        "canonical_type": 2,
+        "discriminant": "9/1",
+        "form": "x^2 = q",
+        "p": "0/1",
+        "q": "9/1"
+      },
+      "type3": {
+        "canonical_type": 3,
+        "form": "bx = c",
+        "p": "4/1",
+        "positive_root": "3/1",
+        "q": "12/1"
+      },
+      "type4_flagship_root_3_verified": true,
+      "type4_flagship_x2_10x_39": {
+        "canonical_type": 4,
+        "discriminant": "64/1",
+        "form": "x^2 + px = q",
+        "p": "10/1",
+        "q": "39/1"
+      },
+      "type5": {
+        "canonical_type": 5,
+        "discriminant": "4/1",
+        "form": "x^2 + q = px",
+        "p": "10/1",
+        "q": "21/1"
+      },
+      "type6": {
+        "canonical_type": 6,
+        "discriminant": "25/4",
+        "form": "x^2 = px + q",
+        "p": "3/1",
+        "q": "4/1"
+      }
+    },
+    "samawal_laurent_ring_and_audit085r_bridge": {
+      "audit085r_exact_neg_q3": true,
+      "audit085r_schur_numerator_k11_S": {
+        "3": "-1/1"
+      },
+      "geom_identity_exact": true,
+      "geom_identity_prod": {
+        "-6": "-1/1",
+        "0": "1/1"
+      },
+      "negative_exponent_inverse_exact": true
+    }
+  },
+  "pillar4_kindi_biruni_tusi_jazari": {
+    "biruni_nandana_geodesy_forensics": {
+      "abs_diff_cubits_dec6": "0.035909",
+      "biruni_tahdid_reported_cubits": 12803337,
+      "dip_33min_r_dec6": "14151987.527114",
+      "dip_35min_r_dec6": "12580767.769552",
+      "exact_r34_bracket_dec6": [
+        "13331619.621397",
+        "13331728.382992"
+      ],
+      "height_cubits": "130411/200",
+      "reconstructs_within_1_cubit": true,
+      "refraction_k_one_seventh_factor": "7/6",
+      "sexagesimal_3place_cos34": "215989/216000",
+      "sexagesimal_3place_r": "28167341479/2200",
+      "sexagesimal_3place_r_dec6": "12803337.035909"
+    },
+    "jazari_float_valve_regimes": {
+      "damped_osc_mu_3_halves": [
+        "1/1",
+        "-1/2",
+        "1/4",
+        "-1/8",
+        "1/16"
+      ],
+      "divergent_mu_5_halves": [
+        "1/1",
+        "-3/2",
+        "9/4",
+        "-27/8",
+        "81/16"
+      ],
+      "hunting_mu_2": [
+        "1/1",
+        "-1/1",
+        "1/1",
+        "-1/1",
+        "1/1"
+      ],
+      "monotone_mu_half": [
+        "1/1",
+        "1/2",
+        "1/4",
+        "1/8",
+        "1/16"
+      ]
+    },
+    "kindi_de_gradibus_and_frequency_null": {
+      "cipher_l1_from_uniform": "1/2",
+      "de_gradibus_2_pow_n": {
+        "degree_0": 1,
+        "degree_1": 2,
+        "degree_2": 4,
+        "degree_3": 8,
+        "degree_4": 16
+      },
+      "permutation_invariant_exact": true,
+      "plain_l1_from_uniform": "1/2"
+    },
+    "tusi_couple_zero_residual": {
+      "all_transverse_residuals_zero": true,
+      "samples": [
+        {
+          "P_x": "2/1",
+          "P_y": "0/1",
+          "t": "0/1"
+        },
+        {
+          "P_x": "8/5",
+          "P_y": "0/1",
+          "t": "1/3"
+        },
+        {
+          "P_x": "6/5",
+          "P_y": "0/1",
+          "t": "1/2"
+        },
+        {
+          "P_x": "0/1",
+          "P_y": "0/1",
+          "t": "1/1"
+        },
+        {
+          "P_x": "-6/5",
+          "P_y": "0/1",
+          "t": "2/1"
+        },
+        {
+          "P_x": "-8/5",
+          "P_y": "0/1",
+          "t": "3/1"
+        },
+        {
+          "P_x": "-24/13",
+          "P_y": "0/1",
+          "t": "5/1"
+        }
+      ]
+    }
+  },
+  "pillar5_lineage_and_certifiers": {
+    "certified_anti_epicycle_and_monotone_valve": {
+      "certified": true,
+      "contraction_factor": "1/2",
+      "controller_regime": "MONOTONE_CONVERGENT",
+      "linear_head_margin": "4/1",
+      "loop_gain_mu": "1/2",
+      "violations": []
+    },
+    "lineage_graph_receipt": {
+      "certified": true,
+      "chronology_violations": [],
+      "directed_dag_acyclic": true,
+      "edge_count": 14,
+      "node_count": 13
+    },
+    "overparameterized_epicycle_and_hunting_valve": {
+      "certified": false,
+      "contraction_factor": "1/1",
+      "controller_regime": "UNSTABLE_CHATTERING",
+      "linear_head_margin": "1/1",
+      "loop_gain_mu": "2/1",
+      "violations": [
+        "RUSHD_EPICYCLE_OVERPARAMETERIZED",
+        "RUSHD_HELD_OUT_ERROR_EXCEEDED",
+        "JAZARI_UNSTABLE_LOOP_GAIN"
+      ]
+    }
+  },
+  "schema_version": "bayt-al-hikma-polymath-lineage-v1"
+}
