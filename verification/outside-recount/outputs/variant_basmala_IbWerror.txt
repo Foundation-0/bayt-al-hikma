@@ -1,0 +1,12 @@
+basmala tokens (rasm): 4
+verse-1 starts in surahs 2-114 (not 9) that begin with the basmala: 112 of 112
+draws per null: 500 (seeds random.Random(5000000 + 100000*k + d))
+root layer (unchanged by the variant): lift W10/20/40 = 1.878 1.492 1.228
+== file as is (PR convention) ; tokens: 77881
+   raw   obs W10/20/40 = 0.020506 0.032502 0.046046 | lift = 2.517 2.108 1.652
+   rasm  obs W10/20/40 = 0.033948 0.052127 0.069585 | lift = 1.876 1.677 1.449
+   stem  obs W10/20/40 = 0.044275 0.066625 0.087996 | lift = 1.899 1.651 1.391
+== basmala removed from verse 1 of surahs 2-114 except 9 ; tokens: 77433
+   raw   obs W10/20/40 = 0.020921 0.031849 0.046371 | lift = 2.600 2.086 1.677
+   rasm  obs W10/20/40 = 0.034146 0.052041 0.069208 | lift = 1.901 1.684 1.446
+   stem  obs W10/20/40 = 0.044244 0.066554 0.087545 | lift = 1.910 1.656 1.385

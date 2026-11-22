@@ -1,0 +1,29 @@
+== polymath certifier (13 nodes, 14 edges)
+  baseline committed dataset                                     certified=True chrono=[] tier=-
+  THEIR-STYLE PROBE: khwarizmi critiqued tusi (actor born 780, subject born 1201) certified=False chrono=['CHRONO_ACTOR_DIED_BEFORE_SUBJECT_MATURITY:khwarizmi->tusi', 'CHRONO_ACTOR_PRECEDES_SUBJECT:khwarizmi->tusi'] tier=-
+  MINE V1: tusi teacher_of kindi (student 400 years earlier)     certified=False chrono=['CHRONO_TEACHER_AGE_GAP:tusi->kindi'] tier=-
+  MINE V2: khwarizmi corresponded_with tusi (no overlap in lifetimes) certified=False chrono=['CHRONO_CORRESPONDENCE_NO_OVERLAP:khwarizmi<->tusi'] tier=-
+  MINE V3: tusi extended khwarizmi (correct direction, later->earlier) certified=True chrono=[] tier=-
+  MINE V4: same legal edge with nonsense citation text           certified=True chrono=[] tier=-
+  MINE V5: edge without citation key                             REJECTED_BY_EXCEPTION PolymathAuditError: lineage-edge-keys:14
+  MINE V6: self loop kindi extended kindi                        REJECTED_BY_EXCEPTION PolymathAuditError: lineage-self-loop:kindi
+  MINE V7: reverse existing extended edge karaji->khwarizmi      certified=False chrono=['CHRONO_ACTOR_DIED_BEFORE_SUBJECT_MATURITY:khwarizmi->karaji', 'CHRONO_ACTOR_PRECEDES_SUBJECT:khwarizmi->karaji'] tier=-
+  MINE V8: existing edge's citation replaced by nonsense         certified=True chrono=[] tier=-
+  MINE V9: existing edge's citation key removed                  REJECTED_BY_EXCEPTION PolymathAuditError: lineage-edge-keys:0
+== veins certifier (23 nodes, 28 edges)
+  baseline committed dataset                                     certified=True chrono=[] tier=[]
+  THEIR-STYLE PROBE: khwarizmi critiqued tusi (actor born 780, subject born 1201) certified=False chrono=['CHRONO_ACTOR_DIED_BEFORE_SUBJECT_MATURITY:khwarizmi->tusi', 'CHRONO_ACTOR_PRECEDES_SUBJECT:khwarizmi->tusi'] tier=['TIER_BACKWARD_FLOW:khwarizmi->tusi']
+  MINE V1: tusi teacher_of kindi (student 400 years earlier)     certified=False chrono=['CHRONO_TEACHER_AGE_GAP:tusi->kindi'] tier=['TIER_BACKWARD_FLOW:tusi->kindi']
+  MINE V2: khwarizmi corresponded_with tusi (no overlap in lifetimes) certified=False chrono=['CHRONO_CORRESPONDENCE_NO_OVERLAP:khwarizmi<->tusi'] tier=['TIER_CROSS_ERA_CORRESPONDENCE:khwarizmi<->tusi']
+  MINE V3: tusi extended khwarizmi (correct direction, later->earlier) certified=True chrono=[] tier=[]
+  MINE V4: same legal edge with nonsense citation text           certified=True chrono=[] tier=[]
+  MINE V5: edge without citation key                             REJECTED_BY_EXCEPTION VeinsAuditError: lineage-edge-keys:28
+  MINE V6: self loop kindi extended kindi                        REJECTED_BY_EXCEPTION VeinsAuditError: lineage-self-loop:kindi
+  MINE V7: reverse existing extended edge karaji->khwarizmi      certified=False chrono=['CHRONO_ACTOR_DIED_BEFORE_SUBJECT_MATURITY:khwarizmi->karaji', 'CHRONO_ACTOR_PRECEDES_SUBJECT:khwarizmi->karaji'] tier=[]
+  MINE V8: existing edge's citation replaced by nonsense         certified=True chrono=[] tier=[]
+  MINE V10: tributary archimedes extended copernicus (earlier actor, backward tier) certified=False chrono=['CHRONO_ACTOR_DIED_BEFORE_SUBJECT_MATURITY:archimedes->copernicus', 'CHRONO_ACTOR_PRECEDES_SUBJECT:archimedes->copernicus'] tier=['TIER_BACKWARD_FLOW:archimedes->copernicus']
+polymath: engagement edges=12, with actor born before subject or dead before subject's maturity: 0
+polymath: teacher_of edges=1, with teacher not at least 10 years older: 0
+veins: engagement edges=25, with actor born before subject or dead before subject's maturity: 0
+veins: teacher_of edges=1, with teacher not at least 10 years older: 0
+citation keys required: ['edition', 'location', 'work'] ; node citation check content: only key set and ASCII-clean strings
