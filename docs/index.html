@@ -72,7 +72,7 @@
         <li><a class="study" href="continuum.html">
           <span class="s-meta">AUDIT-091-V2 · arabic-continuum <span class="tg retracted">Retraction inside</span></span>
           <span class="s-name">Arabic Continuum</span>
-          <span class="s-desc">Root and pattern cohesion in 49,968 tokens. The first ladder was wrong. The corrected lift reverses it in all 12 cells.</span>
+          <span class="s-desc">Root and pattern cohesion in 49,968 tokens. The first ladder was wrong. The corrected lift puts raw first and root last at W = 20 and 40, with a near tie at W = 10.</span>
         </a></li>
         <li><a class="study" href="lexicon.html">
           <span class="s-meta">AUDIT-094-V2 · arabic-lexicon <span class="tg descriptive">Descriptive</span></span>
@@ -129,7 +129,7 @@ rasm          <b>1.68x</b>   stem         <b>1.65x</b>   root  <b>1.49x</b></pre
         <thead><tr><th scope="col">Claim</th><th scope="col">State</th><th scope="col">Receipt</th></tr></thead>
         <tbody>
           <tr><td>Local cohesion beats shuffled baselines in all 12 layer and window cells</td><td><span class="tg verified">Verified</span></td><td class="mono">p = 1/251 each cell. Holm p_adj = 12/251.</td></tr>
-          <tr><td>Absolute ladder raw &lt; rasm &lt; stem &lt; root</td><td><span class="tg retracted">Retracted</span></td><td class="mono">Lift reverses at every window. W = 20: 2.11 &gt; 1.68 &gt; 1.65 &gt; 1.49.</td></tr>
+          <tr><td>Absolute ladder raw &lt; rasm &lt; stem &lt; root</td><td><span class="tg retracted">Retracted</span></td><td class="mono">Lift reverses at W = 20 and 40. At W = 10, root and rasm tie to 3 decimals (1.876). W = 20: 2.11 &gt; 1.68 &gt; 1.65 &gt; 1.49.</td></tr>
           <tr><td>Pointwise mirror ring across 79 long surahs</td><td><span class="tg falsified">Falsified</span></td><td class="mono">Observed 0.040319 below null 0.042126. Lower tail p = 5/251.</td></tr>
           <tr><td>Boundary inclusio (opening echoes closing)</td><td><span class="tg exploratory">Inconclusive</span></td><td class="mono">All 6 slices fail Holm. Min p_adj = 42/251 = 0.1673.</td></tr>
           <tr><td>Within-root wazn concentration 0.926980</td><td><span class="tg descriptive">Descriptive</span></td><td class="mono">Single corpus. No form-tagged control yet. Scope stated in full.</td></tr>
