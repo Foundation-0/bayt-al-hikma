@@ -1,26 +1,10 @@
 {
-  "audit_id": "AUDIT-092",
-  "certificate_sha256": "746e331e0fe2a05613b9fa72e7336b30995b3172a41d310d9e66acd692d9d57e",
-  "live_vault_verification": {
-    "file_digests": {
-      "round10/arm2-unification-and-novelty/unification_bridge_certificate.json": {
-        "bytes": 17640,
-        "sha256": "a662374cdb5e08adab3323477584b155ce92dbdbcb54e45871d354fccaf17642",
-        "verified": true
-      },
-      "round10/arm5-transformational-steelman/transformational_steelman_certificate.json": {
-        "bytes": 20507,
-        "sha256": "e21ceea368a945dfa1f6b6d6152714e8b2ae7df5191620f3ef37436696eb21a6",
-        "verified": true
-      },
-      "round10/portals/continuum/pr_1_files/continuum.md": {
-        "bytes": 10121,
-        "sha256": "516f6080563f223a4d8da437d37aaff479988f08f9079bfa48116cbb4fdc3150",
-        "verified": true
-      }
-    },
-    "mode": "live_read_only",
-    "verified_vault_anchors": 3
+  "audit_id": "AUDIT-092R2",
+  "certificate_sha256": "4834f376d7668430c3838e46bb4dd34440a7363fb4d48dc8c4191afc1b07ee2d",
+  "execution_mode": "standalone_pure_q",
+  "novelty_classification": {
+    "honest_tier": "N0",
+    "rationale": "All mathematical theorems and historical reconstructions are N0 classical prior art; this package provides reproducible pure-Q stdlib verification scripts and encoding-consistency checks without claiming N1 mathematical novelty."
   },
   "pillar1_continuum_vs_atomism": {
     "biruni_ibn_sina_discrete_obstruction": {
@@ -206,35 +190,84 @@
         "q": "4/1"
       }
     },
-    "samawal_laurent_ring_and_audit085r_bridge": {
-      "audit085r_exact_neg_q3": true,
-      "audit085r_schur_numerator_k11_S": {
-        "3": "-1/1"
-      },
+    "samawal_laurent_ring_identities": {
       "geom_identity_exact": true,
       "geom_identity_prod": {
         "-6": "-1/1",
         "0": "1/1"
       },
-      "negative_exponent_inverse_exact": true
+      "negative_exponent_inverse_exact": true,
+      "schur_numerator_exact_neg_q3": true,
+      "schur_numerator_k11_S": {
+        "3": "-1/1"
+      }
     }
   },
   "pillar4_kindi_biruni_tusi_jazari": {
-    "biruni_nandana_geodesy_forensics": {
+    "biruni_nandana_geodesy_analysis": {
       "abs_diff_cubits_dec6": "0.035909",
       "biruni_tahdid_reported_cubits": 12803337,
       "dip_33min_r_dec6": "14151987.527114",
       "dip_35min_r_dec6": "12580767.769552",
-      "exact_r34_bracket_dec6": [
+      "epistemic_status": "ARITHMETIC_FIT_HYPOTHESIS_SINGLE_NUMBER",
+      "exact_r34_bracket_dec6_conservative": [
         "13331619.621397",
-        "13331728.382992"
+        "13331728.382993"
       ],
       "height_cubits": "130411/200",
-      "reconstructs_within_1_cubit": true,
+      "historical_input_sources": [
+        "J. Ali (tr.), The Determination of the Coordinates of Positions (Beirut: AUB, 1967), pp. 187-190",
+        "E. S. Kennedy, A Commentary upon Biruni's Kitab Tahdid al-Amakin (Beirut: AUB, 1973), pp. 139-144"
+      ],
+      "matches_reported_integer_within_1_cubit": true,
       "refraction_k_one_seventh_factor": "7/6",
       "sexagesimal_3place_cos34": "215989/216000",
       "sexagesimal_3place_r": "28167341479/2200",
-      "sexagesimal_3place_r_dec6": "12803337.035909"
+      "sexagesimal_3place_r_dec6": "12803337.035909",
+      "sexagesimal_truncation_sensitivity": {
+        "places_2": {
+          "cos34_fraction": "3599/3600",
+          "radius_dec6": "2346745.945000",
+          "radius_fraction": "469349189/200",
+          "sexagesimal_digits": [
+            59,
+            59
+          ]
+        },
+        "places_3": {
+          "cos34_fraction": "215989/216000",
+          "radius_dec6": "12803337.035909",
+          "radius_fraction": "28167341479/2200",
+          "sexagesimal_digits": [
+            59,
+            59,
+            49
+          ]
+        },
+        "places_4": {
+          "cos34_fraction": "6479683/6480000",
+          "radius_dec6": "13328421.762034",
+          "radius_fraction": "845021939713/63400",
+          "sexagesimal_digits": [
+            59,
+            59,
+            49,
+            26
+          ]
+        },
+        "places_5": {
+          "cos34_fraction": "259187323/259200000",
+          "radius_dec6": "13331576.074683",
+          "radius_fraction": "33800877979753/2535400",
+          "sexagesimal_digits": [
+            59,
+            59,
+            49,
+            26,
+            9
+          ]
+        }
+      }
     },
     "jazari_float_valve_regimes": {
       "damped_osc_mu_3_halves": [
@@ -329,10 +362,13 @@
       "violations": []
     },
     "lineage_graph_receipt": {
+      "all_nodes_and_edges_cited": true,
       "certified": true,
       "chronology_violations": [],
       "directed_dag_acyclic": true,
       "edge_count": 14,
+      "edge_direction_convention": "Active voice ('source <relation> target'): for teacher_of, source taught target; for corresponded_with, source and target corresponded as contemporaries; for extended, commented_on, and critiqued, the later actor (source) engaged the prior subject (target).",
+      "encoding_consistency_only": true,
       "node_count": 13
     },
     "overparameterized_epicycle_and_hunting_valve": {
@@ -348,5 +384,5 @@
       ]
     }
   },
-  "schema_version": "bayt-al-hikma-polymath-lineage-v1"
+  "schema_version": "bayt-al-hikma-polymath-lineage-v2"
 }

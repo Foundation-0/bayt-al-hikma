@@ -1,1011 +1,1049 @@
-"""Assertion-free R5 mutation-hardened & red-team test suite for AUDIT-091.
+"""Assertion-free, -O-safe R5 verification suite for arabic-continuum (v2)
+and ../fetch_corpora.py.
 
-Runs cleanly under:
-  python3 -I -O -B -W error test_arabic_continuum_r5.py
-  aletheia v1.4.0 mutate arabic_continuum_oracle.py --max-mutants 500 --add-cwd
-  aletheia v1.4.0 mutate arabic_continuum_audit.py --max-mutants 500 --add-cwd
-
-Zero bare assert statements. Zero floats on trust paths. Zero external writes.
+Pins every oracle primitive, statistical threshold, conjunct, Holm-Bonferroni
+step-down rule, Pillar 4 full re-derivation, hand-computed known-answer
+mini-corpus live path, and fail-closed corpus fetcher behavior.
 """
 
-import copy
+from contextlib import contextmanager
 from fractions import Fraction
+import hashlib
 import io
 import json
 import os
-import subprocess
 import sys
 import tempfile
+import unittest
+from unittest import mock
 
-_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-if _SCRIPT_DIR not in sys.path:
-    sys.path.insert(0, _SCRIPT_DIR)
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_REPO_ROOT = os.path.normpath(os.path.join(_HERE, ".."))
+for _p in (_HERE, _REPO_ROOT):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
-import arabic_continuum_audit as audit
-import arabic_continuum_oracle as oracle
-
-
-EXPECTED_STANDALONE_SHA = (
-    "d237ae44dd4618e033283d2d5fba6a23dd108b0d4e657c1fcadb243d03ee3f16"
-)
-
-
-def check(cond, msg):
-    if not cond:
-        raise RuntimeError(f"CHECK_FAILED: {msg}")
+import arabic_continuum_oracle as o
+import arabic_continuum_audit as a
+import fetch_corpora as fc
 
 
-def expect_error(fn, expected_code):
-    try:
-        fn()
-    except oracle.ArabicOracleError as err:
-        if err.code != expected_code:
-            raise RuntimeError(f"Expected {expected_code}, got {err.code}: {err}")
-        return
-    raise RuntimeError(f"Expected ArabicOracleError({expected_code}), but succeeded")
+def _cell(oi, ou, ni, nu, ge=0):
+    return {"obs": [oi, ou], "null_pooled": [ni, nu], "ge_count": ge}
 
 
-def test_oracle_primitives_and_boundaries():
-    check(oracle.SCHEMA_VERSION == "arabic-continuum-oracle/v1", "schema version")
-    check(oracle.CANONICAL_DECIMALS == 6, "canonical decimals")
-    check(len(oracle.FORBIDDEN_NUMEROLOGY_TOKENS) == 7, "forbidden count")
-
-    # verify_no_floats
-    oracle.verify_no_floats({"a": [1, (Fraction(1, 2), {3}, frozenset({4}))]})
-    expect_error(lambda: oracle.verify_no_floats(0.5), "FLOAT_FORBIDDEN")
-    expect_error(lambda: oracle.verify_no_floats(1 + 2j), "FLOAT_FORBIDDEN")
-    expect_error(lambda: oracle.verify_no_floats({1.5: "x"}), "FLOAT_FORBIDDEN")
-    expect_error(lambda: oracle.verify_no_floats({"x": [1, 2.0]}), "FLOAT_FORBIDDEN")
-    expect_error(lambda: oracle.verify_no_floats(frozenset({3.14})), "FLOAT_FORBIDDEN")
-
-    # require_non_empty_str (control chars & Cf invisible format chars rejected BEFORE strip!)
-    check(oracle.require_non_empty_str("  hello ~ ", "f") == "hello ~", "strip")
-    expect_error(lambda: oracle.require_non_empty_str(123, "f"), "INVALID_TYPE")
-    expect_error(lambda: oracle.require_non_empty_str("   ", "f"), "EMPTY_STRING")
-    expect_error(lambda: oracle.require_non_empty_str("a\x1fb", "f"), "CONTROL_CHAR")
-    expect_error(lambda: oracle.require_non_empty_str("a\x7fb", "f"), "CONTROL_CHAR")
-    expect_error(lambda: oracle.require_non_empty_str("abc\n", "f"), "CONTROL_CHAR")
-    expect_error(lambda: oracle.require_non_empty_str("ab\u200bjad", "f"), "CONTROL_CHAR")
-    expect_error(lambda: oracle.require_non_empty_str("\ufeffabc", "f"), "CONTROL_CHAR")
-    check(oracle.require_non_empty_str("a b", "f") == "a b", "space ok")
-    check(oracle.require_non_empty_str("~", "f") == "~", "tilde ok")
-
-    # require_exact_bool
-    check(oracle.require_exact_bool(True, "b") is True, "bool true")
-    check(oracle.require_exact_bool(False, "b") is False, "bool false")
-    expect_error(lambda: oracle.require_exact_bool(1, "b"), "INVALID_BOOL")
-    expect_error(lambda: oracle.require_exact_bool("true", "b"), "INVALID_BOOL")
-
-    # require_exact_int
-    check(oracle.require_exact_int(5, "i", min_value=5, max_value=5) == 5, "int exact")
-    expect_error(lambda: oracle.require_exact_int(True, "i"), "INVALID_INT")
-    expect_error(lambda: oracle.require_exact_int("5", "i"), "INVALID_INT")
-    expect_error(lambda: oracle.require_exact_int(4, "i", min_value=5), "RANGE_ERROR")
-    expect_error(lambda: oracle.require_exact_int(6, "i", max_value=5), "RANGE_ERROR")
-
-    # require_exact_fraction
-    check(oracle.require_exact_fraction(3, "q") == Fraction(3, 1), "int to frac")
-    check(
-        oracle.require_exact_fraction(Fraction(1, 2), "q", Fraction(1, 2), Fraction(1, 2))
-        == Fraction(1, 2),
-        "frac exact",
-    )
-    expect_error(lambda: oracle.require_exact_fraction(False, "q"), "INVALID_FRACTION")
-    expect_error(lambda: oracle.require_exact_fraction("1/2", "q"), "INVALID_FRACTION")
-    expect_error(
-        lambda: oracle.require_exact_fraction(Fraction(1, 3), "q", min_value=Fraction(1, 2)),
-        "RANGE_ERROR",
-    )
-    expect_error(
-        lambda: oracle.require_exact_fraction(Fraction(2, 3), "q", max_value=Fraction(1, 2)),
-        "RANGE_ERROR",
-    )
-
-    # require_pair_ratio
-    check(oracle.require_pair_ratio([0, 1], "p") == (0, 1, Fraction(0, 1)), "zero pair")
-    check(oracle.require_pair_ratio((3, 3), "p") == (3, 3, Fraction(1, 1)), "unit pair")
-    expect_error(lambda: oracle.require_pair_ratio("ab", "p"), "INVALID_PAIR")
-    expect_error(lambda: oracle.require_pair_ratio([1], "p"), "INVALID_PAIR")
-    expect_error(lambda: oracle.require_pair_ratio([-1, 2], "p"), "RANGE_ERROR")
-    expect_error(lambda: oracle.require_pair_ratio([0, 0], "p"), "RANGE_ERROR")
-    expect_error(lambda: oracle.require_pair_ratio([3, 2], "p"), "INVALID_PAIR")
-
-    # frac_str & format_exact_decimal
-    check(oracle.frac_str(Fraction(4, 6)) == "2/3", "frac_str reduced")
-    check(oracle.format_exact_decimal(Fraction(1, 2), 0) == "1", "half up 0")
-    check(oracle.format_exact_decimal(Fraction(49, 100), 0) == "0", "below half 0")
-    check(oracle.format_exact_decimal(Fraction(-3, 2), 0) == "-2", "neg half up 0")
-    check(oracle.format_exact_decimal(Fraction(-1, 10000000), 6) == "0.000000", "no neg zero")
-    check(oracle.format_exact_decimal(Fraction(-1, 4), 2) == "-0.25", "neg 2 dec")
-    check(oracle.format_exact_decimal(Fraction(1, 8), 12) == "0.125000000000", "12 dec")
-    expect_error(lambda: oracle.format_exact_decimal(Fraction(1, 2), -1), "RANGE_ERROR")
-    expect_error(lambda: oracle.format_exact_decimal(Fraction(1, 2), 13), "RANGE_ERROR")
-
-    # canonical_json_bytes & canonical_sha256
-    jb = oracle.canonical_json_bytes({"b": 1, "a": "\u0633"})
-    check(jb == b'{"a":"\\u0633","b":1}', f"canonical json bytes: {jb}")
-    check(len(oracle.canonical_sha256({"x": 1})) == 64, "sha len")
-    expect_error(lambda: oracle.canonical_json_bytes({"x": 0.1}), "FLOAT_FORBIDDEN")
-
-
-def test_deterministic_shuffles_and_text_nets():
-    # fnv1a_32 exact golden values
-    check(oracle.fnv1a_32("N") == 3406561745, "fnv N")
-    check(oracle.fnv1a_32("V") == 3540782697, "fnv V")
-    check(oracle.fnv1a_32("abc") == 440920331, "fnv abc")
-
-    # det_shuffle_exact exact golden output
-    items = [0, 1, 2, 3, 4, 5, 6, 7]
-    shuf = oracle.det_shuffle_exact(items, 42)
-    check(shuf == [0, 5, 1, 7, 3, 4, 2, 6], f"det_shuffle golden: {shuf}")
-    check(oracle.det_shuffle_exact([9], 0) == [9], "singleton shuffle")
-    expect_error(lambda: oracle.det_shuffle_exact("abc", 1), "INVALID_SEQ")
-    expect_error(lambda: oracle.det_shuffle_exact([1, 2], -1), "RANGE_ERROR")
-
-    # stratified_shuffle_exact
-    vals = ["a1", "b1", "a2", "b2", "a3", "b3", "a4", "b4"]
-    cls = ["N", "V", "N", "V", "N", "V", "N", "V"]
-    st = oracle.stratified_shuffle_exact(vals, cls, 99)
-    check(st == ["a2", "b3", "a4", "b4", "a1", "b2", "a3", "b1"], f"strat golden: {st}")
-    for i, c in enumerate(cls):
-        check(st[i].startswith("a" if c == "N" else "b"), "stratum preserved")
-    expect_error(lambda: oracle.stratified_shuffle_exact("ab", ["N", "V"], 1), "INVALID_SEQ")
-    expect_error(lambda: oracle.stratified_shuffle_exact(["a"], "N", 1), "INVALID_SEQ")
-    expect_error(lambda: oracle.stratified_shuffle_exact(["a"], ["N", "V"], 1), "LENGTH_MISMATCH")
-    expect_error(lambda: oracle.stratified_shuffle_exact(["a"], ["N"], -1), "RANGE_ERROR")
-    expect_error(lambda: oracle.stratified_shuffle_exact(["a"], [""], 1), "EMPTY_STRING")
-
-    # to_rasm & light_stem_ar
-    expect_error(lambda: oracle.to_rasm(123), "INVALID_TYPE")
-    # Alef wasla, hamza above/below, madda, alif maqsura, ta marbuta, diacritics & tatweel
-    sample = "\u0671\u0623\u0625\u0622\u0649\u0629\u064e\u0640!"
-    check(oracle.to_rasm(sample) == "\u0627\u0627\u0627\u0627\u064a\u0647", "rasm norm")
-    # 3-letter untouched
-    check(oracle.light_stem_ar("\u0643\u062a\u0628") == "\u0643\u062a\u0628", "3-letter")
-    # prefix wal- + root ktb + suffix -hm -> ktb
-    pref_suff = "\u0648\u0627\u0644\u0643\u062a\u0628\u0647\u0645"
-    check(oracle.light_stem_ar(pref_suff) == "\u0643\u062a\u0628", "prefix+suffix stem")
-    # 4-letter starting with 'al' (len - 2 == 2 < 3) must NOT strip prefix 'al', strips single 'w' only if >=3
-    four_al = "\u0627\u0644\u0644\u0647"
-    check(oracle.light_stem_ar(four_al) == "\u0627\u0644\u0644", "4-letter suffix only")
-    # 4-letter where prefix 'w' leaves 3 letters
-    check(oracle.light_stem_ar("\u0648\u0643\u062a\u0628") == "\u0643\u062a\u0628", "4-letter pref")
-    # 4-letter with no matching prefix/suffix stays 4
-    check(oracle.light_stem_ar("\u0633\u0645\u0627\u0621") == "\u0633\u0645\u0627\u0621", "4-letter kept")
-
-    # en_content_stems
-    expect_error(lambda: oracle.en_content_stems(None), "INVALID_TYPE")
-    stems = oracle.en_content_stems(
-        "The wrapped wraps spinning running walking bring walked bred fishes goes ships laws lords lorded that"
-    )
-    check(
-        stems == {"wrap", "spin", "walk", "bring", "bred", "fish", "goes", "ship", "laws"},
-        f"en_content_stems exact: {stems}",
-    )
-
-    # block_jaccard_cohesion_exact
-    inter, union, frac = oracle.block_jaccard_cohesion_exact(["a", "b", "b", "c", "c", "d"], 2)
-    check((inter, union, frac) == (2, 6, Fraction(1, 3)), "block cohesion exact")
-    expect_error(lambda: oracle.block_jaccard_cohesion_exact("abcd", 2), "INVALID_SEQ")
-    expect_error(lambda: oracle.block_jaccard_cohesion_exact(["a", "b", "c"], 1), "RANGE_ERROR")
-    expect_error(lambda: oracle.block_jaccard_cohesion_exact(["a", "b", "c"], 2), "INSUFFICIENT_BLOCKS")
-
-
-def test_zero_numerology_guard():
-    res = oracle.enforce_zero_numerology_policy([" Root_Lattice ", "Wazn_Forms"])
-    check(res["zero_numerology_ok"] is True and res["feature_count"] == 2, "valid features")
-    check(res["features"] == ["root_lattice", "wazn_forms"], "normalized features")
-    expect_error(lambda: oracle.enforce_zero_numerology_policy([1.0]), "FLOAT_FORBIDDEN")
-    expect_error(lambda: oracle.enforce_zero_numerology_policy([]), "INVALID_FEATURES")
-    expect_error(lambda: oracle.enforce_zero_numerology_policy("root"), "INVALID_FEATURES")
-    expect_error(lambda: oracle.enforce_zero_numerology_policy(["___"]), "EMPTY_STRING")
-    expect_error(lambda: oracle.enforce_zero_numerology_policy(["root_a", "root-a"]), "DUPLICATE_FEATURE")
-    # ARAB-BUG-01 regression: ZWSP / format chars & separator variants
-    expect_error(lambda: oracle.enforce_zero_numerology_policy(["ab\u200bjad_score"]), "CONTROL_CHAR")
-    expect_error(lambda: oracle.enforce_zero_numerology_policy(["gematr\u200bia_check"]), "CONTROL_CHAR")
-    for obf in ("base_10_count", "code_19_filter", "digit-sum", "a b j a d"):
-        expect_error(
-            lambda tok=obf: oracle.enforce_zero_numerology_policy([tok]),
-            "NUMEROLOGY_FORBIDDEN",
-        )
-    for bad in oracle.FORBIDDEN_NUMEROLOGY_TOKENS:
-        expect_error(
-            lambda tok=bad: oracle.enforce_zero_numerology_policy([f"my_{tok}_score"]),
-            "NUMEROLOGY_FORBIDDEN",
-        )
-
-
-def test_pillar1_boundaries_and_redteam():
-    fx = copy.deepcopy(audit.STANDALONE_FIXTURE)
-    p1 = oracle.audit_root_pattern_lattice_and_cohesion_exact(
-        fx["unique_roots"],
-        fx["unique_lemmas"],
-        fx["unique_root_wazn_cells"],
-        fx["total_root_tokens"],
-        fx["verb_form_counts"],
-        fx["window_metrics"],
-        fx["control_w20_pairs"],
-    )
-    check(p1["passed"] is True, "p1 passes fixture")
-    check(p1["verb_form_total"] == 19356, "verb form total")
-
-    # Float guard before anything else
-    expect_error(
-        lambda: oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            1.0, 2, 2, 2, {}, {}, {}
-        ),
-        "FLOAT_FORBIDDEN",
-    )
-    # Invalid verb_form_counts / window_metrics / controls
-    expect_error(
-        lambda: oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            1, 3, 3, 3, {}, fx["window_metrics"], fx["control_w20_pairs"]
-        ),
-        "INVALID_VERB_FORMS",
-    )
-    expect_error(
-        lambda: oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            1, 3, 3, 10, {"I": 2, "i": 3}, fx["window_metrics"], fx["control_w20_pairs"]
-        ),
-        "DUPLICATE_VERB_FORM",
-    )
-    expect_error(
-        lambda: oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            5, 10, 10, 4, {"I": 1}, fx["window_metrics"], fx["control_w20_pairs"]
-        ),
-        "CONSERVATION_ERROR",
-    )
-    expect_error(
-        lambda: oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            1, 3, 3, 3, {"I": 4}, fx["window_metrics"], fx["control_w20_pairs"]
-        ),
-        "CONSERVATION_ERROR",
-    )
-    # ARAB-BUG-03 regression: unique_root_wazn_cells < unique_roots rejected
-    expect_error(
-        lambda: oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            1642, 4657, 100, 49968, fx["verb_form_counts"], fx["window_metrics"], fx["control_w20_pairs"]
-        ),
-        "CONSERVATION_ERROR",
-    )
-    # ARAB-BUG-03 regression: control_w20_pairs.quran_stem.obs != window_metrics[20].stem rejected
-    bad_ctrl_mismatch = copy.deepcopy(fx["control_w20_pairs"])
-    bad_ctrl_mismatch["quran_stem"]["obs"] = [8953, 134393]
-    expect_error(
-        lambda: oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            1642, 4657, 3923, 49968, fx["verb_form_counts"], fx["window_metrics"], bad_ctrl_mismatch
-        ),
-        "CONTROL_MISMATCH",
-    )
-    expect_error(
-        lambda: oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            1, 3, 3, 20000, fx["verb_form_counts"], {10: fx["window_metrics"][10], 20: fx["window_metrics"][20]}, fx["control_w20_pairs"]
-        ),
-        "INVALID_WINDOWS",
-    )
-    bad_w_entry = copy.deepcopy(fx["window_metrics"])
-    bad_w_entry[10] = "bad"
-    expect_error(
-        lambda: oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            1, 3, 3, 20000, fx["verb_form_counts"], bad_w_entry, fx["control_w20_pairs"]
-        ),
-        "INVALID_WINDOW_ENTRY",
-    )
-    bad_w = copy.deepcopy(fx["window_metrics"])
-    del bad_w[10]["root"]
-    expect_error(
-        lambda: oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            1, 3, 3, 20000, fx["verb_form_counts"], bad_w, fx["control_w20_pairs"]
-        ),
-        "MISSING_KEY",
-    )
-    expect_error(
-        lambda: oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            1, 3, 3, 20000, fx["verb_form_counts"], fx["window_metrics"], "bad"
-        ),
-        "INVALID_CONTROLS",
-    )
-    bad_c = copy.deepcopy(fx["control_w20_pairs"])
-    del bad_c["poetry_pooled"]
-    expect_error(
-        lambda: oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            1, 3, 3, 20000, fx["verb_form_counts"], fx["window_metrics"], bad_c
-        ),
-        "MISSING_CONTROL",
-    )
-    bad_c2 = copy.deepcopy(fx["control_w20_pairs"])
-    del bad_c2["poetry_pooled"]["t4a"]
-    expect_error(
-        lambda: oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            1, 3, 3, 20000, fx["verb_form_counts"], fx["window_metrics"], bad_c2
-        ),
-        "MISSING_CONTROL_FIELD",
-    )
-    bad_c3 = copy.deepcopy(fx["control_w20_pairs"])
-    bad_c3["poetry_pooled"]["t4a"] = [0, 10]
-    expect_error(
-        lambda: oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            1, 3, 3, 20000, fx["verb_form_counts"], fx["window_metrics"], bad_c3
-        ),
-        "ZERO_NULL",
-    )
-
-    # Lattice boundaries (lemmas/root > 2, cells/root > 2, forms >= 8)
-    r_lem2 = oracle.audit_root_pattern_lattice_and_cohesion_exact(
-        10, 20, 25, 20000, fx["verb_form_counts"], fx["window_metrics"], fx["control_w20_pairs"]
-    )
-    check(r_lem2["lattice_nontrivial"] is False and r_lem2["passed"] is False, "lem==2 fails")
-    r_cel2 = oracle.audit_root_pattern_lattice_and_cohesion_exact(
-        10, 25, 20, 20000, fx["verb_form_counts"], fx["window_metrics"], fx["control_w20_pairs"]
-    )
-    check(r_cel2["lattice_nontrivial"] is False, "cell==2 fails")
-    vf7 = {k: v for i, (k, v) in enumerate(fx["verb_form_counts"].items()) if i < 7}
-    r_vf7 = oracle.audit_root_pattern_lattice_and_cohesion_exact(
-        10, 25, 25, 20000, vf7, fx["window_metrics"], fx["control_w20_pairs"]
-    )
-    check(r_vf7["lattice_nontrivial"] is False, "7 verb forms fails")
-    vf8 = {k: v for i, (k, v) in enumerate(fx["verb_form_counts"].items()) if i < 8}
-    r_vf8 = oracle.audit_root_pattern_lattice_and_cohesion_exact(
-        10, 25, 25, 20000, vf8, fx["window_metrics"], fx["control_w20_pairs"]
-    )
-    check(r_vf8["lattice_nontrivial"] is True, "8 verb forms passes")
-
-    # Monotonicity, null margin, split-half, and negative-control boundaries
-    wm_nomono = copy.deepcopy(fx["window_metrics"])
-    wm_nomono[10]["raw"] = wm_nomono[10]["rasm"]
-    r_nm = oracle.audit_root_pattern_lattice_and_cohesion_exact(
-        10, 25, 25, 20000, vf8, wm_nomono, fx["control_w20_pairs"]
-    )
-    check(r_nm["monotonic_ladder_all_w"] is False and r_nm["passed"] is False, "non-mono fails")
-
-    w_unit = {
-        "raw": [1, 100], "rasm": [2, 100], "stem": [6, 100], "root": [7, 100],
-        "root_t4a": [6, 100], "root_t4b": [6, 100],
-        "odd_root": [7, 100], "odd_t4b": [6, 100],
-        "even_root": [7, 100], "even_t4b": [6, 100],
-    }
-    wm_eq = {10: copy.deepcopy(w_unit), 20: copy.deepcopy(w_unit), 40: copy.deepcopy(w_unit)}
-    ctrl_eq = {
-        "quran_stem": {"obs": [6, 100], "t4a": [5, 100]},
-        "kalila_prose": {"obs": [6, 100], "t4a": [5, 100]},
-        "adab_prose": {"obs": [6, 100], "t4a": [5, 100]},
-        "poetry_pooled": {"obs": [5, 100], "t4a": [4, 100]},
-    }
-    r_exact = oracle.audit_root_pattern_lattice_and_cohesion_exact(
-        10, 25, 25, 20000, vf8, wm_eq, ctrl_eq, min_null_margin=Fraction(1, 100)
-    )
-    check(r_exact["passed"] is True, "exact 1/100 boundary passes")
-
-    for mut_field in ("root_t4a", "root_t4b", "odd_t4b", "even_t4b"):
-        wm_fail = copy.deepcopy(wm_eq)
-        wm_fail[10][mut_field] = [61, 1000]
-        r_f = oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            10, 25, 25, 20000, vf8, wm_fail, ctrl_eq, min_null_margin=Fraction(1, 100)
-        )
-        check(r_f["passed"] is False, f"{mut_field} margin breach fails")
-
-    for ctrl_mut, val in (
-        (("kalila_prose", "t4a"), [51, 1000]),
-        (("adab_prose", "t4a"), [51, 1000]),
-        (("poetry_pooled", "obs"), [6, 100]),
-        (("quran_stem", "obs"), [5, 100]),
-    ):
-        c_fail = copy.deepcopy(ctrl_eq)
-        wm_use = copy.deepcopy(wm_eq)
-        c_fail[ctrl_mut[0]][ctrl_mut[1]] = val
-        if ctrl_mut == ("quran_stem", "obs"):
-            wm_use[20]["stem"] = val
-        r_cf = oracle.audit_root_pattern_lattice_and_cohesion_exact(
-            10, 25, 25, 20000, vf8, wm_use, c_fail, min_null_margin=Fraction(1, 100)
-        )
-        check(r_cf["passed"] is False, f"control {ctrl_mut} breach fails")
-
-
-def test_pillar2_boundaries_and_redteam():
-    rm = copy.deepcopy(audit.STANDALONE_FIXTURE["ring_metrics"])
-    p2 = oracle.audit_ring_vs_inclusio_transform_exact(rm)
-    check(p2["passed"] is True, "p2 passes fixture")
-
-    expect_error(
-        lambda: oracle.audit_ring_vs_inclusio_transform_exact({"all_mirror": 0.1}),
-        "FLOAT_FORBIDDEN",
-    )
-    expect_error(lambda: oracle.audit_ring_vs_inclusio_transform_exact("bad"), "INVALID_METRICS")
-    rm_miss = copy.deepcopy(rm)
-    del rm_miss["all_mirror"]
-    expect_error(lambda: oracle.audit_ring_vs_inclusio_transform_exact(rm_miss), "MISSING_KEY")
-
-    # Exact boundary matrix (with additive split conservation all == odd + even)
-    base = {
-        "all_mirror": [4, 100],
-        "all_shift": [5, 100],
-        "all_perm_null": [5, 100],
-        "all_inclusio": [300, 2000],
-        "all_middle": [290, 2000],
-        "odd_inclusio": [150, 1000],
-        "odd_middle": [145, 1000],
-        "even_inclusio": [150, 1000],
-        "even_middle": [145, 1000],
-        "odd_strip10_inclusio": [120, 1000],
-        "odd_strip10_middle": [115, 1000],
-        "even_strip10_inclusio": [120, 1000],
-        "even_strip10_middle": [115, 1000],
-        "kalila_arb_inclusio": [80, 1000],
-        "kalila_arb_middle": [90, 1000],
-        "kalila_nat_inclusio": [130, 1000],
-        "kalila_nat_middle": [125, 1000],
-    }
-    check(
-        oracle.audit_ring_vs_inclusio_transform_exact(base, Fraction(1, 200))["passed"] is True,
-        "p2 exact boundary passes",
-    )
-    # Split sum conservation breach
-    bad_sum = copy.deepcopy(base)
-    bad_sum["all_inclusio"] = [301, 2000]
-    expect_error(
-        lambda: oracle.audit_ring_vs_inclusio_transform_exact(bad_sum, Fraction(1, 200)),
-        "SPLIT_SUM_MISMATCH",
-    )
-
-    breaches = [
-        ("all_mirror", [5, 100], None),
-        ("all_perm_null", [4, 100], None),
-        ("odd_middle", [146, 1000], ("all_middle", [291, 2000])),
-        ("even_middle", [146, 1000], ("all_middle", [291, 2000])),
-        ("odd_strip10_middle", [116, 1000], None),
-        ("even_strip10_middle", [116, 1000], None),
-        ("kalila_arb_inclusio", [90, 1000], None),
-        ("kalila_nat_middle", [126, 1000], None),
-    ]
-    for key, val, aux in breaches:
-        m = copy.deepcopy(base)
-        m[key] = val
-        if aux is not None:
-            m[aux[0]] = aux[1]
-        check(
-            oracle.audit_ring_vs_inclusio_transform_exact(m, Fraction(1, 200))["passed"] is False,
-            f"p2 breach {key} fails",
-        )
-
-
-def test_pillar3_boundaries_and_redteam():
-    fx = copy.deepcopy(audit.STANDALONE_FIXTURE)
-    p3 = oracle.audit_translation_remainder_exact(
-        fx["root_records"], fx["bg_sahih_pair"], fx["bg_pickthall_pair"]
-    )
-    check(p3["passed"] is True, "p3 passes fixture")
-    check(p3["severe_remainder_both_translators"] == 4, "severe count == 4")
-
-    expect_error(
-        lambda: oracle.audit_translation_remainder_exact([{"x": 0.1}], [1, 2], [1, 2]),
-        "FLOAT_FORBIDDEN",
-    )
-    expect_error(
-        lambda: oracle.audit_translation_remainder_exact([], [1, 2], [1, 2]),
-        "INVALID_RECORDS",
-    )
-    expect_error(
-        lambda: oracle.audit_translation_remainder_exact(["bad"], [1, 2], [1, 2]),
-        "INVALID_RECORD",
-    )
-    dup = [
-        {
-            "root": "sbH", "occurrences": 2, "verse_count": 2, "unique_lemmas": 1,
-            "sahih_top_count": 1, "pickthall_top_count": 1,
-            "sahih_lost_pairs": 1, "pickthall_lost_pairs": 1,
-            "sahih_total_pairs": 1, "pickthall_total_pairs": 1,
+def _valid_p1_inputs():
+    vf = {f"F{i}": 10 for i in range(1, 9)}
+    # Raw lift > root lift at every W, W20 stem lift > root lift; all 12 cells ge=0
+    wm = {
+        10: {
+            "raw": _cell(30, 100, 10, 100, 0),    # lift 3.0
+            "rasm": _cell(25, 100, 12, 100, 0),   # lift 2.08
+            "stem": _cell(26, 100, 13, 100, 0),   # lift 2.0
+            "root": _cell(24, 100, 15, 100, 0),   # lift 1.6
+            "root_t4b": _cell(24, 100, 16, 100, 0),
+            "odd_split_root_t4b": _cell(23, 100, 16, 100, 0),
+            "even_split_root_t4b": _cell(25, 100, 16, 100, 0),
         },
-        {
-            "root": "sbh", "occurrences": 2, "verse_count": 2, "unique_lemmas": 1,
-            "sahih_top_count": 1, "pickthall_top_count": 1,
-            "sahih_lost_pairs": 1, "pickthall_lost_pairs": 1,
-            "sahih_total_pairs": 1, "pickthall_total_pairs": 1,
+        20: {
+            "raw": _cell(25, 100, 10, 100, 0),    # lift 2.5
+            "rasm": _cell(22, 100, 12, 100, 0),   # lift 1.83
+            "stem": _cell(20, 100, 12, 100, 0),   # lift 1.67
+            "root": _cell(22, 100, 15, 100, 0),   # lift 1.47
+            "root_t4b": _cell(22, 100, 16, 100, 0),
+            "odd_split_root_t4b": _cell(21, 100, 16, 100, 0),
+            "even_split_root_t4b": _cell(23, 100, 16, 100, 0),
         },
-    ]
-    expect_error(
-        lambda: oracle.audit_translation_remainder_exact(dup, [9, 10], [9, 10]),
-        "DUPLICATE_ROOT",
-    )
-    only_single = [
-        {
-            "root": "ftq", "occurrences": 1, "verse_count": 1, "unique_lemmas": 1,
-            "sahih_top_count": 1, "pickthall_top_count": 1,
-            "sahih_lost_pairs": 0, "pickthall_lost_pairs": 0,
-            "sahih_total_pairs": 0, "pickthall_total_pairs": 0,
-        }
-    ]
-    expect_error(
-        lambda: oracle.audit_translation_remainder_exact(only_single, [9, 10], [9, 10]),
-        "NO_MULTI_VERSE_ROOTS",
-    )
+        40: {
+            "raw": _cell(20, 100, 10, 100, 0),    # lift 2.0
+            "rasm": _cell(19, 100, 12, 100, 0),   # lift 1.58
+            "stem": _cell(18, 100, 12, 100, 0),   # lift 1.50
+            "root": _cell(20, 100, 16, 100, 0),   # lift 1.25
+            "root_t4b": _cell(20, 100, 17, 100, 0),
+            "odd_split_root_t4b": _cell(19, 100, 17, 100, 0),
+            "even_split_root_t4b": _cell(21, 100, 17, 100, 0),
+        },
+    }
+    ctrl = {
+        "quran_stem": _cell(20, 100, 12, 100, 0),    # lift 1.6667, obs 0.20
+        "kalila_prose": _cell(22, 100, 11, 100, 0),  # lift 2.0000 > quran, obs 0.22
+        "adab_prose": _cell(19, 100, 12, 100, 0),    # lift 1.5833, obs 0.19
+        "poetry_pooled": _cell(10, 100, 6, 100, 0),  # obs 0.10 < all prose
+    }
+    return {
+        "unique_roots": 100,
+        "unique_lemmas": 201,
+        "unique_root_wazn_cells": 201,
+        "total_root_tokens": 500,
+        "verb_form_counts": vf,
+        "window_metrics": wm,
+        "control_w20_metrics": ctrl,
+        "n_shuffles": 250,
+    }
 
-    # Combinatorial pigeonhole upper bound: s_top=4 -> C(4,2)=6 preserved -> max lost=4; 5 must reject!
-    pigeon_bad = [
-        {
-            "root": "p1", "occurrences": 5, "verse_count": 5, "unique_lemmas": 1,
-            "sahih_top_count": 4, "pickthall_top_count": 2,
-            "sahih_lost_pairs": 5, "pickthall_lost_pairs": 4,
-            "sahih_total_pairs": 10, "pickthall_total_pairs": 10,
-        }
-    ]
-    expect_error(
-        lambda: oracle.audit_translation_remainder_exact(pigeon_bad, [9, 10], [9, 10]),
-        "RANGE_ERROR",
-    )
-    # ARAB-BUG-02 regression: pigeonhole converse (top_count <= 1 on vcnt >= 2 forces lost_pairs == expected_pairs!)
-    for s_top_v, s_lost_v, p_top_v, p_lost_v in (
-        (0, 0, 2, 5),
-        (1, 9, 2, 5),
-        (2, 5, 0, 0),
-        (2, 5, 1, 9),
-    ):
-        conv_bad = [
+
+def _valid_p2_metrics():
+    def dn(ge, q025=(-1, 20), q975=(1, 20)):
+        return {"ge_count": ge, "q025": list(q025), "q975": list(q975)}
+
+    return {
+        "all_mirror": [10, 100],
+        "all_shift": [15, 100],
+        "mirror_null_pooled": [14, 100],
+        "mirror_ge_count": 248,
+        "mirror_le_count": 2,
+        "all_inclusio": [22, 100],
+        "all_middle": [20, 100],
+        "odd_inclusio": [11, 50],
+        "odd_middle": [10, 50],
+        "even_inclusio": [11, 50],
+        "even_middle": [10, 50],
+        "all_strip10_inclusio": [16, 100],
+        "all_strip10_middle": [14, 100],
+        "odd_strip10_inclusio": [8, 50],
+        "odd_strip10_middle": [7, 50],
+        "even_strip10_inclusio": [8, 50],
+        "even_strip10_middle": [7, 50],
+        "kalila_arb_inclusio": [10, 100],
+        "kalila_arb_middle": [15, 100],
+        "kalila_nat_inclusio": [25, 100],
+        "kalila_nat_middle": [20, 100],
+        "delta_nulls": {
+            "all": dn(60),
+            "odd": dn(70),
+            "even": dn(80),
+            "all_strip10": dn(40),
+            "odd_strip10": dn(30),
+            "even_strip10": dn(50),
+            "kalila_arb": dn(240),
+            "kalila_nat": dn(5),
+        },
+    }
+
+
+def _valid_p3_records():
+    # 4 multi-verse roots each with vcnt=5 (10 pairs), 6 lost (>= 0.6 > 0.5 and >= 0.4) + 1 single-verse root
+    recs = []
+    for name in ("r1", "r2", "r3", "r4"):
+        recs.append({
+            "root": name,
+            "occurrences": 6,
+            "verse_count": 5,
+            "unique_lemmas": 2,
+            "sahih_top_count": 2,
+            "pickthall_top_count": 2,
+            "sahih_lost_pairs": 6,
+            "pickthall_lost_pairs": 7,
+            "sahih_total_pairs": 10,
+            "pickthall_total_pairs": 10,
+        })
+    recs.append({
+        "root": "r_single",
+        "occurrences": 2,
+        "verse_count": 1,
+        "unique_lemmas": 1,
+        "sahih_top_count": 1,
+        "pickthall_top_count": 1,
+        "sahih_lost_pairs": 0,
+        "pickthall_lost_pairs": 0,
+        "sahih_total_pairs": 0,
+        "pickthall_total_pairs": 0,
+    })
+    return recs
+
+
+class TestOraclePrimitives(unittest.TestCase):
+    def _assert_oracle_error(self, code, fn, *args, **kwargs):
+        with self.assertRaises(o.ArabicOracleError) as ctx:
+            fn(*args, **kwargs)
+        self.assertEqual(ctx.exception.code, code)
+
+    def test_verify_no_floats(self):
+        o.verify_no_floats({"a": [1, Fraction(1, 2), ("x", True, None)], "s": {1, 2}, "fs": frozenset([3])})
+        self._assert_oracle_error("FLOAT_FORBIDDEN", o.verify_no_floats, 1.5)
+        self._assert_oracle_error("FLOAT_FORBIDDEN", o.verify_no_floats, 1 + 2j)
+        self._assert_oracle_error("FLOAT_FORBIDDEN", o.verify_no_floats, {1.0: "a"})
+        self._assert_oracle_error("FLOAT_FORBIDDEN", o.verify_no_floats, {"k": [1, (2, 3.0)]})
+        self._assert_oracle_error("FLOAT_FORBIDDEN", o.verify_no_floats, {1.5})
+
+    def test_require_validators(self):
+        self.assertEqual(o.require_non_empty_str(" ~a\u0080 ", "f"), "~a\u0080")
+        self._assert_oracle_error("INVALID_TYPE", o.require_non_empty_str, 123, "f")
+        self._assert_oracle_error("CONTROL_CHAR", o.require_non_empty_str, "a\x1fb", "f")
+        self._assert_oracle_error("CONTROL_CHAR", o.require_non_empty_str, "a\nb", "f")
+        self._assert_oracle_error("CONTROL_CHAR", o.require_non_empty_str, "a\x7fb", "f")
+        self._assert_oracle_error("CONTROL_CHAR", o.require_non_empty_str, "a\u200bb", "f")
+        self._assert_oracle_error("EMPTY_STRING", o.require_non_empty_str, "   ", "f")
+
+        self.assertIs(o.require_exact_bool(True, "b"), True)
+        self.assertIs(o.require_exact_bool(False, "b"), False)
+        self._assert_oracle_error("INVALID_BOOL", o.require_exact_bool, 1, "b")
+        self._assert_oracle_error("INVALID_BOOL", o.require_exact_bool, "true", "b")
+
+        self.assertEqual(o.require_exact_int(5, "x", 5, 5), 5)
+        self._assert_oracle_error("INVALID_INT", o.require_exact_int, True, "x")
+        self._assert_oracle_error("INVALID_INT", o.require_exact_int, 1.0, "x")
+        self._assert_oracle_error("RANGE_ERROR", o.require_exact_int, 4, "x", min_value=5)
+        self._assert_oracle_error("RANGE_ERROR", o.require_exact_int, 6, "x", max_value=5)
+
+        self.assertEqual(o.require_exact_fraction(3, "q", Fraction(3, 1), Fraction(3, 1)), Fraction(3, 1))
+        self.assertEqual(o.require_exact_fraction(Fraction(1, 2), "q", Fraction(1, 2), Fraction(1, 2)), Fraction(1, 2))
+        self._assert_oracle_error("INVALID_FRACTION", o.require_exact_fraction, False, "q")
+        self._assert_oracle_error("INVALID_FRACTION", o.require_exact_fraction, "1/2", "q")
+        self._assert_oracle_error("RANGE_ERROR", o.require_exact_fraction, Fraction(1, 3), "q", min_value=Fraction(1, 2))
+        self._assert_oracle_error("RANGE_ERROR", o.require_exact_fraction, Fraction(2, 3), "q", max_value=Fraction(1, 2))
+
+    def test_pair_ratios(self):
+        self.assertEqual(o.require_pair_ratio((0, 1), "p"), (0, 1, Fraction(0, 1)))
+        self.assertEqual(o.require_pair_ratio([3, 3], "p"), (3, 3, Fraction(1, 1)))
+        self._assert_oracle_error("INVALID_PAIR", o.require_pair_ratio, "12", "p")
+        self._assert_oracle_error("INVALID_PAIR", o.require_pair_ratio, [1], "p")
+        self._assert_oracle_error("RANGE_ERROR", o.require_pair_ratio, [-1, 2], "p")
+        self._assert_oracle_error("RANGE_ERROR", o.require_pair_ratio, [0, 0], "p")
+        self._assert_oracle_error("INVALID_PAIR", o.require_pair_ratio, [4, 3], "p")
+
+        self.assertEqual(o.require_signed_ratio_pair((-5, 5), "s"), (-5, 5, Fraction(-1, 1)))
+        self.assertEqual(o.require_signed_ratio_pair([5, 5], "s"), (5, 5, Fraction(1, 1)))
+        self.assertEqual(o.require_signed_ratio_pair([0, 1], "s"), (0, 1, Fraction(0, 1)))
+        self._assert_oracle_error("INVALID_PAIR", o.require_signed_ratio_pair, (1,), "s")
+        self._assert_oracle_error("INVALID_PAIR", o.require_signed_ratio_pair, "12", "s")
+        self._assert_oracle_error("RANGE_ERROR", o.require_signed_ratio_pair, (0, 0), "s")
+        self._assert_oracle_error("INVALID_PAIR", o.require_signed_ratio_pair, (6, 5), "s")
+        self._assert_oracle_error("INVALID_PAIR", o.require_signed_ratio_pair, (-6, 5), "s")
+
+    def test_formatting_and_empirical_p(self):
+        self.assertEqual(o.frac_str(Fraction(4, 6)), "2/3")
+        self.assertEqual(o.frac_str(5), "5/1")
+        self.assertEqual(o.format_exact_decimal(Fraction(3, 2), 0), "2")
+        self.assertEqual(o.format_exact_decimal(Fraction(-3, 2), 0), "-2")
+        self.assertEqual(o.format_exact_decimal(Fraction(-1, 3), 0), "0")
+        self.assertEqual(o.format_exact_decimal(Fraction(1, 20), 1), "0.1")
+        self.assertEqual(o.format_exact_decimal(Fraction(49, 1000), 1), "0.0")
+        self.assertEqual(o.format_exact_decimal(Fraction(-1, 200), 2), "-0.01")
+        self.assertEqual(o.format_exact_decimal(Fraction(-1, 10000), 2), "0.00")
+        self.assertEqual(o.format_exact_decimal(Fraction(1, 4), 12), "0.250000000000")
+        self._assert_oracle_error("RANGE_ERROR", o.format_exact_decimal, Fraction(1, 2), -1)
+        self._assert_oracle_error("RANGE_ERROR", o.format_exact_decimal, Fraction(1, 2), 13)
+
+        self.assertEqual(o.empirical_rank_p_exact(0, 250), Fraction(1, 251))
+        self.assertEqual(o.empirical_rank_p_exact(250, 250), Fraction(1, 1))
+        self.assertEqual(o.empirical_rank_p_exact(5, 10), Fraction(6, 11))
+        self._assert_oracle_error("RANGE_ERROR", o.empirical_rank_p_exact, 0, 0)
+        self._assert_oracle_error("RANGE_ERROR", o.empirical_rank_p_exact, -1, 10)
+        self._assert_oracle_error("RANGE_ERROR", o.empirical_rank_p_exact, 11, 10)
+
+    def test_holm_bonferroni_exact(self):
+        self._assert_oracle_error("FLOAT_FORBIDDEN", o.holm_bonferroni_exact, {"a": 0.01})
+        self._assert_oracle_error("INVALID_PMAP", o.holm_bonferroni_exact, {})
+        self._assert_oracle_error("INVALID_PMAP", o.holm_bonferroni_exact, [])
+        self._assert_oracle_error("RANGE_ERROR", o.holm_bonferroni_exact, {"a": Fraction(1, 10)}, alpha=Fraction(1, 1001))
+        self._assert_oracle_error("RANGE_ERROR", o.holm_bonferroni_exact, {"a": Fraction(1, 10)}, alpha=Fraction(51, 100))
+        self._assert_oracle_error("RANGE_ERROR", o.holm_bonferroni_exact, {"a": Fraction(0, 1)})
+        self._assert_oracle_error("RANGE_ERROR", o.holm_bonferroni_exact, {"a": Fraction(2, 1)})
+
+        # Step-down running_max + exact alpha equality boundary + cap at 1/1
+        res = o.holm_bonferroni_exact(
             {
-                "root": "p2", "occurrences": 5, "verse_count": 5, "unique_lemmas": 1,
-                "sahih_top_count": s_top_v, "pickthall_top_count": p_top_v,
-                "sahih_lost_pairs": s_lost_v, "pickthall_lost_pairs": p_lost_v,
-                "sahih_total_pairs": 10, "pickthall_total_pairs": 10,
+                "t1": Fraction(1, 80),   # *4 = 1/20 == alpha -> True
+                "t2": Fraction(1, 60),   # *3 = 1/20 == alpha -> True (running_max stays 1/20)
+                "t3": Fraction(1, 50),   # *2 = 1/25 < running_max(1/20) -> clamped up to 1/20 -> True!
+                "t4": Fraction(3, 5),    # *1 = 3/5 > alpha -> False
+            },
+            alpha=Fraction(1, 20),
+        )
+        self.assertEqual(res["test_count"], 4)
+        self.assertEqual(res["alpha_exact"], "1/20")
+        self.assertEqual(res["adjusted_p_exact"]["t1"], "1/20")
+        self.assertEqual(res["adjusted_p_exact"]["t3"], "1/20")
+        self.assertEqual(res["adjusted_p_dec6"]["t3"], "0.050000")
+        self.assertTrue(res["rejected_at_alpha"]["t1"])
+        self.assertTrue(res["rejected_at_alpha"]["t3"])
+        self.assertFalse(res["rejected_at_alpha"]["t4"])
+
+        # Cap at 1/1 when scaled > 1
+        res_cap = o.holm_bonferroni_exact({"a": Fraction(3, 4), "b": Fraction(4, 5)}, alpha=Fraction(1, 2))
+        self.assertEqual(res_cap["adjusted_p_exact"]["a"], "1/1")
+        self.assertEqual(res_cap["adjusted_p_exact"]["b"], "1/1")
+        self.assertFalse(res_cap["rejected_at_alpha"]["a"])
+
+        # Alpha boundary exact (1/1000 and 1/2 accepted)
+        r_lo = o.holm_bonferroni_exact({"a": Fraction(1, 1000000)}, alpha=Fraction(1, 1000))
+        self.assertTrue(r_lo["rejected_at_alpha"]["a"])
+        r_hi = o.holm_bonferroni_exact({"a": Fraction(1, 2)}, alpha=Fraction(1, 2))
+        self.assertTrue(r_hi["rejected_at_alpha"]["a"])
+
+    def test_hash_shuffles_and_text_layers(self):
+        self.assertEqual(o.canonical_json_bytes({"b": 1, "a": "\u0627"}), b'{"a":"\\u0627","b":1}')
+        self.assertEqual(o.canonical_sha256({"x": 1}), hashlib.sha256(b'{"x":1}').hexdigest())
+        self.assertEqual(o.fnv1a_32("abc"), 0x1A47E90B)
+        self.assertNotEqual(o.fnv1a_32("\u0643\u062a\u0628"), o.fnv1a_32("abc"))
+
+        self.assertEqual(o.det_shuffle_exact([], 0), [])
+        self.assertEqual(o.det_shuffle_exact([7], 0), [7])
+        seq = list(range(12))
+        s1 = o.det_shuffle_exact(seq, 42)
+        s2 = o.det_shuffle_exact(seq, 42)
+        s3 = o.det_shuffle_exact(seq, 43)
+        self.assertEqual(s1, s2)
+        self.assertEqual(sorted(s1), seq)
+        self.assertNotEqual(s1, seq)
+        self.assertNotEqual(s1, s3)
+        self._assert_oracle_error("INVALID_SEQ", o.det_shuffle_exact, "abc", 1)
+        self._assert_oracle_error("RANGE_ERROR", o.det_shuffle_exact, [1, 2], -1)
+
+        items = ["n0", "v0", "n1", "v1", "n2", "v2", "n3", "v3"]
+        classes = ["N", "V", "N", "V", "N", "V", "N", "V"]
+        st = o.stratified_shuffle_exact(items, classes, 12345)
+        self.assertEqual(sorted(st[0::2]), ["n0", "n1", "n2", "n3"])
+        self.assertEqual(sorted(st[1::2]), ["v0", "v1", "v2", "v3"])
+        self.assertEqual(st, o.stratified_shuffle_exact(items, classes, 12345))
+        self.assertNotEqual(st, o.stratified_shuffle_exact(items, classes, 99999))
+        self._assert_oracle_error("INVALID_SEQ", o.stratified_shuffle_exact, "ab", ["N", "V"], 1)
+        self._assert_oracle_error("INVALID_SEQ", o.stratified_shuffle_exact, [1, 2], "NV", 1)
+        self._assert_oracle_error("LENGTH_MISMATCH", o.stratified_shuffle_exact, [1, 2], ["N"], 1)
+
+        # Arabic rasm & light stem
+        self._assert_oracle_error("INVALID_TYPE", o.to_rasm, 123)
+        self.assertEqual(o.to_rasm("\u0671\u0623\u0625\u0622\u0649\u0629\u064e\u0651\u0670\u0640!"), "\u0627\u0627\u0627\u0627\u064a\u0647")
+        self.assertEqual(o.light_stem_ar("\u0643\u062a\u0628"), "\u0643\u062a\u0628")
+        self.assertEqual(o.light_stem_ar("\u0648\u0627\u0644\u0643\u062a\u0627\u0628"), "\u0643\u062a\u0627\u0628")
+        self.assertEqual(o.light_stem_ar("\u0627\u0644\u0645\u0633\u0644\u0645\u0648\u0646"), "\u0645\u0633\u0644\u0645")
+        # Short word with prefix-like char must keep len >= 3
+        self.assertEqual(o.light_stem_ar("\u0627\u0644\u0644\u0647"), "\u0627\u0644\u0644")
+
+        # English content stems
+        self._assert_oracle_error("INVALID_TYPE", o.en_content_stems, 5)
+        stems = o.en_content_stems(
+            "the cat planning creating seeing stopped walked loved fishes trees books gods theirs Allah"
+        )
+        self.assertEqual(
+            stems,
+            {"plan", "creat", "seeing", "stop", "walk", "loved", "fish", "tree", "book", "gods"},
+        )
+        # Verify post-strip <4 filtered out ("running" -> "run" len 3, "mapped" -> "map" len 3)
+        self.assertEqual(o.en_content_stems("running mapped"), set())
+
+    def test_block_jaccard_and_naming_guard(self):
+        self.assertEqual(o.block_jaccard_cohesion_exact(["a", "b", "b", "c"], 2), (1, 3, Fraction(1, 3)))
+        self.assertEqual(o.block_jaccard_cohesion_exact(["a", "b", "b", "c", "c", "d", "z"], 2), (2, 6, Fraction(1, 3)))
+        self._assert_oracle_error("INVALID_SEQ", o.block_jaccard_cohesion_exact, "abcd", 2)
+        self._assert_oracle_error("RANGE_ERROR", o.block_jaccard_cohesion_exact, ["a", "b", "c", "d"], 1)
+        self._assert_oracle_error("INSUFFICIENT_BLOCKS", o.block_jaccard_cohesion_exact, ["a", "b", "c"], 2)
+
+        ok = o.enforce_zero_numerology_policy(["Root_Wazn", "Context-Topology"])
+        self.assertTrue(ok["naming_filter_ok"])
+        self.assertEqual(ok["guard_scope"], "feature_label_filter_only_not_statistical_proof")
+        self.assertEqual(ok["feature_count"], 2)
+        self.assertEqual(ok["features"], ["root_wazn", "context-topology"])
+        self._assert_oracle_error("INVALID_FEATURES", o.enforce_zero_numerology_policy, [])
+        self._assert_oracle_error("INVALID_FEATURES", o.enforce_zero_numerology_policy, "abc")
+        self._assert_oracle_error("EMPTY_STRING", o.enforce_zero_numerology_policy, ["---"])
+        self._assert_oracle_error("DUPLICATE_FEATURE", o.enforce_zero_numerology_policy, ["a-b", "A_B"])
+        for bad in ("\uff41\uff42\uff4a\uff41\uff44", "g_e_m_a_t_r_i_a", "digit-sum", "base-10", "miracle", "code_19", "numerology"):
+            self._assert_oracle_error("NUMEROLOGY_FORBIDDEN", o.enforce_zero_numerology_policy, [bad])
+
+
+class TestPillars1To4ThresholdsAndConjuncts(unittest.TestCase):
+    def _assert_err(self, code, fn, *args, **kwargs):
+        with self.assertRaises(o.ArabicOracleError) as ctx:
+            fn(*args, **kwargs)
+        self.assertEqual(ctx.exception.code, code)
+
+    def test_pillar1_happy_errors_and_every_conjunct(self):
+        base = _valid_p1_inputs()
+        res = o.audit_root_pattern_lattice_and_cohesion_exact(**base)
+        self.assertTrue(res["passed"])
+        self.assertEqual(res["n_shuffles"], 250)
+        self.assertEqual(res["alpha_exact"], "1/20")
+        self.assertEqual(res["verb_form_total"], 80)
+
+        # Non-W20 custom windows cover `20 not in lifts_by_w` and string keys
+        alt = _valid_p1_inputs()
+        alt["window_metrics"] = {
+            "8": alt["window_metrics"][10],
+            "16": alt["window_metrics"][20],
+            "32": alt["window_metrics"][40],
+        }
+        self.assertTrue(o.audit_root_pattern_lattice_and_cohesion_exact(**alt)["passed"])
+
+        # Validation errors
+        bad = _valid_p1_inputs(); bad["n_shuffles"] = 249
+        self._assert_err("RANGE_ERROR", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+        bad = _valid_p1_inputs(); bad["alpha"] = Fraction(1, 1001)
+        self._assert_err("RANGE_ERROR", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+        bad = _valid_p1_inputs(); bad["alpha"] = Fraction(11, 100)
+        self._assert_err("RANGE_ERROR", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+        bad = _valid_p1_inputs(); bad["verb_form_counts"] = {}
+        self._assert_err("INVALID_VERB_FORMS", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+        bad = _valid_p1_inputs(); bad["verb_form_counts"] = {"f1": 5, "F1": 6}
+        self._assert_err("DUPLICATE_VERB_FORM", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+        for field, val in [
+            ("unique_roots", 501),
+            ("unique_lemmas", 501),
+            ("unique_root_wazn_cells", 501),
+            ("unique_root_wazn_cells", 99),
+        ]:
+            bad = _valid_p1_inputs(); bad[field] = val
+            self._assert_err("CONSERVATION_ERROR", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+        bad = _valid_p1_inputs(); bad["verb_form_counts"] = {"F1": 501}
+        self._assert_err("CONSERVATION_ERROR", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+
+        bad = _valid_p1_inputs(); del bad["window_metrics"][40]
+        self._assert_err("INVALID_WINDOWS", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+        bad = _valid_p1_inputs(); del bad["window_metrics"][10]["raw"]
+        self._assert_err("INVALID_WINDOW_ENTRY", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+        bad = _valid_p1_inputs(); bad["window_metrics"][10]["raw"] = {"obs": [1, 2]}
+        self._assert_err("INVALID_CELL", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+        bad = _valid_p1_inputs(); bad["window_metrics"][10]["raw"]["null_pooled"] = [0, 100]
+        self._assert_err("ZERO_NULL", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+        bad = _valid_p1_inputs(); bad["window_metrics"][10]["root_t4b"]["obs"] = [25, 100]
+        self._assert_err("CONSERVATION_ERROR", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+        bad = _valid_p1_inputs(); del bad["control_w20_metrics"]["adab_prose"]
+        self._assert_err("INVALID_CONTROLS", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+        bad = _valid_p1_inputs(); bad["control_w20_metrics"]["quran_stem"]["obs"] = [21, 100]
+        self._assert_err("CONTROL_MISMATCH", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+        bad = _valid_p1_inputs(); bad["control_w20_metrics"]["quran_stem"]["null_pooled"] = [13, 100]
+        self._assert_err("CONTROL_MISMATCH", o.audit_root_pattern_lattice_and_cohesion_exact, **bad)
+
+        # Pin EVERY SINGLE lattice & cohesion threshold/conjunct individually
+        # 1. lemmas_per_root == 2 -> False
+        b = _valid_p1_inputs(); b["unique_lemmas"] = 200
+        self.assertFalse(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+        # 2. cells_per_root == 2 -> False
+        b = _valid_p1_inputs(); b["unique_root_wazn_cells"] = 200
+        self.assertFalse(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+        # 3. len(verb_forms) == 7 -> False
+        b = _valid_p1_inputs(); del b["verb_form_counts"]["F8"]
+        self.assertFalse(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+        # 4. Holm 12 cells: ge=11 -> p=12/251 <= 1/20 PASSES; ge=12 -> p=13/251 > 1/20 FAILS
+        b = _valid_p1_inputs(); b["window_metrics"][40]["root"]["ge_count"] = 11
+        self.assertTrue(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+        b = _valid_p1_inputs(); b["window_metrics"][40]["root"]["ge_count"] = 12
+        self.assertFalse(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+        # 5. root_t4b boundary: ge=11 passes, ge=12 fails
+        b = _valid_p1_inputs(); b["window_metrics"][20]["root_t4b"]["ge_count"] = 11
+        self.assertTrue(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+        b = _valid_p1_inputs(); b["window_metrics"][20]["root_t4b"]["ge_count"] = 12
+        self.assertFalse(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+        # 6. odd_split & even_split boundary: ge=11 passes, ge=12 fails
+        for sk in ("odd_split_root_t4b", "even_split_root_t4b"):
+            b = _valid_p1_inputs(); b["window_metrics"][10][sk]["ge_count"] = 11
+            self.assertTrue(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+            b = _valid_p1_inputs(); b["window_metrics"][10][sk]["ge_count"] = 12
+            self.assertFalse(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+        # 7. lift_reverses_absolute: raw_lift == root_lift fails; W20 stem_lift == root_lift fails
+        b = _valid_p1_inputs(); b["window_metrics"][40]["raw"] = _cell(20, 100, 16, 100, 0)
+        self.assertFalse(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+        b = _valid_p1_inputs()
+        b["window_metrics"][20]["stem"] = _cell(22, 100, 15, 100, 0)
+        b["control_w20_metrics"]["quran_stem"] = _cell(22, 100, 15, 100, 0)
+        self.assertFalse(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+        # 8. shared_classical_prose: each of 4 conjuncts
+        for cn in ("quran_stem", "kalila_prose", "adab_prose"):
+            b = _valid_p1_inputs()
+            b["control_w20_metrics"][cn]["ge_count"] = 11
+            self.assertTrue(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+            b = _valid_p1_inputs()
+            b["control_w20_metrics"][cn]["ge_count"] = 12
+            self.assertFalse(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+        b = _valid_p1_inputs()
+        b["control_w20_metrics"]["kalila_prose"] = _cell(20, 100, 12, 100, 0)  # lift == quran
+        self.assertFalse(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+        # 9. prose_exceeds_poetry: each of 3 conjuncts
+        b = _valid_p1_inputs()
+        b["control_w20_metrics"]["poetry_pooled"] = _cell(19, 100, 6, 100, 0)  # == adab
+        self.assertFalse(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+        b = _valid_p1_inputs()
+        b["control_w20_metrics"]["adab_prose"] = _cell(25, 100, 12, 100, 0)
+        b["control_w20_metrics"]["poetry_pooled"] = _cell(20, 100, 6, 100, 0)  # == quran
+        self.assertFalse(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+        b = _valid_p1_inputs()
+        b["control_w20_metrics"]["kalila_prose"] = _cell(10, 100, 4, 100, 0)  # lift 2.5 > quran, obs == poetry
+        self.assertFalse(o.audit_root_pattern_lattice_and_cohesion_exact(**b)["passed"])
+
+    def test_pillar2_happy_errors_and_every_conjunct(self):
+        base = _valid_p2_metrics()
+        res = o.audit_ring_vs_inclusio_multishuffle_exact(base, n_shuffles=250)
+        self.assertTrue(res["passed"])
+        self.assertTrue(res["pointwise_mirror_falsified"])
+        self.assertFalse(res["boundary_inclusio_holm_confirmed"])
+        self.assertFalse(res["boundary_inclusio_separated_from_framed_prose"])
+        self.assertEqual(res["boundary_inclusio_status"], "EXPLORATORY_INCONCLUSIVE_NOT_SEPARATED")
+        self.assertTrue(res["arbitrary_prose_reverses_to_decay"])
+
+        # Validation errors
+        self._assert_err("RANGE_ERROR", o.audit_ring_vs_inclusio_multishuffle_exact, base, n_shuffles=249)
+        self._assert_err("RANGE_ERROR", o.audit_ring_vs_inclusio_multishuffle_exact, base, alpha=Fraction(1, 1001))
+        self._assert_err("INVALID_METRICS", o.audit_ring_vs_inclusio_multishuffle_exact, "bad")
+        bad = _valid_p2_metrics(); del bad["all_mirror"]
+        self._assert_err("INVALID_METRICS", o.audit_ring_vs_inclusio_multishuffle_exact, bad)
+        for k, idx in [
+            ("all_inclusio", 0), ("all_inclusio", 1),
+            ("all_middle", 0), ("all_middle", 1),
+            ("all_strip10_inclusio", 0), ("all_strip10_inclusio", 1),
+            ("all_strip10_middle", 0), ("all_strip10_middle", 1),
+        ]:
+            bad = _valid_p2_metrics(); bad[k][idx] += 1
+            self._assert_err("SPLIT_SUM_MISMATCH", o.audit_ring_vs_inclusio_multishuffle_exact, bad)
+        bad = _valid_p2_metrics(); bad["mirror_ge_count"] = 100; bad["mirror_le_count"] = 149
+        self._assert_err("CONSERVATION_ERROR", o.audit_ring_vs_inclusio_multishuffle_exact, bad)
+        bad = _valid_p2_metrics(); bad["delta_nulls"] = {}
+        self._assert_err("INVALID_DELTA_NULLS", o.audit_ring_vs_inclusio_multishuffle_exact, bad)
+        bad = _valid_p2_metrics(); bad["delta_nulls"]["all"] = {"ge_count": 10}
+        self._assert_err("INVALID_DELTA_ENTRY", o.audit_ring_vs_inclusio_multishuffle_exact, bad)
+        bad = _valid_p2_metrics(); bad["delta_nulls"]["all"]["q025"] = [2, 20]; bad["delta_nulls"]["all"]["q975"] = [1, 20]
+        self._assert_err("CONSERVATION_ERROR", o.audit_ring_vs_inclusio_multishuffle_exact, bad)
+        eq_q = _valid_p2_metrics(); eq_q["delta_nulls"]["all"]["q025"] = [0, 1]; eq_q["delta_nulls"]["all"]["q975"] = [0, 1]
+        self.assertTrue(o.audit_ring_vs_inclusio_multishuffle_exact(eq_q)["passed"])
+
+        # Pin EVERY conjunct in Pillar 2
+        # Mirror falsification 3 conjuncts + exact alpha boundary (11 -> 12/251 <= 1/20 passes; 12 -> 13/251 fails)
+        b = _valid_p2_metrics(); b["all_shift"] = [10, 100]  # all_mirror == shift (< null_pooled!) isolates all_mirror < all_shift
+        self.assertFalse(o.audit_ring_vs_inclusio_multishuffle_exact(b)["passed"])
+        b = _valid_p2_metrics(); b["all_mirror"] = [14, 100]  # == mirror_null_pooled (< shift!) isolates all_mirror < null
+        self.assertFalse(o.audit_ring_vs_inclusio_multishuffle_exact(b)["passed"])
+        b = _valid_p2_metrics(); b["mirror_le_count"] = 11
+        self.assertTrue(o.audit_ring_vs_inclusio_multishuffle_exact(b)["passed"])
+        b = _valid_p2_metrics(); b["mirror_le_count"] = 12
+        self.assertFalse(o.audit_ring_vs_inclusio_multishuffle_exact(b)["passed"])
+
+        # boundary_inclusio_holm_confirmed flips passed to False
+        b = _valid_p2_metrics(); b["delta_nulls"]["odd_strip10"]["ge_count"] = 1  # 6*(2/251)=12/251 <= 1/20 -> confirmed
+        r = o.audit_ring_vs_inclusio_multishuffle_exact(b)
+        self.assertTrue(r["boundary_inclusio_holm_confirmed"])
+        self.assertFalse(r["passed"])
+        self.assertEqual(r["boundary_inclusio_status"], "EXPLORATORY_INCONCLUSIVE_NOT_SEPARATED")
+
+        # boundary_inclusio_separated (both delta > and p < required)
+        b = _valid_p2_metrics()
+        b["kalila_nat_inclusio"] = [21, 100]  # delta 0.01 < all delta 0.02
+        b["delta_nulls"]["kalila_nat"]["ge_count"] = 60  # equal p -> NOT separated (isolates all_p < kalila_p)
+        self.assertFalse(o.audit_ring_vs_inclusio_multishuffle_exact(b)["boundary_inclusio_separated_from_framed_prose"])
+        b_eqd = _valid_p2_metrics()
+        b_eqd["kalila_nat_inclusio"] = [22, 100]  # delta 0.02 == all delta 0.02, while all_p < kalila_p -> isolates delta >
+        b_eqd["delta_nulls"]["kalila_nat"]["ge_count"] = 61
+        self.assertFalse(o.audit_ring_vs_inclusio_multishuffle_exact(b_eqd)["boundary_inclusio_separated_from_framed_prose"])
+        b["delta_nulls"]["kalila_nat"]["ge_count"] = 61  # all_p < kalila_p AND all_delta > kalila_delta -> separated!
+        r = o.audit_ring_vs_inclusio_multishuffle_exact(b)
+        self.assertTrue(r["boundary_inclusio_separated_from_framed_prose"])
+        self.assertFalse(r["passed"])
+        # Now ALSO make holm confirmed -> CONFIRMED_AND_SEPARATED
+        b["delta_nulls"]["all"]["ge_count"] = 0
+        r2 = o.audit_ring_vs_inclusio_multishuffle_exact(b)
+        self.assertEqual(r2["boundary_inclusio_status"], "CONFIRMED_AND_SEPARATED")
+        self.assertFalse(r2["passed"])
+
+        # arbitrary prose fails decay
+        b = _valid_p2_metrics(); b["kalila_arb_inclusio"] = [15, 100]
+        self.assertFalse(o.audit_ring_vs_inclusio_multishuffle_exact(b)["passed"])
+
+    def test_pillar3_happy_errors_and_every_conjunct(self):
+        recs = _valid_p3_records()
+        res = o.audit_translation_remainder_exact(recs, [90, 100], [92, 100])
+        self.assertTrue(res["passed"])
+        self.assertEqual(res["severe_remainder_both_translators"], 4)
+        self.assertEqual(res["selection_rule"], "author_selected_thematic_set_disclosed")
+        self.assertFalse(res["per_root"][-1]["multi_verse"])
+
+        # Errors
+        self._assert_err("RANGE_ERROR", o.audit_translation_remainder_exact, recs, [90, 100], [92, 100], Fraction(11, 10))
+        self._assert_err("INVALID_RECORDS", o.audit_translation_remainder_exact, [], [90, 100], [92, 100])
+        self._assert_err("INVALID_RECORD", o.audit_translation_remainder_exact, ["bad"], [90, 100], [92, 100])
+        dup = _valid_p3_records(); dup[1]["root"] = "R1"
+        self._assert_err("DUPLICATE_ROOT", o.audit_translation_remainder_exact, dup, [90, 100], [92, 100])
+        bad = _valid_p3_records(); bad[0]["sahih_top_count"] = 1; bad[0]["sahih_lost_pairs"] = 9
+        self._assert_err("RANGE_ERROR", o.audit_translation_remainder_exact, bad, [90, 100], [92, 100])
+        bad = _valid_p3_records(); bad[0]["pickthall_top_count"] = 1; bad[0]["pickthall_lost_pairs"] = 9
+        self._assert_err("RANGE_ERROR", o.audit_translation_remainder_exact, bad, [90, 100], [92, 100])
+        bad = _valid_p3_records(); bad[0]["sahih_lost_pairs"] = 10  # max is 10 - 1 = 9
+        self._assert_err("RANGE_ERROR", o.audit_translation_remainder_exact, bad, [90, 100], [92, 100])
+        bad = _valid_p3_records(); bad[0]["sahih_total_pairs"] = 9
+        self._assert_err("RANGE_ERROR", o.audit_translation_remainder_exact, bad, [90, 100], [92, 100])
+        bad = _valid_p3_records(); bad[0]["pickthall_total_pairs"] = 9
+        self._assert_err("RANGE_ERROR", o.audit_translation_remainder_exact, bad, [90, 100], [92, 100])
+        self._assert_err("NO_MULTI_VERSE_ROOTS", o.audit_translation_remainder_exact, [_valid_p3_records()[-1]], [90, 100], [92, 100])
+
+        # Pin EVERY conjunct in two_instrument_confirmed
+        # 1. s_pool_edge == min_loss (0.6) passes, min_loss=61/100 fails
+        self.assertTrue(o.audit_translation_remainder_exact(recs, [90, 100], [92, 100], Fraction(6, 10))["passed"])
+        self.assertFalse(o.audit_translation_remainder_exact(recs, [90, 100], [92, 100], Fraction(61, 100))["passed"])
+        # 2. p_pool_edge < min_loss fails
+        recs_low_p = _valid_p3_records()
+        for r in recs_low_p[:4]:
+            r["pickthall_lost_pairs"] = 4  # 0.4 < 0.5
+        self.assertFalse(o.audit_translation_remainder_exact(recs_low_p, [90, 100], [92, 100])["passed"])
+        # 3. s_pool_edge >= bg_sahih fails
+        self.assertFalse(o.audit_translation_remainder_exact(recs, [60, 100], [92, 100])["passed"])
+        # 4. p_pool_edge >= bg_pick fails
+        self.assertFalse(o.audit_translation_remainder_exact(recs, [90, 100], [70, 100])["passed"])
+        # 5. severe_both_count == 3 fails (exact boundary s_edge=4/10 vs 3/10, p_edge=4/10 vs 3/10)
+        recs_b = _valid_p3_records()
+        recs_b[0]["sahih_lost_pairs"] = 4; recs_b[0]["pickthall_lost_pairs"] = 4
+        self.assertEqual(o.audit_translation_remainder_exact(recs_b, [90, 100], [92, 100])["severe_remainder_both_translators"], 4)
+        recs_b[0]["sahih_lost_pairs"] = 3
+        self.assertFalse(o.audit_translation_remainder_exact(recs_b, [90, 100], [92, 100])["passed"])
+        recs_b = _valid_p3_records()
+        recs_b[0]["pickthall_lost_pairs"] = 3
+        self.assertFalse(o.audit_translation_remainder_exact(recs_b, [90, 100], [92, 100])["passed"])
+
+    def test_pillar4_cryptographic_binding_and_rederivation(self):
+        p1 = o.audit_root_pattern_lattice_and_cohesion_exact(**_valid_p1_inputs())
+        p2 = o.audit_ring_vs_inclusio_multishuffle_exact(_valid_p2_metrics())
+        p3 = o.audit_translation_remainder_exact(_valid_p3_records(), [90, 100], [92, 100])
+        pins = {"corpus/a.txt": "a" * 64}
+        axes = {
+            "per_layer_null_normalized_lift": True,
+            "window_size_10_20_40_holm": True,
+            "split_half_internal_consistency": True,
+            "honest_boundary_inclusio_adjudication": True,
+            "second_instrument_and_controls": True,
+        }
+        cert = o.certify_arabic_own_terms_5axis_gate(
+            "standalone_fixture_replay", False, pins, a.AUDIT_FEATURES, p1, p2, p3, axes
+        )
+        self.assertTrue(cert["all_gates_passed"])
+        self.assertEqual(cert["verdict"], "AUDITED_ARABIC_CONTINUUM_HONEST_LEDGER")
+        self.assertIs(cert["live_corpus_recounted"], False)
+        body_no_sha = {k: v for k, v in cert.items() if k != "certificate_sha256"}
+        self.assertEqual(cert["certificate_sha256"], o.canonical_sha256(body_no_sha))
+
+        # Live mode valid
+        cert_live = o.certify_arabic_own_terms_5axis_gate(
+            "live_corpus_recount", True, pins, a.AUDIT_FEATURES, p1, p2, p3, axes
+        )
+        self.assertIs(cert_live["live_corpus_recounted"], True)
+        self.assertNotEqual(cert_live["certificate_sha256"], cert["certificate_sha256"])
+
+        # Honest REJECTED_GATE_FAILED when a real pillar fails and axes honestly match
+        b2 = _valid_p2_metrics(); b2["kalila_arb_inclusio"] = [15, 100]
+        p2_fail = o.audit_ring_vs_inclusio_multishuffle_exact(b2)
+        axes_fail = dict(axes, honest_boundary_inclusio_adjudication=False, second_instrument_and_controls=False)
+        cert_rej = o.certify_arabic_own_terms_5axis_gate(
+            "standalone_fixture_replay", False, pins, a.AUDIT_FEATURES, p1, p2_fail, p3, axes_fail
+        )
+        self.assertFalse(cert_rej["all_gates_passed"])
+        self.assertEqual(cert_rej["verdict"], "REJECTED_GATE_FAILED")
+
+        # All Pillar 4 fail-closed checks
+        self._assert_err("INVALID_MODE", o.certify_arabic_own_terms_5axis_gate, "bad", False, pins, a.AUDIT_FEATURES, p1, p2, p3, axes)
+        self._assert_err("MODE_MISMATCH", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", True, pins, a.AUDIT_FEATURES, p1, p2, p3, axes)
+        self._assert_err("MODE_MISMATCH", o.certify_arabic_own_terms_5axis_gate, "live_corpus_recount", False, pins, a.AUDIT_FEATURES, p1, p2, p3, axes)
+        self._assert_err("MISSING_PROVENANCE", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, {}, a.AUDIT_FEATURES, p1, p2, p3, axes)
+        for bad_path in ("/etc/x", "a\\b", "a/../b", "file:///x"):
+            self._assert_err("UNSAFE_PIN_PATH", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, {bad_path: "a" * 64}, a.AUDIT_FEATURES, p1, p2, p3, axes)
+        self._assert_err("DUPLICATE_PIN_PATH", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, {"a": "a" * 64, " a ": "b" * 64}, a.AUDIT_FEATURES, p1, p2, p3, axes)
+        for bad_sha in ("0" * 64, "A" * 64, "abc", 123):
+            self._assert_err("INVALID_SHA256", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, {"a": bad_sha}, a.AUDIT_FEATURES, p1, p2, p3, axes)
+        self._assert_err("INVALID_AXES", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, pins, a.AUDIT_FEATURES, p1, p2, p3, {"wrong": True})
+        self._assert_err("INVALID_PILLAR", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, pins, a.AUDIT_FEATURES, "bad", p2, p3, axes)
+
+        # Forged pillar contradictions
+        p1_bad = dict(p1); p1_bad["passed"] = False
+        self._assert_err("PILLAR_CONTRADICTION", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, pins, a.AUDIT_FEATURES, p1_bad, p2, p3, axes)
+        p1_miss = dict(p1); p1_miss["window_metrics"] = None
+        self._assert_err("PILLAR_CONTRADICTION", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, pins, a.AUDIT_FEATURES, p1_miss, p2, p3, axes)
+        p1_badw = dict(p1); p1_badw["window_metrics"] = {"10": "not_dict"}
+        self._assert_err("PILLAR_CONTRADICTION", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, pins, a.AUDIT_FEATURES, p1_badw, p2, p3, axes)
+        p1_badc = dict(p1); p1_badc["window_metrics"] = dict(p1["window_metrics"], **{"10": dict(p1["window_metrics"]["10"], raw="bad")})
+        self._assert_err("INVALID_CELL", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, pins, a.AUDIT_FEATURES, p1_badc, p2, p3, axes)
+        p1_badctrl = dict(p1); p1_badctrl["negative_controls_w20"] = dict(p1["negative_controls_w20"], quran_stem="bad")
+        self._assert_err("INVALID_CELL", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, pins, a.AUDIT_FEATURES, p1_badctrl, p2, p3, axes)
+
+        p2_bad = dict(p2); p2_bad["passed"] = False
+        self._assert_err("PILLAR_CONTRADICTION", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, pins, a.AUDIT_FEATURES, p1, p2_bad, p3, axes)
+        p2_miss = dict(p2); p2_miss["pairs"] = None
+        self._assert_err("PILLAR_CONTRADICTION", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, pins, a.AUDIT_FEATURES, p1, p2_miss, p3, axes)
+        p2_baddn = dict(p2); p2_baddn["delta_null_reports"] = dict(p2["delta_null_reports"], all="bad")
+        self._assert_err("INVALID_DELTA_ENTRY", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, pins, a.AUDIT_FEATURES, p1, p2_baddn, p3, axes)
+
+        p3_bad = dict(p3); p3_bad["passed"] = False
+        self._assert_err("PILLAR_CONTRADICTION", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, pins, a.AUDIT_FEATURES, p1, p2, p3_bad, axes)
+
+        axes_bad = dict(axes, window_size_10_20_40_holm=False)
+        self._assert_err("AXIS_CONTRADICTION", o.certify_arabic_own_terms_5axis_gate, "standalone_fixture_replay", False, pins, a.AUDIT_FEATURES, p1, p2, p3, axes_bad)
+
+
+class TestAuditRunnerAndKnownAnswerMiniCorpus(unittest.TestCase):
+    def test_parsers_and_hash_verification(self):
+        # Tanzil parser
+        verses = a.parse_tanzil_lines(["# comment\n", "\n", "1|1|hello world\n", "2|3|a|b\n"])
+        self.assertEqual(verses, {(1, 1): "hello world", (2, 3): "a|b"})
+        with self.assertRaises(o.ArabicOracleError) as ctx:
+            a.parse_tanzil_lines(["malformed_line\n"])
+        self.assertEqual(ctx.exception.code, "PARSE_ERROR")
+
+        # OpenITI parser
+        all_lines, secs = a.parse_openiti_lines([
+            "######OpenITI#\n",
+            "#META# ignored\n",
+            "#META#Header#End#\n",
+            "\n",
+            "### | Section 1\n",
+            "PageV01P001 \u0643\u062a\u0628 ms001 %~~% ~% \u0642\u0644\u0645\n",
+            "### | Section 2\n",
+            "12345 !!\n",
+            "\u0639\u0644\u0645\n",
+        ])
+        self.assertEqual(all_lines, [["\u0643\u062a\u0628", "\u0642\u0644\u0645"], ["\u0639\u0644\u0645"]])
+        self.assertEqual(secs, [[["\u0643\u062a\u0628", "\u0642\u0644\u0645"]], [["\u0639\u0644\u0645"]]])
+
+        # Leeds parser (all derivative tags + odd/even + target roots)
+        leeds = a.parse_leeds_morphology_lines([
+            "# header\n",
+            "LOCATION\tFORM\tTAG\tFEATURES\n",
+            "bad_short_row\n",
+            "(1:1:1:1)\tw\tP\tSTEM|POS:P\n",
+            "(1:1:2:1)\tf\tV\tSTEM|POS:V|ROOT:ftq|LEM:fataqa\n",
+            "(1:2:1:1)\tf\tV\tSTEM|POS:V|(II)|ACT|PCPL|ROOT:ftq|LEM:fattaqa\n",
+            "(2:1:1:1)\tr\tN\tSTEM|POS:N|PASS|PCPL|ROOT:rtq\n",
+            "(2:2:1:1)\tr\tN\tSTEM|POS:N|VN|ROOT:rtq|LEM:ratq\n",
+        ])
+        self.assertEqual(leeds["unique_roots"], 2)
+        self.assertEqual(leeds["unique_lemmas"], 3)
+        self.assertEqual(leeds["unique_root_wazn_cells"], 4)
+        self.assertEqual(leeds["total_root_tokens"], 4)
+        self.assertEqual(leeds["verb_form_counts"], {"I": 1, "II": 1})
+        self.assertEqual(leeds["leeds_odd"], ["ftq", "ftq"])
+        self.assertEqual(leeds["leeds_even"], ["rtq", "rtq"])
+        self.assertEqual(leeds["target_occs"]["ftq"], 2)
+        self.assertEqual(leeds["target_lems"]["ftq"], {"fataqa", "fattaqa"})
+        self.assertEqual(leeds["target_verses"]["rtq"], {(2, 1), (2, 2)})
+
+        # verify_corpus_hashes error branches
+        with tempfile.TemporaryDirectory() as td:
+            with self.assertRaises(o.ArabicOracleError) as c1:
+                a.verify_corpus_hashes(td, {"missing.txt": "a" * 64})
+            self.assertEqual(c1.exception.code, "CORPUS_MISSING")
+            p = os.path.join(td, "f.txt")
+            with open(p, "wb") as fh:
+                fh.write(b"abc")
+            with self.assertRaises(o.ArabicOracleError) as c2:
+                a.verify_corpus_hashes(td, {"f.txt": "0" * 64})
+            self.assertEqual(c2.exception.code, "SHA256_MISMATCH")
+            good_sha = hashlib.sha256(b"abc").hexdigest()
+            self.assertEqual(a.verify_corpus_hashes(td, {"f.txt": good_sha}), {"f.txt": good_sha})
+
+    def test_known_answer_mini_corpus_live_path(self):
+        """Hand-computed mini-corpus proving compute_live_measurements computes
+        exact known integers from raw text files (not just fixture replay)."""
+        with tempfile.TemporaryDirectory() as td:
+            os.makedirs(os.path.join(td, "arabic_morphology_quranic-corpus"))
+            os.makedirs(os.path.join(td, "openiti_controls"))
+
+            # Construct 20 verses in surah 1 (odd) and 20 verses in surah 2 (even):
+            # In each 20-verse surah:
+            # - Verses 1..2 (first 10%, k=2) have root "ftq"
+            # - Verses 19..20 (last 10%, k=2) have root "ftq"  -> inclusio = (1, 1) per surah!
+            # - Verses 10..11 (middle 10%, ms_start=9..10) have root "rtq" -> middle = (0, 2) per surah!
+            # - Other verses have unique roots "u3".."u18"
+            # Wait: check mirror pairs (i vs 19-i for i=0..9):
+            #   i=0 (v1={ftq}) vs i=19 (v20={ftq}) -> inter=1, union=1
+            #   i=1 (v2={ftq}) vs i=18 (v19={ftq}) -> inter=1, union=1
+            #   i=2..8 (unique) vs i=17..11 (unique) -> inter=0, union=2 each (7 pairs -> 0/14)
+            #   i=9 (v10={rtq}) vs i=10 (v11={rtq}) -> inter=1, union=1
+            # Total mirror per surah = 3 / 17! Across 2 surahs = 6 / 34!
+            # Shift pairs (i vs 10+i for i=0..9):
+            #   all disjoint except none -> 0 / 20 per surah! Across 2 surahs = 0 / 40!
+            # Inclusio per surah: fs={ftq}, ls={ftq} -> 1/1 -> across 2 surahs = 2/2!
+            # Middle per surah: fs={ftq}, ms={rtq} -> 0/2 -> across 2 surahs = 0/4!
+            leeds_rows = ["LOCATION\tFORM\tTAG\tFEATURES\n"]
+            uth_rows = []
+            sah_rows = []
+            pic_rows = []
+            ar_words = ["\u0643\u062a\u0628", "\u0642\u0644\u0645", "\u0639\u0644\u0645", "\u062d\u0643\u0645"]
+            for s in (1, 2):
+                for v in range(1, 21):
+                    if v in (1, 2, 19, 20):
+                        rt = "ftq"
+                        tag = "V"
+                        feat = f"STEM|POS:V|ROOT:{rt}|LEM:{rt}_lem"
+                        s_en = "cleave heaven earth" if v in (1, 2) else "split sky world"
+                        p_en = "sunder heaven earth" if v in (1, 2) else "sunder sky world"
+                    elif v in (10, 11):
+                        rt = "rtq"
+                        tag = "N"
+                        feat = f"STEM|POS:N|ROOT:{rt}|LEM:{rt}_lem"
+                        s_en = "sewn solid"
+                        p_en = "joined solid"
+                    else:
+                        rt = f"r{v}"
+                        tag = "N"
+                        feat = f"STEM|POS:N|ROOT:{rt}|LEM:{rt}_lem"
+                        s_en = f"alpha{v} beta{v}"
+                        p_en = f"gamma{v} delta{v}"
+                    leeds_rows.append(f"({s}:{v}:1:1)\tx\t{tag}\t{feat}\n")
+                    w = ar_words[(v - 1) % 4]
+                    uth_rows.append(f"{s}|{v}|{w} {w}\n")
+                    sah_rows.append(f"{s}|{v}|{s_en}\n")
+                    pic_rows.append(f"{s}|{v}|{p_en}\n")
+            # Add short surah 3 (<20 verses) to exercise `len < 20` skip branch
+            # AND populate 10 high-frequency filler roots (hf0..hf9, 10 occs each) so top10_roots
+            # never strips ftq/rtq during strip10 ring/inclusio evaluation.
+            leeds_rows.append("(3:1:1:1)\tx\tN\tSTEM|POS:N|ROOT:sbH|LEM:sbH_lem\n")
+            for h_idx in range(10):
+                for occ_i in range(10):
+                    leeds_rows.append(f"(3:1:{h_idx + 2}:{occ_i + 1})\tx\tN\tSTEM|POS:N|ROOT:hf{h_idx}|LEM:hf{h_idx}_lem\n")
+            uth_rows.append("3|1|\u0643\u062a\u0628\n")
+            sah_rows.append("3|1|praise\n")
+            pic_rows.append("3|1|glory\n")
+
+            openiti_body = ["#META#Header#End#\n", "### | Ch1\n"] + [
+                f"{ar_words[i % 4]} {ar_words[(i + 1) % 4]}\n" for i in range(20)
+            ]
+
+            files = {
+                "arabic_morphology_quranic-corpus/quranic-corpus-morphology-0.4.txt": "".join(leeds_rows),
+                "tanzil-quran-uthmani.txt": "".join(uth_rows),
+                "tanzil-en.sahih.txt": "".join(sah_rows),
+                "tanzil-en.pickthall.txt": "".join(pic_rows),
+                "openiti_controls/ibn_muqaffa_kalila.txt": "".join(openiti_body),
+                "openiti_controls/ibn_muqaffa_adab_kabir.txt": "".join(openiti_body),
+                "openiti_controls/imru_al_qays_diwan.txt": "".join(openiti_body),
+                "openiti_controls/tarafa_diwan.txt": "".join(openiti_body),
+                "openiti_controls/antara_muallaqa.txt": "".join(openiti_body),
             }
-        ]
-        expect_error(
-            lambda r=conv_bad: oracle.audit_translation_remainder_exact(r, [9, 10], [9, 10]),
-            "RANGE_ERROR",
-        )
-    # Valid exact converse boundary: vcnt=2, top=1 -> lost=1 passes
-    conv_ok = [
-        {
-            "root": "p3", "occurrences": 2, "verse_count": 2, "unique_lemmas": 1,
-            "sahih_top_count": 1, "pickthall_top_count": 0,
-            "sahih_lost_pairs": 1, "pickthall_lost_pairs": 1,
-            "sahih_total_pairs": 1, "pickthall_total_pairs": 1,
-        }
-    ]
-    check(
-        oracle.audit_translation_remainder_exact(conv_ok, [9, 10], [9, 10])["pooled_pairs"] == 1,
-        "converse valid boundary ok",
-    )
+            pins = {}
+            for rel, txt in files.items():
+                fp = os.path.join(td, rel)
+                raw = txt.encode("utf-8")
+                with open(fp, "wb") as fh:
+                    fh.write(raw)
+                pins[rel] = hashlib.sha256(raw).hexdigest()
 
-    # Exact threshold boundaries: 4 roots with edge_loss = 2/5 vs 5/10 pooled
-    def mk(name, s_lost, p_lost):
-        # verse_count=5 -> total_pairs=10
-        return {
-            "root": name, "occurrences": 5, "verse_count": 5, "unique_lemmas": 2,
-            "sahih_top_count": 2, "pickthall_top_count": 2,
-            "sahih_lost_pairs": s_lost, "pickthall_lost_pairs": p_lost,
-            "sahih_total_pairs": 10, "pickthall_total_pairs": 10,
-        }
+            meas = a.compute_live_measurements(
+                td,
+                expected_hashes=pins,
+                window_sizes=(2, 4, 6),
+                bg_pair_count=4,
+                arb_chunk_lines=20,
+                n_shuffles=4,
+            )
+            # Verify hand-computed exact integers!
+            self.assertEqual(meas["unique_roots"], 27)  # ftq, rtq, sbH (3) + r3..r9 (7) + r12..r18 (7) + hf0..hf9 (10) -> 27
+            self.assertEqual(meas["total_root_tokens"], 141)
+            self.assertEqual(meas["ring_metrics"]["all_mirror"], [6, 34])
+            self.assertEqual(meas["ring_metrics"]["all_shift"], [0, 40])
+            self.assertEqual(meas["ring_metrics"]["all_inclusio"], [2, 2])
+            self.assertEqual(meas["ring_metrics"]["all_middle"], [0, 4])
+            self.assertEqual(meas["ring_metrics"]["odd_inclusio"], [1, 1])
+            self.assertEqual(meas["ring_metrics"]["even_inclusio"], [1, 1])
+            # Check ftq translation lost pairs:
+            # ftq appears in 8 verses (4 with "cleave heaven earth", 4 with "split sky world")
+            # Total pairs = C(8,2) = 28. Sahih: 4*4=16 lost pairs! Pickthall: ALL 8 share "sunder" -> 0 lost pairs!
+            ftq_rec = [r for r in meas["root_records"] if r["root"] == "ftq"][0]
+            self.assertEqual(ftq_rec["verse_count"], 8)
+            self.assertEqual(ftq_rec["sahih_total_pairs"], 28)
+            self.assertEqual(ftq_rec["sahih_lost_pairs"], 16)
+            self.assertEqual(ftq_rec["pickthall_lost_pairs"], 0)
+            self.assertEqual(ftq_rec["sahih_top_count"], 4)
+            self.assertEqual(ftq_rec["pickthall_top_count"], 8)
+            # Check rtq: 4 verses all sharing "solid" -> 0 lost on both!
+            rtq_rec = [r for r in meas["root_records"] if r["root"] == "rtq"][0]
+            self.assertEqual(rtq_rec["verse_count"], 4)
+            self.assertEqual(rtq_rec["sahih_lost_pairs"], 0)
+            self.assertEqual(rtq_rec["pickthall_lost_pairs"], 0)
 
-    # Exact severe boundary: 4/10 == 2/5 on both; pooled 20/40 == 1/2
-    recs_pass = [mk("r1", 4, 4), mk("r2", 4, 4), mk("r3", 6, 6), mk("r4", 6, 6)]
-    r_ok = oracle.audit_translation_remainder_exact(recs_pass, [6, 10], [6, 10], Fraction(1, 2))
-    check(r_ok["passed"] is True and r_ok["severe_remainder_both_translators"] == 4, "p3 exact pass")
+    def test_standalone_runner_live_dispatch_and_cli(self):
+        st = a.run_audit(live=False)
+        self.assertTrue(st["all_gates_passed"])
+        self.assertEqual(st["mode"], "standalone_fixture_replay")
+        self.assertIs(st["live_corpus_recounted"], False)
+        self.assertEqual(st["boundary_inclusio_status"], "EXPLORATORY_INCONCLUSIVE_NOT_SEPARATED")
+        self.assertTrue(st["cohesion_lift_reverses_absolute_ladder"])
+        self.assertEqual(st["certificate_sha256"], "252e1dad44ab0d1c9653c41de28e0170f5a28dffc69ea1bea18f47bd9179b757")
 
-    # Breach severe_both_count (3/10 < 2/5 drops severe to 3)
-    recs_sev3 = [mk("r1", 3, 4), mk("r2", 6, 6), mk("r3", 6, 6), mk("r4", 6, 6)]
-    check(
-        oracle.audit_translation_remainder_exact(recs_sev3, [9, 10], [9, 10], Fraction(1, 2))["passed"]
-        is False,
-        "severe==3 fails",
-    )
-    recs_sev3_p = [mk("r1", 4, 3), mk("r2", 6, 6), mk("r3", 6, 6), mk("r4", 6, 6)]
-    check(
-        oracle.audit_translation_remainder_exact(recs_sev3_p, [9, 10], [9, 10], Fraction(1, 2))["passed"]
-        is False,
-        "pick severe==3 fails",
-    )
-    # Breach min_pooled_edge_loss on Sahih or Pickthall
-    recs_low_s = [mk("r1", 4, 5), mk("r2", 5, 5), mk("r3", 5, 5), mk("r4", 5, 5)]
-    check(
-        oracle.audit_translation_remainder_exact(recs_low_s, [9, 10], [9, 10], Fraction(1, 2))["passed"]
-        is False,
-        "sahih pooled < 1/2 fails",
-    )
-    recs_low_p = [mk("r1", 5, 4), mk("r2", 5, 5), mk("r3", 5, 5), mk("r4", 5, 5)]
-    check(
-        oracle.audit_translation_remainder_exact(recs_low_p, [9, 10], [9, 10], Fraction(1, 2))["passed"]
-        is False,
-        "pickthall pooled < 1/2 fails",
-    )
-    # Breach bg_unrelated ceiling (pooled >= bg fails)
-    check(
-        oracle.audit_translation_remainder_exact(recs_pass, [5, 10], [9, 10], Fraction(1, 2))["passed"]
-        is False,
-        "sahih == bg fails",
-    )
-    check(
-        oracle.audit_translation_remainder_exact(recs_pass, [9, 10], [5, 10], Fraction(1, 2))["passed"]
-        is False,
-        "pick == bg fails",
-    )
+        # default_corpus_dir points to ../corpora
+        self.assertTrue(a.default_corpus_dir().endswith(os.sep + "corpora"))
 
+        # run_audit(live=True) dispatches to compute_live_measurements and emits live_corpus_recount
+        with mock.patch.object(a, "compute_live_measurements", return_value=a.STANDALONE_FIXTURE) as m_live:
+            live_cert = a.run_audit(live=True, corpus_dir="/nonexistent_mocked")
+            m_live.assert_called_once_with("/nonexistent_mocked")
+            self.assertEqual(live_cert["mode"], "live_corpus_recount")
+            self.assertIs(live_cert["live_corpus_recounted"], True)
+            self.assertEqual(live_cert["certificate_sha256"], "99ec338fc7aec339c1ea5216afd2a0bcac4bff647d487a1a3f80c403b581b951")
 
-def test_pillar4_gate_and_redteam():
-    cert = audit.run_audit(standalone=True)
-    check(cert["verdict"] == "CERTIFIED_ARABIC_CONTINUUM_STRUCTURE", "standalone certified")
-    check(cert["all_gates_passed"] is True, "all gates passed")
-    check(cert["pinned_corpus_count"] == 9, "9 pinned corpora")
-    check(
-        cert["certificate_sha256"] == EXPECTED_STANDALONE_SHA,
-        f"standalone sha mismatch: {cert['certificate_sha256']}",
-    )
+        # live=True with corpus_dir=None uses default_corpus_dir()
+        with mock.patch.object(a, "compute_live_measurements", return_value=a.STANDALONE_FIXTURE) as m_def:
+            a.run_audit(live=True, corpus_dir=None)
+            m_def.assert_called_once_with(a.default_corpus_dir())
 
-    p1 = cert["pillar1_root_pattern_lattice"]
-    p2 = cert["pillar2_ring_vs_inclusio"]
-    p3 = cert["pillar3_translation_remainder"]
-    axes = dict(cert["five_axis_net_invariance"])
-    pins = dict(audit.EXPECTED_CORPUS_SHA256)
+        # CLI --standalone + --output + exit code 0 & exit code 1 when gate fails
+        with tempfile.TemporaryDirectory() as td:
+            out_path = os.path.join(td, "cert.json")
+            buf = io.StringIO()
+            with mock.patch.object(sys, "stdout", buf):
+                rc = a.main(["--standalone", "--output", out_path])
+            self.assertEqual(rc, 0)
+            with open(out_path, "r", encoding="utf-8") as fh:
+                written = fh.read()
+            self.assertEqual(written, buf.getvalue())
+            self.assertEqual(json.loads(written)["certificate_sha256"], st["certificate_sha256"])
 
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "standalone", {"a": 1.0}, audit.AUDIT_FEATURES, p1, p2, p3, axes
-        ),
-        "FLOAT_FORBIDDEN",
-    )
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "invalid", pins, audit.AUDIT_FEATURES, p1, p2, p3, axes
-        ),
-        "INVALID_MODE",
-    )
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "standalone", {}, audit.AUDIT_FEATURES, p1, p2, p3, axes
-        ),
-        "MISSING_PROVENANCE",
-    )
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "standalone", {"/abs/path": "a" * 64}, audit.AUDIT_FEATURES, p1, p2, p3, axes
-        ),
-        "UNSAFE_PIN_PATH",
-    )
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "standalone", {"a": "a" * 64, " a ": "a" * 64}, audit.AUDIT_FEATURES, p1, p2, p3, axes
-        ),
-        "DUPLICATE_PIN_PATH",
-    )
-    # ARAB-BUG-01 regression: trailing newline, leading space, uppercase, all-zero sha256 rejected
-    for bad_sha in ("A" * 64, "a" * 64 + "\n", " " + "a" * 64, "0" * 64, 12345):
-        expect_error(
-            lambda s=bad_sha: oracle.certify_arabic_own_terms_5axis_gate(
-                "standalone", {"x": s}, audit.AUDIT_FEATURES, p1, p2, p3, axes
-            ),
-            "INVALID_SHA256",
-        )
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "standalone", pins, audit.AUDIT_FEATURES, "not_dict", p2, p3, axes
-        ),
-        "INVALID_PILLAR",
-    )
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "standalone", pins, ["abjad_count"], p1, p2, p3, axes
-        ),
-        "NUMEROLOGY_FORBIDDEN",
-    )
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "standalone", pins, audit.AUDIT_FEATURES, p1, p2, p3, "bad"
-        ),
-        "INVALID_AXES",
-    )
-    miss_ax = dict(axes)
-    del miss_ax["root_vs_stem"]
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "standalone", pins, audit.AUDIT_FEATURES, p1, p2, p3, miss_ax
-        ),
-        "INVALID_AXES",
-    )
-    extra_ax = dict(axes)
-    extra_ax["bogus_axis"] = True
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "standalone", pins, audit.AUDIT_FEATURES, p1, p2, p3, extra_ax
-        ),
-        "INVALID_AXES",
-    )
-    # ARAB-BUG-03 regression: contradictory pillar dicts & contradictory five_axis_checks rejected!
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "standalone", pins, audit.AUDIT_FEATURES, {"passed": True}, p2, p3, axes
-        ),
-        "INVALID_BOOL",
-    )
-    bad_p1_c = dict(p1)
-    bad_p1_c["monotonic_ladder_all_w"] = False
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "standalone", pins, audit.AUDIT_FEATURES, bad_p1_c, p2, p3, axes
-        ),
-        "PILLAR_CONTRADICTION",
-    )
-    bad_p2_c = dict(p2)
-    bad_p2_c["pointwise_ring_falsified"] = False
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "standalone", pins, audit.AUDIT_FEATURES, p1, bad_p2_c, p3, axes
-        ),
-        "PILLAR_CONTRADICTION",
-    )
-    bad_p3_c = dict(p3)
-    bad_p3_c["severe_remainder_both_translators"] = 3
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "standalone", pins, audit.AUDIT_FEATURES, p1, p2, bad_p3_c, axes
-        ),
-        "PILLAR_CONTRADICTION",
-    )
-    bad_ax_c = dict(axes)
-    bad_ax_c["odd_vs_even_unseen"] = False
-    expect_error(
-        lambda: oracle.certify_arabic_own_terms_5axis_gate(
-            "standalone", pins, audit.AUDIT_FEATURES, p1, p2, p3, bad_ax_c
-        ),
-        "AXIS_CONTRADICTION",
-    )
+        buf_fail = io.StringIO()
+        with mock.patch.object(a, "run_audit", return_value={"all_gates_passed": False}), mock.patch.object(sys, "stdout", buf_fail):
+            self.assertEqual(a.main(["--standalone"]), 1)
 
-    # Consistent failure on any pillar cleanly yields REJECTED_GATE_FAILED
-    q1, q2, q3, qax = dict(p1), dict(p2), dict(p3), dict(axes)
-    q1["monotonic_ladder_all_w"] = False
-    q1["passed"] = False
-    qax["diacritics_vs_rasm"] = False
-    qax["root_vs_stem"] = False
-    rej1 = oracle.certify_arabic_own_terms_5axis_gate(
-        "live_readonly", pins, audit.AUDIT_FEATURES, q1, q2, q3, qax
-    )
-    check(rej1["verdict"] == "REJECTED_GATE_FAILED" and rej1["all_gates_passed"] is False, "p1 rej")
-
-    q1, q2, q3, qax = dict(p1), dict(p2), dict(p3), dict(axes)
-    q2["pointwise_ring_falsified"] = False
-    q2["passed"] = False
-    rej2 = oracle.certify_arabic_own_terms_5axis_gate(
-        "live_readonly", pins, audit.AUDIT_FEATURES, q1, q2, q3, qax
-    )
-    check(rej2["verdict"] == "REJECTED_GATE_FAILED" and rej2["all_gates_passed"] is False, "p2 rej")
-
-    q1, q2, q3, qax = dict(p1), dict(p2), dict(p3), dict(axes)
-    q3["passed"] = False
-    q3["severe_remainder_both_translators"] = 3
-    qax["second_instrument_and_controls"] = False
-    rej3 = oracle.certify_arabic_own_terms_5axis_gate(
-        "live_readonly", pins, audit.AUDIT_FEATURES, q1, q2, q3, qax
-    )
-    check(rej3["verdict"] == "REJECTED_GATE_FAILED" and rej3["all_gates_passed"] is False, "p3 rej")
+        # CLI --live passes live=True
+        with mock.patch.object(a, "run_audit", return_value={"all_gates_passed": True}) as m_ra, mock.patch.object(sys, "stdout", io.StringIO()):
+            self.assertEqual(a.main(["--live"]), 0)
+            m_ra.assert_called_once_with(live=True, corpus_dir=None)
 
 
-def test_audit_parsers_and_synthetic_live_pipeline():
-    # Constants pinned
-    check(audit.SEED_T4A == 2026091, "seed t4a")
-    check(audit.SEED_T4B == 2026092, "seed t4b")
-    check(audit.SEED_ODD_T4B == 2026093, "seed odd")
-    check(audit.SEED_EVEN_T4B == 2026094, "seed even")
-    check(audit.SEED_RING_PERM == 2026095, "seed ring")
-    check(audit.SEED_CTRL_T4A == 2026096, "seed ctrl")
-    check(audit.SEED_BG_PAIRS == 2026097, "seed bg")
-    check(audit.BG_PAIR_COUNT == 1000, "bg count")
-    check(audit.WINDOW_SIZES == (10, 20, 40), "window sizes")
-    check(audit.ARB_CHUNK_LINES == 60, "arb chunk lines")
-    check(len(audit.TARGET_ROOTS) == 9, "target roots len")
-    check(audit.default_corpus_dir().endswith(os.path.join("repos", "arabic")), "default corpus dir")
+class TestFetchCorpora(unittest.TestCase):
+    def _tiny_manifest(self):
+        d1 = b"first corpus payload\n"
+        d2 = b"second corpus payload\n"
+        return (
+            {
+                "id": "c1",
+                "rel_path": "c1.txt",
+                "url": "https://example.invalid/c1.txt",
+                "edition": "ed1",
+                "upstream_source": "https://example.invalid",
+                "licence": "CC0",
+                "expected_bytes": len(d1),
+                "sha256": hashlib.sha256(d1).hexdigest(),
+            },
+            {
+                "id": "c2",
+                "rel_path": "sub/c2.txt",
+                "url": "https://example.invalid/c2.txt",
+                "edition": "ed2",
+                "upstream_source": "https://example.invalid",
+                "licence": "CC0",
+                "expected_bytes": len(d2),
+                "sha256": hashlib.sha256(d2).hexdigest(),
+            },
+        ), {"https://example.invalid/c1.txt": d1, "https://example.invalid/c2.txt": d2}
 
-    # parse_tanzil_lines
-    tanzil = audit.parse_tanzil_lines(["# header\n", "\n", "1|1|hello | world\n", "1|2|peace\n"])
-    check(tanzil == {(1, 1): "hello | world", (1, 2): "peace"}, "tanzil parse")
-    expect_error(lambda: audit.parse_tanzil_lines(["malformed_line\n"]), "PARSE_ERROR")
+    def test_manifest_matches_audit_pins(self):
+        self.assertEqual(len(fc.CORPUS_MANIFEST), 9)
+        m_pins = {item["rel_path"]: item["sha256"] for item in fc.CORPUS_MANIFEST}
+        self.assertEqual(m_pins, a.EXPECTED_CORPUS_SHA256)
 
-    # parse_openiti_lines
-    openiti_raw = [
-        "######OpenITI#\n",
-        "#META# preheader \u0643\u062a\u0628\n",
-        "#META#Header#End#\n",
-        "\n",
-        "### empty first header\n",
-        "PageV01P001 ms001 %~~% ~% \u0648\u0627\u0644\u0643\u062a\u0628 !!!\n",
-        "12345 !!!\n",
-        "### second section\n",
-        "\u0633\u0628\u062d \u0641\u0644\u0643\n",
-        "### trailing empty header\n",
-    ]
-    all_lines, secs = audit.parse_openiti_lines(openiti_raw)
-    check(len(all_lines) == 2 and len(secs) == 2, f"openiti counts: {len(all_lines)}, {len(secs)}")
-    check(all_lines[0] == ["\u0643\u062a\u0628"], f"openiti line0: {all_lines[0]}")
-    # Also test trailing non-empty section flush
-    all_l2, secs2 = audit.parse_openiti_lines(["#META#Header#End#\n", "\u0643\u062a\u0628\n"])
-    check(len(all_l2) == 1 and len(secs2) == 1, "openiti trailing flush")
+    def test_safe_dest_path_and_escape(self):
+        with tempfile.TemporaryDirectory() as td:
+            self.assertTrue(fc._safe_dest_path(td, "sub/a.txt").endswith(os.path.join("sub", "a.txt")))
+            for bad in ("/abs/x.txt", "a\\b.txt", "../escape.txt", "a/../b.txt"):
+                with self.assertRaises(fc.FetchError) as ctx:
+                    fc._safe_dest_path(td, bad)
+                self.assertEqual(ctx.exception.code, "UNSAFE_REL_PATH")
+            # Symlink pointing outside dest_dir triggers PATH_ESCAPE
+            with tempfile.TemporaryDirectory() as outside:
+                link_dir = os.path.join(td, "link")
+                os.symlink(outside, link_dir)
+                with self.assertRaises(fc.FetchError) as ctx:
+                    fc._safe_dest_path(td, "link/escape.txt")
+                self.assertEqual(ctx.exception.code, "PATH_ESCAPE")
 
-    # parse_leeds_morphology_lines
-    leeds_raw = [
-        "",
-        "# comment\n",
-        "LOCATION\tFORM\tTAG\tFEATURES\n",
-        "too\tfew\tcols\n",
-        "(1:1:1:1)\tbi\tP\tPREFIX|bi+\n",
-        "(1:1:2:1)\tsbH\tV\tSTEM|POS:V|PERF|(II)|LEM:sab~aHa|ROOT:sbH\n",
-        "(1:1:3:1)\tktb\tV\tSTEM|POS:V|PERF|ROOT:ktb\n",
-        "(1:2:1:1)\tflk\tN\tSTEM|POS:N|ACT|PCPL|LEM:fulok|ROOT:flk\n",
-        "(2:1:1:1)\tqdr\tN\tSTEM|POS:N|PASS|PCPL|(IV)|LEM:qdr|ROOT:qdr\n",
-        "(2:1:2:1)\tmdd\tN\tSTEM|POS:N|VN|LEM:mdd|ROOT:mdd\n",
-    ]
-    md = audit.parse_leeds_morphology_lines(leeds_raw)
-    check(md["unique_roots"] == 5 and md["unique_lemmas"] == 4, f"leeds counts: {md}")
-    check(md["unique_root_wazn_cells"] == 5, "leeds cells")
-    check(md["verb_form_counts"] == {"I": 1, "II": 1}, f"vf counts: {md['verb_form_counts']}")
-    check(md["leeds_odd"] == ["sbH", "ktb", "flk"], "odd roots")
-    check(md["leeds_even"] == ["qdr", "mdd"], "even roots")
-    check(md["target_occs"]["sbH"] == 1 and md["target_occs"]["qdr"] == 1, "target occs")
+    def test_fetch_verify_cache_force_and_errors(self):
+        manifest, blobs = self._tiny_manifest()
+        calls = []
 
-    # evaluate_ring_and_inclusio_units
-    short_u = [["a"]] * 19
-    long_u = [["a", "top"]] * 2 + [["b", "top"]] * 16 + [["a", "top"]] * 2
-    ri_all = audit.evaluate_ring_and_inclusio_units([short_u, long_u])
-    check(ri_all["inclusio"] == [2, 2] and ri_all["middle"] == [1, 3], f"ri_all: {ri_all}")
-    ri_ex = audit.evaluate_ring_and_inclusio_units([long_u], exclude=frozenset({"top"}))
-    check(ri_ex["inclusio"] == [1, 1] and ri_ex["middle"] == [0, 2], f"ri_ex: {ri_ex}")
+        @contextmanager
+        def fake_opener(req, timeout=30):
+            calls.append((req.full_url, req.get_header("User-agent"), timeout))
+            yield io.BytesIO(blobs[req.full_url])
 
-    # Synthetic 9-file corpus end-to-end test for verify_corpus_hashes + compute_live_measurements
-    with tempfile.TemporaryDirectory() as tmpdir:
-        os.makedirs(os.path.join(tmpdir, "arabic_morphology_quranic-corpus"))
-        os.makedirs(os.path.join(tmpdir, "openiti_controls"))
+        with tempfile.TemporaryDirectory() as td, mock.patch.object(fc, "CORPUS_MANIFEST", manifest):
+            # Missing triggers CORPUS_MISSING in verify_directory
+            with self.assertRaises(fc.FetchError) as cm:
+                fc.verify_directory(td)
+            self.assertEqual(cm.exception.code, "CORPUS_MISSING")
 
-        # Build 2 surahs (odd=1, even=2) x 20 verses each = 40 verses
-        morph_lines = ["LOCATION\tFORM\tTAG\tFEATURES\n"]
-        uth_lines = []
-        sahih_lines = []
-        pick_lines = []
-        roots_cycle = ["ftq", "rtq", "sbH", "mdd", "wsE", "flk", "kwr", "qdr", "zwj"]
-        ar_words = [
-            "\u0643\u062a\u0628\u064e",
-            "\u0648\u0627\u0644\u0633\u0645\u0627\u0621",
-            "\u0627\u0644\u0641\u0644\u0643",
-            "\u0633\u0628\u062d\u0627\u0646",
-        ]
-        for s_num in (1, 2):
-            for v_num in range(1, 21):
-                r = roots_cycle[(v_num - 1) % len(roots_cycle)]
-                w_ar = ar_words[(v_num - 1) % len(ar_words)]
-                morph_lines.append(
-                    f"({s_num}:{v_num}:1:1)\tform\tV\tSTEM|POS:V|LEM:{r}L|ROOT:{r}\n"
-                )
-                uth_lines.append(f"{s_num}|{v_num}|{w_ar} !!! {w_ar}\n")
-                # Verse (1, 1) has only stopwords so s_df empty branch is exercised for ftq if alone;
-                # give varied English stems across verses
-                if v_num == 1 and s_num == 1:
-                    sahih_lines.append(f"{s_num}|{v_num}|the of and\n")
-                    pick_lines.append(f"{s_num}|{v_num}|the of and\n")
-                elif v_num % 2 == 0:
-                    sahih_lines.append(f"{s_num}|{v_num}|exalt ship water wrapped\n")
-                    pick_lines.append(f"{s_num}|{v_num}|glorify ship water overthrown\n")
-                else:
-                    sahih_lines.append(f"{s_num}|{v_num}|extend compass measure pairs\n")
-                    pick_lines.append(f"{s_num}|{v_num}|spread embrace decree mates\n")
+            # Download fresh
+            res = fc.fetch_all(td, timeout=17, force=False, opener=fake_opener)
+            self.assertEqual(res["count"], 2)
+            self.assertEqual([f["status"] for f in res["files"]], ["downloaded_verified", "downloaded_verified"])
+            self.assertEqual(len(calls), 2)
+            self.assertEqual(calls[0][1], fc.USER_AGENT)
+            self.assertEqual(calls[0][2], 17)
 
-        openiti_body = ["#META#Header#End#\n", "### chap1\n"] + [
-            "\u0643\u062a\u0628 \u0633\u0628\u062d \u0641\u0644\u0643 \u0642\u062f\u0631\n"
-            for _ in range(24)
-        ]
+            # verify_directory succeeds
+            v = fc.verify_directory(td)
+            self.assertEqual(v["count"], 2)
+            self.assertEqual([f["status"] for f in v["files"]], ["verified_existing", "verified_existing"])
 
-        files_map = {
-            "arabic_morphology_quranic-corpus/quranic-corpus-morphology-0.4.txt": "".join(morph_lines),
-            "tanzil-quran-uthmani.txt": "".join(uth_lines),
-            "tanzil-en.sahih.txt": "".join(sahih_lines),
-            "tanzil-en.pickthall.txt": "".join(pick_lines),
-            "openiti_controls/ibn_muqaffa_kalila.txt": "".join(openiti_body),
-            "openiti_controls/ibn_muqaffa_adab_kabir.txt": "".join(openiti_body),
-            "openiti_controls/imru_al_qays_diwan.txt": "".join(openiti_body),
-            "openiti_controls/tarafa_diwan.txt": "".join(openiti_body),
-            "openiti_controls/antara_muallaqa.txt": "".join(openiti_body),
-        }
-        pins = {}
-        for rel, content in files_map.items():
-            fp = os.path.join(tmpdir, rel)
-            with open(fp, "w", encoding="utf-8") as f:
-                f.write(content)
-            pins[rel] = audit.sha256_file(fp)
+            # Cached call skips opener
+            calls.clear()
+            res2 = fc.fetch_all(td, force=False, opener=fake_opener)
+            self.assertEqual(calls, [])
+            self.assertEqual([f["status"] for f in res2["files"]], ["cached_verified", "cached_verified"])
 
-        # Verify default pins reject mismatched hash
-        expect_error(lambda: audit.verify_corpus_hashes(tmpdir), "SHA256_MISMATCH")
-        # Verify missing file rejects
-        bad_pins = dict(pins)
-        bad_pins["nonexistent.txt"] = "0" * 64
-        expect_error(
-            lambda: audit.verify_corpus_hashes(tmpdir, expected_hashes=bad_pins),
-            "CORPUS_MISSING",
-        )
+            # force=True re-downloads
+            res3 = fc.fetch_all(td, force=True, opener=fake_opener)
+            self.assertEqual(len(calls), 2)
+            self.assertEqual([f["status"] for f in res3["files"]], ["downloaded_verified", "downloaded_verified"])
 
-        # Compute live measurements on synthetic corpus (single window & multi-window)
-        m1 = audit.compute_live_measurements(
-            tmpdir,
-            expected_hashes=pins,
-            window_sizes=(4,),
-            bg_pair_count=10,
-            arb_chunk_lines=20,
-        )
-        m2 = audit.compute_live_measurements(
-            tmpdir,
-            expected_hashes=pins,
-            window_sizes=(4, 8),
-            bg_pair_count=10,
-            arb_chunk_lines=20,
-        )
-        check(m1["unique_roots"] == 9 and m1["total_root_tokens"] == 40, "synth morph")
-        check(m1["bg_sahih_pair"][1] == 10 and m1["bg_pickthall_pair"][1] == 10, "synth bg")
-        check(m2["control_w20_pairs"]["quran_stem"]["obs"] != m1["control_w20_pairs"]["quran_stem"]["obs"], "ctrl_w branch")
-        check(len(m1["root_records"]) == 9, "synth 9 roots")
-        # Also exercise s_df empty branch explicitly by verifying ftq in 1-verse corpus
-        # Verify determinism: repeated run matches exactly
-        m1_again = audit.compute_live_measurements(
-            tmpdir,
-            expected_hashes=pins,
-            window_sizes=(4,),
-            bg_pair_count=10,
-            arb_chunk_lines=20,
-        )
-        check(m1 == m1_again, "synth deterministic")
+            # Corrupt cached file (same size, wrong hash) -> verify fails SHA256_MISMATCH, fetch_all re-downloads!
+            c1_path = os.path.join(td, "c1.txt")
+            with open(c1_path, "wb") as fh:
+                fh.write(b"X" * len(blobs["https://example.invalid/c1.txt"]))
+            with self.assertRaises(fc.FetchError) as csha:
+                fc.verify_directory(td)
+            self.assertEqual(csha.exception.code, "SHA256_MISMATCH")
+            calls.clear()
+            res_heal = fc.fetch_all(td, force=False, opener=fake_opener)
+            self.assertEqual(len(calls), 1)
+            self.assertEqual([f["status"] for f in res_heal["files"]], ["downloaded_verified", "cached_verified"])
 
-        # Exercise main() CLI standalone + --output + exit code 0 & 1
-        out_path = os.path.join(tmpdir, "cert.json")
+            # Wrong size -> verify fails SIZE_MISMATCH
+            with open(c1_path, "wb") as fh:
+                fh.write(b"short")
+            with self.assertRaises(fc.FetchError) as csz:
+                fc.verify_directory(td)
+            self.assertEqual(csz.exception.code, "SIZE_MISMATCH")
+
+            # Download returning wrong size / wrong sha256 fails closed without writing
+            @contextmanager
+            def bad_size_opener(req, timeout=30):
+                yield io.BytesIO(b"too_short")
+
+            with self.assertRaises(fc.FetchError) as dsz:
+                fc.fetch_all(td, force=True, opener=bad_size_opener)
+            self.assertEqual(dsz.exception.code, "SIZE_MISMATCH")
+
+            @contextmanager
+            def bad_sha_opener(req, timeout=30):
+                yield io.BytesIO(b"Z" * len(blobs[req.full_url]))
+
+            with self.assertRaises(fc.FetchError) as dsha:
+                fc.fetch_all(td, force=True, opener=bad_sha_opener)
+            self.assertEqual(dsha.exception.code, "SHA256_MISMATCH")
+
+            # os.replace failure cleans up temp file and re-raises
+            with mock.patch.object(os, "replace", side_effect=OSError("disk full")):
+                with self.assertRaises(OSError):
+                    fc.fetch_all(td, force=True, opener=fake_opener)
+            leftovers = [fn for fn in os.listdir(td) if fn.startswith(".fetch_")]
+            self.assertEqual(leftovers, [])
+
+    def test_fetch_cli_modes(self):
+        # --manifest-json
         buf = io.StringIO()
-        old_stdout = sys.stdout
-        try:
-            sys.stdout = buf
-            rc = audit.main(["--standalone", "--output", out_path])
-        finally:
-            sys.stdout = old_stdout
-        check(rc == 0, "main standalone rc=0")
-        with open(out_path, "rb") as f:
-            written = f.read()
-        check(written.endswith(b"\n"), "output newline")
-        parsed = json.loads(written.decode("utf-8"))
-        check(parsed["certificate_sha256"] == EXPECTED_STANDALONE_SHA, "cli output sha")
-        check(buf.getvalue().encode("utf-8") == written, "stdout == output file")
+        with mock.patch.object(sys, "stdout", buf):
+            self.assertEqual(fc.main(["--manifest-json"]), 0)
+        parsed = json.loads(buf.getvalue())
+        self.assertEqual(parsed["count"], 9)
 
-        # Exercise main() failing return code 1 via failing fixture copy
-        orig_fx = audit.STANDALONE_FIXTURE
-        bad_fx = copy.deepcopy(orig_fx)
-        bad_fx["ring_metrics"]["all_mirror"] = bad_fx["ring_metrics"]["all_perm_null"]
-        buf2 = io.StringIO()
-        try:
-            audit.STANDALONE_FIXTURE = bad_fx
-            sys.stdout = buf2
-            rc_fail = audit.main(["--standalone"])
-        finally:
-            audit.STANDALONE_FIXTURE = orig_fx
-            sys.stdout = old_stdout
-        check(rc_fail == 1, "main failing rc=1")
+        # --verify-only and default download CLI dispatch
+        with mock.patch.object(fc, "verify_directory", return_value={"count": 9}) as m_v, mock.patch.object(sys, "stdout", io.StringIO()):
+            self.assertEqual(fc.main(["--verify-only", "--dest", "/tmp/x"]), 0)
+            m_v.assert_called_once_with("/tmp/x")
 
-        # Exercise run_audit(standalone=False, corpus_dir=...) error propagation
-        expect_error(
-            lambda: audit.run_audit(standalone=False, corpus_dir=tmpdir),
-            "SHA256_MISMATCH",
-        )
-
-    # Exercise isolated -I subprocess invocation (kills _SCRIPT_DIR sys.path & __main__ mutants)
-    audit_script = os.path.join(_SCRIPT_DIR, "arabic_continuum_audit.py")
-    proc = subprocess.run(
-        [sys.executable, "-I", "-B", "-W", "error", audit_script, "--standalone"],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    check(proc.returncode == 0, f"-I subprocess rc={proc.returncode} stderr={proc.stderr}")
-    sub_cert = json.loads(proc.stdout)
-    check(sub_cert["certificate_sha256"] == EXPECTED_STANDALONE_SHA, "-I subprocess sha")
+        with mock.patch.object(fc, "fetch_all", return_value={"count": 9}) as m_f, mock.patch.object(sys, "stdout", io.StringIO()):
+            self.assertEqual(fc.main(["--dest", "/tmp/y", "--force"]), 0)
+            m_f.assert_called_once_with("/tmp/y", force=True)
 
 
-def run_all_tests():
-    test_oracle_primitives_and_boundaries()
-    test_deterministic_shuffles_and_text_nets()
-    test_zero_numerology_guard()
-    test_pillar1_boundaries_and_redteam()
-    test_pillar2_boundaries_and_redteam()
-    test_pillar3_boundaries_and_redteam()
-    test_pillar4_gate_and_redteam()
-    test_audit_parsers_and_synthetic_live_pipeline()
-    return "ALL_TESTS_PASSED"
+def run_all():
+    suite = unittest.defaultTestLoader.loadTestsFromModule(sys.modules[__name__])
+    result = unittest.TextTestRunner(verbosity=0).run(suite)
+    if not result.wasSuccessful():
+        sys.exit(1)
+    print("ALL_AUDIT091_V2_AND_FETCH_TESTS_PASSED")
 
 
 if __name__ == "__main__":
-    print(run_all_tests())
+    run_all()

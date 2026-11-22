@@ -1,157 +1,113 @@
-# AUDIT-091: Raw Classical Arabic / Qur'anic Layered Continuum Semantics & Non-Concatenative Root-Pattern Geometry
+# Classical Arabic Layered Cohesion, Ring-vs-Inclusio Multi-Shuffle Adjudication & Translation Remainder (v2)
 
-- **Audit ID:** `AUDIT-091` (Wave 3 Lane 5 — `bayt-al-hikma-arabic`)
-- **Governance Protocols:** Aletheia v1.4.0 Laws 1–5 + `OWN_TERMS_FIRST` (`AUDIT-084R`) + Law 2b Transformational Steelman (`AUDIT-088R`) + **Strict Law 5 Anti-Numerology Guard** (**ZERO** abjad, gematria, base-10 digit counts, or apologetic word-count claims)
-- **Execution Modes:** `live_readonly` (direct pure-$\mathbb{Q}$ computation over 9 SHA-256-pinned primary corpora) & `--standalone` (zero external files, exact bit-identical body parity)
+- **Audit ID:** `AUDIT-091-V2` (updated directly in response to peer review `6011346623`)
+- **Governance Standard:** Aletheia v2.0.0 (`OWN_TERMS_FIRST`, Law 2b, Law 4 honest `N0` novelty default, Law 5 feature-naming guard)
+- **Execution Modes (Explicitly Distinguished):**
+  - **Live Recount (`--live` / `--corpus-dir ./corpora`):** SHA-256-verifies all 9 primary corpora fetched via `../fetch_corpora.py` and recomputes EVERY count and EVERY $B = 250$ multi-shuffle null directly from the raw primary texts (`mode: "live_corpus_recount"`, `live_corpus_recounted: true`).
+  - **Offline Standalone Replay (default / `--standalone`):** Reads NO corpus text; replays oracle invariants and exact rational calculations on the pinned verbatim fixture (`mode: "standalone_fixture_replay"`, `live_corpus_recounted: false`).
 - **Exact Pinned Certificate Digests:**
-  - `live_readonly` (`arabic_continuum_certificate.json`): `28c3f9dac5149d87fa13925b4b39671e5102bbbf034108e391882959ad9f9dd9`
-  - `standalone` (`--standalone`): `d237ae44dd4618e033283d2d5fba6a23dd108b0d4e657c1fcadb243d03ee3f16`
-- **Verdict:** **`CERTIFIED_ARABIC_CONTINUUM_STRUCTURE`** (Honest **`N1`** — exact pure-$\mathbb{Q}$ multi-corpus verification with explicit negative controls, honest falsification of naive global pointwise ring symmetry, and transparent `N0` quarantine of classical Semitic linguistics & literary *inclusio* prior art)
+  - `live_corpus_recount` (`arabic_continuum_certificate.json`): `99ec338fc7aec339c1ea5216afd2a0bcac4bff647d487a1a3f80c403b581b951`
+  - `standalone_fixture_replay` (`--standalone`): `252e1dad44ab0d1c9653c41de28e0170f5a28dffc69ea1bea18f47bd9179b757`
+- **Novelty Classification (Law 4 Honest Default):** **`N0`** (exact pure-$\mathbb{Q}$ computational quantification and honest falsification/retraction ledger on Classical Arabic primary texts; see `../PREREGISTERED_HYPOTHESES.md` for full retrospective disclosure and pre-registered protocol).
 
 ---
 
-## 1. Executive Summary & Honest `N0` / `N1` Classification (Law 4)
+## 1. Methodological Disclosures, Retractions & Revisions Closing Review `6011346623`
 
-### What Is Quarantined as `N0` (Established Prior Art — Never Claimed as Novel)
-1. **Non-concatenative Semitic root-and-pattern (*jadhr × wazn*) morphology:** Classical Arabic triliteral/quadriliteral root abstraction and derived verb stems (*awzān* I–XII) are foundational Arabic philology (al-Khalīl, Sībawayh) and modern autosegmental morphology (McCarthy 1979; Dukes & Habash 2010 Leeds Quranic Arabic Corpus v0.4).
-2. **Qur'anic ring / boundary *inclusio* literary hypotheses:** Chiasmus, ring composition, and opening-closing lexical framing (*inclusio*) have extensive prior humanities scholarship (Cuypers, Farrin, El-Awa, Ernst, Mir).
-3. **Cross-linguistic translation polysemy / lexical loss:** Translating a derivational root family into discrete target-language glosses inevitably fragments semantic fields across translators.
-
-### What Is Verified as `N1` (Exact Pure-$\mathbb{Q}$, Falsifiable, Multi-Corpus Audited Findings)
-1. **Exact Non-Concatenative Operator Lattice & Strict Morphological Cohesion Ladder (`W ∈ {10, 20, 40}`):** Directly on the live 6.3 MB Leeds v0.4 morphology (`49,968` root-tagged morphemes) and 6,236-verse Uthmani text, **`1,642` unique roots** generate **`4,657` `(ROOT, LEM)` lexical realizations** (`4657/1642 = 2.836175` lemmas/root) across **`3,923` `(ROOT, POS:WAZN:DERIV)` operator cells** (`3923/1642 = 2.389160` cells/root) and `11` attested verb forms (`I`–`X`, `XII`; `19,356` verb tokens). Adjacent-window Jaccard cohesion obeys the strict monotonic ladder **`raw_diacritics < rasm < light_stem < leeds_root`** at EVERY window size `W ∈ {10, 20, 40}`, with the root layer outperforming **BOTH** Tier-4A (IID word-permuted) and Tier-4B (exact POS-stratified) nulls on **ALL**, **Train (Odd surahs)**, and **Strictly Unseen (Even surahs)**!
-2. **Honest Rule-5 Negative-Control Discovery (No False Uniqueness Claims!):** Applying the **exact same** concatenative Arabic light-stemmer (`W=20`) to matched OpenITI classical Arabic controls proves that local lexical cohesion above Tier-4A nulls is a **shared structural property of Classical Arabic thematic prose**, NOT unique to scripture:
-   - Ibn al-Muqaffa' *Kalīla wa-Dimna* (`44,090` tokens): `5398/76231 = 0.070811` vs Tier-4A `3234/81211 = 0.039822` (**`1.778182×`** lift — HIGHER than Qur'an light-stem `1.632205×`!).
-   - Ibn al-Muqaffa' *al-Adab al-Kabīr* (`9,586` tokens): `589/8020 = 0.073441` vs Tier-4A `846/17285 = 0.048944` (`1.500514×` lift).
-   - Pre-Islamic poetry pooled (*Imru' al-Qays* + *Ṭarafa* + *'Antara*, `10,249` tokens): `501/19177 = 0.026125` vs Tier-4A `322/19763 = 0.016293` (`1.603445×` lift, at **2.6× lower absolute cohesion baseline** reflecting high lexical rarity / *gharīb* in pre-Islamic *qaṣīda* verse).
-3. **Law 2b Transformational Steelman — Pointwise Ring Falsified, Top-10-Stripped Boundary *Inclusio* Verified:**
-   - **Honest Falsification:** Across all `79` surahs with `≥ 20` verses (Leeds exact roots), literal global pointwise mirror symmetry (`i` vs `L-1-i`) scores `1642/40725 = 0.040319`, **BELOW** both the non-ring forward shift (`1642/40689 = 0.040355`) and the verse-permuted null (`1707/40708 = 0.041933`). Global verse-for-verse mirror ring composition is **FALSIFIED**.
-   - **Verified Transformed Hypothesis (Boundary *Inclusio*):** Opening `10%` vs closing `10%` (distance `~0.90L`) beats the closer middle `10%` control (distance `~0.45L`) on **ALL 79 surahs** (`0.147771` vs `0.139488`, **`+0.008283`**), **Odd Train (`39`)** (`+0.009500`), AND **Strictly Unseen Even (`40`)** (`+0.007185`) — and **REMAINS POSITIVE AFTER STRIPPING THE TOP-10 HIGH-FREQUENCY ROOTS** (`Alh, Amn, Aty, Elm, byn, kfr, kwn, qwl, qwm, rbb`): Odd `+0.014695`, Strictly Unseen Even `+0.007423`!
-   - **Matched Control Contrast:** Arbitrary 60-line slicing of *Kalīla wa-Dimna* (`58` chunks) **reverses to ordinary distance decay** (`0.088799` vs `0.090895`, **`-0.002096`**), while *Kalīla*'s `19` natural framed-fable chapters **also exhibit narrative boundary inclusio** (`0.137421` vs `0.127682`, `+0.009739`) — confirming that boundary inclusio marks authentic macro-textual framing rather than arbitrary segmentation or exclusive uniqueness!
-4. **Two-Instrument Continuum-to-Discrete Translation Remainder (`en.sahih` & `en.pickthall`):**
-   - Across the 7 multi-verse target roots (`365` verse-root instances, `14,670` Arabic root-linked verse pairs), **`3734/7335 = 50.9066%`** (Sahih) and **`1933/2934 = 65.8828%`** (Pickthall) of Arabic root-connected verse pairs share **ZERO** English content-word stems (vs unrelated-verse background loss `89.7000%` Sahih / `92.3000%` Pickthall).
-   - **`4` roots (`mdd`, `wsE`, `qdr`, `zwj`)** lose **`> 53%`** of their Arabic root-linked verse pairs on **BOTH** independent translators, while **`sbH`** exhibits **`57.2307` pp** translator divergence (`9.5429%` Sahih vs `66.7736%` Pickthall) and **`kwr`** (`39:5` vs `81:1`) exhibits **`100.0000%`** divergence (`0/1` Sahih `"wraps"/"wrapped"` vs `1/1` Pickthall `"succeed"/"overthrown"`).
+1. **Full Live Reproducibility (`../fetch_corpora.py`):** All 9 primary corpora are fetched directly from their verified upstream URLs with pinned editions, licences, byte sizes, and SHA-256 digests (`python3 fetch_corpora.py --dest ./corpora`), then recounted live (`python3 arabic-continuum/arabic_continuum_audit.py --live`).
+2. **Feature-Naming Guard Scope:** `enforce_zero_numerology_policy` is explicitly labelled as a **feature-label hygiene filter** (`guard_scope: "feature_label_filter_only_not_statistical_proof"`), NOT a statistical proof of methodology. Methodological validity rests on `../PREREGISTERED_HYPOTHESES.md`, $B = 250$ deterministic multi-shuffle nulls, exact Holm-Bonferroni correction, and matched OpenITI controls.
+3. **Explicit Retraction of the Naive Absolute-Overlap Cohesion Ladder (Finding #4):**
+   - Earlier reporting highlighted the raw monotonicity `raw < rasm < stem < root` in absolute adjacent-window Jaccard overlap (`0.0325 < 0.0521 < 0.0666 < 0.0941` at `W=20`).
+   - Computing full per-layer $B = 250$ shuffle nulls across all `12` `(layer, W)` cells proves that **absolute monotonicity is a vocabulary-coarsening baseline artifact**: once normalized by each layer's own shuffle null (`obs / null`), **the ordering REVERSES** (`raw > rasm / stem > root` at every scale `W = 10, 20, 40`).
+   - We therefore **explicitly retract** the absolute-overlap ladder claim and report the full 12-cell per-layer null-normalized lift matrix below (`cohesion_lift_reverses_absolute_ladder: true`).
+4. **Honest Inconclusive Adjudication of Post-Hoc Boundary *Inclusio* (Findings #3 & #7):**
+   - **Global pointwise mirror symmetry** (`i` vs `L - 1 - i`) is **FALSIFIED**: observed `1642/40725 = 0.040319` lies strictly below both the half-shifted baseline (`0.040355`) and the $B = 250$ verse-permutation null (`0.042126`; only `4/250` nulls $\le$ obs, lower-tail $p = 5/251 = 0.019920 \le 0.05$).
+   - **Post-hoc boundary *inclusio*** (`first 10%` vs `last 10%` minus `first 10%` vs `middle 10%`) **FAILS Holm-Bonferroni at $B = 250$ across ALL `6/6` Qur'anic tests** (minimum adjusted $p = 42/251 = 0.167331 > 0.05$ on `odd_strip10`; pooled `all` adjusted $p = 124/251 = 0.494024$) AND **FAILS to separate from Ibn al-Muqaffa's natural framed prose chapters** in *Kalīla wa-Dimna* (`kalila_nat` $\Delta = +0.009739$, $p = 20/251 = 0.079681$ vs. Qur'an `all` $\Delta = +0.008283$, $p = 31/251 = 0.123506$).
+   - Verdict is therefore reported honestly as **`boundary_inclusio_status: "EXPLORATORY_INCONCLUSIVE_NOT_SEPARATED"`**.
+5. **No `"Unseen"` Claim:** Odd/even surah splits are strictly labelled **`split_half_internal_consistency`** (never `"strictly unseen"`), because the full text was inspected during design.
+6. **Selection-Rule Disclosure (Pillar 3):** The 9 Pillar-3 roots (`ftq`, `rtq`, `sbH`, `mdd`, `wsE`, `flk`, `kwr`, `qdr`, `zwj`) are explicitly tagged `selection_rule: "author_selected_thematic_set_disclosed"` (see `../PREREGISTERED_HYPOTHESES.md`).
 
 ---
 
-## 2. Exact Pinned Primary Corpus Provenance (R6 / R7 Closure — Read-Only)
+## 2. Pillar 1: Non-Concatenative Lattice & Full 12-Cell Per-Layer Null-Normalized Lift ($B = 250$, Holm-Bonferroni)
 
-All 9 primary corpora are verified via exact SHA-256 before any live measurement runs (relative to `../repos/arabic/`):
+### 2.1 Root × *Wazn* Lattice Inventory (Leeds Quranic Arabic Corpus v0.4)
+- **`1,642` unique roots**, **`4,657` unique `(root, lemma)` pairs** (`2.836175` lemmas/root), **`3,923` unique `(root, POS:Form:Deriv)` cells** (`2.389160` cells/root), across **`49,968` root-bearing tokens** and **`19,356` tagged verbs** across `11` verb forms (`I: 12,347`, `II: 1,300`, `III: 334`, `IV: 3,487`, `V: 414`, `VI: 77`, `VII: 51`, `VIII: 963`, `IX: 5`, `X: 369`, `XII: 9`).
 
-| # | Corpus File | Upstream Source & Pin | Exact SHA-256 |
-|---|---|---|---|
-| 1 | `arabic_morphology_quranic-corpus/quranic-corpus-morphology-0.4.txt` | `cltk/arabic_morphology_quranic-corpus @ b5abd4d8` (Leeds v0.4) | `a1d12923815341face765083805d2148ed2d9f5cc3f7d6665219d887675d8c46` |
-| 2 | `tanzil-quran-uthmani.txt` | Tanzil Project canonical Uthmani (`6,236` verses) | `bf4f57b968d03f4131c070b1e285da9be0e0a108a21c910e872801ca273312c8` |
-| 3 | `tanzil-en.sahih.txt` | Tanzil English Instrument 1 — Sahih International (`6,236` verses) | `a1778a1a56695d9b59ae910809ec46d9f4a55f05961de51cd56e6ebcf9040883` |
-| 4 | `tanzil-en.pickthall.txt` | Tanzil English Instrument 2 — M. M. Pickthall (`6,236` verses) | `4aabbfa9d96796f5a6b0217d2c39dce1a3084f772bf6f2650e37082a774e3cc7` |
-| 5 | `openiti_controls/ibn_muqaffa_kalila.txt` | `OpenITI/0150AH @ f9a52b5b` (*Kalīla wa-Dimna*, `44,090` tokens) | `0b55371e4c69f44ffb5a1876b11e174398f3f84f400302c24007bdf1004afdc9` |
-| 6 | `openiti_controls/ibn_muqaffa_adab_kabir.txt` | `OpenITI/0150AH @ f9a52b5b` (*al-Adab al-Kabīr*, `9,586` tokens) | `7b6aa0a311465a28ae5f52b04c919fd89118e8b29cb283ac96a71710c62381b1` |
-| 7 | `openiti_controls/imru_al_qays_diwan.txt` | `OpenITI/0025AH @ 05bfb1ca` (*Dīwān Imru' al-Qays*, `5,437` tokens) | `7236a43a2309e92f556f6347d3b2279100eab606405563b2f07e9c54d1bd04d7` |
-| 8 | `openiti_controls/tarafa_diwan.txt` | `OpenITI/0025AH @ 05bfb1ca` (*Dīwān Ṭarafa*, `4,161` tokens) | `bde2655e74a09670c78decab34573e2913f2ba9e90b04438fc65410a49aedf38` |
-| 9 | `openiti_controls/antara_muallaqa.txt` | `OpenITI/0025AH @ 05bfb1ca` (*Mu'allaqat 'Antara*, `651` tokens) | `e346bde4145972d7ef243777cf6a02ced4ec96e0ddf402d5ad7f21b6d029eb38` |
+### 2.2 Full 12-Cell Per-Layer Null-Normalized Lift Matrix (Retracting Naive Absolute Ladder)
+Every one of the `12` `(layer, W)` cells beats all `250/250` per-layer random shuffles (`ge_count = 0`, raw $p = 1/251 = 0.003984$, Holm-Bonferroni adjusted $p = 12/251 = 0.047809 \le 0.05$), yet **per-layer null-normalized lift (`obs / null`) REVERSES the naive absolute ordering at every window scale**:
 
----
+| Window $W$ | Layer | Observed Jaccard (`obs`) | $B=250$ Pooled Null (`null`) | Exact Lift (`obs / null`) | Null $\ge$ Obs | Holm $p_{\text{adj}}$ |
+|---:|---|---:|---:|---:|---:|---:|
+| `10` | **`raw`** | `0.020506` (`3075/149959`) | `0.008171` (`313169/38327853`) | **`2.509622×`** | `0/250` | `12/251 = 0.047809` |
+| `10` | `rasm` | `0.033948` (`4968/146340`) | `0.018095` (`679579/37556903`) | `1.876153×` | `0/250` | `12/251 = 0.047809` |
+| `10` | `stem` | `0.044275` (`6342/143242`) | `0.023318` (`866971/37181030`) | `1.898772×` | `0/250` | `12/251 = 0.047809` |
+| `10` | `root` | `0.070409` (`5961/84662`) | `0.037523` (`869364/23169133`) | `1.876457×` | `0/250` | `12/251 = 0.047809` |
+| `20` | **`raw`** | `0.032502` (`4723/145316`) | `0.015435` (`582523/37740278`) | **`2.105700×`** | `0/250` | `12/251 = 0.047809` |
+| `20` | `rasm` | `0.052127` (`7253/139141`) | `0.031069` (`1131561/36420990`) | `1.677785×` | `0/250` | `12/251 = 0.047809` |
+| `20` | `stem` | `0.066625` (`8954/134393`) | `0.040398` (`1443498/35731606`) | `1.649213×` | `0/250` | `12/251 = 0.047809` |
+| `20` | `root` | `0.094115` (`7283/77384`) | `0.063042` (`1373771/21791348`) | `1.492894×` | `0/250` | `12/251 = 0.047809` |
+| `40` | **`raw`** | `0.046046` (`6396/138905`) | `0.027892` (`1023812/36705935`) | **`1.650846×`** | `0/250` | `12/251 = 0.047809` |
+| `40` | `rasm` | `0.069585` (`9054/130114`) | `0.048060` (`1669728/34742910`) | `1.447895×` | `0/250` | `12/251 = 0.047809` |
+| `40` | `stem` | `0.087996` (`10868/123506`) | `0.063284` (`2126089/33595990`) | `1.390489×` | `0/250` | `12/251 = 0.047809` |
+| `40` | `root` | `0.120019` (`8300/69156`) | `0.097788` (`1940392/19842861`) | `1.227335×` | `0/250` | `12/251 = 0.047809` |
 
-## 3. Pillar 1: Non-Concatenative Root–Pattern Lattice & Multi-Window Cohesion
+- **Tier-4B POS-Preserving Root Null (`B = 250`):** Root cohesion still exceeds POS-stratified shuffles (`0/250`, $p = 1/251$) across all three scales (`W=10`: `1.779309×`; `W=20`: `1.483473×`; `W=40`: `1.249566×`) and across both `odd` and `even` split-half internal consistency slices (`0/250` on all 6 split-half cells).
 
-### 3.1 Root × *Wazn* Operator Lattice (`quranic-corpus-morphology-0.4.txt`)
-- **Total root-tagged morphemes:** `49,968` across `114` surahs
-- **Unique roots:** `1,642`
-- **Unique `(ROOT, LEM)` realizations:** `4,657` (`4657/1642 = 2.836175` lemmas/root)
-- **Unique `(ROOT, POS:WAZN:DERIV)` operator cells:** `3,923` (`3923/1642 = 2.389160` cells/root)
-- **Verb Form (*wazn*) Distribution (`19,356` verb tokens across `11` attested forms):**
-  `I: 12,347` | `II: 1,300` | `III: 334` | `IV: 3,487` | `V: 414` | `VI: 77` | `VII: 51` | `VIII: 963` | `IX: 5` | `X: 369` | `XII (quad. IV): 9`
+### 2.3 Matched Classical Arabic OpenITI Negative Controls (`W = 20`, Light Stem, $B = 250$)
+| Corpus (`light_stem`, `W=20`) | Observed Jaccard | $B=250$ Pooled Null | Exact Lift | Empirical $p$ |
+|---|---:|---:|---:|---:|
+| Qur'an Uthmani | `0.066625` (`8954/134393`) | `0.040398` | `1.649213×` | `1/251 = 0.003984` |
+| *Kalīla wa-Dimna* (Prose) | `0.070811` (`5398/76231`) | `0.038856` | **`1.822415×`** | `1/251 = 0.003984` |
+| *al-Adab al-Kabīr* (Prose) | `0.073441` (`1178/16040`) | `0.047207` | `1.555725×` | `1/251 = 0.003984` |
+| Pre-Islamic Poetry (Pooled) | `0.026125` (`501/19177`) | `0.016582` | `1.575484×` | `1/251 = 0.003984` |
 
-### 3.2 Strict Morphological Cohesion Ladder & Split-Half Invariance (`W ∈ {10, 20, 40}`)
-
-| Window `W` | Raw Diacritics | Consonantal *Rasm* | Light Stem | **Leeds Root** | Root T4A Null | Root T4B (POS) Null | Odd Root (T4B) | Even Unseen Root (T4B) |
-|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `10` | `0.020506` | `0.033948` | `0.044275` | **`0.070409`** | `0.038103` | `0.040302` | `0.070426` (`0.040895`) | `0.070432` (`0.039804`) |
-| `20` | `0.032502` | `0.052127` | `0.066625` | **`0.094115`** | `0.064369` | `0.062971` | `0.092168` (`0.064396`) | `0.095126` (`0.064154`) |
-| `40` | `0.046046` | `0.069585` | `0.087996` | **`0.120019`** | `0.098211` | `0.094192` | `0.116415` (`0.097994`) | `0.118193` (`0.095339`) |
-
-### 3.3 Matched Classical Arabic Negative Controls (`W=20`, Identical Light-Stem Instrument)
-
-| Corpus | Observed `W=20` | Tier-4A Permuted Null | Exact Lift (`obs / t4a`) | Scientific Attribution |
-|---|---:|---:|---:|---|
-| Qur'an (Uthmani Light-Stem) | `8954/134393 = 0.066625` | `1943/47600 = 0.040819` | `1.632205×` | Shared thematic discourse cohesion |
-| Ibn al-Muqaffa' *Kalīla wa-Dimna* | `5398/76231 = 0.070811` | `3234/81211 = 0.039822` | **`1.778182×`** | **Higher lift than Qur'an stem** — refutes uniqueness! |
-| Ibn al-Muqaffa' *al-Adab al-Kabīr* | `589/8020 = 0.073441` | `846/17285 = 0.048944` | `1.500514×` | Matches Classical Arabic didactic prose |
-| Pre-Islamic Poetry (Pooled) | `501/19177 = 0.026125` | `322/19763 = 0.016293` | `1.603445×` | **2.6× lower absolute cohesion** (lexical rarity / *gharīb*) |
+Honest Rule-5 interpretation: *Kalīla wa-Dimna* prose exhibits **higher** light-stem lift (`1.822415×`) than Qur'anic prose (`1.649213×`), confirming that local topical cohesion above shuffle null is a **shared Classical Arabic prose property** rather than a Qur'an-unique anomaly.
 
 ---
 
-## 4. Pillar 2: Law 2b Transformational Steelman — Ring Composition vs. Boundary *Inclusio*
+## 3. Pillar 2: Pointwise Mirror Falsification & Honest Boundary-*Inclusio* Multi-Shuffle Adjudication ($B = 250$)
 
-| Structural Test (`≥ 20`-verse units) | Metric A (Boundary / Mirror) | Metric B (Control) | Exact Delta (`A - B`) | Verdict |
-|---|---:|---:|---:|---|
-| **Naive Global Pointwise Mirror (`i` vs `L-1-i`, All 79)** | `1642/40725 = 0.040319` | Shift `0.040355` / Null `0.041933` | **`< 0` vs BOTH** | **FALSIFIED** |
-| **Boundary *Inclusio* (All 79, `first 10%` vs `last 10%`)** | `769/5204 = 0.147771` | Middle `698/5004 = 0.139488` | **`+0.008283`** | **PASS** |
-| Boundary *Inclusio* — Train Odd (`39` surahs) | `372/2485 = 0.149698` | Middle `339/2418 = 0.140199` | **`+0.009500`** | **PASS** |
-| Boundary *Inclusio* — Unseen Even (`40` surahs) | `397/2719 = 0.146010` | Middle `359/2586 = 0.138824` | **`+0.007185`** | **PASS** |
-| **Top-10-Stripped *Inclusio* — Train Odd (`39`)** | `278/2253 = 0.123391` | Middle `240/2208 = 0.108696` | **`+0.014695`** | **PASS (Grows!)** |
-| **Top-10-Stripped *Inclusio* — Unseen Even (`40`)** | `281/2475 = 0.113535` | Middle `250/2356 = 0.106112` | **`+0.007423`** | **PASS (Held-Out!)** |
-| Negative Control: *Kalīla* Arbitrary 60-line Chunks (`58`) | `570/6419 = 0.088799` | Middle `584/6425 = 0.090895` | **`-0.002096`** | **Decays (Expected!)** |
-| Matched Genre Control: *Kalīla* Natural Fable Chapters (`19`) | `632/4599 = 0.137421` | Middle `607/4754 = 0.127682` | **`+0.009739`** | Shared framed-text property |
+- **Pointwise Mirror (`i` vs `L - 1 - i`) — FALSIFIED:**
+  - Observed `1642/40725 = 0.040319` < half-shifted `1642/40689 = 0.040355` < $B=250$ permutation null `428283/10166734 = 0.042126` (`246/250` nulls $\ge$ obs; `4/250` nulls $\le$ obs -> lower-tail $p_{\le} = 5/251 = 0.019920 \le 0.05$).
+- **Post-Hoc Boundary *Inclusio* ($\Delta = \text{first–last } 10\% - \text{first–middle } 10\%$) — `EXPLORATORY_INCONCLUSIVE_NOT_SEPARATED`:**
 
----
+| Slice / Control | Inclusio | Middle | $\Delta$ (Obs) | $B=250$ Null 95% Interval | Null $\ge \Delta$ | Raw $p$ | Holm $p_{\text{adj}}$ (6 Qur'an Tests) | Reject at $\alpha = 0.05$? |
+|---|---:|---:|---:|---:|---:|---:|---:|:---:|
+| Qur'an `all` | `0.147771` | `0.139488` | `+0.008283` | `[-0.011725, +0.012904]` | `30/250` | `31/251 = 0.123506` | `124/251 = 0.494024` | **No** |
+| Qur'an `odd` | `0.149698` | `0.140199` | `+0.009500` | `[-0.015477, +0.020525]` | `50/250` | `51/251 = 0.203187` | `147/251 = 0.585657` | **No** |
+| Qur'an `even` | `0.146010` | `0.138824` | `+0.007185` | `[-0.017236, +0.017540]` | `48/250` | `49/251 = 0.195219` | `147/251 = 0.585657` | **No** |
+| Qur'an `all_strip10` | `0.118232` | `0.107362` | `+0.010870` | `[-0.010060, +0.011564]` | `11/250` | `12/251 = 0.047809` | `60/251 = 0.239044` | **No** |
+| Qur'an `odd_strip10` | `0.123391` | `0.108696` | `+0.014695` | `[-0.020179, +0.014566]` | `6/250` | `7/251 = 0.027888` | `42/251 = 0.167331` | **No** |
+| Qur'an `even_strip10` | `0.113535` | `0.106112` | `+0.007423` | `[-0.016530, +0.018212]` | `64/250` | `65/251 = 0.258964` | `147/251 = 0.585657` | **No** |
+| *Kalīla* `natural` chapters | `0.137421` | `0.127682` | `+0.009739` | `[-0.010408, +0.013258]` | `19/250` | `20/251 = 0.079681` | — (control) | — |
+| *Kalīla* `arbitrary` 60-line | `0.088799` | `0.090895` | `-0.002096` | `[-0.009296, +0.008903]` | `161/250` | `162/251 = 0.645418` | — (control) | — |
 
-## 5. Pillar 3: Two-Instrument Continuum-to-Discrete Translation Remainder
-
-Unrelated random verse-pair background zero-overlap rate (`1,000` deterministic pairs): **`897/1000 = 0.897000`** (`en.sahih`) and **`923/1000 = 0.923000`** (`en.pickthall`).
-
-| Root | Occ | Verses | Lemmas | Pairs | Sahih Miss | Pickthall Miss | Sahih Edge Loss | Pickthall Edge Loss | Translator Edge Divergence |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `ftq` | `1` | `1` | `1` | `0` | — (hapax `21:30`) | — (hapax `21:30`) | — | — | — |
-| `rtq` | `1` | `1` | `1` | `0` | — (hapax `21:30`) | — (hapax `21:30`) | — | — | — |
-| `sbH` | `92` | `87` | `7` | `3,741` | `5/87 = 0.057471` | `59/87 = 0.678161` | `0.095429` | **`0.667736`** | **`0.572307`** |
-| `mdd` | `32` | `29` | `9` | `406` | `18/29 = 0.620690` | `22/29 = 0.758621` | **`0.748768`** | **`0.827586`** | `0.078818` |
-| `wsE` | `32` | `29` | `6` | `406` | `17/29 = 0.586207` | `21/29 = 0.724138` | **`0.536946`** | **`0.635468`** | `0.098522` |
-| `flk` | `25` | `25` | `2` | `300` | `2/25 = 0.080000` | `2/25 = 0.080000` | `0.130000` | `0.140000` | `0.010000` |
-| `kwr` | `3` | `2` | `1` | `1` | `0/1 = 0.000000` | `1/2 = 0.500000` | `0.000000` | **`1.000000`** | **`1.000000`** |
-| `qdr` | `132` | `121` | `11` | `7,260` | `75/121 = 0.619835` | `72/121 = 0.595041` | **`0.660055`** | **`0.680303`** | `0.020248` |
-| `zwj` | `81` | `72` | `2` | `2,556` | `25/36 = 0.694444` | `43/72 = 0.597222` | **`0.687793`** | **`0.622457`** | `0.065336` |
-| **Pooled (7 multi-verse)** | `397` | **`365`** | — | **`14,670`** | **`167/365 = 0.457534`** | **`44/73 = 0.602740`** | **`3734/7335 = 0.509066`** | **`1933/2934 = 0.658828`** | Max **`1.000000`** |
-
-- **`ftq` & `rtq`:** Exact single-verse antithetical hapax pair co-occurring exclusively in `21:30`.
-- **`flk`:** Exact `23:2` bipartite split between `fulok` (*ship*, `23` verses) and `falak` (*orbit*, `21:33` and `36:40` — cleanly matching theoretical bipartite pair loss `46/300 = 15.33%`).
-- **`sbH`:** Sahih collapses `82/87` to `"exalt"` and severs the exact `5` non-liturgical/gliding verses (`2:30, 21:33, 36:40, 73:7, 79:3`), whereas Pickthall splinters liturgical glosses across `"glorify/praise/extol/float"` (`66.7736%` edge loss).
+Not a single one of the `6` Qur'anic boundary-*inclusio* slices survives Holm-Bonferroni correction at $\alpha = 0.05$, and the unstripped Qur'an $\Delta$ (`+0.008283`, $p = 0.123506$) is actually **smaller** than *Kalīla wa-Dimna*'s natural framed chapters (`+0.009739`, $p = 0.079681$).
 
 ---
 
-## 6. Pillar 4: `OWN_TERMS_FIRST` 5-Axis Net-Invariance & Law-5 Guard
+## 4. Pillar 3: Two-Instrument Translation Remainder (Disclosed Author-Selected 9-Root Set)
 
-1. **`diacritics_vs_rasm` (`True`):** Stripping vocalization diacritics increases cohesion monotonically at every window (`W=10, 20, 40`).
-2. **`window_size_10_20_40` (`True`):** Leeds root cohesion beats BOTH Tier-4A and Tier-4B nulls by `≥ 0.01` at all three scales (`W ∈ {10, 20, 40}`).
-3. **`root_vs_stem` (`True`):** Non-concatenative root abstraction strictly outperforms concatenative light-stemming across every scale (`+34%` to `+59%` relative lift) with `2.836175` lemmas/root and `11` attested verb forms.
-4. **`odd_vs_even_unseen` (`True`):** Both root-cohesion lift and top-10-stripped boundary *inclusio* reproduce identically on strictly unseen even-numbered surahs (`40` surahs).
-5. **`second_instrument_and_controls` (`True`):** Confirmed across two independent English translators (`en.sahih`, `en.pickthall`) and five matched OpenITI Classical Arabic prose/poetry controls.
-6. **Law-5 Anti-Numerology Guard (`zero_numerology_ok: True`):** Hard-rejects any feature matching `abjad`, `gematria`, `digit_sum`, `base10`, `miracle`, `code19`, or `numerology` with `NUMEROLOGY_FORBIDDEN`.
+Across the `7` multi-verse roots (`365` verse occurrences, `14,670` root-linked verse pairs; plus `2` hapax roots `ftq`, `rtq`; unrelated background loss `897/1000 = 89.70%` Sahih, `923/1000 = 92.30%` Pickthall):
+- **Pooled single-gloss miss rate:** `167/365 = 45.7534%` (Sahih) vs `44/73 = 60.2740%` (Pickthall).
+- **Pooled pairwise lexical-edge loss:** `3734/7335 = 50.9066%` (Sahih) vs `1933/2934 = 65.8828%` (Pickthall) — both $\ge 50\%$ yet strictly below unrelated background (`89.70%` / `92.30%`), with `4` roots (`mdd`, `wsE`, `qdr`, `zwj`) losing $\ge 40\%$ of edges in BOTH translators (`max_translator_edge_divergence = 1.000000` on 2-verse `kwr`).
+- **Scope note:** For the distance-controlled, within-root lemma-shuffle decomposition across `131,343` pairs, see `../arabic-lexicon/ARABIC_LEXICON_TOPOLOGY_REPORT.md` and `../PREREGISTERED_HYPOTHESES.md`.
 
 ---
 
-## 7. Reproduction & Falsification Criteria
+## 5. Reproduction Commands
 
-### Exact Reproduction Commands (Run Inside `symbiosis/wave3/bayt-al-hikma-arabic/`)
 ```bash
-# 1. Live read-only mode over all 9 SHA-256-pinned primary corpora
-python3 -I -B -W error arabic_continuum_audit.py --output arabic_continuum_certificate.json
+# 1. Fetch & SHA-256-verify all 9 primary corpora from upstream (once, from repo root)
+python3 fetch_corpora.py --dest ./corpora
 
-# 2. Standalone zero-dependency parity mode
-python3 -I -B -W error arabic_continuum_audit.py --standalone
+# 2. Full LIVE recount from the downloaded primary texts (B=250 multi-shuffle nulls)
+python3 -I -B -W error arabic-continuum/arabic_continuum_audit.py --live --output arabic-continuum/arabic_continuum_certificate.json
 
-# 3. Assertion-free R5 + red-team test suite (-I -O -B -W error)
-python3 -I -O -B -W error test_arabic_continuum_r5.py
+# 3. Offline pinned-fixture invariant replay (reads no corpus; live_corpus_recounted=false)
+python3 -I -B -W error arabic-continuum/arabic_continuum_audit.py --standalone
 
-# 4. Aletheia v1.4.0 static/R4 audit-check & R5 mutation kill on BOTH modules
-PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=../../../publish/aletheia python3 -B -W error -m aletheia audit-check . --strict-ancestors --scripts arabic_continuum_audit.py test_arabic_continuum_r5.py
-PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=../../../publish/aletheia python3 -B -W error -m aletheia mutate arabic_continuum_oracle.py --test-cmd "python3 -I -O -B -W error test_arabic_continuum_r5.py" --max-mutants 500 --add-cwd
-PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=../../../publish/aletheia python3 -B -W error -m aletheia mutate arabic_continuum_audit.py --test-cmd "python3 -I -O -B -W error test_arabic_continuum_r5.py" --max-mutants 500 --add-cwd
+# 4. Assertion-free R5, threshold-pinning, known-answer mini-corpus, & fetch_corpora tests
+python3 -I -O -B -W error arabic-continuum/test_arabic_continuum_r5.py
 ```
-
-### Explicit Falsification Criteria
-Any of the following observations immediately falsifies the corresponding `N1` claim and flips `all_gates_passed` to `False`:
-1. If any SHA-256 digest of the 9 primary corpora fails verification (`SHA256_MISMATCH` / `CORPUS_MISSING`).
-2. If non-concatenative root cohesion fails to exceed `light_stem` or fails to beat BOTH Tier-4A and Tier-4B nulls by `≥ 1/100` on either odd or unseen even surahs at any `W ∈ {10, 20, 40}`.
-3. If top-10-stripped boundary *inclusio* falls within `1/200` of middle-10% overlap on strictly unseen even surahs.
-4. If pooled translation edge loss falls below `1/2` on either `en.sahih` or `en.pickthall`, or exceeds unrelated-verse background loss.
-5. If a third-party morphological root analyzer run on OpenITI prose demonstrates identical or higher root-level *inclusio* on arbitrary non-chapter prose slices (falsifying the macro-boundary framing attribution).

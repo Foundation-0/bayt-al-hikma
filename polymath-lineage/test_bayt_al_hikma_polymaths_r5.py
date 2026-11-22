@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""R1-R5, boundary, red-team bypass, and 100% mutation-kill test suite for AUDIT-092.
+"""R1-R5, boundary, red-team bypass, and 100% mutation-kill test suite for AUDIT-092R2.
 
 Runs cleanly under `python3 -I -O -B -W error test_bayt_al_hikma_polymaths_r5.py`.
 Zero floats; zero bare assert statements.
@@ -8,7 +8,6 @@ Zero floats; zero bare assert statements.
 from __future__ import annotations
 
 from fractions import Fraction
-import hashlib
 import io
 import json
 from pathlib import Path
@@ -24,12 +23,20 @@ if _THIS_DIR not in sys.path:
 import bayt_al_hikma_polymath_certifier as bah
 
 
+def _cite(tag: str = "Ref") -> dict[str, str]:
+    return {"work": f"Work {tag}", "edition": "Ed. 2000", "location": "p. 1"}
+
+
 class TestPrimitivesAndAlgebra(unittest.TestCase):
     def test_type_and_number_theory_primitives(self) -> None:
         self.assertEqual(bah.frac_str(Fraction(7, 3)), "7/3")
         self.assertEqual(bah.frac_str(4), "4/1")
         self.assertEqual(bah.frac_dec6(Fraction(-3, 8)), "-0.375000")
         self.assertEqual(bah.frac_dec6(Fraction(0, 1)), "0.000000")
+        self.assertEqual(bah.frac_dec6_ceil(Fraction(0, 1)), "0.000000")
+        self.assertEqual(bah.frac_dec6_ceil(Fraction(1, 2_000_000)), "0.000001")
+        with self.assertRaisesRegex(bah.PolymathAuditError, r"frac-dec6-ceil-nonneg"):
+            bah.frac_dec6_ceil(Fraction(-1, 10))
         with self.assertRaisesRegex(bah.PolymathAuditError, r"exact-fraction:frac_str"):
             bah.frac_str(True)  # type: ignore[arg-type]
         with self.assertRaisesRegex(bah.PolymathAuditError, r"exact-fraction:frac_str"):
@@ -50,7 +57,6 @@ class TestPrimitivesAndAlgebra(unittest.TestCase):
         self.assertEqual(bah._positive_divisors(-4), [1, 2, 4])
 
     def test_khwarizmi_reducer_and_laurent_refusals(self) -> None:
-        # Degenerate and non-positive-root refusals
         with self.assertRaisesRegex(bah.PolymathAuditError, r"khwarizmi-lhs-len"):
             bah.reduce_khwarizmi_quadratic((Fraction(1, 1),), (Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)))  # type: ignore[arg-type]
         with self.assertRaisesRegex(bah.PolymathAuditError, r"khwarizmi-rhs-len"):
@@ -60,13 +66,11 @@ class TestPrimitivesAndAlgebra(unittest.TestCase):
                 (Fraction(1, 1), Fraction(2, 1), Fraction(3, 1)),
                 (Fraction(1, 1), Fraction(2, 1), Fraction(5, 1)),
             )
-        # Negative leading coefficient normalization (Type 3 with negative lead)
         neg_lin = bah.reduce_khwarizmi_quadratic(
             (Fraction(0, 1), Fraction(-2, 1), Fraction(6, 1)),
             (Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)),
         )
         self.assertEqual(neg_lin["positive_root"], "3/1")
-        # Linear with no positive root (c > 0 and exact boundary c == 0, M018)
         with self.assertRaisesRegex(bah.PolymathAuditError, r"khwarizmi-no-positive-root"):
             bah.reduce_khwarizmi_quadratic(
                 (Fraction(0, 1), Fraction(2, 1), Fraction(6, 1)),
@@ -77,7 +81,6 @@ class TestPrimitivesAndAlgebra(unittest.TestCase):
                 (Fraction(0, 1), Fraction(2, 1), Fraction(0, 1)),
                 (Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)),
             )
-        # Type 1 with p > 0 and exact boundary p == 0 (x^2 = 0, M020) -> no positive root
         with self.assertRaisesRegex(bah.PolymathAuditError, r"khwarizmi-no-positive-root"):
             bah.reduce_khwarizmi_quadratic(
                 (Fraction(1, 1), Fraction(2, 1), Fraction(0, 1)),
@@ -88,31 +91,26 @@ class TestPrimitivesAndAlgebra(unittest.TestCase):
                 (Fraction(1, 1), Fraction(0, 1), Fraction(0, 1)),
                 (Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)),
             )
-        # Type 2 with q >= 0 -> no positive root
         with self.assertRaisesRegex(bah.PolymathAuditError, r"khwarizmi-no-positive-root"):
             bah.reduce_khwarizmi_quadratic(
                 (Fraction(1, 1), Fraction(0, 1), Fraction(4, 1)),
                 (Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)),
             )
-        # Type 5 exact double root boundary (disc == 0): x^2 + 4 = 4x -> disc == 0 (allowed!)
         t5_zero = bah.reduce_khwarizmi_quadratic(
             (Fraction(1, 1), Fraction(0, 1), Fraction(4, 1)),
             (Fraction(0, 1), Fraction(4, 1), Fraction(0, 1)),
         )
         self.assertEqual(t5_zero["discriminant"], "0/1")
-        # Type 5 complex roots (disc < 0)
         with self.assertRaisesRegex(bah.PolymathAuditError, r"khwarizmi-complex-roots"):
             bah.reduce_khwarizmi_quadratic(
                 (Fraction(1, 1), Fraction(0, 1), Fraction(5, 1)),
                 (Fraction(0, 1), Fraction(2, 1), Fraction(0, 1)),
             )
-        # All positive p > 0, q > 0 -> no positive root
         with self.assertRaisesRegex(bah.PolymathAuditError, r"khwarizmi-no-positive-root"):
             bah.reduce_khwarizmi_quadratic(
                 (Fraction(1, 1), Fraction(3, 1), Fraction(2, 1)),
                 (Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)),
             )
-        # Laurent normalize refusal
         with self.assertRaisesRegex(bah.PolymathAuditError, r"laurent-dict"):
             bah.laurent_normalize([1, 2])  # type: ignore[arg-type]
 
@@ -172,10 +170,10 @@ class TestFivePillarsExactValues(unittest.TestCase):
         self.assertEqual(k6["type5"]["canonical_type"], 5)
         self.assertEqual(k6["type6"]["canonical_type"], 6)
 
-        sm = p3["samawal_laurent_ring_and_audit085r_bridge"]
+        sm = p3["samawal_laurent_ring_identities"]
         self.assertTrue(sm["geom_identity_exact"])
         self.assertTrue(sm["negative_exponent_inverse_exact"])
-        self.assertTrue(sm["audit085r_exact_neg_q3"])
+        self.assertTrue(sm["schur_numerator_exact_neg_q3"])
 
     def test_pillar4_kindi_biruni_tusi_jazari(self) -> None:
         p4 = bah.analyze_pillar4_kindi_biruni_tusi_jazari()
@@ -184,11 +182,17 @@ class TestFivePillarsExactValues(unittest.TestCase):
         self.assertEqual(kd["plain_l1_from_uniform"], "1/2")
         self.assertTrue(kd["permutation_invariant_exact"])
 
-        br = p4["biruni_nandana_geodesy_forensics"]
+        br = p4["biruni_nandana_geodesy_analysis"]
+        self.assertEqual(br["epistemic_status"], "ARITHMETIC_FIT_HYPOTHESIS_SINGLE_NUMBER")
         self.assertEqual(br["sexagesimal_3place_cos34"], "215989/216000")
         self.assertEqual(br["sexagesimal_3place_r"], "28167341479/2200")
         self.assertEqual(br["sexagesimal_3place_r_dec6"], "12803337.035909")
-        self.assertTrue(br["reconstructs_within_1_cubit"])
+        self.assertTrue(br["matches_reported_integer_within_1_cubit"])
+        sens = br["sexagesimal_truncation_sensitivity"]
+        self.assertEqual(sens["places_2"]["radius_dec6"], "2346745.945000")
+        self.assertEqual(sens["places_3"]["radius_dec6"], "12803337.035909")
+        self.assertEqual(sens["places_4"]["radius_dec6"], "13328421.762034")
+        self.assertEqual(sens["places_5"]["radius_dec6"], "13331576.074683")
         self.assertEqual(br["refraction_k_one_seventh_factor"], "7/6")
 
         ts = p4["tusi_couple_zero_residual"]
@@ -203,10 +207,13 @@ class TestFivePillarsExactValues(unittest.TestCase):
 
     def test_pillar5_receipts(self) -> None:
         p5 = bah.analyze_pillar5_lineage_and_certifiers()
-        self.assertTrue(p5["lineage_graph_receipt"]["certified"])
-        self.assertEqual(p5["lineage_graph_receipt"]["node_count"], 13)
-        self.assertEqual(p5["lineage_graph_receipt"]["edge_count"], 14)
-        self.assertTrue(p5["lineage_graph_receipt"]["directed_dag_acyclic"])
+        lg = p5["lineage_graph_receipt"]
+        self.assertTrue(lg["certified"])
+        self.assertTrue(lg["encoding_consistency_only"])
+        self.assertTrue(lg["all_nodes_and_edges_cited"])
+        self.assertEqual(lg["node_count"], 13)
+        self.assertEqual(lg["edge_count"], 14)
+        self.assertTrue(lg["directed_dag_acyclic"])
         self.assertFalse(p5["overparameterized_epicycle_and_hunting_valve"]["certified"])
         self.assertEqual(
             p5["overparameterized_epicycle_and_hunting_valve"]["violations"],
@@ -225,9 +232,9 @@ class TestFivePillarsExactValues(unittest.TestCase):
 class TestRedTeamLineageAndFeedbackCertifiers(unittest.TestCase):
     def _sample_nodes(self) -> list[dict[str, object]]:
         return [
-            {"node_id": "A", "name": "Scholar A", "birth_year": 800, "death_year": 860, "city": "Baghdad", "primary_work": "Work A"},
-            {"node_id": "B", "name": "Scholar B", "birth_year": 830, "death_year": 900, "city": "Baghdad", "primary_work": "Work B"},
-            {"node_id": "C", "name": "Scholar C", "birth_year": 910, "death_year": 980, "city": "Cairo", "primary_work": "Work C"},
+            {"node_id": "A", "name": "Scholar A", "birth_year": 800, "death_year": 860, "city": "Baghdad", "primary_work": "Work A", "source": _cite("A")},
+            {"node_id": "B", "name": "Scholar B", "birth_year": 830, "death_year": 900, "city": "Baghdad", "primary_work": "Work B", "source": _cite("B")},
+            {"node_id": "C", "name": "Scholar C", "birth_year": 910, "death_year": 980, "city": "Cairo", "primary_work": "Work C", "source": _cite("C")},
         ]
 
     def _valid_feedback(self, **overrides: object) -> dict[str, object]:
@@ -248,79 +255,93 @@ class TestRedTeamLineageAndFeedbackCertifiers(unittest.TestCase):
         base.update(overrides)
         return base
 
-    def test_lineage_certifier_chronology_cycles_and_refusals(self) -> None:
+    def test_lineage_active_voice_chronology_citations_and_refusals(self) -> None:
         nodes = self._sample_nodes()
-        # Valid teacher_of + corresponded_with + extended
+        # Valid active-voice edges: A teacher_of B, A corresponded_with B, C extended B
         ok = bah.certify_polymath_lineage_graph(
             nodes,
             [
-                {"source": "A", "target": "B", "relation": "teacher_of"},
-                {"source": "A", "target": "B", "relation": "corresponded_with"},
-                {"source": "B", "target": "C", "relation": "extended"},
+                {"source": "A", "target": "B", "relation": "teacher_of", "citation": _cite("e1")},
+                {"source": "A", "target": "B", "relation": "corresponded_with", "citation": _cite("e2")},
+                {"source": "C", "target": "B", "relation": "extended", "citation": _cite("e3")},
             ],
         )
         self.assertTrue(ok["certified"])
 
-        # Chronology maturity boundary checks & BH-BUG-01 repros:
-        # 1. Exact closed pass boundaries: teacher (800-822 -> 810-860), corr overlap == 15,
-        #    influence s_birth+15 == d_death AND d_birth+15 == d_death
+        # Exact closed pass boundaries:
+        # - teacher_of: 800-822 -> 810-860 (gap==10, overlap==12)
+        # - corresponded_with: 800-830 <-> 815-860 (overlap==15)
+        # - extended (active voice actor->subject): I2(800-815) -> I1(800-815)
+        #   (actor_birth+15==actor_death, subj_birth+15==subj_death, actor_death==subj_birth+15, actor_birth==subj_birth)
         nodes_bd_ok = [
-            {"node_id": "T", "name": "T", "birth_year": 800, "death_year": 822, "city": "Baghdad", "primary_work": "W"},
-            {"node_id": "S", "name": "S", "birth_year": 810, "death_year": 860, "city": "Baghdad", "primary_work": "W"},
-            {"node_id": "C1", "name": "C1", "birth_year": 800, "death_year": 830, "city": "Baghdad", "primary_work": "W"},
-            {"node_id": "C2", "name": "C2", "birth_year": 815, "death_year": 860, "city": "Baghdad", "primary_work": "W"},
-            {"node_id": "I1", "name": "I1", "birth_year": 800, "death_year": 850, "city": "Baghdad", "primary_work": "W"},
-            {"node_id": "I2", "name": "I2", "birth_year": 800, "death_year": 815, "city": "Baghdad", "primary_work": "W"},
+            {"node_id": "T", "name": "T", "birth_year": 800, "death_year": 822, "city": "Baghdad", "primary_work": "W", "source": _cite("T")},
+            {"node_id": "S", "name": "S", "birth_year": 810, "death_year": 860, "city": "Baghdad", "primary_work": "W", "source": _cite("S")},
+            {"node_id": "C1", "name": "C1", "birth_year": 800, "death_year": 830, "city": "Baghdad", "primary_work": "W", "source": _cite("C1")},
+            {"node_id": "C2", "name": "C2", "birth_year": 815, "death_year": 860, "city": "Baghdad", "primary_work": "W", "source": _cite("C2")},
+            {"node_id": "I1", "name": "I1", "birth_year": 800, "death_year": 815, "city": "Baghdad", "primary_work": "W", "source": _cite("I1")},
+            {"node_id": "I2", "name": "I2", "birth_year": 800, "death_year": 815, "city": "Baghdad", "primary_work": "W", "source": _cite("I2")},
         ]
         ok_bd = bah.certify_polymath_lineage_graph(
             nodes_bd_ok,
             [
-                {"source": "T", "target": "S", "relation": "teacher_of"},
-                {"source": "C1", "target": "C2", "relation": "corresponded_with"},
-                {"source": "I1", "target": "I2", "relation": "extended"},
+                {"source": "T", "target": "S", "relation": "teacher_of", "citation": _cite("1")},
+                {"source": "C1", "target": "C2", "relation": "corresponded_with", "citation": _cite("2")},
+                {"source": "I2", "target": "I1", "relation": "extended", "citation": _cite("3")},
             ],
         )
         self.assertTrue(ok_bd["certified"])
 
-        # 2. BH-BUG-01 repros: child teacher (800-807 -> 806-870), 1-yr newborn corr, Tusi (1201-1274) -> Jazari (1136-1206),
-        #    plus isolated single-clause 1-year-under maturity boundary fails
-        nodes_bug1 = [
-            {"node_id": "K1", "name": "K1", "birth_year": 800, "death_year": 807, "city": "Baghdad", "primary_work": "W"},
-            {"node_id": "K2", "name": "K2", "birth_year": 806, "death_year": 870, "city": "Baghdad", "primary_work": "W"},
-            {"node_id": "T2", "name": "T2", "birth_year": 800, "death_year": 821, "city": "Baghdad", "primary_work": "W"},
-            {"node_id": "T3", "name": "T3", "birth_year": 801, "death_year": 860, "city": "Baghdad", "primary_work": "W"},
-            {"node_id": "S2", "name": "S2", "birth_year": 810, "death_year": 860, "city": "Baghdad", "primary_work": "W"},
-            {"node_id": "Old", "name": "Old", "birth_year": 780, "death_year": 850, "city": "Baghdad", "primary_work": "W"},
-            {"node_id": "Young", "name": "Young", "birth_year": 801, "death_year": 815, "city": "Baghdad", "primary_work": "W"},
-            {"node_id": "Tusi", "name": "Tusi", "birth_year": 1201, "death_year": 1274, "city": "Maragheh", "primary_work": "W"},
-            {"node_id": "Jazari", "name": "Jazari", "birth_year": 1136, "death_year": 1206, "city": "Diyarbakir", "primary_work": "W"},
+        # Review #6 repro (850-death critiqued 1201-birth!) + EVERY isolated 1-year-under clause
+        nodes_bad = [
+            {"node_id": "Khw", "name": "Khw", "birth_year": 780, "death_year": 850, "city": "Baghdad", "primary_work": "W", "source": _cite("1")},
+            {"node_id": "Tusi", "name": "Tusi", "birth_year": 1201, "death_year": 1274, "city": "Maragheh", "primary_work": "W", "source": _cite("2")},
+            {"node_id": "T2", "name": "T2", "birth_year": 800, "death_year": 821, "city": "Baghdad", "primary_work": "W", "source": _cite("3")},
+            {"node_id": "T3", "name": "T3", "birth_year": 801, "death_year": 860, "city": "Baghdad", "primary_work": "W", "source": _cite("4")},
+            {"node_id": "S2", "name": "S2", "birth_year": 810, "death_year": 860, "city": "Baghdad", "primary_work": "W", "source": _cite("5")},
+            {"node_id": "C3", "name": "C3", "birth_year": 807, "death_year": 860, "city": "Baghdad", "primary_work": "W", "source": _cite("6")},
+            {"node_id": "ImmA", "name": "ImmA", "birth_year": 900, "death_year": 914, "city": "Baghdad", "primary_work": "W", "source": _cite("7")},
+            {"node_id": "ImmS", "name": "ImmS", "birth_year": 850, "death_year": 864, "city": "Baghdad", "primary_work": "W", "source": _cite("8")},
+            {"node_id": "Older", "name": "Older", "birth_year": 800, "death_year": 880, "city": "Baghdad", "primary_work": "W", "source": _cite("9")},
+            {"node_id": "Younger", "name": "Younger", "birth_year": 801, "death_year": 860, "city": "Baghdad", "primary_work": "W", "source": _cite("10")},
+            {"node_id": "DeadEarly", "name": "DeadEarly", "birth_year": 800, "death_year": 815, "city": "Baghdad", "primary_work": "W", "source": _cite("11")},
+            {"node_id": "Subj801", "name": "Subj801", "birth_year": 801, "death_year": 850, "city": "Baghdad", "primary_work": "W", "source": _cite("12")},
         ]
         bad_chrono = bah.certify_polymath_lineage_graph(
-            nodes_bug1,
+            nodes_bad,
             [
-                {"source": "K1", "target": "K2", "relation": "teacher_of"},
-                {"source": "T2", "target": "S2", "relation": "teacher_of"},
-                {"source": "T3", "target": "S2", "relation": "teacher_of"},
-                {"source": "K1", "target": "K2", "relation": "corresponded_with"},
-                {"source": "Tusi", "target": "Jazari", "relation": "extended"},
-                {"source": "Old", "target": "Young", "relation": "commented_on"},
+                {"source": "Khw", "target": "Tusi", "relation": "critiqued", "citation": _cite("e1")},       # 850-death critiqued 1201-birth!
+                {"source": "T2", "target": "S2", "relation": "teacher_of", "citation": _cite("e2")},         # overlap 821 < 822
+                {"source": "T3", "target": "S2", "relation": "teacher_of", "citation": _cite("e3")},         # age gap 9 < 10
+                {"source": "T2", "target": "C3", "relation": "corresponded_with", "citation": _cite("e4")},  # overlap 14 < 15
+                {"source": "ImmA", "target": "Khw", "relation": "extended", "citation": _cite("e5")},        # actor age 14 < 15
+                {"source": "Tusi", "target": "ImmS", "relation": "commented_on", "citation": _cite("e6")},   # subject age 14 < 15
+                {"source": "Older", "target": "Younger", "relation": "critiqued", "citation": _cite("e7")},  # actor born 1 yr before subject
+                {"source": "DeadEarly", "target": "Subj801", "relation": "extended", "citation": _cite("e8")},  # actor died at 815 < 801+15=816
             ],
         )
         self.assertFalse(bad_chrono["certified"])
-        self.assertEqual(len(bad_chrono["chronology_violations"]), 6)
+        self.assertIn("CHRONO_ACTOR_DIED_BEFORE_SUBJECT_MATURITY:Khw->Tusi", bad_chrono["chronology_violations"])
+        self.assertIn("CHRONO_ACTOR_PRECEDES_SUBJECT:Khw->Tusi", bad_chrono["chronology_violations"])
+        self.assertIn("CHRONO_TEACHER_OVERLAP:T2->S2", bad_chrono["chronology_violations"])
+        self.assertIn("CHRONO_TEACHER_AGE_GAP:T3->S2", bad_chrono["chronology_violations"])
+        self.assertIn("CHRONO_CORRESPONDENCE_NO_OVERLAP:T2<->C3", bad_chrono["chronology_violations"])
+        self.assertIn("CHRONO_IMMATURE_ACTOR:ImmA->Khw", bad_chrono["chronology_violations"])
+        self.assertIn("CHRONO_IMMATURE_SUBJECT:Tusi->ImmS", bad_chrono["chronology_violations"])
+        self.assertIn("CHRONO_ACTOR_PRECEDES_SUBJECT:Older->Younger", bad_chrono["chronology_violations"])
+        self.assertIn("CHRONO_ACTOR_DIED_BEFORE_SUBJECT_MATURITY:DeadEarly->Subj801", bad_chrono["chronology_violations"])
 
-        # Exact directed DAG cycle detection (A -> B -> A)
+        # Exact directed cycle detection (A -> B and B -> A in influence order)
         bad_cycle = bah.certify_polymath_lineage_graph(
             nodes[:2],
             [
-                {"source": "A", "target": "B", "relation": "commented_on"},
-                {"source": "B", "target": "A", "relation": "critiqued"},
+                {"source": "A", "target": "B", "relation": "commented_on", "citation": _cite("c1")},
+                {"source": "B", "target": "A", "relation": "critiqued", "citation": _cite("c2")},
             ],
         )
         self.assertFalse(bad_cycle["certified"])
         self.assertFalse(bad_cycle["directed_dag_acyclic"])
 
-        # Hard refusals
+        # Hard refusals (including mandatory citation enforcement!)
         with self.assertRaisesRegex(bah.PolymathAuditError, r"lineage-nodes-nonempty"):
             bah.certify_polymath_lineage_graph([], [])
         with self.assertRaisesRegex(bah.PolymathAuditError, r"lineage-edges-seq"):
@@ -329,12 +350,14 @@ class TestRedTeamLineageAndFeedbackCertifiers(unittest.TestCase):
             bah.certify_polymath_lineage_graph(["bad"], [])  # type: ignore[list-item]
         with self.assertRaisesRegex(bah.PolymathAuditError, r"lineage-node-keys:0"):
             bah.certify_polymath_lineage_graph([{"node_id": "A"}], [])
+        with self.assertRaisesRegex(bah.PolymathAuditError, r"citation-dict:node.source\[0\]"):
+            bah.certify_polymath_lineage_graph([dict(nodes[0], source="string-not-dict")], [])
+        with self.assertRaisesRegex(bah.PolymathAuditError, r"citation-keys:node.source\[0\]"):
+            bah.certify_polymath_lineage_graph([dict(nodes[0], source={"work": "W"})], [])
         with self.assertRaisesRegex(bah.PolymathAuditError, r"clean-ascii:node_id\[0\]"):
-            bad_n = dict(nodes[0], node_id=" A ")
-            bah.certify_polymath_lineage_graph([bad_n], [])
+            bah.certify_polymath_lineage_graph([dict(nodes[0], node_id=" A ")], [])
         with self.assertRaisesRegex(bah.PolymathAuditError, r"clean-ascii:node_id\[0\]"):
-            bad_n2 = dict(nodes[0], node_id="A\u200b")
-            bah.certify_polymath_lineage_graph([bad_n2], [])
+            bah.certify_polymath_lineage_graph([dict(nodes[0], node_id="A\u200b")], [])
         with self.assertRaisesRegex(bah.PolymathAuditError, r"lineage-lifespan-order:A"):
             bah.certify_polymath_lineage_graph([dict(nodes[0], birth_year=860, death_year=860)], [])
         with self.assertRaisesRegex(bah.PolymathAuditError, r"lineage-duplicate-node:a"):
@@ -344,44 +367,52 @@ class TestRedTeamLineageAndFeedbackCertifiers(unittest.TestCase):
         with self.assertRaisesRegex(bah.PolymathAuditError, r"lineage-edge-keys:0"):
             bah.certify_polymath_lineage_graph(nodes, [{"source": "A"}])
         with self.assertRaisesRegex(bah.PolymathAuditError, r"exact-choice:edge.relation\[0\]"):
-            bah.certify_polymath_lineage_graph(nodes, [{"source": "A", "target": "B", "relation": "invented"}])
+            bah.certify_polymath_lineage_graph(
+                nodes, [{"source": "B", "target": "A", "relation": "invented", "citation": _cite("x")}]
+            )
+        with self.assertRaisesRegex(bah.PolymathAuditError, r"citation-dict:edge.citation\[0\]"):
+            bah.certify_polymath_lineage_graph(
+                nodes, [{"source": "B", "target": "A", "relation": "extended", "citation": "missing-struct"}]
+            )
         with self.assertRaisesRegex(bah.PolymathAuditError, r"lineage-unknown-source:Z"):
-            bah.certify_polymath_lineage_graph(nodes, [{"source": "Z", "target": "B", "relation": "extended"}])
+            bah.certify_polymath_lineage_graph(
+                nodes, [{"source": "Z", "target": "B", "relation": "extended", "citation": _cite("x")}]
+            )
         with self.assertRaisesRegex(bah.PolymathAuditError, r"lineage-unknown-target:Z"):
-            bah.certify_polymath_lineage_graph(nodes, [{"source": "A", "target": "Z", "relation": "extended"}])
+            bah.certify_polymath_lineage_graph(
+                nodes, [{"source": "B", "target": "Z", "relation": "extended", "citation": _cite("x")}]
+            )
         with self.assertRaisesRegex(bah.PolymathAuditError, r"lineage-self-loop:A"):
-            bah.certify_polymath_lineage_graph(nodes, [{"source": "A", "target": "A", "relation": "extended"}])
+            bah.certify_polymath_lineage_graph(
+                nodes, [{"source": "A", "target": "A", "relation": "extended", "citation": _cite("x")}]
+            )
         with self.assertRaisesRegex(bah.PolymathAuditError, r"lineage-duplicate-edge"):
-            e = {"source": "A", "target": "B", "relation": "extended"}
+            e = {"source": "B", "target": "A", "relation": "extended", "citation": _cite("x")}
             bah.certify_polymath_lineage_graph(nodes, [e, e])
         with self.assertRaisesRegex(bah.PolymathAuditError, r"lineage-duplicate-edge"):
             bah.certify_polymath_lineage_graph(
                 nodes,
                 [
-                    {"source": "A", "target": "B", "relation": "corresponded_with"},
-                    {"source": "B", "target": "A", "relation": "corresponded_with"},
+                    {"source": "A", "target": "B", "relation": "corresponded_with", "citation": _cite("1")},
+                    {"source": "B", "target": "A", "relation": "corresponded_with", "citation": _cite("2")},
                 ],
             )
 
     def test_feedback_anti_epicycle_boundaries_and_refusals(self) -> None:
-        # Exact boundary mu == 1 (MONOTONE_CONVERGENT) and ho_err == max_ho (allowed)
         ok_m1 = bah.certify_bounded_feedback_and_anti_epicycle(self._valid_feedback())
         self.assertTrue(ok_m1["certified"])
         self.assertEqual(ok_m1["controller_regime"], "MONOTONE_CONVERGENT")
 
-        # Exact boundary held_out_constraints == 1 (M053, allowed by range check, flagged overparameterized)
         bd_n1 = bah.certify_bounded_feedback_and_anti_epicycle(
             self._valid_feedback(epicycle_dof=1, held_out_constraints=1)
         )
         self.assertEqual(bd_n1["violations"], ["RUSHD_EPICYCLE_OVERPARAMETERIZED"])
 
-        # In-sample worse than or equal to null baseline (exact boundary in_err == null_err)
         bad_in = bah.certify_bounded_feedback_and_anti_epicycle(
             self._valid_feedback(in_sample_error=Fraction(1, 5), null_baseline_error=Fraction(1, 5))
         )
         self.assertEqual(bad_in["violations"], ["RUSHD_IN_SAMPLE_WORSE_THAN_NULL"])
 
-        # BH-BUG-02 repro & exact boundary linear_head_margin * 10 == setpoint (passes) vs < setpoint (fails)
         ok_margin_bd = bah.certify_bounded_feedback_and_anti_epicycle(
             self._valid_feedback(setpoint_head=Fraction(10, 1), nominal_flow=Fraction(1, 1), valve_max_flow=Fraction(2, 1))
         )
@@ -399,20 +430,17 @@ class TestRedTeamLineageAndFeedbackCertifiers(unittest.TestCase):
         self.assertFalse(bad_sat["certified"])
         self.assertEqual(bad_sat["violations"], ["JAZARI_VALVE_SATURATION_HEADROOM_TOO_SMALL"])
 
-        # DAMPED_OSCILLATORY (1 < mu < 2)
         ok_osc = bah.certify_bounded_feedback_and_anti_epicycle(
             self._valid_feedback(valve_gain_kappa=Fraction(3, 2))
         )
         self.assertTrue(ok_osc["certified"])
         self.assertEqual(ok_osc["controller_regime"], "DAMPED_OSCILLATORY")
 
-        # Vacuous null baseline exact boundary null_err == max_ho -> rejected!
         bad_null = bah.certify_bounded_feedback_and_anti_epicycle(
             self._valid_feedback(null_baseline_error=Fraction(1, 10))
         )
         self.assertEqual(bad_null["violations"], ["RUSHD_VACUOUS_NULL_BASELINE"])
 
-        # Refusals
         with self.assertRaisesRegex(bah.PolymathAuditError, r"feedback-spec-dict"):
             bah.certify_bounded_feedback_and_anti_epicycle([])
         with self.assertRaisesRegex(bah.PolymathAuditError, r"feedback-spec-keys"):
@@ -445,57 +473,18 @@ class TestRedTeamLineageAndFeedbackCertifiers(unittest.TestCase):
             )
 
 
-class TestVaultAnchorsAndCLI(unittest.TestCase):
-    def test_vault_verifier_tamper_symlink_and_cli(self) -> None:
+class TestStandaloneCertificateAndCLI(unittest.TestCase):
+    def test_deterministic_zero_float_json_and_cli(self) -> None:
+        c1 = bah.build_certificate()
+        c2 = bah.build_certificate()
+        self.assertEqual(c1["certificate_sha256"], c2["certificate_sha256"])
+        self.assertEqual(c1["novelty_classification"]["honest_tier"], "N0")
+        self.assertEqual(c1["execution_mode"], "standalone_pure_q")
+
+        def _reject_float(tok: str) -> None:
+            raise AssertionError(f"float:{tok}")
+
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp) / "symbiosis"
-            with self.assertRaisesRegex(bah.PolymathAuditError, r"symbiosis-root-missing"):
-                bah.audit_live_vault_anchors(root)
-
-            root.mkdir()
-            digests: dict[str, dict[str, object]] = {}
-            for rel in bah.PINNED_VAULT_DIGESTS:
-                p = root / rel
-                p.parent.mkdir(parents=True, exist_ok=True)
-                p.write_text("content\n", encoding="utf-8")
-                raw = p.read_bytes()
-                digests[rel] = {"bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest()}
-
-            with patch.object(bah, "PINNED_VAULT_DIGESTS", digests):
-                ok = bah.audit_live_vault_anchors(root)
-                self.assertEqual(ok["verified_vault_anchors"], 3)
-
-            first_rel = next(iter(digests))
-            target = root / first_rel
-            outside = Path(tmp) / "escape.txt"
-            outside.write_text("content\n", encoding="utf-8")
-            target.unlink()
-            target.symlink_to(outside)
-            with patch.object(bah, "PINNED_VAULT_DIGESTS", digests):
-                with self.assertRaisesRegex(bah.PolymathAuditError, r"vault-path-escape"):
-                    bah.audit_live_vault_anchors(root)
-            target.unlink()
-            with patch.object(bah, "PINNED_VAULT_DIGESTS", digests):
-                with self.assertRaisesRegex(bah.PolymathAuditError, r"vault-file-missing"):
-                    bah.audit_live_vault_anchors(root)
-
-            target.write_text("Content\n", encoding="utf-8")
-            with patch.object(bah, "PINNED_VAULT_DIGESTS", digests):
-                with self.assertRaisesRegex(bah.PolymathAuditError, r"vault-sha256-mismatch"):
-                    bah.audit_live_vault_anchors(root)
-            target.write_text("content!!\n", encoding="utf-8")
-            with patch.object(bah, "PINNED_VAULT_DIGESTS", digests):
-                with self.assertRaisesRegex(bah.PolymathAuditError, r"vault-bytes-mismatch"):
-                    bah.audit_live_vault_anchors(root)
-
-            # Standalone zero-float JSON & CLI
-            c1 = bah.build_certificate(symbiosis_root=None)
-            c2 = bah.build_certificate(symbiosis_root=None)
-            self.assertEqual(c1["certificate_sha256"], c2["certificate_sha256"])
-
-            def _reject_float(tok: str) -> None:
-                raise AssertionError(f"float:{tok}")
-
             out_p = Path(tmp) / "cert.json"
             buf_j = io.StringIO()
             with patch("sys.stdout", buf_j):
@@ -511,11 +500,6 @@ class TestVaultAnchorsAndCLI(unittest.TestCase):
                 rc_h = bah.main([])
             self.assertEqual(rc_h, 0)
             self.assertIn(bah.AUDIT_ID, buf_h.getvalue())
-
-        sym_root = Path(__file__).resolve().parent.parent.parent
-        if (sym_root / "round10" / "portals" / "continuum" / "pr_1_files" / "continuum.md").is_file():
-            live_c = bah.build_certificate(symbiosis_root=sym_root)
-            self.assertEqual(live_c["live_vault_verification"]["verified_vault_anchors"], 3)
 
 
 if __name__ == "__main__":

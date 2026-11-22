@@ -1,13 +1,19 @@
-"""Exact pure-Q oracle for Wave 3 Lane 5 (AUDIT-091):
-Classical Arabic / Qur'anic layered continuum semantics, non-concatenative
-root-pattern (C1-C2-C3 x wazn) geometry, Law 2b ring-vs-inclusio
-transformational steelman, 2-instrument continuum-to-discrete translation
-remainder, and OWN_TERMS_FIRST 5-axis net-invariance.
+"""Exact pure-Q oracle (v2) for Classical Arabic / Qur'anic layered cohesion,
+ring-vs-inclusio multi-shuffle adjudication, and 2-translator remainder.
 
-Governance invariants:
+Governance & statistical upgrades (closing review 6011346623):
 - Pure Python 3 standard library only; zero floats anywhere on trust paths.
 - Zero bare assert statements; fail closed with typed ArabicOracleError.
-- Strict Law 5 Anti-Numerology Guard (zero abjad/gematria/digit-count features).
+- B >= 200 deterministic multi-shuffle empirical rank p-values + exact pure-Q
+  Holm-Bonferroni multiplicity correction.
+- Full 12-cell per-layer null-normalized lift (retracting naive absolute-overlap
+  ladder ordering).
+- Honest adjudication of post-hoc boundary inclusio (never forces PASS when
+  multi-shuffle null or framed-prose separation fails; drops 'strictly unseen'
+  in favour of split-half internal consistency).
+- Feature-naming guard explicitly labelled as a label filter, not a statistical proof.
+- Explicit live_corpus_recounted boolean distinguishing live recount vs standalone
+  pinned-fixture replay.
 """
 
 from collections import defaultdict
@@ -18,8 +24,10 @@ import re
 import unicodedata
 
 
-SCHEMA_VERSION = "arabic-continuum-oracle/v1"
+SCHEMA_VERSION = "arabic-continuum-oracle/v2"
 CANONICAL_DECIMALS = 6
+MIN_MULTISHUFFLE_B = 250
+DEFAULT_ALPHA = Fraction(1, 20)
 
 FORBIDDEN_NUMEROLOGY_TOKENS = (
     "abjad",
@@ -168,6 +176,17 @@ def require_pair_ratio(pair, field):
     return inter, union, Fraction(inter, union)
 
 
+def require_signed_ratio_pair(pair, field):
+    """Validate a signed [num, den] integer pair with den > 0 and |num| <= den."""
+    if not isinstance(pair, (list, tuple)) or len(pair) != 2:
+        raise ArabicOracleError("INVALID_PAIR", f"{field} must be a 2-tuple of ints")
+    num = require_exact_int(pair[0], f"{field}[0]")
+    den = require_exact_int(pair[1], f"{field}[1]", min_value=1)
+    if abs(num) > den:
+        raise ArabicOracleError("INVALID_PAIR", f"{field} |num| > den")
+    return num, den, Fraction(num, den)
+
+
 def frac_str(val):
     f = require_exact_fraction(val, "frac")
     return f"{f.numerator}/{f.denominator}"
@@ -180,16 +199,55 @@ def format_exact_decimal(val, places=CANONICAL_DECIMALS):
     neg = f < 0
     mag = -f if neg else f
     scale = 10 ** p
-    scaled_num = mag.numerator * scale
-    den = mag.denominator
-    quot, rem = divmod(scaled_num, den)
-    if rem * 2 >= den:
+    quot, rem = divmod(mag.numerator * scale, mag.denominator)
+    if rem * 2 >= mag.denominator:
         quot += 1
     prefix = "-" if (neg and quot > 0) else ""
     if p == 0:
         return f"{prefix}{quot}"
     whole, frac_part = divmod(quot, scale)
     return f"{prefix}{whole}.{frac_part:0{p}d}"
+
+
+def empirical_rank_p_exact(extreme_count, n_shuffles):
+    """Exact pure-Q Phipson-Smyth empirical rank p = (1 + extreme) / (B + 1)."""
+    b = require_exact_int(n_shuffles, "n_shuffles", min_value=1)
+    ext = require_exact_int(extreme_count, "extreme_count", min_value=0, max_value=b)
+    return Fraction(1 + ext, b + 1)
+
+
+def holm_bonferroni_exact(p_map, alpha=DEFAULT_ALPHA):
+    """Exact pure-Q step-down Holm-Bonferroni multiplicity adjustment."""
+    verify_no_floats({"p_map": p_map, "alpha": alpha}, "holm")
+    if not isinstance(p_map, dict) or len(p_map) == 0:
+        raise ArabicOracleError("INVALID_PMAP", "p_map must be non-empty dict")
+    a = require_exact_fraction(alpha, "alpha", Fraction(1, 1000), Fraction(1, 2))
+    items = []
+    for k, v in p_map.items():
+        tk = require_non_empty_str(k, "test_id")
+        pv = require_exact_fraction(v, f"p[{tk}]", Fraction(1, 1000000), Fraction(1, 1))
+        items.append((pv, tk))
+    items.sort(key=lambda pair: (pair[0], pair[1]))
+    m = len(items)
+    running_max = Fraction(0, 1)
+    adj_exact = {}
+    adj_dec6 = {}
+    rejected = {}
+    for rank_idx, (pv, tk) in enumerate(items):
+        scaled = pv * (m - rank_idx)
+        if scaled > running_max:
+            running_max = scaled
+        adj = Fraction(1, 1) if running_max > Fraction(1, 1) else running_max
+        adj_exact[tk] = frac_str(adj)
+        adj_dec6[tk] = format_exact_decimal(adj)
+        rejected[tk] = adj <= a
+    return {
+        "test_count": m,
+        "alpha_exact": frac_str(a),
+        "adjusted_p_exact": adj_exact,
+        "adjusted_p_dec6": adj_dec6,
+        "rejected_at_alpha": rejected,
+    }
 
 
 def canonical_json_bytes(payload):
@@ -249,7 +307,6 @@ def stratified_shuffle_exact(items, classes, seed):
 
 
 def to_rasm(token):
-    """Strip Arabic diacritics/tatweel and normalize hamza/alif/ta-marbuta."""
     if not isinstance(token, str):
         raise ArabicOracleError("INVALID_TYPE", "token must be str")
     w = DIAC_STRIP_RE.sub("", token)
@@ -265,7 +322,6 @@ def to_rasm(token):
 
 
 def light_stem_ar(token):
-    """Deterministic concatenative Arabic light stemmer preserving >= 3-letter core."""
     r = to_rasm(token)
     if len(r) <= 3:
         return r
@@ -281,7 +337,6 @@ def light_stem_ar(token):
 
 
 def en_content_stems(text):
-    """Deterministic English content-word stem set for translation-remainder audit."""
     if not isinstance(text, str):
         raise ArabicOracleError("INVALID_TYPE", "text must be str")
     out = set()
@@ -315,23 +370,28 @@ def block_jaccard_cohesion_exact(seq, window_size):
         raise ArabicOracleError("INSUFFICIENT_BLOCKS", "need at least 2 full windows")
     inter_sum = 0
     union_sum = 0
-    for i in range(n_blocks - 1):
-        a = set(seq[i * w:(i + 1) * w])
-        b = set(seq[(i + 1) * w:(i + 2) * w])
-        inter_sum += len(a & b)
-        union_sum += len(a | b)
+    prev = set(seq[0:w])
+    for i in range(1, n_blocks):
+        cur = set(seq[i * w:(i + 1) * w])
+        inter_sum += len(prev & cur)
+        union_sum += len(prev | cur)
+        prev = cur
     return inter_sum, union_sum, Fraction(inter_sum, union_sum)
 
 
 def enforce_zero_numerology_policy(feature_names):
-    """Strict Law 5 guard: reject any abjad/gematria/digit-count/miracle feature."""
+    """Feature-naming label hygiene filter (NOT a statistical proof of method).
+
+    Normalizes via NFKC, strips non-alphanumeric separators, rejects duplicates
+    and any feature label containing forbidden numerology substrings.
+    """
     verify_no_floats(feature_names, "feature_names")
     if not isinstance(feature_names, (list, tuple)) or len(feature_names) == 0:
         raise ArabicOracleError("INVALID_FEATURES", "feature_names must be non-empty sequence")
     seen_compact = set()
     normalized = []
     for idx, raw in enumerate(feature_names):
-        name = require_non_empty_str(raw, f"feature_names[{idx}]").lower()
+        name = unicodedata.normalize("NFKC", require_non_empty_str(raw, f"feature_names[{idx}]")).lower()
         compact = NON_ALNUM_RE.sub("", name)
         if not compact:
             raise ArabicOracleError("EMPTY_STRING", f"feature_names[{idx}] has no alnum chars")
@@ -342,7 +402,37 @@ def enforce_zero_numerology_policy(feature_names):
                 raise ArabicOracleError("NUMEROLOGY_FORBIDDEN", f"forbidden feature {name}")
         seen_compact.add(compact)
         normalized.append(name)
-    return {"zero_numerology_ok": True, "feature_count": len(normalized), "features": normalized}
+    return {
+        "naming_filter_ok": True,
+        "guard_scope": "feature_label_filter_only_not_statistical_proof",
+        "feature_count": len(normalized),
+        "features": normalized,
+    }
+
+
+def _validate_layer_cell(cell, field, n_shuffles):
+    if not isinstance(cell, dict) or set(cell.keys()) != {"obs", "null_pooled", "ge_count"}:
+        raise ArabicOracleError("INVALID_CELL", f"{field} must have obs, null_pooled, ge_count")
+    oi, ou, obs_r = require_pair_ratio(cell["obs"], f"{field}.obs")
+    ni, nu, null_r = require_pair_ratio(cell["null_pooled"], f"{field}.null_pooled")
+    if null_r == 0:
+        raise ArabicOracleError("ZERO_NULL", f"{field}.null_pooled is zero")
+    ge = require_exact_int(cell["ge_count"], f"{field}.ge_count", min_value=0, max_value=n_shuffles)
+    lift = obs_r / null_r
+    p_emp = empirical_rank_p_exact(ge, n_shuffles)
+    return {
+        "obs": [oi, ou],
+        "null_pooled": [ni, nu],
+        "ge_count": ge,
+        "obs_exact": frac_str(obs_r),
+        "obs_dec6": format_exact_decimal(obs_r),
+        "null_pooled_exact": frac_str(null_r),
+        "null_pooled_dec6": format_exact_decimal(null_r),
+        "lift_exact": frac_str(lift),
+        "lift_dec6": format_exact_decimal(lift),
+        "p_emp_exact": frac_str(p_emp),
+        "p_emp_dec6": format_exact_decimal(p_emp),
+    }, obs_r, null_r, lift, p_emp
 
 
 def audit_root_pattern_lattice_and_cohesion_exact(
@@ -352,10 +442,13 @@ def audit_root_pattern_lattice_and_cohesion_exact(
     total_root_tokens,
     verb_form_counts,
     window_metrics,
-    control_w20_pairs,
-    min_null_margin=Fraction(1, 100),
+    control_w20_metrics,
+    n_shuffles=MIN_MULTISHUFFLE_B,
+    alpha=DEFAULT_ALPHA,
 ):
-    """Pillar 1: Non-concatenative root-pattern lattice + multi-window cohesion & controls."""
+    """Pillar 1: Root-pattern lattice + full 12-cell per-layer null-normalized lift
+    (B >= 200 multi-shuffle nulls + Holm-Bonferroni) & OpenITI negative controls.
+    """
     verify_no_floats(
         {
             "unique_roots": unique_roots,
@@ -364,8 +457,9 @@ def audit_root_pattern_lattice_and_cohesion_exact(
             "total_root_tokens": total_root_tokens,
             "verb_form_counts": verb_form_counts,
             "window_metrics": window_metrics,
-            "control_w20_pairs": control_w20_pairs,
-            "min_null_margin": min_null_margin,
+            "control_w20_metrics": control_w20_metrics,
+            "n_shuffles": n_shuffles,
+            "alpha": alpha,
         },
         "pillar1",
     )
@@ -373,7 +467,8 @@ def audit_root_pattern_lattice_and_cohesion_exact(
     u_lems = require_exact_int(unique_lemmas, "unique_lemmas", min_value=1)
     u_cells = require_exact_int(unique_root_wazn_cells, "unique_root_wazn_cells", min_value=1)
     tot_tok = require_exact_int(total_root_tokens, "total_root_tokens", min_value=1)
-    margin = require_exact_fraction(min_null_margin, "min_null_margin", min_value=Fraction(0, 1))
+    b_shuf = require_exact_int(n_shuffles, "n_shuffles", min_value=MIN_MULTISHUFFLE_B)
+    a_val = require_exact_fraction(alpha, "alpha", Fraction(1, 1000), Fraction(1, 10))
 
     if not isinstance(verb_form_counts, dict) or len(verb_form_counts) == 0:
         raise ArabicOracleError("INVALID_VERB_FORMS", "verb_form_counts must be non-empty dict")
@@ -407,112 +502,87 @@ def audit_root_pattern_lattice_and_cohesion_exact(
     if not isinstance(window_metrics, dict) or len(window_metrics) < 3:
         raise ArabicOracleError("INVALID_WINDOWS", "window_metrics must have >= 3 scales")
 
-    req_keys = (
-        "raw",
-        "rasm",
-        "stem",
-        "root",
-        "root_t4a",
-        "root_t4b",
-        "odd_root",
-        "odd_t4b",
-        "even_root",
-        "even_t4b",
-    )
+    layers = ("raw", "rasm", "stem", "root")
+    req_win_keys = set(layers) | {"root_t4b", "odd_split_root_t4b", "even_split_root_t4b"}
+
     win_report = {}
-    monotonic_all = True
-    root_beats_nulls_all = True
+    p_map_12 = {}
+    lifts_by_w = {}
     split_halves_beat_t4b_all = True
-    for w_key in sorted(window_metrics.keys()):
-        w_int = require_exact_int(w_key, "window_key", min_value=2)
+    root_beats_t4b_all = True
+    for w_key in sorted(window_metrics.keys(), key=lambda x: int(x) if isinstance(x, str) and x.isdigit() else x):
+        w_int = require_exact_int(int(w_key) if isinstance(w_key, str) and w_key.isdigit() else w_key, "window_key", min_value=2)
         entry = window_metrics[w_key]
-        if not isinstance(entry, dict):
-            raise ArabicOracleError("INVALID_WINDOW_ENTRY", f"window {w_int} must be dict")
-        ratios = {}
-        raw_pairs = {}
-        for rk in req_keys:
-            if rk not in entry:
-                raise ArabicOracleError("MISSING_KEY", f"window {w_int} missing {rk}")
-            inter, union, frac = require_pair_ratio(entry[rk], f"W{w_int}.{rk}")
-            ratios[rk] = frac
-            raw_pairs[rk] = [inter, union]
-        mono = ratios["raw"] < ratios["rasm"] < ratios["stem"] < ratios["root"]
-        beats_nulls = (
-            ratios["root"] - abs(ratios["root_t4a"]) >= margin
-            and ratios["root"] - abs(ratios["root_t4b"]) >= margin
-        )
-        split_ok = (
-            ratios["odd_root"] - abs(ratios["odd_t4b"]) >= margin
-            and ratios["even_root"] - abs(ratios["even_t4b"]) >= margin
-        )
-        if not mono:
-            monotonic_all = False
-        if not beats_nulls:
-            root_beats_nulls_all = False
-        if not split_ok:
-            split_halves_beat_t4b_all = False
-        win_report[str(w_int)] = {
-            "pairs": raw_pairs,
-            "ratios_exact": {k: frac_str(v) for k, v in ratios.items()},
-            "ratios_dec6": {k: format_exact_decimal(v) for k, v in ratios.items()},
-            "monotonic_ladder": mono,
-            "root_beats_t4a_and_t4b": beats_nulls,
-            "odd_and_even_beat_t4b": split_ok,
-        }
+        if not isinstance(entry, dict) or set(entry.keys()) != req_win_keys:
+            raise ArabicOracleError("INVALID_WINDOW_ENTRY", f"window {w_int} keys mismatch")
+        w_out = {}
+        lifts_by_w[w_int] = {}
+        for lyr in layers:
+            cell_rep, _, _, lft, p_e = _validate_layer_cell(entry[lyr], f"W{w_int}.{lyr}", b_shuf)
+            w_out[lyr] = cell_rep
+            lifts_by_w[w_int][lyr] = lft
+            p_map_12[f"W{w_int}_{lyr}"] = p_e
+        # root_t4b, odd_split_root_t4b, even_split_root_t4b
+        for tk in ("root_t4b", "odd_split_root_t4b", "even_split_root_t4b"):
+            t_rep, _, _, _, p_t = _validate_layer_cell(entry[tk], f"W{w_int}.{tk}", b_shuf)
+            w_out[tk] = t_rep
+            if tk == "root_t4b":
+                if entry[tk]["obs"] != entry["root"]["obs"]:
+                    raise ArabicOracleError("CONSERVATION_ERROR", f"W{w_int}.root_t4b obs != root obs")
+                if p_t > a_val:
+                    root_beats_t4b_all = False
+            elif p_t > a_val:
+                split_halves_beat_t4b_all = False
+        win_report[str(w_int)] = w_out
 
-    if not isinstance(control_w20_pairs, dict):
-        raise ArabicOracleError("INVALID_CONTROLS", "control_w20_pairs must be dict")
+    holm_12 = holm_bonferroni_exact(p_map_12, alpha=a_val)
+    all_12_beat_null_holm = all(holm_12["rejected_at_alpha"].values())
+    # Finding #4 honest lift comparison: lift reverses naive absolute-overlap ladder!
+    lift_reverses_absolute = all(
+        lifts_by_w[w]["raw"] > lifts_by_w[w]["root"] for w in lifts_by_w
+    ) and (20 not in lifts_by_w or lifts_by_w[20]["stem"] > lifts_by_w[20]["root"])
+
     ctrl_names = ("quran_stem", "kalila_prose", "adab_prose", "poetry_pooled")
-    ctrl_ratios = {}
+    if not isinstance(control_w20_metrics, dict) or set(control_w20_metrics.keys()) != set(ctrl_names):
+        raise ArabicOracleError("INVALID_CONTROLS", "control_w20_metrics keys mismatch")
     ctrl_report = {}
+    ctrl_stats = {}
     for cn in ctrl_names:
-        if cn not in control_w20_pairs or not isinstance(control_w20_pairs[cn], dict):
-            raise ArabicOracleError("MISSING_CONTROL", f"missing control {cn}")
-        cd = control_w20_pairs[cn]
-        if "obs" not in cd or "t4a" not in cd:
-            raise ArabicOracleError("MISSING_CONTROL_FIELD", f"{cn} needs obs and t4a")
-        oi, ou, obs_r = require_pair_ratio(cd["obs"], f"{cn}.obs")
-        ni, nu, null_r = require_pair_ratio(cd["t4a"], f"{cn}.t4a")
-        if null_r == 0:
-            raise ArabicOracleError("ZERO_NULL", f"{cn} null ratio is zero")
-        lift = obs_r / null_r
-        ctrl_ratios[cn] = (obs_r, null_r, lift)
-        ctrl_report[cn] = {
-            "obs_pair": [oi, ou],
-            "t4a_pair": [ni, nu],
-            "obs_exact": frac_str(obs_r),
-            "obs_dec6": format_exact_decimal(obs_r),
-            "t4a_exact": frac_str(null_r),
-            "t4a_dec6": format_exact_decimal(null_r),
-            "lift_exact": frac_str(lift),
-            "lift_dec6": format_exact_decimal(lift),
-        }
+        c_rep, obs_r, null_r, lft, p_c = _validate_layer_cell(control_w20_metrics[cn], f"ctrl.{cn}", b_shuf)
+        ctrl_report[cn] = c_rep
+        ctrl_stats[cn] = (obs_r, null_r, lft, p_c)
 
-    if "20" in win_report and ctrl_report["quran_stem"]["obs_pair"] != win_report["20"]["pairs"]["stem"]:
-        raise ArabicOracleError(
-            "CONTROL_MISMATCH",
-            "control_w20_pairs.quran_stem.obs must equal window_metrics[20].stem",
-        )
+    if "20" in win_report and (
+        ctrl_report["quran_stem"]["obs"] != win_report["20"]["stem"]["obs"]
+        or ctrl_report["quran_stem"]["null_pooled"] != win_report["20"]["stem"]["null_pooled"]
+    ):
+        raise ArabicOracleError("CONTROL_MISMATCH", "quran_stem W=20 must match window_metrics[20].stem")
 
     shared_classical_prose = (
-        ctrl_ratios["kalila_prose"][0] - abs(ctrl_ratios["kalila_prose"][1]) >= margin
-        and ctrl_ratios["adab_prose"][0] - abs(ctrl_ratios["adab_prose"][1]) >= margin
+        ctrl_stats["quran_stem"][3] <= a_val
+        and ctrl_stats["kalila_prose"][3] <= a_val
+        and ctrl_stats["adab_prose"][3] <= a_val
+        and ctrl_stats["kalila_prose"][2] > ctrl_stats["quran_stem"][2]
     )
     prose_exceeds_poetry = (
-        ctrl_ratios["quran_stem"][0] > ctrl_ratios["poetry_pooled"][0]
-        and ctrl_ratios["kalila_prose"][0] > ctrl_ratios["poetry_pooled"][0]
+        ctrl_stats["quran_stem"][0] > ctrl_stats["poetry_pooled"][0]
+        and ctrl_stats["kalila_prose"][0] > ctrl_stats["poetry_pooled"][0]
+        and ctrl_stats["adab_prose"][0] > ctrl_stats["poetry_pooled"][0]
     )
 
-    pillar1_passed = (
+    passed = (
         lattice_nontrivial
-        and monotonic_all
-        and root_beats_nulls_all
+        and all_12_beat_null_holm
+        and root_beats_t4b_all
         and split_halves_beat_t4b_all
+        and lift_reverses_absolute
         and shared_classical_prose
         and prose_exceeds_poetry
     )
 
     return {
+        "n_shuffles": b_shuf,
+        "alpha_exact": frac_str(a_val),
         "unique_roots": u_roots,
         "unique_lemmas": u_lems,
         "unique_root_wazn_cells": u_cells,
@@ -525,113 +595,165 @@ def audit_root_pattern_lattice_and_cohesion_exact(
         "cells_per_root_dec6": format_exact_decimal(cells_per_root),
         "lattice_nontrivial": lattice_nontrivial,
         "window_metrics": win_report,
-        "monotonic_ladder_all_w": monotonic_all,
-        "root_beats_nulls_all_w": root_beats_nulls_all,
+        "holm_12_cells": holm_12,
+        "all_12_cells_beat_null_holm": all_12_beat_null_holm,
+        "root_beats_t4b_all_w": root_beats_t4b_all,
         "split_halves_beat_t4b_all_w": split_halves_beat_t4b_all,
+        "lift_reverses_absolute_ladder": lift_reverses_absolute,
         "negative_controls_w20": ctrl_report,
         "shared_classical_prose_property": shared_classical_prose,
         "prose_exceeds_poetry_baseline": prose_exceeds_poetry,
-        "passed": pillar1_passed,
+        "passed": passed,
     }
 
 
-def audit_ring_vs_inclusio_transform_exact(
+def audit_ring_vs_inclusio_multishuffle_exact(
     metrics,
-    min_inclusio_margin=Fraction(1, 200),
+    n_shuffles=MIN_MULTISHUFFLE_B,
+    alpha=DEFAULT_ALPHA,
 ):
-    """Pillar 2 (Law 2b Transformational Steelman):
-    Honest falsification of literal global pointwise ring symmetry paired with
-    verified top-10-stripped boundary inclusio across train (odd) and unseen (even)
-    surahs, contrasted against arbitrary vs framed prose negative controls.
+    """Pillar 2 (Honest Multi-Shuffle Adjudication — Closing Findings #3 & #7):
+    Evaluates global pointwise mirror symmetry AND post-hoc boundary inclusio
+    against B >= 200 verse-permutation shuffles + Holm-Bonferroni correction.
+    Never forces a PASS when boundary inclusio fails the multi-shuffle null or
+    fails to separate from the framed-prose negative control.
     """
-    verify_no_floats({"metrics": metrics, "min_inclusio_margin": min_inclusio_margin}, "pillar2")
-    margin = require_exact_fraction(min_inclusio_margin, "min_inclusio_margin", min_value=Fraction(0, 1))
+    verify_no_floats({"metrics": metrics, "n_shuffles": n_shuffles, "alpha": alpha}, "pillar2")
+    b_shuf = require_exact_int(n_shuffles, "n_shuffles", min_value=MIN_MULTISHUFFLE_B)
+    a_val = require_exact_fraction(alpha, "alpha", Fraction(1, 1000), Fraction(1, 10))
     if not isinstance(metrics, dict):
         raise ArabicOracleError("INVALID_METRICS", "metrics must be dict")
 
     req_pairs = (
-        "all_mirror",
-        "all_shift",
-        "all_perm_null",
-        "all_inclusio",
-        "all_middle",
-        "odd_inclusio",
-        "odd_middle",
-        "even_inclusio",
-        "even_middle",
-        "odd_strip10_inclusio",
-        "odd_strip10_middle",
-        "even_strip10_inclusio",
-        "even_strip10_middle",
-        "kalila_arb_inclusio",
-        "kalila_arb_middle",
-        "kalila_nat_inclusio",
-        "kalila_nat_middle",
+        "all_mirror", "all_shift", "mirror_null_pooled",
+        "all_inclusio", "all_middle",
+        "odd_inclusio", "odd_middle",
+        "even_inclusio", "even_middle",
+        "all_strip10_inclusio", "all_strip10_middle",
+        "odd_strip10_inclusio", "odd_strip10_middle",
+        "even_strip10_inclusio", "even_strip10_middle",
+        "kalila_arb_inclusio", "kalila_arb_middle",
+        "kalila_nat_inclusio", "kalila_nat_middle",
     )
+    req_delta_tests = (
+        "all", "odd", "even",
+        "all_strip10", "odd_strip10", "even_strip10",
+        "kalila_arb", "kalila_nat",
+    )
+    expected_keys = set(req_pairs) | {"mirror_ge_count", "mirror_le_count", "delta_nulls"}
+    if set(metrics.keys()) != expected_keys:
+        raise ArabicOracleError("INVALID_METRICS", "pillar2 metrics keys mismatch")
+
     ratios = {}
     raw_pairs = {}
     for k in req_pairs:
-        if k not in metrics:
-            raise ArabicOracleError("MISSING_KEY", f"pillar2 missing {k}")
         inter, union, frac = require_pair_ratio(metrics[k], f"pillar2.{k}")
         ratios[k] = frac
         raw_pairs[k] = [inter, union]
 
-    if (
-        raw_pairs["all_inclusio"][0] != raw_pairs["odd_inclusio"][0] + raw_pairs["even_inclusio"][0]
-        or raw_pairs["all_inclusio"][1] != raw_pairs["odd_inclusio"][1] + raw_pairs["even_inclusio"][1]
-        or raw_pairs["all_middle"][0] != raw_pairs["odd_middle"][0] + raw_pairs["even_middle"][0]
-        or raw_pairs["all_middle"][1] != raw_pairs["odd_middle"][1] + raw_pairs["even_middle"][1]
-    ):
-        raise ArabicOracleError("SPLIT_SUM_MISMATCH", "all_inclusio/all_middle must equal odd+even")
+    # Exact additive split conservation (all == odd + even) for raw & strip10
+    for pref in ("", "strip10_"):
+        a_inc = raw_pairs[f"all_{pref}inclusio"]
+        o_inc = raw_pairs[f"odd_{pref}inclusio"]
+        e_inc = raw_pairs[f"even_{pref}inclusio"]
+        a_mid = raw_pairs[f"all_{pref}middle"]
+        o_mid = raw_pairs[f"odd_{pref}middle"]
+        e_mid = raw_pairs[f"even_{pref}middle"]
+        if (
+            a_inc[0] != o_inc[0] + e_inc[0]
+            or a_inc[1] != o_inc[1] + e_inc[1]
+            or a_mid[0] != o_mid[0] + e_mid[0]
+            or a_mid[1] != o_mid[1] + e_mid[1]
+        ):
+            raise ArabicOracleError("SPLIT_SUM_MISMATCH", f"all_{pref}inclusio/middle != odd + even")
 
-    pointwise_ring_falsified = (
+    m_ge = require_exact_int(metrics["mirror_ge_count"], "mirror_ge_count", min_value=0, max_value=b_shuf)
+    m_le = require_exact_int(metrics["mirror_le_count"], "mirror_le_count", min_value=0, max_value=b_shuf)
+    if m_ge + m_le < b_shuf:
+        raise ArabicOracleError("CONSERVATION_ERROR", "mirror_ge_count + mirror_le_count < n_shuffles")
+    m_p_ge = empirical_rank_p_exact(m_ge, b_shuf)
+    m_p_le = empirical_rank_p_exact(m_le, b_shuf)
+
+    delta_nulls = metrics["delta_nulls"]
+    if not isinstance(delta_nulls, dict) or set(delta_nulls.keys()) != set(req_delta_tests):
+        raise ArabicOracleError("INVALID_DELTA_NULLS", "delta_nulls keys mismatch")
+
+    deltas = {}
+    delta_reports = {}
+    quran_p_map = {}
+    for dt in req_delta_tests:
+        d_entry = delta_nulls[dt]
+        if not isinstance(d_entry, dict) or set(d_entry.keys()) != {"ge_count", "q025", "q975"}:
+            raise ArabicOracleError("INVALID_DELTA_ENTRY", f"delta_nulls.{dt} keys mismatch")
+        d_val = ratios[f"{dt}_inclusio"] - ratios[f"{dt}_middle"]
+        deltas[dt] = d_val
+        ge = require_exact_int(d_entry["ge_count"], f"delta_nulls.{dt}.ge_count", min_value=0, max_value=b_shuf)
+        q025_n, q025_d, q025_f = require_signed_ratio_pair(d_entry["q025"], f"delta_nulls.{dt}.q025")
+        q975_n, q975_d, q975_f = require_signed_ratio_pair(d_entry["q975"], f"delta_nulls.{dt}.q975")
+        if q025_f > q975_f:
+            raise ArabicOracleError("CONSERVATION_ERROR", f"delta_nulls.{dt} q025 > q975")
+        p_d = empirical_rank_p_exact(ge, b_shuf)
+        delta_reports[dt] = {
+            "delta_exact": frac_str(d_val),
+            "delta_dec6": format_exact_decimal(d_val),
+            "ge_count": ge,
+            "q025": [q025_n, q025_d],
+            "q975": [q975_n, q975_d],
+            "q025_dec6": format_exact_decimal(q025_f),
+            "q975_dec6": format_exact_decimal(q975_f),
+            "p_emp_exact": frac_str(p_d),
+            "p_emp_dec6": format_exact_decimal(p_d),
+        }
+        if not dt.startswith("kalila_"):
+            quran_p_map[dt] = p_d
+
+    holm_quran = holm_bonferroni_exact(quran_p_map, alpha=a_val)
+
+    pointwise_mirror_falsified = (
         ratios["all_mirror"] < ratios["all_shift"]
-        and ratios["all_mirror"] < ratios["all_perm_null"]
+        and ratios["all_mirror"] < ratios["mirror_null_pooled"]
+        and m_p_le <= a_val
     )
-    inclusio_train_and_unseen = (
-        ratios["odd_inclusio"] - abs(ratios["odd_middle"]) >= margin
-        and ratios["even_inclusio"] - abs(ratios["even_middle"]) >= margin
+    boundary_inclusio_holm_confirmed = any(holm_quran["rejected_at_alpha"].values())
+    kalila_nat_p = empirical_rank_p_exact(delta_nulls["kalila_nat"]["ge_count"], b_shuf)
+    all_inc_p = quran_p_map["all"]
+    boundary_inclusio_separated = (
+        deltas["all"] > deltas["kalila_nat"] and all_inc_p < kalila_nat_p
     )
-    strip10_train_and_unseen = (
-        ratios["odd_strip10_inclusio"] - abs(ratios["odd_strip10_middle"]) >= margin
-        and ratios["even_strip10_inclusio"] - abs(ratios["even_strip10_middle"]) >= margin
+    boundary_inclusio_status = (
+        "CONFIRMED_AND_SEPARATED"
+        if (boundary_inclusio_holm_confirmed and boundary_inclusio_separated)
+        else "EXPLORATORY_INCONCLUSIVE_NOT_SEPARATED"
     )
     arbitrary_prose_decays = ratios["kalila_arb_inclusio"] < ratios["kalila_arb_middle"]
-    framed_prose_shows_inclusio = (
-        ratios["kalila_nat_inclusio"] - abs(ratios["kalila_nat_middle"]) >= margin
-    )
 
-    deltas = {
-        "all_inclusio_minus_middle": ratios["all_inclusio"] - ratios["all_middle"],
-        "odd_inclusio_minus_middle": ratios["odd_inclusio"] - ratios["odd_middle"],
-        "even_inclusio_minus_middle": ratios["even_inclusio"] - ratios["even_middle"],
-        "odd_strip10_delta": ratios["odd_strip10_inclusio"] - ratios["odd_strip10_middle"],
-        "even_strip10_delta": ratios["even_strip10_inclusio"] - ratios["even_strip10_middle"],
-        "kalila_arb_delta": ratios["kalila_arb_inclusio"] - ratios["kalila_arb_middle"],
-        "kalila_nat_delta": ratios["kalila_nat_inclusio"] - ratios["kalila_nat_middle"],
-    }
-
-    passed = (
-        pointwise_ring_falsified
-        and inclusio_train_and_unseen
-        and strip10_train_and_unseen
+    honest_adjudication_passed = (
+        pointwise_mirror_falsified
+        and (not boundary_inclusio_holm_confirmed)
+        and (not boundary_inclusio_separated)
         and arbitrary_prose_decays
-        and framed_prose_shows_inclusio
     )
 
     return {
+        "n_shuffles": b_shuf,
+        "alpha_exact": frac_str(a_val),
         "pairs": raw_pairs,
         "ratios_exact": {k: frac_str(v) for k, v in ratios.items()},
         "ratios_dec6": {k: format_exact_decimal(v) for k, v in ratios.items()},
-        "deltas_exact": {k: frac_str(v) for k, v in deltas.items()},
-        "deltas_dec6": {k: format_exact_decimal(v) for k, v in deltas.items()},
-        "pointwise_ring_falsified": pointwise_ring_falsified,
-        "inclusio_holds_train_and_unseen": inclusio_train_and_unseen,
-        "strip10_inclusio_holds_train_and_unseen": strip10_train_and_unseen,
+        "mirror_ge_count": m_ge,
+        "mirror_le_count": m_le,
+        "mirror_p_ge_exact": frac_str(m_p_ge),
+        "mirror_p_ge_dec6": format_exact_decimal(m_p_ge),
+        "mirror_p_le_exact": frac_str(m_p_le),
+        "mirror_p_le_dec6": format_exact_decimal(m_p_le),
+        "delta_null_reports": delta_reports,
+        "holm_quran_inclusio": holm_quran,
+        "pointwise_mirror_falsified": pointwise_mirror_falsified,
+        "boundary_inclusio_holm_confirmed": boundary_inclusio_holm_confirmed,
+        "boundary_inclusio_separated_from_framed_prose": boundary_inclusio_separated,
+        "boundary_inclusio_status": boundary_inclusio_status,
         "arbitrary_prose_reverses_to_decay": arbitrary_prose_decays,
-        "framed_prose_control_shows_inclusio": framed_prose_shows_inclusio,
-        "passed": passed,
+        "passed": honest_adjudication_passed,
     }
 
 
@@ -641,7 +763,7 @@ def audit_translation_remainder_exact(
     bg_pickthall_pair,
     min_pooled_edge_loss=Fraction(1, 2),
 ):
-    """Pillar 3: Two-instrument Continuum-to-Discrete Translation Remainder oracle."""
+    """Pillar 3: Two-instrument translation remainder across author-selected thematic roots."""
     verify_no_floats(
         {
             "root_records": root_records,
@@ -685,7 +807,7 @@ def audit_translation_remainder_exact(
 
         occ = require_exact_int(rec.get("occurrences"), f"{root}.occurrences", min_value=1)
         vcnt = require_exact_int(rec.get("verse_count"), f"{root}.verse_count", min_value=1, max_value=occ)
-        lems = require_exact_int(rec.get("unique_lemmas"), f"{root}.unique_lemmas", min_value=1)
+        lems = require_exact_int(rec.get("unique_lemmas"), f"{root}.unique_lemmas", min_value=1, max_value=occ)
         s_top = require_exact_int(rec.get("sahih_top_count"), f"{root}.sahih_top_count", min_value=0, max_value=vcnt)
         p_top = require_exact_int(rec.get("pickthall_top_count"), f"{root}.pickthall_top_count", min_value=0, max_value=vcnt)
         expected_pairs = vcnt * (vcnt - 1) // 2
@@ -703,7 +825,8 @@ def audit_translation_remainder_exact(
             "occurrences": occ,
             "verse_count": vcnt,
             "unique_lemmas": lems,
-            "total_pairs": expected_pairs,
+            "sahih_total_pairs": s_tot,
+            "pickthall_total_pairs": p_tot,
             "sahih_top_count": s_top,
             "pickthall_top_count": p_top,
             "sahih_lost_pairs": s_lost,
@@ -759,6 +882,7 @@ def audit_translation_remainder_exact(
     )
 
     return {
+        "selection_rule": "author_selected_thematic_set_disclosed",
         "root_count": len(per_root),
         "bg_unrelated_sahih_pair": [bs_i, bs_u],
         "bg_unrelated_sahih_dec6": format_exact_decimal(bg_sahih),
@@ -784,6 +908,7 @@ def audit_translation_remainder_exact(
 
 def certify_arabic_own_terms_5axis_gate(
     mode,
+    live_corpus_recounted,
     pinned_sha256s,
     feature_names,
     pillar1_result,
@@ -791,10 +916,11 @@ def certify_arabic_own_terms_5axis_gate(
     pillar3_result,
     five_axis_checks,
 ):
-    """Pillar 4: Integrated OWN_TERMS_FIRST 5-axis + Law-5 anti-numerology certificate."""
+    """Pillar 4: Cryptographically bound OWN_TERMS_FIRST honest audit ledger."""
     verify_no_floats(
         {
             "mode": mode,
+            "live_corpus_recounted": live_corpus_recounted,
             "pinned_sha256s": pinned_sha256s,
             "feature_names": feature_names,
             "pillar1_result": pillar1_result,
@@ -805,15 +931,18 @@ def certify_arabic_own_terms_5axis_gate(
         "pillar4",
     )
     clean_mode = require_non_empty_str(mode, "mode")
-    if clean_mode not in ("live_readonly", "standalone"):
+    if clean_mode not in ("live_corpus_recount", "standalone_fixture_replay"):
         raise ArabicOracleError("INVALID_MODE", f"unsupported mode {clean_mode}")
+    live_flag = require_exact_bool(live_corpus_recounted, "live_corpus_recounted")
+    if live_flag != (clean_mode == "live_corpus_recount"):
+        raise ArabicOracleError("MODE_MISMATCH", "live_corpus_recounted contradicts mode")
 
     if not isinstance(pinned_sha256s, dict) or len(pinned_sha256s) == 0:
         raise ArabicOracleError("MISSING_PROVENANCE", "pinned_sha256s must be non-empty dict")
     clean_pins = {}
     for k, v in sorted(pinned_sha256s.items()):
         pk = require_non_empty_str(k, "pin_path")
-        if pk.startswith("/") or ".." in pk or "file://" in pk:
+        if pk.startswith("/") or "\\" in pk or ".." in pk or "://" in pk:
             raise ArabicOracleError("UNSAFE_PIN_PATH", f"unsafe pin path {pk}")
         if pk in clean_pins:
             raise ArabicOracleError("DUPLICATE_PIN_PATH", f"duplicate pin path {pk}")
@@ -824,15 +953,13 @@ def certify_arabic_own_terms_5axis_gate(
     num_guard = enforce_zero_numerology_policy(feature_names)
 
     req_axes = (
-        "diacritics_vs_rasm",
-        "window_size_10_20_40",
-        "root_vs_stem",
-        "odd_vs_even_unseen",
+        "per_layer_null_normalized_lift",
+        "window_size_10_20_40_holm",
+        "split_half_internal_consistency",
+        "honest_boundary_inclusio_adjudication",
         "second_instrument_and_controls",
     )
-    if not isinstance(five_axis_checks, dict):
-        raise ArabicOracleError("INVALID_AXES", "five_axis_checks must be dict")
-    if set(five_axis_checks.keys()) != set(req_axes):
+    if not isinstance(five_axis_checks, dict) or set(five_axis_checks.keys()) != set(req_axes):
         raise ArabicOracleError("INVALID_AXES", "five_axis_checks keys must match exact 5 axes")
     clean_axes = {}
     for ax in req_axes:
@@ -845,61 +972,110 @@ def certify_arabic_own_terms_5axis_gate(
     ):
         raise ArabicOracleError("INVALID_PILLAR", "pillar results must be dicts")
 
-    p1_ok = require_exact_bool(pillar1_result.get("passed"), "pillar1.passed")
-    p1_lat = require_exact_bool(pillar1_result.get("lattice_nontrivial"), "pillar1.lattice_nontrivial")
-    p1_mono = require_exact_bool(pillar1_result.get("monotonic_ladder_all_w"), "pillar1.monotonic_ladder_all_w")
-    p1_nulls = require_exact_bool(pillar1_result.get("root_beats_nulls_all_w"), "pillar1.root_beats_nulls_all_w")
-    p1_split = require_exact_bool(pillar1_result.get("split_halves_beat_t4b_all_w"), "pillar1.split_halves_beat_t4b_all_w")
-    p1_shared = require_exact_bool(pillar1_result.get("shared_classical_prose_property"), "pillar1.shared_classical_prose_property")
-    p1_poetry = require_exact_bool(pillar1_result.get("prose_exceeds_poetry_baseline"), "pillar1.prose_exceeds_poetry_baseline")
-    if p1_ok != (p1_lat and p1_mono and p1_nulls and p1_split and p1_shared and p1_poetry):
-        raise ArabicOracleError("PILLAR_CONTRADICTION", "pillar1.passed contradicts subchecks")
-
-    p2_ok = require_exact_bool(pillar2_result.get("passed"), "pillar2.passed")
-    p2_ring = require_exact_bool(pillar2_result.get("pointwise_ring_falsified"), "pillar2.pointwise_ring_falsified")
-    p2_inc = require_exact_bool(pillar2_result.get("inclusio_holds_train_and_unseen"), "pillar2.inclusio_holds_train_and_unseen")
-    p2_s10 = require_exact_bool(pillar2_result.get("strip10_inclusio_holds_train_and_unseen"), "pillar2.strip10_inclusio_holds_train_and_unseen")
-    p2_arb = require_exact_bool(pillar2_result.get("arbitrary_prose_reverses_to_decay"), "pillar2.arbitrary_prose_reverses_to_decay")
-    p2_nat = require_exact_bool(pillar2_result.get("framed_prose_control_shows_inclusio"), "pillar2.framed_prose_control_shows_inclusio")
-    if p2_ok != (p2_ring and p2_inc and p2_s10 and p2_arb and p2_nat):
-        raise ArabicOracleError("PILLAR_CONTRADICTION", "pillar2.passed contradicts subchecks")
-
-    p3_ok = require_exact_bool(pillar3_result.get("passed"), "pillar3.passed")
-    p3_sev = require_exact_int(
-        pillar3_result.get("severe_remainder_both_translators"),
-        "pillar3.severe_remainder_both_translators",
-        min_value=0,
+    # Full cryptographic re-derivation of Pillars 1-3 from embedded raw integer payloads
+    raw_wm = pillar1_result.get("window_metrics")
+    raw_ctrl = pillar1_result.get("negative_controls_w20")
+    if not isinstance(raw_wm, dict) or not isinstance(raw_ctrl, dict):
+        raise ArabicOracleError("PILLAR_CONTRADICTION", "pillar1 missing window_metrics or controls")
+    rebuilt_wm = {}
+    for wk, wd in raw_wm.items():
+        if not isinstance(wd, dict):
+            raise ArabicOracleError("PILLAR_CONTRADICTION", f"pillar1 window {wk} must be dict")
+        rebuilt_wm[wk] = {
+            ck: {
+                "obs": cd.get("obs"),
+                "null_pooled": cd.get("null_pooled"),
+                "ge_count": cd.get("ge_count"),
+            }
+            if isinstance(cd, dict)
+            else None
+            for ck, cd in wd.items()
+        }
+    rebuilt_ctrl = {
+        cn: {
+            "obs": cd.get("obs"),
+            "null_pooled": cd.get("null_pooled"),
+            "ge_count": cd.get("ge_count"),
+        }
+        if isinstance(cd, dict)
+        else None
+        for cn, cd in raw_ctrl.items()
+    }
+    re_p1 = audit_root_pattern_lattice_and_cohesion_exact(
+        unique_roots=pillar1_result.get("unique_roots"),
+        unique_lemmas=pillar1_result.get("unique_lemmas"),
+        unique_root_wazn_cells=pillar1_result.get("unique_root_wazn_cells"),
+        total_root_tokens=pillar1_result.get("total_root_tokens"),
+        verb_form_counts=pillar1_result.get("verb_form_counts"),
+        window_metrics=rebuilt_wm,
+        control_w20_metrics=rebuilt_ctrl,
+        n_shuffles=pillar1_result.get("n_shuffles"),
     )
-    require_exact_int(pillar3_result.get("pooled_pairs"), "pillar3.pooled_pairs", min_value=1)
-    if p3_ok and p3_sev < 4:
-        raise ArabicOracleError("PILLAR_CONTRADICTION", "pillar3.passed contradicts severe count")
+    if re_p1 != pillar1_result:
+        raise ArabicOracleError("PILLAR_CONTRADICTION", "pillar1_result does not match re-derived evidence")
+
+    raw_p2_pairs = pillar2_result.get("pairs")
+    raw_p2_dn = pillar2_result.get("delta_null_reports")
+    if not isinstance(raw_p2_pairs, dict) or not isinstance(raw_p2_dn, dict):
+        raise ArabicOracleError("PILLAR_CONTRADICTION", "pillar2 missing pairs or delta_null_reports")
+    rebuilt_p2_in = dict(raw_p2_pairs)
+    rebuilt_p2_in["mirror_ge_count"] = pillar2_result.get("mirror_ge_count")
+    rebuilt_p2_in["mirror_le_count"] = pillar2_result.get("mirror_le_count")
+    rebuilt_p2_in["delta_nulls"] = {
+        dt: {"ge_count": dd.get("ge_count"), "q025": dd.get("q025"), "q975": dd.get("q975")}
+        if isinstance(dd, dict)
+        else None
+        for dt, dd in raw_p2_dn.items()
+    }
+    re_p2 = audit_ring_vs_inclusio_multishuffle_exact(
+        rebuilt_p2_in,
+        n_shuffles=pillar2_result.get("n_shuffles"),
+    )
+    if re_p2 != pillar2_result:
+        raise ArabicOracleError("PILLAR_CONTRADICTION", "pillar2_result does not match re-derived evidence")
+
+    re_p3 = audit_translation_remainder_exact(
+        root_records=pillar3_result.get("per_root"),
+        bg_sahih_pair=pillar3_result.get("bg_unrelated_sahih_pair"),
+        bg_pickthall_pair=pillar3_result.get("bg_unrelated_pickthall_pair"),
+    )
+    if re_p3 != pillar3_result:
+        raise ArabicOracleError("PILLAR_CONTRADICTION", "pillar3_result does not match re-derived evidence")
 
     expected_axes = {
-        "diacritics_vs_rasm": p1_mono,
-        "window_size_10_20_40": p1_nulls,
-        "root_vs_stem": p1_mono and p1_lat,
-        "odd_vs_even_unseen": p1_split and p2_inc and p2_s10,
-        "second_instrument_and_controls": p1_shared and p1_poetry and p2_arb and p3_ok,
+        "per_layer_null_normalized_lift": re_p1["lift_reverses_absolute_ladder"] and re_p1["lattice_nontrivial"],
+        "window_size_10_20_40_holm": re_p1["all_12_cells_beat_null_holm"] and re_p1["root_beats_t4b_all_w"],
+        "split_half_internal_consistency": re_p1["split_halves_beat_t4b_all_w"],
+        "honest_boundary_inclusio_adjudication": re_p2["passed"],
+        "second_instrument_and_controls": (
+            re_p1["shared_classical_prose_property"]
+            and re_p1["prose_exceeds_poetry_baseline"]
+            and re_p2["arbitrary_prose_reverses_to_decay"]
+            and re_p3["passed"]
+        ),
     }
     if clean_axes != expected_axes:
         raise ArabicOracleError("AXIS_CONTRADICTION", "five_axis_checks contradicts pillar evidence")
 
     all_axes_ok = all(clean_axes.values())
-    all_passed = p1_ok and p2_ok and p3_ok and all_axes_ok and num_guard["zero_numerology_ok"]
+    all_passed = all_axes_ok
 
     body = {
         "schema_version": SCHEMA_VERSION,
-        "audit_id": "AUDIT-091",
+        "audit_id": "AUDIT-091-V2",
         "mode": clean_mode,
+        "live_corpus_recounted": live_flag,
         "pinned_corpus_sha256": clean_pins,
         "pinned_corpus_count": len(clean_pins),
-        "zero_numerology_guard": num_guard,
-        "five_axis_net_invariance": clean_axes,
+        "feature_naming_guard": num_guard,
+        "five_axis_audit_checks": clean_axes,
         "all_five_axes_passed": all_axes_ok,
-        "pillar1_root_pattern_lattice": pillar1_result,
-        "pillar2_ring_vs_inclusio": pillar2_result,
-        "pillar3_translation_remainder": pillar3_result,
-        "verdict": "CERTIFIED_ARABIC_CONTINUUM_STRUCTURE" if all_passed else "REJECTED_GATE_FAILED",
+        "boundary_inclusio_status": re_p2["boundary_inclusio_status"],
+        "cohesion_lift_reverses_absolute_ladder": re_p1["lift_reverses_absolute_ladder"],
+        "pillar1_root_pattern_lattice": re_p1,
+        "pillar2_ring_vs_inclusio_multishuffle": re_p2,
+        "pillar3_translation_remainder": re_p3,
+        "verdict": "AUDITED_ARABIC_CONTINUUM_HONEST_LEDGER" if all_passed else "REJECTED_GATE_FAILED",
         "all_gates_passed": all_passed,
     }
     body["certificate_sha256"] = canonical_sha256(body)

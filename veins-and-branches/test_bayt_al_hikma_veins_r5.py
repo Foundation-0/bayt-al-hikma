@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""R5 Mutation-Killing & Red-Team Verification Suite for AUDIT-095 (Bayt al-Hikma Veins & Branches)."""
+"""R5 Mutation-Killing & Red-Team Verification Suite for AUDIT-095R (Bayt al-Hikma Veins & Branches)."""
 
 from __future__ import annotations
 
 from fractions import Fraction
-import hashlib
 import io
 import json
 from pathlib import Path
@@ -17,6 +16,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import bayt_al_hikma_veins_certifier as bvh
 
 
+def _cite(tag: str = "Ref") -> dict[str, str]:
+    return {"work": f"Work {tag}", "edition": "Ed. 2000", "location": "p. 1"}
+
+
 class TestHelpersAndCoreMath(unittest.TestCase):
     def test_exact_primitives_and_refusals(self) -> None:
         self.assertEqual(bvh._require_exact_int(0, "z"), 0)
@@ -25,11 +28,16 @@ class TestHelpersAndCoreMath(unittest.TestCase):
         self.assertEqual(bvh.frac_str(Fraction(4, 2)), "2/1")
         self.assertEqual(bvh.frac_dec(Fraction(-3, 2), 1), "-1.5")
         self.assertEqual(bvh.frac_dec(Fraction(1, 4), 2), "0.25")
+        self.assertEqual(bvh.frac_dec_ceil(Fraction(0, 1), 1), "0.0")
+        self.assertEqual(bvh.frac_dec_ceil(Fraction(1, 200), 2), "0.01")
         self.assertEqual(bvh._isqrt_scaled_bounds(0, 1, 10), (0, 0))
         self.assertEqual(bvh._isqrt_scaled_bounds(4, 1, 10), (20, 20))
         self.assertEqual(bvh._isqrt_scaled_bounds(2, 1, 10), (14, 15))
         self.assertEqual(bvh._to_sexagesimal_digits(Fraction(0, 1), 1), [0])
         self.assertEqual(bvh._to_sexagesimal_digits(Fraction(59, 60), 1), [59])
+        self.assertEqual(bvh._to_sexagesimal_digits_ceil(Fraction(0, 1), 1), [0])
+        self.assertEqual(bvh._to_sexagesimal_digits_ceil(Fraction(1, 120), 1), [1])
+        self.assertEqual(bvh._to_sexagesimal_digits_ceil(Fraction(59, 60), 1), [59])
         self.assertEqual(bvh._sexagesimal_to_fraction(1, [0, 59]), Fraction(3659, 3600))
 
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"exact-int:b"):
@@ -40,6 +48,10 @@ class TestHelpersAndCoreMath(unittest.TestCase):
             bvh._require_exact_fraction(False, "bl")
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"digits-pos"):
             bvh.frac_dec(Fraction(1, 2), 0)
+        with self.assertRaisesRegex(bvh.VeinsAuditError, r"frac-dec-ceil-domain"):
+            bvh.frac_dec_ceil(Fraction(-1, 2), 1)
+        with self.assertRaisesRegex(bvh.VeinsAuditError, r"frac-dec-ceil-domain"):
+            bvh.frac_dec_ceil(Fraction(1, 2), 0)
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"isqrt-bounds-domain"):
             bvh._isqrt_scaled_bounds(-1, 1, 10)
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"isqrt-bounds-domain"):
@@ -52,21 +64,26 @@ class TestHelpersAndCoreMath(unittest.TestCase):
             bvh._to_sexagesimal_digits(Fraction(1, 1), 1)
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"sex-domain"):
             bvh._to_sexagesimal_digits(Fraction(1, 2), 0)
+        with self.assertRaisesRegex(bvh.VeinsAuditError, r"sex-ceil-domain"):
+            bvh._to_sexagesimal_digits_ceil(Fraction(-1, 60), 1)
+        with self.assertRaisesRegex(bvh.VeinsAuditError, r"sex-ceil-domain"):
+            bvh._to_sexagesimal_digits_ceil(Fraction(1, 1), 1)
+        with self.assertRaisesRegex(bvh.VeinsAuditError, r"sex-ceil-domain"):
+            bvh._to_sexagesimal_digits_ceil(Fraction(1, 2), 0)
+        with self.assertRaisesRegex(bvh.VeinsAuditError, r"sex-ceil-overflow"):
+            bvh._to_sexagesimal_digits_ceil(Fraction(119, 120), 1)
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"sex-digit-range"):
             bvh._sexagesimal_to_fraction(0, [-1])
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"sex-digit-range"):
             bvh._sexagesimal_to_fraction(0, [60])
 
     def test_chakravala_archimedes_and_cent_boundaries(self) -> None:
-        # Exact boundary D=2 (minimum allowed non-square D) -> (3, 2, 1)
         st2 = bvh.run_chakravala_exact(2)
         self.assertEqual(st2[-1], (3, 2, 1))
-        # D=7 hits r0 == 0 branch? Check D=13 and D=29 and D=61
         st13 = bvh.run_chakravala_exact(13)
         self.assertEqual(st13[-1][0] ** 2 - 13 * st13[-1][1] ** 2, 1)
         st7 = bvh.run_chakravala_exact(7)
         self.assertEqual(st7[-1], (8, 3, 1))
-        # D=10 has m0=3, 3^2-10=-1 -> absk=1 so r0 == 0 -> r0=absk=1!
         st10 = bvh.run_chakravala_exact(10)
         self.assertEqual(st10[-1], (19, 6, 1))
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"chakravala-nonsquare-D"):
@@ -74,7 +91,6 @@ class TestHelpersAndCoreMath(unittest.TestCase):
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"chakravala-nonsquare-D"):
             bvh.run_chakravala_exact(9)
 
-        # Archimedes exact boundaries doublings=1, scale_exp=12
         arch1 = bvh.archimedean_polygon_pi_bracket(1, 12)
         self.assertEqual(arch1["sides"], 12)
         self.assertTrue(arch1["pi_lo"] < Fraction(22, 7))
@@ -84,7 +100,6 @@ class TestHelpersAndCoreMath(unittest.TestCase):
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"archimedes-params"):
             bvh.archimedean_polygon_pi_bracket(1, 11)
 
-        # Exact cent floor boundaries 1/1 -> 0, 2/1 -> 1200
         self.assertEqual(bvh.exact_cent_floor(Fraction(1, 1)), 0)
         self.assertEqual(bvh.exact_cent_floor(Fraction(2, 1)), 1200)
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"ratio-octave-range"):
@@ -108,12 +123,15 @@ class TestFourMathematicalPillars(unittest.TestCase):
         self.assertTrue(bh["bhavana_norm_multiplicativity_exact"])
         self.assertEqual(bh["pell_D92_fundamental"], [1151, 120])
         self.assertTrue(bh["pell_D92_verified"])
+        self.assertEqual(bh["chakravala_D61_steps"], 13)
+        self.assertEqual(bh["chakravala_D61_table_rows"], 14)
         self.assertEqual(bh["pell_D61_fundamental"], [1766319049, 226153980])
         self.assertTrue(bh["pell_D61_verified"])
 
         gr = p1["greek_syriac_baghdad_veins"]
         self.assertTrue(gr["heron_area_84_exact"])
         self.assertTrue(gr["heron_sqrt720_certified"])
+        self.assertEqual(gr["archimedes_96gon_bracket_dec6_conservative"], ["3.141031", "3.142715"])
         self.assertTrue(gr["archimedes_223_71_to_22_7_nested"])
         self.assertTrue(gr["apollonius_on_ellipse"])
         self.assertTrue(gr["apollonius_focal_sum_10_exact"])
@@ -147,6 +165,10 @@ class TestFourMathematicalPillars(unittest.TestCase):
 
         kp = p3["kashi_3_times_2_28_gon_pi"]
         self.assertEqual(kp["polygon_sides"], 805306368)
+        self.assertEqual(kp["twopi_hi_sexagesimal_ceil"][-1], 15)
+        self.assertEqual(kp["base60_10place_floored_pi_width_e17"], "2.398")
+        self.assertEqual(kp["base60_10place_floored_twopi_width_e17"], "4.796")
+        self.assertEqual(kp["pi_exact_width_e17_ceil"], "2.416352")
         self.assertTrue(kp["kashi_1424_value_strictly_inside_3x2_28_bracket"])
         self.assertTrue(kp["agrees_to_16_decimal_digits"])
         self.assertTrue(kp["bracket_width_lt_1e16"])
@@ -168,6 +190,8 @@ class TestFourMathematicalPillars(unittest.TestCase):
         p5 = bvh.analyze_pillar5_lineage_and_certifiers()
         dag = p5["extended_lineage_dag_receipt"]
         self.assertTrue(dag["certified"])
+        self.assertTrue(dag["encoding_consistency_only"])
+        self.assertTrue(dag["all_nodes_and_edges_cited"])
         self.assertEqual(dag["node_count"], 23)
         self.assertEqual(dag["edge_count"], 28)
         self.assertEqual(dag["tier_counts"], {"tributary": 4, "core": 15, "branch": 4})
@@ -196,6 +220,7 @@ class TestRedTeamExtendedDagCertifier(unittest.TestCase):
                 "tier": "tributary",
                 "city": "Bhillamala",
                 "primary_work": "Work T1",
+                "source": _cite("T1"),
             },
             {
                 "node_id": "C1",
@@ -205,6 +230,7 @@ class TestRedTeamExtendedDagCertifier(unittest.TestCase):
                 "tier": "core",
                 "city": "Baghdad",
                 "primary_work": "Work C1",
+                "source": _cite("C1"),
             },
             {
                 "node_id": "C2",
@@ -214,6 +240,7 @@ class TestRedTeamExtendedDagCertifier(unittest.TestCase):
                 "tier": "core",
                 "city": "Baghdad",
                 "primary_work": "Work C2",
+                "source": _cite("C2"),
             },
             {
                 "node_id": "C3",
@@ -223,6 +250,7 @@ class TestRedTeamExtendedDagCertifier(unittest.TestCase):
                 "tier": "core",
                 "city": "Cordoba",
                 "primary_work": "Work C3",
+                "source": _cite("C3"),
             },
             {
                 "node_id": "B1",
@@ -232,53 +260,55 @@ class TestRedTeamExtendedDagCertifier(unittest.TestCase):
                 "tier": "branch",
                 "city": "Maragheh",
                 "primary_work": "Work B1",
+                "source": _cite("B1"),
             },
         ]
 
     def test_valid_closed_boundaries_and_epoch_tier_violations(self) -> None:
-        # Exact closed epoch boundaries: tributary death==750, core birth==750 & 1150, branch birth==1200
+        # Exact closed epoch boundaries & active-voice edges: C1 extended T1, C1 teacher_of C2, B1 extended C3
         nodes = self._three_tier_nodes()
         ok = bvh.certify_extended_polymath_dag(
             nodes,
             [
-                {"source": "T1", "target": "C1", "relation": "extended"},
-                {"source": "C1", "target": "C2", "relation": "teacher_of"},
-                {"source": "C1", "target": "C2", "relation": "corresponded_with"},
-                {"source": "C2", "target": "C3", "relation": "extended"},
-                {"source": "C3", "target": "B1", "relation": "extended"},
+                {"source": "C1", "target": "T1", "relation": "extended", "citation": _cite("1")},
+                {"source": "C1", "target": "C2", "relation": "teacher_of", "citation": _cite("2")},
+                {"source": "C1", "target": "C2", "relation": "corresponded_with", "citation": _cite("3")},
+                {"source": "C3", "target": "C2", "relation": "extended", "citation": _cite("4")},
+                {"source": "B1", "target": "C3", "relation": "extended", "citation": _cite("5")},
             ],
         )
         self.assertTrue(ok["certified"])
 
-        # Exact closed maturity boundaries: teacher (750-772 -> 760-810), corr overlap == 15,
-        # influence s_birth+15 == d_death AND d_birth+15 == d_death
+        # Exact closed maturity boundaries: teacher (800-822 -> 810-860), corr overlap == 15,
+        # active-voice commented_on: CI2(800-815) -> CI1(800-815) (all 4 engagement bounds tight!)
         bd_nodes = [
-            {"node_id": "T", "name": "T", "birth_year": 600, "death_year": 650, "tier": "tributary", "city": "A", "primary_work": "W"},
-            {"node_id": "CT", "name": "CT", "birth_year": 800, "death_year": 822, "tier": "core", "city": "A", "primary_work": "W"},
-            {"node_id": "CS", "name": "CS", "birth_year": 810, "death_year": 860, "tier": "core", "city": "A", "primary_work": "W"},
-            {"node_id": "CC", "name": "CC", "birth_year": 807, "death_year": 860, "tier": "core", "city": "A", "primary_work": "W"},
-            {"node_id": "CI", "name": "CI", "birth_year": 800, "death_year": 815, "tier": "core", "city": "A", "primary_work": "W"},
-            {"node_id": "B", "name": "B", "birth_year": 1200, "death_year": 1250, "tier": "branch", "city": "A", "primary_work": "W"},
+            {"node_id": "T", "name": "T", "birth_year": 600, "death_year": 650, "tier": "tributary", "city": "A", "primary_work": "W", "source": _cite("T")},
+            {"node_id": "CT", "name": "CT", "birth_year": 800, "death_year": 822, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("CT")},
+            {"node_id": "CS", "name": "CS", "birth_year": 810, "death_year": 860, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("CS")},
+            {"node_id": "CC", "name": "CC", "birth_year": 807, "death_year": 860, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("CC")},
+            {"node_id": "CI1", "name": "CI1", "birth_year": 800, "death_year": 815, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("CI1")},
+            {"node_id": "CI2", "name": "CI2", "birth_year": 800, "death_year": 815, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("CI2")},
+            {"node_id": "B", "name": "B", "birth_year": 1200, "death_year": 1250, "tier": "branch", "city": "A", "primary_work": "W", "source": _cite("B")},
         ]
         ok_bd = bvh.certify_extended_polymath_dag(
             bd_nodes,
             [
-                {"source": "T", "target": "CT", "relation": "extended"},
-                {"source": "CT", "target": "CS", "relation": "teacher_of"},
-                {"source": "CT", "target": "CC", "relation": "corresponded_with"},  # 822 - 807 == 15
-                {"source": "CT", "target": "CI", "relation": "commented_on"},       # 800+15 == 815
-                {"source": "CS", "target": "B", "relation": "extended"},
+                {"source": "CT", "target": "T", "relation": "extended", "citation": _cite("1")},
+                {"source": "CT", "target": "CS", "relation": "teacher_of", "citation": _cite("2")},
+                {"source": "CT", "target": "CC", "relation": "corresponded_with", "citation": _cite("3")},
+                {"source": "CI2", "target": "CI1", "relation": "commented_on", "citation": _cite("4")},
+                {"source": "B", "target": "CS", "relation": "extended", "citation": _cite("5")},
             ],
         )
         self.assertTrue(ok_bd["certified"])
 
-        # Epoch violations (1 year outside closed epoch bounds) + disconnected path
+        # Epoch violations + disconnected path
         bad_epoch = bvh.certify_extended_polymath_dag(
             [
-                {"node_id": "Tlate", "name": "T", "birth_year": 600, "death_year": 751, "tier": "tributary", "city": "A", "primary_work": "W"},
-                {"node_id": "Cearly", "name": "C", "birth_year": 749, "death_year": 800, "tier": "core", "city": "A", "primary_work": "W"},
-                {"node_id": "Clate", "name": "C2", "birth_year": 1151, "death_year": 1200, "tier": "core", "city": "A", "primary_work": "W"},
-                {"node_id": "Bearly", "name": "B", "birth_year": 1199, "death_year": 1250, "tier": "branch", "city": "A", "primary_work": "W"},
+                {"node_id": "Tlate", "name": "T", "birth_year": 600, "death_year": 751, "tier": "tributary", "city": "A", "primary_work": "W", "source": _cite("1")},
+                {"node_id": "Cearly", "name": "C", "birth_year": 749, "death_year": 800, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("2")},
+                {"node_id": "Clate", "name": "C2", "birth_year": 1151, "death_year": 1200, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("3")},
+                {"node_id": "Bearly", "name": "B", "birth_year": 1199, "death_year": 1250, "tier": "branch", "city": "A", "primary_work": "W", "source": _cite("4")},
             ],
             [],
         )
@@ -294,51 +324,62 @@ class TestRedTeamExtendedDagCertifier(unittest.TestCase):
             ],
         )
 
-        # Tier backward flow, cross-era correspondence, and ALL isolated 1-yr-under chronology fails
+        # Tier backward flow (both teacher_of and active-voice engagement!), cross-era corr,
+        # review #6 repro (850-death critiqued 1201-birth!), and ALL isolated 1-yr-under chronology fails
         bad_rel = bvh.certify_extended_polymath_dag(
             [
-                {"node_id": "T", "name": "T", "birth_year": 680, "death_year": 740, "tier": "tributary", "city": "A", "primary_work": "W"},
-                {"node_id": "C1", "name": "C1", "birth_year": 800, "death_year": 821, "tier": "core", "city": "A", "primary_work": "W"},
-                {"node_id": "C2", "name": "C2", "birth_year": 801, "death_year": 860, "tier": "core", "city": "A", "primary_work": "W"},
-                {"node_id": "C3", "name": "C3", "birth_year": 810, "death_year": 860, "tier": "core", "city": "A", "primary_work": "W"},
-                {"node_id": "C4", "name": "C4", "birth_year": 807, "death_year": 860, "tier": "core", "city": "A", "primary_work": "W"},
-                {"node_id": "C5", "name": "C5", "birth_year": 801, "death_year": 815, "tier": "core", "city": "A", "primary_work": "W"},
-                {"node_id": "B", "name": "B", "birth_year": 1201, "death_year": 1274, "tier": "branch", "city": "A", "primary_work": "W"},
+                {"node_id": "T", "name": "T", "birth_year": 680, "death_year": 740, "tier": "tributary", "city": "A", "primary_work": "W", "source": _cite("T")},
+                {"node_id": "Khw", "name": "Khw", "birth_year": 780, "death_year": 850, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("K")},
+                {"node_id": "C1", "name": "C1", "birth_year": 800, "death_year": 821, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("1")},
+                {"node_id": "C2", "name": "C2", "birth_year": 801, "death_year": 860, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("2")},
+                {"node_id": "C3", "name": "C3", "birth_year": 810, "death_year": 860, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("3")},
+                {"node_id": "C4", "name": "C4", "birth_year": 807, "death_year": 860, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("4")},
+                {"node_id": "ImmA", "name": "ImmA", "birth_year": 900, "death_year": 914, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("5")},
+                {"node_id": "ImmS", "name": "ImmS", "birth_year": 850, "death_year": 864, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("6")},
+                {"node_id": "Dead815", "name": "Dead815", "birth_year": 800, "death_year": 815, "tier": "core", "city": "A", "primary_work": "W", "source": _cite("7")},
+                {"node_id": "B", "name": "B", "birth_year": 1201, "death_year": 1274, "tier": "branch", "city": "A", "primary_work": "W", "source": _cite("B")},
             ],
             [
-                {"source": "T", "target": "C1", "relation": "extended"},
-                {"source": "C3", "target": "B", "relation": "extended"},
-                {"source": "C1", "target": "C3", "relation": "teacher_of"},      # 810+12=822 > 821
-                {"source": "C2", "target": "C3", "relation": "teacher_of"},      # 801+10=811 > 810
-                {"source": "C1", "target": "C4", "relation": "corresponded_with"},  # 821-807=14 < 15
-                {"source": "B", "target": "C3", "relation": "extended"},         # backward tier + anachronistic
-                {"source": "C1", "target": "C5", "relation": "commented_on"},    # target immature 801+15=816 > 815
-                {"source": "T", "target": "C1", "relation": "corresponded_with"},  # cross-era corr
+                {"source": "C1", "target": "T", "relation": "extended", "citation": _cite("e1")},
+                {"source": "B", "target": "C3", "relation": "extended", "citation": _cite("e2")},
+                {"source": "C1", "target": "C3", "relation": "teacher_of", "citation": _cite("e3")},
+                {"source": "C2", "target": "C3", "relation": "teacher_of", "citation": _cite("e4")},
+                {"source": "B", "target": "C3", "relation": "teacher_of", "citation": _cite("e5")},
+                {"source": "C1", "target": "C4", "relation": "corresponded_with", "citation": _cite("e6")},
+                {"source": "T", "target": "C1", "relation": "corresponded_with", "citation": _cite("e7")},
+                {"source": "Khw", "target": "B", "relation": "critiqued", "citation": _cite("e8")},
+                {"source": "ImmA", "target": "Khw", "relation": "extended", "citation": _cite("e9")},
+                {"source": "B", "target": "ImmS", "relation": "commented_on", "citation": _cite("e10")},
+                {"source": "Dead815", "target": "C2", "relation": "extended", "citation": _cite("e11")},
             ],
         )
         self.assertFalse(bad_rel["certified"])
         self.assertIn("TIER_BACKWARD_FLOW:B->C3", bad_rel["tier_violations"])
+        self.assertIn("TIER_BACKWARD_FLOW:Khw->B", bad_rel["tier_violations"])
         self.assertIn("TIER_CROSS_ERA_CORRESPONDENCE:T<->C1", bad_rel["tier_violations"])
         self.assertIn("CHRONO_TEACHER_OVERLAP:C1->C3", bad_rel["chronology_violations"])
         self.assertIn("CHRONO_TEACHER_AGE_GAP:C2->C3", bad_rel["chronology_violations"])
         self.assertIn("CHRONO_CORRESPONDENCE_NO_OVERLAP:C1<->C4", bad_rel["chronology_violations"])
-        self.assertIn("CHRONO_ANACHRONISTIC_INFLUENCE:B->C3", bad_rel["chronology_violations"])
-        self.assertIn("CHRONO_IMMATURE_TARGET:C1->C5", bad_rel["chronology_violations"])
+        self.assertIn("CHRONO_ACTOR_DIED_BEFORE_SUBJECT_MATURITY:Khw->B", bad_rel["chronology_violations"])
+        self.assertIn("CHRONO_ACTOR_PRECEDES_SUBJECT:Khw->B", bad_rel["chronology_violations"])
+        self.assertIn("CHRONO_IMMATURE_ACTOR:ImmA->Khw", bad_rel["chronology_violations"])
+        self.assertIn("CHRONO_IMMATURE_SUBJECT:B->ImmS", bad_rel["chronology_violations"])
+        self.assertIn("CHRONO_ACTOR_DIED_BEFORE_SUBJECT_MATURITY:Dead815->C2", bad_rel["chronology_violations"])
 
-        # Directed cycle detection
+        # Directed cycle detection in influence order
         bad_cyc = bvh.certify_extended_polymath_dag(
             nodes,
             [
-                {"source": "T1", "target": "C1", "relation": "extended"},
-                {"source": "C1", "target": "C2", "relation": "extended"},
-                {"source": "C2", "target": "C1", "relation": "critiqued"},
-                {"source": "C2", "target": "B1", "relation": "extended"},
+                {"source": "C1", "target": "T1", "relation": "extended", "citation": _cite("1")},
+                {"source": "C2", "target": "C1", "relation": "extended", "citation": _cite("2")},
+                {"source": "C1", "target": "C2", "relation": "critiqued", "citation": _cite("3")},
+                {"source": "B1", "target": "C2", "relation": "extended", "citation": _cite("4")},
             ],
         )
         self.assertFalse(bad_cyc["certified"])
         self.assertFalse(bad_cyc["directed_dag_acyclic"])
 
-        # Hard refusals
+        # Hard refusals (including mandatory citation enforcement)
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"lineage-nodes-nonempty"):
             bvh.certify_extended_polymath_dag([], [])
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"lineage-edges-seq"):
@@ -347,6 +388,10 @@ class TestRedTeamExtendedDagCertifier(unittest.TestCase):
             bvh.certify_extended_polymath_dag(["bad"], [])  # type: ignore[list-item]
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"lineage-node-keys:0"):
             bvh.certify_extended_polymath_dag([{"node_id": "X"}], [])
+        with self.assertRaisesRegex(bvh.VeinsAuditError, r"citation-dict:node.source\[0\]"):
+            bvh.certify_extended_polymath_dag([dict(nodes[0], source="not-dict")], [])
+        with self.assertRaisesRegex(bvh.VeinsAuditError, r"citation-keys:node.source\[0\]"):
+            bvh.certify_extended_polymath_dag([dict(nodes[0], source={"work": "W"})], [])
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"clean-ascii:node_id\[0\]"):
             bvh.certify_extended_polymath_dag([dict(nodes[0], node_id=" T1 ")], [])
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"exact-choice:tier\[0\]"):
@@ -358,24 +403,36 @@ class TestRedTeamExtendedDagCertifier(unittest.TestCase):
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"lineage-edge-dict:0"):
             bvh.certify_extended_polymath_dag(nodes, ["bad"])  # type: ignore[list-item]
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"lineage-edge-keys:0"):
-            bvh.certify_extended_polymath_dag(nodes, [{"source": "T1"}])
+            bvh.certify_extended_polymath_dag(nodes, [{"source": "C1"}])
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"exact-choice:edge.relation\[0\]"):
-            bvh.certify_extended_polymath_dag(nodes, [{"source": "T1", "target": "C1", "relation": "bad"}])
+            bvh.certify_extended_polymath_dag(
+                nodes, [{"source": "C1", "target": "T1", "relation": "bad", "citation": _cite("x")}]
+            )
+        with self.assertRaisesRegex(bvh.VeinsAuditError, r"citation-dict:edge.citation\[0\]"):
+            bvh.certify_extended_polymath_dag(
+                nodes, [{"source": "C1", "target": "T1", "relation": "extended", "citation": "not-dict"}]
+            )
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"lineage-unknown-source:Z"):
-            bvh.certify_extended_polymath_dag(nodes, [{"source": "Z", "target": "C1", "relation": "extended"}])
+            bvh.certify_extended_polymath_dag(
+                nodes, [{"source": "Z", "target": "T1", "relation": "extended", "citation": _cite("x")}]
+            )
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"lineage-unknown-target:Z"):
-            bvh.certify_extended_polymath_dag(nodes, [{"source": "T1", "target": "Z", "relation": "extended"}])
+            bvh.certify_extended_polymath_dag(
+                nodes, [{"source": "C1", "target": "Z", "relation": "extended", "citation": _cite("x")}]
+            )
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"lineage-self-loop:T1"):
-            bvh.certify_extended_polymath_dag(nodes, [{"source": "T1", "target": "T1", "relation": "extended"}])
+            bvh.certify_extended_polymath_dag(
+                nodes, [{"source": "T1", "target": "T1", "relation": "extended", "citation": _cite("x")}]
+            )
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"lineage-duplicate-edge"):
-            e = {"source": "T1", "target": "C1", "relation": "extended"}
+            e = {"source": "C1", "target": "T1", "relation": "extended", "citation": _cite("x")}
             bvh.certify_extended_polymath_dag(nodes, [e, e])
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"lineage-duplicate-edge"):
             bvh.certify_extended_polymath_dag(
                 nodes,
                 [
-                    {"source": "C1", "target": "C2", "relation": "corresponded_with"},
-                    {"source": "C2", "target": "C1", "relation": "corresponded_with"},
+                    {"source": "C1", "target": "C2", "relation": "corresponded_with", "citation": _cite("1")},
+                    {"source": "C2", "target": "C1", "relation": "corresponded_with", "citation": _cite("2")},
                 ],
             )
 
@@ -395,7 +452,7 @@ class TestRedTeamUnifiedBanachAndCausalCertifier(unittest.TestCase):
             "lipschitz_L": Fraction(1, 2),
             "step0_gap": Fraction(1, 2),
             "iterations": 1,
-            "target_tol": Fraction(1, 2),  # exact boundary: (1/2)^1 * (1/2) / (1/2) == 1/2
+            "target_tol": Fraction(1, 2),
             "obs_joint_direct": dict(joint),
             "obs_joint_confounded": dict(joint),
             "confounder_p_u1": Fraction(1, 2),
@@ -403,27 +460,23 @@ class TestRedTeamUnifiedBanachAndCausalCertifier(unittest.TestCase):
             "confounder_p_f_given_u0": Fraction(1, 5),
             "confounder_p_c_given_u1": Fraction(4, 5),
             "confounder_p_c_given_u0": Fraction(1, 5),
-            "min_ate_separation": Fraction(9, 25),  # exact boundary: ate_sep == 9/25
+            "min_ate_separation": Fraction(9, 25),
         }
         base.update(overrides)
         return base
 
     def test_boundaries_and_violations(self) -> None:
-        # Exact closed boundaries: ball_radius == 1 hits BOTH dom_lo=0 and dom_hi=2,
-        # a_priori == target_tol == 1/2, ate_sep == min_sep == 9/25, iterations == 1
         ok = bvh.certify_contraction_and_causal_identifiability(self._valid_spec())
         self.assertTrue(ok["certified"])
         self.assertEqual(ok["banach_ball_radius"], "1/1")
         self.assertEqual(ok["banach_a_priori_error"], "1/2")
 
-        # Exact closed boundary L == 0, x0 == domain_lo (with ball_radius == 0? step0_gap > 0 so test L=0)
         ok_l0 = bvh.certify_contraction_and_causal_identifiability(
             self._valid_spec(lipschitz_L=Fraction(0, 1), step0_gap=Fraction(1, 1))
         )
         self.assertTrue(ok_l0["certified"])
         self.assertEqual(ok_l0["banach_a_priori_error"], "0/1")
 
-        # Exact closed boundary pf_u1=1, pf_u0=0, pc_u1=1, pc_u0=0, min_sep=1/1 -> joint (1/2, 0, 0, 1/2), ATE=1!
         det_joint = {
             "p11": Fraction(1, 2),
             "p10": Fraction(0, 1),
@@ -444,7 +497,6 @@ class TestRedTeamUnifiedBanachAndCausalCertifier(unittest.TestCase):
         self.assertTrue(ok_det["certified"])
         self.assertEqual(ok_det["ate_separation"], "1/1")
 
-        # Symmetric closed boundary pf_u1=0, pf_u0=1, pc_u1=0, pc_u0=1 -> identical joint, ATE=1!
         ok_det_flip = bvh.certify_contraction_and_causal_identifiability(
             self._valid_spec(
                 obs_joint_direct=det_joint,
@@ -459,19 +511,16 @@ class TestRedTeamUnifiedBanachAndCausalCertifier(unittest.TestCase):
         self.assertTrue(ok_det_flip["certified"])
         self.assertEqual(ok_det_flip["ate_separation"], "1/1")
 
-        # x0 == domain_lo & x0 == domain_hi (allowed by domain check, triggers escape since ball_radius > 0!)
         esc_lo = bvh.certify_contraction_and_causal_identifiability(self._valid_spec(x0=Fraction(0, 1)))
         self.assertEqual(esc_lo["violations"], ["KASHI_ITERATES_ESCAPE_DOMAIN"])
         esc_hi = bvh.certify_contraction_and_causal_identifiability(self._valid_spec(x0=Fraction(2, 1)))
         self.assertEqual(esc_hi["violations"], ["KASHI_ITERATES_ESCAPE_DOMAIN"])
 
-        # Tolerance not certified (a_priori = 1/2 > 49/100)
         bad_tol = bvh.certify_contraction_and_causal_identifiability(
             self._valid_spec(target_tol=Fraction(49, 100))
         )
         self.assertEqual(bad_tol["violations"], ["KASHI_TOLERANCE_NOT_CERTIFIED"])
 
-        # Spoofed confounded joint mismatch
         spoof_joint = {
             "p11": Fraction(1, 4),
             "p10": Fraction(1, 4),
@@ -486,7 +535,6 @@ class TestRedTeamUnifiedBanachAndCausalCertifier(unittest.TestCase):
             ["GHAZALI_CONFOUNDED_JOINT_MISMATCH", "RUSHD_INTERVENTION_UNSEPARATED"],
         )
 
-        # Hard refusals
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"unified-spec-dict"):
             bvh.certify_contraction_and_causal_identifiability([])
         with self.assertRaisesRegex(bvh.VeinsAuditError, r"unified-spec-keys"):
@@ -559,61 +607,18 @@ class TestRedTeamUnifiedBanachAndCausalCertifier(unittest.TestCase):
             )
 
 
-class TestVaultAnchorsAndCLI(unittest.TestCase):
-    def test_vault_verifier_tamper_symlink_and_cli(self) -> None:
+class TestStandaloneCertificateAndCLI(unittest.TestCase):
+    def test_deterministic_zero_float_json_and_cli(self) -> None:
+        c1 = bvh.build_certificate()
+        c2 = bvh.build_certificate()
+        self.assertEqual(c1["certificate_sha256"], c2["certificate_sha256"])
+        self.assertEqual(c1["novelty_classification"]["honest_tier"], "N0")
+        self.assertEqual(c1["execution_mode"], "standalone_pure_q")
+
+        def _reject_float(tok: str) -> None:
+            raise AssertionError(f"float:{tok}")
+
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp) / "symbiosis"
-            with self.assertRaisesRegex(bvh.VeinsAuditError, r"symbiosis-root-missing"):
-                bvh.audit_live_vault_anchors(root)
-
-            root.mkdir()
-            digests: dict[str, dict[str, object]] = {}
-            for rel, meta in bvh.PINNED_VAULT_DIGESTS.items():
-                p = root / rel
-                p.parent.mkdir(parents=True, exist_ok=True)
-                p.write_text("content\n", encoding="utf-8")
-                raw = p.read_bytes()
-                digests[rel] = {
-                    "bytes": len(raw),
-                    "sha256": hashlib.sha256(raw).hexdigest(),
-                    "role": meta["role"],
-                }
-
-            with patch.object(bvh, "PINNED_VAULT_DIGESTS", digests):
-                ok = bvh.audit_live_vault_anchors(root)
-                self.assertEqual(ok["verified_vault_anchors"], 3)
-
-            first_rel = next(iter(digests))
-            target = root / first_rel
-            outside = Path(tmp) / "escape.txt"
-            outside.write_text("content\n", encoding="utf-8")
-            target.unlink()
-            target.symlink_to(outside)
-            with patch.object(bvh, "PINNED_VAULT_DIGESTS", digests):
-                with self.assertRaisesRegex(bvh.VeinsAuditError, r"vault-path-escape"):
-                    bvh.audit_live_vault_anchors(root)
-            target.unlink()
-            with patch.object(bvh, "PINNED_VAULT_DIGESTS", digests):
-                with self.assertRaisesRegex(bvh.VeinsAuditError, r"vault-file-missing"):
-                    bvh.audit_live_vault_anchors(root)
-
-            target.write_text("Content\n", encoding="utf-8")
-            with patch.object(bvh, "PINNED_VAULT_DIGESTS", digests):
-                with self.assertRaisesRegex(bvh.VeinsAuditError, r"vault-sha256-mismatch"):
-                    bvh.audit_live_vault_anchors(root)
-            target.write_text("content!!\n", encoding="utf-8")
-            with patch.object(bvh, "PINNED_VAULT_DIGESTS", digests):
-                with self.assertRaisesRegex(bvh.VeinsAuditError, r"vault-bytes-mismatch"):
-                    bvh.audit_live_vault_anchors(root)
-
-            # Standalone zero-float JSON & CLI
-            c1 = bvh.build_certificate(symbiosis_root=None)
-            c2 = bvh.build_certificate(symbiosis_root=None)
-            self.assertEqual(c1["certificate_sha256"], c2["certificate_sha256"])
-
-            def _reject_float(tok: str) -> None:
-                raise AssertionError(f"float:{tok}")
-
             out_p = Path(tmp) / "cert.json"
             buf_j = io.StringIO()
             with patch("sys.stdout", buf_j):
@@ -622,13 +627,13 @@ class TestVaultAnchorsAndCLI(unittest.TestCase):
             written = out_p.read_text(encoding="utf-8")
             self.assertEqual(buf_j.getvalue(), written)
             parsed = json.loads(written, parse_float=_reject_float)
-            self.assertEqual(parsed["audit_id"], "AUDIT-095")
+            self.assertEqual(parsed["audit_id"], "AUDIT-095R")
 
             buf_h = io.StringIO()
             with patch("sys.stdout", buf_h):
                 rc_h = bvh.main([])
             self.assertEqual(rc_h, 0)
-            self.assertIn("AUDIT-095 | mode=standalone_pure_math", buf_h.getvalue())
+            self.assertIn("AUDIT-095R | mode=standalone_pure_q", buf_h.getvalue())
 
 
 if __name__ == "__main__":

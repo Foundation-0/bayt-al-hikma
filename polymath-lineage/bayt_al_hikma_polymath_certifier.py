@@ -1,10 +1,21 @@
 #!/usr/bin/env python3
-"""Exact pure-Q mathematical certifier for the Bayt al-Hikma polymath lineage (AUDIT-092).
+"""Exact pure-Q mathematical verification engine for Bayt al-Hikma polymath studies (AUDIT-092R2).
 
-Covers 13 interconnected scholars (c. 780-1274 CE):
+Covers 13 scholars (c. 780-1274 CE):
   al-Khwarizmi, al-Kindi, Banu Musa, Thabit ibn Qurra, al-Karaji, Ibn al-Haytham,
   al-Biruni, Ibn Sina, Umar al-Khayyam, al-Samaw'al, Ibn Rushd, Isma'il al-Jazari,
   and Nasir al-Din al-Tusi.
+
+Edge Direction Convention (Active Voice):
+  Every edge {source, target, relation, source_ref} is read in active voice
+  ("source <relation> target"): for teacher_of, source taught target; for
+  corresponded_with, source and target exchanged letters as contemporaries; for
+  extended, commented_on, and critiqued, the later actor (source) engaged the
+  prior subject (target)'s work.
+
+Epistemic & Novelty Classification (Law 4):
+  N0 (reproducible pure-Q software transcription and encoding-consistency checks
+  over classical historical mathematics and published secondary editions).
 
 100% pure Python 3 stdlib using exact int/Fraction arithmetic.
 Zero floating-point literals or values; zero bare assert statements.
@@ -22,13 +33,22 @@ import sys
 from typing import Any, Sequence
 
 
-SCHEMA_VERSION = "bayt-al-hikma-polymath-lineage-v1"
-AUDIT_ID = "AUDIT-092"
+SCHEMA_VERSION = "bayt-al-hikma-polymath-lineage-v2"
+AUDIT_ID = "AUDIT-092R2"
 
-ALLOWED_NODE_KEYS = frozenset({"node_id", "name", "birth_year", "death_year", "city", "primary_work"})
-ALLOWED_EDGE_KEYS = frozenset({"source", "target", "relation"})
+EDGE_DIRECTION_CONVENTION = (
+    "Active voice ('source <relation> target'): for teacher_of, source taught target; "
+    "for corresponded_with, source and target corresponded as contemporaries; for extended, "
+    "commented_on, and critiqued, the later actor (source) engaged the prior subject (target)."
+)
+
+ALLOWED_CITATION_KEYS = frozenset({"work", "edition", "location"})
+ALLOWED_NODE_KEYS = frozenset(
+    {"node_id", "name", "birth_year", "death_year", "city", "primary_work", "source"}
+)
+ALLOWED_EDGE_KEYS = frozenset({"source", "target", "relation", "citation"})
 ALLOWED_RELATIONS = ("teacher_of", "corresponded_with", "commented_on", "extended", "critiqued")
-DIRECTED_DAG_RELATIONS = frozenset({"teacher_of", "commented_on", "extended", "critiqued"})
+DIRECTED_ENGAGEMENT_RELATIONS = frozenset({"commented_on", "extended", "critiqued"})
 
 ALLOWED_FEEDBACK_KEYS = frozenset(
     {
@@ -47,21 +67,6 @@ ALLOWED_FEEDBACK_KEYS = frozenset(
     }
 )
 
-PINNED_VAULT_DIGESTS: dict[str, dict[str, Any]] = {
-    "round10/portals/continuum/pr_1_files/continuum.md": {
-        "bytes": 10121,
-        "sha256": "516f6080563f223a4d8da437d37aaff479988f08f9079bfa48116cbb4fdc3150",
-    },
-    "round10/arm2-unification-and-novelty/unification_bridge_certificate.json": {
-        "bytes": 17640,
-        "sha256": "a662374cdb5e08adab3323477584b155ce92dbdbcb54e45871d354fccaf17642",
-    },
-    "round10/arm5-transformational-steelman/transformational_steelman_certificate.json": {
-        "bytes": 20507,
-        "sha256": "e21ceea368a945dfa1f6b6d6152714e8b2ae7df5191620f3ef37436696eb21a6",
-    },
-}
-
 BAYT_AL_HIKMA_NODES: tuple[dict[str, Any], ...] = (
     {
         "node_id": "khwarizmi",
@@ -70,6 +75,11 @@ BAYT_AL_HIKMA_NODES: tuple[dict[str, Any], ...] = (
         "death_year": 850,
         "city": "Baghdad",
         "primary_work": "al-Kitab al-Mukhtasar fi Hisab al-Jabr wa-l-Muqabala",
+        "source": {
+            "work": "Al-Khwarizmi: The Beginnings of Algebra",
+            "edition": "R. Rashed, Saqi Books (2009)",
+            "location": "pp. 8-22, 94-110",
+        },
     },
     {
         "node_id": "kindi",
@@ -78,6 +88,11 @@ BAYT_AL_HIKMA_NODES: tuple[dict[str, Any], ...] = (
         "death_year": 873,
         "city": "Baghdad",
         "primary_work": "Risala fi Istikhraj al-Muamma; De Gradibus",
+        "source": {
+            "work": "Al-Kindi's Treatise on Cryptanalysis; Arnaldi Opera II (De Gradibus)",
+            "edition": "Mrayati et al., KFCRIS (2003); M. McVaugh, Granada (1975)",
+            "location": "pp. 121-158; De Gradibus pp. 269-280",
+        },
     },
     {
         "node_id": "banu_musa",
@@ -86,14 +101,24 @@ BAYT_AL_HIKMA_NODES: tuple[dict[str, Any], ...] = (
         "death_year": 873,
         "city": "Baghdad",
         "primary_work": "Kitab al-Hiyal (Book of Ingenious Devices)",
+        "source": {
+            "work": "The Book of Ingenious Devices (Kitab al-Hiyal)",
+            "edition": "D. R. Hill, Reidel (1979)",
+            "location": "pp. 3-15, Models 1-100",
+        },
     },
     {
         "node_id": "thabit",
         "name": "Thabit ibn Qurra",
-        "birth_year": 826,
+        "birth_year": 836,
         "death_year": 901,
         "city": "Harran / Baghdad",
         "primary_work": "Maqala fi Istikhraj al-Adad al-Mutahabba; Parabola Quadrature",
+        "source": {
+            "work": "Thabit ibn Qurra: Science and Philosophy in Ninth-Century Baghdad",
+            "edition": "R. Rashed (ed.), de Gruyter (2009)",
+            "location": "pp. 3-14, 155-209, 259-290",
+        },
     },
     {
         "node_id": "karaji",
@@ -102,6 +127,11 @@ BAYT_AL_HIKMA_NODES: tuple[dict[str, Any], ...] = (
         "death_year": 1029,
         "city": "Baghdad",
         "primary_work": "al-Fakhri fi al-Jabr wa-l-Muqabala",
+        "source": {
+            "work": "The Development of Arabic Mathematics: Between Arithmetic and Algebra",
+            "edition": "R. Rashed, Kluwer (1994)",
+            "location": "ch. 1, pp. 22-45",
+        },
     },
     {
         "node_id": "haytham",
@@ -110,6 +140,11 @@ BAYT_AL_HIKMA_NODES: tuple[dict[str, Any], ...] = (
         "death_year": 1040,
         "city": "Basra / Cairo",
         "primary_work": "Kitab al-Manazir; al-Shukuk ala Batlamyus; Sharh Musadarat Uqlidis",
+        "source": {
+            "work": "The Optics of Ibn al-Haytham (Books I-III); al-Shukuk ala Batlamyus",
+            "edition": "A. I. Sabra, Warburg (1989); Sabra & Shehaby, Cairo (1971)",
+            "location": "Optics vol. 2 pp. xix-xxxii; al-Shukuk pp. 3-42",
+        },
     },
     {
         "node_id": "biruni",
@@ -118,6 +153,11 @@ BAYT_AL_HIKMA_NODES: tuple[dict[str, Any], ...] = (
         "death_year": 1048,
         "city": "Khwarazm / Ghazna",
         "primary_work": "Tahdid Nihayat al-Amakin; al-Qanun al-Masudi; al-Asilah wa-l-Ajwibah",
+        "source": {
+            "work": "The Determination of the Coordinates of Positions (Tahdid)",
+            "edition": "J. Ali (tr.), AUB (1967); E. S. Kennedy, AUB (1973)",
+            "location": "Ali pp. 187-190; Kennedy pp. 139-144",
+        },
     },
     {
         "node_id": "ibn_sina",
@@ -126,6 +166,11 @@ BAYT_AL_HIKMA_NODES: tuple[dict[str, Any], ...] = (
         "death_year": 1037,
         "city": "Bukhara / Isfahan",
         "primary_work": "al-Shifa; al-Asilah wa-l-Ajwibah",
+        "source": {
+            "work": "Al-Asilah wa-l-Ajwibah (Questions and Answers)",
+            "edition": "S. H. Nasr & M. Mohaghegh, ISTAC (1995)",
+            "location": "pp. 1-62",
+        },
     },
     {
         "node_id": "khayyam",
@@ -134,6 +179,11 @@ BAYT_AL_HIKMA_NODES: tuple[dict[str, Any], ...] = (
         "death_year": 1131,
         "city": "Nishapur / Isfahan",
         "primary_work": "Risala fi Sharh ma Ashkala min Musadarat Uqlidis; Risala fi al-Jabr",
+        "source": {
+            "work": "Omar Khayyam the Mathematician",
+            "edition": "R. Rashed & B. Vahabzadeh, Bibliotheca Persica (2000)",
+            "location": "pp. 113-162, 217-244",
+        },
     },
     {
         "node_id": "ibn_rushd",
@@ -142,6 +192,11 @@ BAYT_AL_HIKMA_NODES: tuple[dict[str, Any], ...] = (
         "death_year": 1198,
         "city": "Cordoba / Marrakesh",
         "primary_work": "Tafsir ma Bad al-Tabia (Book Lambda)",
+        "source": {
+            "work": "Ibn Rushd's Metaphysics (Book Lam)",
+            "edition": "C. Genequand, Brill (1984)",
+            "location": "pp. 176-181; A. I. Sabra (1984) pp. 133-153",
+        },
     },
     {
         "node_id": "samawal",
@@ -150,6 +205,11 @@ BAYT_AL_HIKMA_NODES: tuple[dict[str, Any], ...] = (
         "death_year": 1180,
         "city": "Baghdad / Maragheh",
         "primary_work": "al-Bahir fi al-Jabr",
+        "source": {
+            "work": "Al-Bahir en Algebre d'As-Samawal",
+            "edition": "S. Ahmad & R. Rashed, Damascus (1972)",
+            "location": "pp. 20-58",
+        },
     },
     {
         "node_id": "jazari",
@@ -158,6 +218,11 @@ BAYT_AL_HIKMA_NODES: tuple[dict[str, Any], ...] = (
         "death_year": 1206,
         "city": "Diyarbakir",
         "primary_work": "Kitab fi Marifat al-Hiyal al-Handasiyya",
+        "source": {
+            "work": "The Book of Knowledge of Ingenious Mechanical Devices",
+            "edition": "D. R. Hill, Reidel (1974)",
+            "location": "pp. 17-34, Category I ch. 1",
+        },
     },
     {
         "node_id": "tusi",
@@ -166,24 +231,156 @@ BAYT_AL_HIKMA_NODES: tuple[dict[str, Any], ...] = (
         "death_year": 1274,
         "city": "Maragheh",
         "primary_work": "al-Tadhkira fi Ilm al-Haya; al-Risala al-Shafiya",
+        "source": {
+            "work": "Nasir al-Din al-Tusi's Memoir on Astronomy (al-Tadhkira)",
+            "edition": "F. J. Ragep, Springer (1993)",
+            "location": "vol. 1 pp. 194-223 (II.11)",
+        },
     },
 )
 
-BAYT_AL_HIKMA_EDGES: tuple[dict[str, str], ...] = (
-    {"source": "khwarizmi", "target": "karaji", "relation": "extended"},
-    {"source": "karaji", "target": "samawal", "relation": "extended"},
-    {"source": "khwarizmi", "target": "khayyam", "relation": "extended"},
-    {"source": "thabit", "target": "haytham", "relation": "commented_on"},
-    {"source": "haytham", "target": "khayyam", "relation": "extended"},
-    {"source": "khayyam", "target": "tusi", "relation": "extended"},
-    {"source": "haytham", "target": "tusi", "relation": "extended"},
-    {"source": "haytham", "target": "ibn_rushd", "relation": "commented_on"},
-    {"source": "ibn_sina", "target": "ibn_rushd", "relation": "critiqued"},
-    {"source": "biruni", "target": "ibn_sina", "relation": "corresponded_with"},
-    {"source": "kindi", "target": "haytham", "relation": "critiqued"},
-    {"source": "kindi", "target": "ibn_sina", "relation": "commented_on"},
-    {"source": "banu_musa", "target": "thabit", "relation": "teacher_of"},
-    {"source": "banu_musa", "target": "jazari", "relation": "extended"},
+# Active voice: {source} <relation> {target}
+BAYT_AL_HIKMA_EDGES: tuple[dict[str, Any], ...] = (
+    {
+        "source": "karaji",
+        "target": "khwarizmi",
+        "relation": "extended",
+        "citation": {
+            "work": "al-Fakhri fi al-Jabr wa-l-Muqabala",
+            "edition": "R. Rashed, Kluwer (1994)",
+            "location": "ch. 1, pp. 22-31 (polynomial powers beyond x^2)",
+        },
+    },
+    {
+        "source": "samawal",
+        "target": "karaji",
+        "relation": "extended",
+        "citation": {
+            "work": "al-Bahir fi al-Jabr",
+            "edition": "S. Ahmad & R. Rashed, Damascus (1972)",
+            "location": "pp. 20-38 (negative powers x^-n extending al-Karaji)",
+        },
+    },
+    {
+        "source": "khayyam",
+        "target": "khwarizmi",
+        "relation": "extended",
+        "citation": {
+            "work": "Risala fi al-Jabr wa-l-Muqabala",
+            "edition": "R. Rashed & B. Vahabzadeh (2000)",
+            "location": "pp. 113-135 (cubic classification extending 6 quadratics)",
+        },
+    },
+    {
+        "source": "haytham",
+        "target": "thabit",
+        "relation": "commented_on",
+        "citation": {
+            "work": "Sharh Musadarat Uqlidis",
+            "edition": "R. Rashed, de Gruyter (2009); B. Rosenfeld (1988)",
+            "location": "History of Non-Euclidean Geometry pp. 58-64",
+        },
+    },
+    {
+        "source": "khayyam",
+        "target": "haytham",
+        "relation": "extended",
+        "citation": {
+            "work": "Risala fi Sharh ma Ashkala min Musadarat Uqlidis",
+            "edition": "R. Rashed & B. Vahabzadeh (2000)",
+            "location": "Book I, pp. 217-235 (quadrilateral parallel-postulate critique)",
+        },
+    },
+    {
+        "source": "tusi",
+        "target": "khayyam",
+        "relation": "extended",
+        "citation": {
+            "work": "al-Risala al-Shafiya an al-Shakk fi al-Khutut al-Mutawaziya",
+            "edition": "B. Rosenfeld, Springer (1988)",
+            "location": "pp. 73-84 (parallel-postulate quadrilateral synthesis)",
+        },
+    },
+    {
+        "source": "tusi",
+        "target": "haytham",
+        "relation": "extended",
+        "citation": {
+            "work": "al-Tadhkira fi Ilm al-Haya",
+            "edition": "F. J. Ragep, Springer (1993)",
+            "location": "vol. 1 pp. 194-223 (resolving al-Shukuk equant objections)",
+        },
+    },
+    {
+        "source": "ibn_rushd",
+        "target": "haytham",
+        "relation": "commented_on",
+        "citation": {
+            "work": "Tafsir ma Bad al-Tabia (Book Lambda)",
+            "edition": "A. I. Sabra, JHA 15 (1984)",
+            "location": "pp. 133-153 (Andalusian physical astronomy critique)",
+        },
+    },
+    {
+        "source": "ibn_rushd",
+        "target": "ibn_sina",
+        "relation": "critiqued",
+        "citation": {
+            "work": "Tahafut al-Tahafut",
+            "edition": "S. van den Bergh, Gibb Memorial (1954)",
+            "location": "vol. 1 pp. 316-333 (critique of Avicennan metaphysics)",
+        },
+    },
+    {
+        "source": "biruni",
+        "target": "ibn_sina",
+        "relation": "corresponded_with",
+        "citation": {
+            "work": "al-Asilah wa-l-Ajwibah (18 Questions and Answers)",
+            "edition": "S. H. Nasr & M. Mohaghegh, ISTAC (1995)",
+            "location": "Questions 1-18, pp. 1-62",
+        },
+    },
+    {
+        "source": "haytham",
+        "target": "kindi",
+        "relation": "critiqued",
+        "citation": {
+            "work": "Kitab al-Manazir (Book I) & Discourse on Light",
+            "edition": "A. I. Sabra, Warburg (1989); D. Lindberg (1976)",
+            "location": "Theories of Vision pp. 58-67 (intromission vs extramission)",
+        },
+    },
+    {
+        "source": "ibn_sina",
+        "target": "kindi",
+        "relation": "commented_on",
+        "citation": {
+            "work": "al-Qanun fi al-Tibb & al-Shifa",
+            "edition": "M. McVaugh, Granada (1975)",
+            "location": "De Gradibus introduction pp. 15-24 (degree proportionality)",
+        },
+    },
+    {
+        "source": "banu_musa",
+        "target": "thabit",
+        "relation": "teacher_of",
+        "citation": {
+            "work": "Kitab al-Fihrist (Ibn al-Nadim); Thabit ibn Qurra",
+            "edition": "R. Rashed (ed.), de Gruyter (2009)",
+            "location": "pp. 4-7 (Muhammad ibn Musa mentoring Thabit in Baghdad)",
+        },
+    },
+    {
+        "source": "jazari",
+        "target": "banu_musa",
+        "relation": "extended",
+        "citation": {
+            "work": "Kitab fi Marifat al-Hiyal al-Handasiyya",
+            "edition": "D. R. Hill, Reidel (1974)",
+            "location": "pp. 12-15, 272 (explicitly citing Banu Musa float valves)",
+        },
+    },
 )
 
 
@@ -225,18 +422,38 @@ def _require_exact_choice(value: Any, allowed: tuple[str, ...], name: str) -> st
     return value
 
 
+def _require_citation(value: Any, name: str) -> dict[str, str]:
+    _require(isinstance(value, dict), f"citation-dict:{name}")
+    _require(set(value.keys()) == ALLOWED_CITATION_KEYS, f"citation-keys:{name}")
+    return {
+        "work": _require_clean_ascii(value["work"], f"{name}.work"),
+        "edition": _require_clean_ascii(value["edition"], f"{name}.edition"),
+        "location": _require_clean_ascii(value["location"], f"{name}.location"),
+    }
+
+
 def frac_str(value: Fraction) -> str:
     v = _require_exact_fraction(value, "frac_str")
     return f"{v.numerator}/{v.denominator}"
 
 
 def frac_dec6(value: Fraction) -> str:
+    """Truncate exact Fraction toward zero to 6 decimal places (conservative lower bound for v >= 0)."""
     v = _require_exact_fraction(value, "frac_dec6")
     sign = "-" if v < 0 else ""
     av = abs(v)
     scaled = (av.numerator * 1_000_000) // av.denominator
     whole, rem = divmod(scaled, 1_000_000)
     return f"{sign}{whole}.{rem:06d}"
+
+
+def frac_dec6_ceil(value: Fraction) -> str:
+    """Round non-negative exact Fraction strictly UP to 6 decimal places (conservative upper bound)."""
+    v = _require_exact_fraction(value, "frac_dec6_ceil")
+    _require(v >= 0, "frac-dec6-ceil-nonneg")
+    scaled = (v.numerator * 1_000_000 + v.denominator - 1) // v.denominator
+    whole, rem = divmod(scaled, 1_000_000)
+    return f"{whole}.{rem:06d}"
 
 
 def _is_prime_exact(n: int) -> bool:
@@ -290,7 +507,6 @@ def _positive_divisors(n: int) -> list[int]:
 
 def analyze_pillar1_continuum_vs_atomism() -> dict[str, Any]:
     """Pillar 1: Al-Biruni <-> Ibn Sina continuum obstruction + Thabit ibn Qurra quadrature & amicables."""
-    # 1A. 2-adic valuation parity obstruction against N^2 + N^2 = M^2 (sqrt(2) irrational)
     sample_n = (1, 2, 3, 6, 12)
     v2_checks = []
     for nv in sample_n:
@@ -298,15 +514,11 @@ def analyze_pillar1_continuum_vs_atomism() -> dict[str, Any]:
         v2_lhs = _v2_exact(lhs)
         v2_checks.append({"N": nv, "2N^2": lhs, "v2_2N2": v2_lhs, "v2_odd": (v2_lhs % 2) == 1})
 
-    # Lattice L_inf vs Euclidean squared metric distortion on (N, N) vs (N, 0)
     euclid_diag_sq = Fraction(2, 1)
     linf_diag_sq = Fraction(1, 1)
-    squared_metric_distortion = euclid_diag_sq / linf_diag_sq  # 2/1
-
-    # 1B. Concentric wheel 2:1 slippage: outer step = 1 atom => inner step = 1/2 atom (not integer!)
+    squared_metric_distortion = euclid_diag_sq / linf_diag_sq
     concentric_inner_step = Fraction(1, 2)
 
-    # 1C. Thabit ibn Qurra amicable numbers (n = 2, 3, 4)
     thabit_cases = []
     for n in (2, 3, 4):
         p = 3 * (2 ** (n - 1)) - 1
@@ -332,7 +544,6 @@ def analyze_pillar1_continuum_vs_atomism() -> dict[str, Any]:
             }
         )
 
-    # 1D. Thabit's unequal-subdivision parabola quadrature on [0, 1] at x_k = (k/N)^2 (N = 100)
     n_grid = 100
     upper_sum = Fraction(0, 1)
     lower_sum = Fraction(0, 1)
@@ -366,17 +577,13 @@ def analyze_pillar1_continuum_vs_atomism() -> dict[str, Any]:
 def alhazen_quartic_coeffs(
     a_pt: tuple[Fraction, Fraction], b_pt: tuple[Fraction, Fraction]
 ) -> tuple[Fraction, Fraction, Fraction, Fraction, Fraction]:
-    """Exact coefficients (c4, c3, c2, c1, c0) of Alhazen's reflection quartic P(t) = 0 on unit circle.
-
-    Using M(t) = ((1 - t^2)/(1 + t^2), 2t/(1 + t^2)) and reflection law:
-      (A x M)(B . M - 1) + (B x M)(A . M - 1) = 0.
-    """
+    """Exact coefficients (c4, c3, c2, c1, c0) of Alhazen's reflection quartic P(t) = 0 on unit circle."""
     ax, ay = _require_exact_fraction(a_pt[0], "ax"), _require_exact_fraction(a_pt[1], "ay")
     bx, by = _require_exact_fraction(b_pt[0], "bx"), _require_exact_fraction(b_pt[1], "by")
-    # Numerators of (A x M) and (B . M - 1) over (1 + t^2) as [c0, c1, c2]:
-    # A x M = (ay) t^2 + (2 ax) t - ay
-    # B . M - 1 = (-bx - 1) t^2 + (2 by) t + (bx - 1)
-    def _poly_mul_deg2(u: tuple[Fraction, Fraction, Fraction], v: tuple[Fraction, Fraction, Fraction]) -> list[Fraction]:
+
+    def _poly_mul_deg2(
+        u: tuple[Fraction, Fraction, Fraction], v: tuple[Fraction, Fraction, Fraction]
+    ) -> list[Fraction]:
         out = [Fraction(0, 1)] * 5
         for i in range(3):
             for j in range(3):
@@ -389,7 +596,7 @@ def alhazen_quartic_coeffs(
     v2 = (ax - Fraction(1, 1), 2 * ay, -ax - Fraction(1, 1))
     p1 = _poly_mul_deg2(u1, v1)
     p2 = _poly_mul_deg2(u2, v2)
-    comb = [p1[k] + p2[k] for k in range(5)]  # ascending [c0..c4]
+    comb = [p1[k] + p2[k] for k in range(5)]
     return (comb[4], comb[3], comb[2], comb[1], comb[0])
 
 
@@ -401,18 +608,14 @@ def _eval_poly_desc(coeffs: Sequence[Fraction], x: Fraction) -> Fraction:
 
 
 def analyze_pillar2_haytham_khayyam_rushd() -> dict[str, Any]:
-    """Pillar 2: Alhazen quartic non-constructibility, Haytham-Khayyam curvature trichotomy, Ibn Rushd anti-epicycles."""
-    # 2A-1. Symmetric constructible case A=(2, 1), B=(2, -1) -> M=(1, 0), t=0
+    """Pillar 2: Alhazen quartic non-constructibility, Haytham-Khayyam curvature trichotomy, Ibn Rushd witness."""
     sym_coeffs = alhazen_quartic_coeffs((Fraction(2, 1), Fraction(1, 1)), (Fraction(2, 1), Fraction(-1, 1)))
     sym_at_zero = _eval_poly_desc(sym_coeffs, Fraction(0, 1))
 
-    # 2A-2. Classic non-constructible case A=(2, 0), B=(0, 3) -> -9t^4 - 4t^3 + 36t^2 - 4t - 3 = 0
     raw_coeffs = alhazen_quartic_coeffs((Fraction(2, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(3, 1)))
-    # Normalize sign so leading coeff is positive (+9):
     sign_flip = Fraction(-1, 1) if raw_coeffs[0] < 0 else Fraction(1, 1)
-    q_coeffs = tuple(sign_flip * c for c in raw_coeffs)  # (9, 4, -36, 4, 3)
+    q_coeffs = tuple(sign_flip * c for c in raw_coeffs)
 
-    # Exhaustive Rational Root Theorem check on P(t)
     rat_roots_p: list[str] = []
     for num in _positive_divisors(int(q_coeffs[-1])):
         for den in _positive_divisors(int(q_coeffs[0])):
@@ -421,19 +624,17 @@ def analyze_pillar2_haytham_khayyam_rushd() -> dict[str, Any]:
                 if _eval_poly_desc(q_coeffs, cand) == 0:
                     rat_roots_p.append(frac_str(cand))
 
-    # Isolate all 4 real roots via exact rational sign changes
     probe_pts = (Fraction(-3, 1), Fraction(-1, 1), Fraction(-1, 5), Fraction(1, 2), Fraction(3, 1))
     probe_signs = [1 if _eval_poly_desc(q_coeffs, x) > 0 else -1 for x in probe_pts]
     sign_changes = sum(1 for i in range(len(probe_signs) - 1) if probe_signs[i] * probe_signs[i + 1] < 0)
 
-    # Depress quartic t = y - b/(4a) = y - 1/9 and compute exact integer Ferrari cubic resolvent
     shift = -q_coeffs[1] / (4 * q_coeffs[0])
     asc_orig = list(reversed(q_coeffs))
     dep_asc = [Fraction(0, 1)] * 5
     for k, ck in enumerate(asc_orig):
         for j in range(k + 1):
             dep_asc[j] += ck * math.comb(k, j) * (shift ** (k - j))
-    dep_monic = [x / dep_asc[4] for x in dep_asc]  # [r, q, p, 0, 1]
+    dep_monic = [x / dep_asc[4] for x in dep_asc]
     r_d, q_d, p_d = dep_monic[0], dep_monic[1], dep_monic[2]
     res_frac = (Fraction(1, 1), 2 * p_d, p_d * p_d - 4 * r_d, -(q_d * q_d))
     lcm_den = math.lcm(*(c.denominator for c in res_frac))
@@ -442,7 +643,6 @@ def analyze_pillar2_haytham_khayyam_rushd() -> dict[str, Any]:
     res_int = [c // gcd_all for c in res_int]
     res_poly = tuple(Fraction(c, 1) for c in res_int)
 
-    # Exhaustive Rational Root Theorem check on Ferrari cubic resolvent (proving 3 | |Gal(P)|!)
     rat_roots_res: list[str] = []
     for num in _positive_divisors(res_int[-1]):
         for den in _positive_divisors(res_int[0]):
@@ -451,18 +651,10 @@ def analyze_pillar2_haytham_khayyam_rushd() -> dict[str, Any]:
                 if _eval_poly_desc(res_poly, cand) == 0:
                     rat_roots_res.append(frac_str(cand))
 
-    # 2B. Haytham-Khayyam-Tusi trirectangular quadrilateral curvature trichotomy in exact Q
-    # Hyperbolic (K=-1): sinh(a)=3/4, sinh(b)=5/12 => cos(phi) = sinh(a)*sinh(b) = 5/16 > 0 (acute!)
-    # Euclidean  (K= 0): cos(phi) = 0 (right!)
-    # Spherical  (K=+1): sin(a)=3/5, sin(b)=5/13 => cos(phi) = -sin(a)*sin(b) = -3/13 < 0 (obtuse!)
     cos_hyp = Fraction(3, 4) * Fraction(5, 12)
     cos_euc = Fraction(0, 1)
     cos_sph = -Fraction(3, 5) * Fraction(5, 13)
 
-    # 2C. Ibn Rushd anti-epicycle overparameterization witness:
-    # Fitting 3 discrete observations y(0)=0, y(1)=0, y(2)=1 with a 3-parameter quadratic/harmonic interpolant
-    # p(x) = (1/2)x^2 - (1/2)x gives 0/1 in-sample error on {0, 1, 2}, yet on held-out x=10 (true linear 0)
-    # explodes to p(10) = 45 (pure overparameterized epicycle artifact, dof=3 == n_train=3)!
     def _interp(x: Fraction) -> Fraction:
         return Fraction(1, 2) * x * x - Fraction(1, 2) * x
 
@@ -502,34 +694,26 @@ def analyze_pillar2_haytham_khayyam_rushd() -> dict[str, Any]:
 def reduce_khwarizmi_quadratic(
     lhs: tuple[Fraction, Fraction, Fraction], rhs: tuple[Fraction, Fraction, Fraction]
 ) -> dict[str, Any]:
-    """Exact pure-Q implementation of al-Khwarizmi's al-jabr (restoration) + al-muqabala (balancing).
-
-    Input: lhs = (L2, L1, L0), rhs = (R2, R1, R0) for L2 x^2 + L1 x + L0 = R2 x^2 + R1 x + R0.
-    Produces one of al-Khwarizmi's 6 positive-coefficient canonical forms (with exact positive rational check).
-    """
+    """Exact pure-Q implementation of al-Khwarizmi's al-jabr (restoration) + al-muqabala (balancing)."""
     _require(isinstance(lhs, tuple) and len(lhs) == 3, "khwarizmi-lhs-len")
     _require(isinstance(rhs, tuple) and len(rhs) == 3, "khwarizmi-rhs-len")
     l_f = tuple(_require_exact_fraction(v, f"lhs[{i}]") for i, v in enumerate(lhs))
     r_f = tuple(_require_exact_fraction(v, f"rhs[{i}]") for i, v in enumerate(rhs))
 
-    # Combined net coefficients a x^2 + b x + c = 0
     a = l_f[0] - r_f[0]
     b = l_f[1] - r_f[1]
     c = l_f[2] - r_f[2]
     _require(not (a == 0 and b == 0), "khwarizmi-degenerate-no-unknown")
 
-    # Normalize so leading nonzero term is positive
     lead = a if a != 0 else b
     if lead < 0:
         a, b, c = -a, -b, -c
 
     if a == 0:
-        # Linear form: b x = -c (Type 3: roots equal numbers, requires -c > 0)
         _require(-c > 0, "khwarizmi-no-positive-root")
         root = (-c) / b
         return {"canonical_type": 3, "form": "bx = c", "p": frac_str(b), "q": frac_str(-c), "positive_root": frac_str(root)}
 
-    # Monic reduction (al-radd): x^2 + (b/a) x + (c/a) = 0
     p = b / a
     q = c / a
     if q == 0:
@@ -538,18 +722,15 @@ def reduce_khwarizmi_quadratic(
     if p == 0 and q < 0:
         return {"canonical_type": 2, "form": "x^2 = q", "p": "0/1", "q": frac_str(-q), "discriminant": frac_str(-q)}
     if p > 0 and q < 0:
-        # Type 4: x^2 + p x = (-q)
         rhs_q = -q
         disc = (p / 2) ** 2 + rhs_q
         return {"canonical_type": 4, "form": "x^2 + px = q", "p": frac_str(p), "q": frac_str(rhs_q), "discriminant": frac_str(disc)}
     if p < 0 and q > 0:
-        # Type 5: x^2 + q = (-p) x
         rhs_p = -p
         disc = (rhs_p / 2) ** 2 - q
         _require(disc >= 0, "khwarizmi-complex-roots")
         return {"canonical_type": 5, "form": "x^2 + q = px", "p": frac_str(rhs_p), "q": frac_str(q), "discriminant": frac_str(disc)}
     if p < 0 and q < 0:
-        # Type 6: x^2 = (-p) x + (-q)
         rhs_p, rhs_q = -p, -q
         disc = (rhs_p / 2) ** 2 + rhs_q
         return {"canonical_type": 6, "form": "x^2 = px + q", "p": frac_str(rhs_p), "q": frac_str(rhs_q), "discriminant": frac_str(disc)}
@@ -586,9 +767,7 @@ def laurent_mul(a: dict[int, Fraction], b: dict[int, Fraction]) -> dict[int, Fra
 
 
 def analyze_pillar3_transformational_algebra_laurent() -> dict[str, Any]:
-    """Pillar 3: al-Khwarizmi 6-form reducer + al-Karaji/al-Samaw'al Laurent ring Q[x, x^-1] -> AUDIT-085R."""
-    # Flagship Type 4: x^2 + 10x = 39 (from al-Kitab al-Mukhtasar Ch. 1, written with restoration terms on both sides!)
-    # (2 x^2 + 7 x - 9) = (x^2 - 3 x + 30) -> al-jabr & al-muqabala -> x^2 + 10x = 39, disc = 64 = 8^2, root = 8 - 5 = 3
+    """Pillar 3: al-Khwarizmi 6-form reducer + al-Karaji/al-Samaw'al Laurent ring Q[x, x^-1]."""
     flagship = reduce_khwarizmi_quadratic(
         (Fraction(2, 1), Fraction(7, 1), Fraction(-9, 1)),
         (Fraction(1, 1), Fraction(-3, 1), Fraction(30, 1)),
@@ -596,23 +775,18 @@ def analyze_pillar3_transformational_algebra_laurent() -> dict[str, Any]:
     flagship_root = Fraction(3, 1)
     flagship_check = flagship_root**2 + 10 * flagship_root == Fraction(39, 1)
 
-    # All 6 canonical forms verified
     type1 = reduce_khwarizmi_quadratic((Fraction(3, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(15, 1), Fraction(0, 1)))
     type2 = reduce_khwarizmi_quadratic((Fraction(2, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(0, 1), Fraction(18, 1)))
     type3 = reduce_khwarizmi_quadratic((Fraction(0, 1), Fraction(4, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(0, 1), Fraction(12, 1)))
     type5 = reduce_khwarizmi_quadratic((Fraction(1, 1), Fraction(0, 1), Fraction(21, 1)), (Fraction(0, 1), Fraction(10, 1), Fraction(0, 1)))
     type6 = reduce_khwarizmi_quadratic((Fraction(1, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(3, 1), Fraction(4, 1)))
 
-    # al-Samaw'al (1149 CE, al-Bahir) Laurent ring Q[x, x^-1]:
-    # 1. Exact geometric Laurent identity (1 - x^-1) * (1 + x^-1 + ... + x^-5) == 1 - x^-6
     one_minus_inv = {0: Fraction(1, 1), -1: Fraction(-1, 1)}
     geom5 = {-k: Fraction(1, 1) for k in range(6)}
     prod_geom = laurent_mul(one_minus_inv, geom5)
-    # 2. Exact multiplicative inverse of monomial 3 x^-2 is (1/3) x^2 -> product == {0: 1}
     mon_prod = laurent_mul({-2: Fraction(3, 1)}, {2: Fraction(1, 3)})
-    # 3. Direct bridge to AUDIT-085R Q[q] Schur complement on K_22 = 1 - q:
-    # For K = [[q^2, q], [q, 1 - q]], exact numerator of Schur complement S = K_00 - K_01^2 / K_11
-    # satisfies K_11 * S = K_00 * K_11 - K_01^2 = q^2(1 - q) - q^2 = -q^3!
+
+    # Exact polynomial ring Q[q] Schur-complement numerator on K = [[q^2, q], [q, 1-q]]
     k00 = {2: Fraction(1, 1)}
     k01 = {1: Fraction(1, 1)}
     k11 = {0: Fraction(1, 1), 1: Fraction(-1, 1)}
@@ -628,28 +802,27 @@ def analyze_pillar3_transformational_algebra_laurent() -> dict[str, Any]:
             "type5": type5,
             "type6": type6,
         },
-        "samawal_laurent_ring_and_audit085r_bridge": {
+        "samawal_laurent_ring_identities": {
             "geom_identity_prod": {str(k): frac_str(v) for k, v in sorted(prod_geom.items())},
             "geom_identity_exact": prod_geom == {0: Fraction(1, 1), -6: Fraction(-1, 1)},
             "negative_exponent_inverse_exact": mon_prod == {0: Fraction(1, 1)},
-            "audit085r_schur_numerator_k11_S": {str(k): frac_str(v) for k, v in sorted(schur_num.items())},
-            "audit085r_exact_neg_q3": schur_num == {3: Fraction(-1, 1)},
+            "schur_numerator_k11_S": {str(k): frac_str(v) for k, v in sorted(schur_num.items())},
+            "schur_numerator_exact_neg_q3": schur_num == {3: Fraction(-1, 1)},
         },
     }
 
 
 def analyze_pillar4_kindi_biruni_tusi_jazari() -> dict[str, Any]:
-    """Pillar 4: al-Kindi, al-Biruni Nandana sexagesimal forensics, al-Tusi couple, al-Jazari float valve."""
+    """Pillar 4: al-Kindi, al-Biruni Nandana sexagesimal sensitivity, al-Tusi couple, al-Jazari float valve."""
     # 4A. al-Kindi De Gradibus (2^n) + frequency-null permutation invariance
     de_gradibus = {f"degree_{n}": 2**n for n in range(5)}
     plain_freqs = (Fraction(1, 2), Fraction(1, 4), Fraction(1, 8), Fraction(1, 8))
-    # Arbitrary monoalphabetic substitution permutation (cyclic shift by 1)
     cipher_freqs = (plain_freqs[1], plain_freqs[2], plain_freqs[3], plain_freqs[0])
     unif = Fraction(1, 4)
     l1_plain = sum((abs(f - unif) for f in plain_freqs), Fraction(0, 1))
     l1_cipher = sum((abs(f - unif) for f in cipher_freqs), Fraction(0, 1))
 
-    # 4B. al-Biruni Nandana horizon-dip geodesy (Tahdid, c. 1025 CE)
+    # 4B. al-Biruni Nandana horizon-dip geodesy (Tahdid, c. 1025 CE; Ali 1967 pp. 187-190; Kennedy 1973 pp. 139-144)
     # h = 652;03,18 = 652.055 cubits; dip = 34' = 17/5400 * pi
     h_biruni = Fraction(652_055, 1_000)
     pi_lo = Fraction(314_159_265, 100_000_000)
@@ -661,18 +834,37 @@ def analyze_pillar4_kindi_biruni_tusi_jazari() -> dict[str, Any]:
     r34_lo = h_biruni * cos34_lo / (Fraction(1, 1) - cos34_lo)
     r34_hi = h_biruni * cos34_hi / (Fraction(1, 1) - cos34_hi)
 
-    # Exact forensic 3-place sexagesimal table truncation: cos(34') = 0;59,59,49 = 215989/216000
-    cos_sex3 = Fraction(59 * 3600 + 59 * 60 + 49, 216_000)
-    r_sex3 = h_biruni * cos_sex3 / (Fraction(1, 1) - cos_sex3)  # 28167341479 / 2200 = 12803337.0359...
+    # Exact base-60 truncation sensitivity table across 2, 3, 4, and 5 sexagesimal places of cos(34')
+    # True base-60 expansion: cos(34') = 0; 59, 59, 49, 26, 09, 26, ...
+    cos34_sex_digits = (59, 59, 49, 26, 9)
+    trunc_sensitivity: dict[str, dict[str, Any]] = {}
+    r_sex3 = Fraction(0, 1)
+    cos_sex3 = Fraction(0, 1)
+    for n_places in (2, 3, 4, 5):
+        c_val = Fraction(0, 1)
+        denom = 1
+        for d in cos34_sex_digits[:n_places]:
+            denom *= 60
+            c_val += Fraction(d, denom)
+        r_val = h_biruni * c_val / (Fraction(1, 1) - c_val)
+        if n_places == 3:
+            cos_sex3 = c_val
+            r_sex3 = r_val
+        trunc_sensitivity[f"places_{n_places}"] = {
+            "sexagesimal_digits": list(cos34_sex_digits[:n_places]),
+            "cos34_fraction": frac_str(c_val),
+            "radius_fraction": frac_str(r_val),
+            "radius_dec6": frac_dec6(r_val),
+        }
+
     biruni_reported = 12_803_337
-    # Sensitivity at 33' and 35' (using exact upper Taylor cos at pi_lo)
     a33 = Fraction(33, 10_800) * pi_lo
     a35 = Fraction(35, 10_800) * pi_lo
     c33 = Fraction(1, 1) - (a33 * a33) / 2 + (a33**4) / 24
     c35 = Fraction(1, 1) - (a35 * a35) / 2 + (a35**4) / 24
     r33 = h_biruni * c33 / (Fraction(1, 1) - c33)
     r35 = h_biruni * c35 / (Fraction(1, 1) - c35)
-    refraction_bias_factor = Fraction(7, 6)  # 1 / (1 - k) for terrestrial k = 1/7
+    refraction_bias_factor = Fraction(7, 6)
 
     # 4C. Nasir al-Din al-Tusi couple (1261 CE) via exact Weierstrass rational t = tan(theta/2)
     r_inner = Fraction(1, 1)
@@ -681,7 +873,6 @@ def analyze_pillar4_kindi_biruni_tusi_jazari() -> dict[str, Any]:
     for t in t_grid:
         cos_th = (Fraction(1, 1) - t * t) / (Fraction(1, 1) + t * t)
         sin_th = (2 * t) / (Fraction(1, 1) + t * t)
-        # C(t) = (r cos th, r sin th); offset = (r cos(-th), r sin(-th)) = (r cos th, -r sin th)
         px = r_inner * cos_th + r_inner * cos_th
         py = r_inner * sin_th - r_inner * sin_th
         tusi_rows.append({"t": frac_str(t), "P_x": frac_str(px), "P_y": frac_str(py)})
@@ -695,10 +886,10 @@ def analyze_pillar4_kindi_biruni_tusi_jazari() -> dict[str, Any]:
             traj.append(frac_str(e))
         return traj
 
-    jazari_monotone = _sim_valve(Fraction(1, 2), Fraction(1, 1), 4)   # 1 -> 1/2 -> 1/4 -> 1/8 -> 1/16
-    jazari_osc = _sim_valve(Fraction(3, 2), Fraction(1, 1), 4)        # 1 -> -1/2 -> 1/4 -> -1/8 -> 1/16
-    jazari_hunt = _sim_valve(Fraction(2, 1), Fraction(1, 1), 4)       # 1 -> -1 -> 1 -> -1 -> 1 (period-2!)
-    jazari_diverge = _sim_valve(Fraction(5, 2), Fraction(1, 1), 4)    # 1 -> -3/2 -> 9/4 -> -27/8 -> 81/16
+    jazari_monotone = _sim_valve(Fraction(1, 2), Fraction(1, 1), 4)
+    jazari_osc = _sim_valve(Fraction(3, 2), Fraction(1, 1), 4)
+    jazari_hunt = _sim_valve(Fraction(2, 1), Fraction(1, 1), 4)
+    jazari_diverge = _sim_valve(Fraction(5, 2), Fraction(1, 1), 4)
 
     return {
         "kindi_de_gradibus_and_frequency_null": {
@@ -707,15 +898,21 @@ def analyze_pillar4_kindi_biruni_tusi_jazari() -> dict[str, Any]:
             "cipher_l1_from_uniform": frac_str(l1_cipher),
             "permutation_invariant_exact": l1_plain == l1_cipher and l1_plain > 0,
         },
-        "biruni_nandana_geodesy_forensics": {
+        "biruni_nandana_geodesy_analysis": {
+            "historical_input_sources": [
+                "J. Ali (tr.), The Determination of the Coordinates of Positions (Beirut: AUB, 1967), pp. 187-190",
+                "E. S. Kennedy, A Commentary upon Biruni's Kitab Tahdid al-Amakin (Beirut: AUB, 1973), pp. 139-144",
+            ],
+            "epistemic_status": "ARITHMETIC_FIT_HYPOTHESIS_SINGLE_NUMBER",
             "height_cubits": frac_str(h_biruni),
-            "exact_r34_bracket_dec6": [frac_dec6(r34_lo), frac_dec6(r34_hi)],
+            "exact_r34_bracket_dec6_conservative": [frac_dec6(r34_lo), frac_dec6_ceil(r34_hi)],
+            "sexagesimal_truncation_sensitivity": trunc_sensitivity,
             "sexagesimal_3place_cos34": frac_str(cos_sex3),
             "sexagesimal_3place_r": frac_str(r_sex3),
             "sexagesimal_3place_r_dec6": frac_dec6(r_sex3),
             "biruni_tahdid_reported_cubits": biruni_reported,
             "abs_diff_cubits_dec6": frac_dec6(abs(r_sex3 - biruni_reported)),
-            "reconstructs_within_1_cubit": abs(r_sex3 - biruni_reported) < Fraction(1, 1),
+            "matches_reported_integer_within_1_cubit": abs(r_sex3 - biruni_reported) < Fraction(1, 1),
             "dip_33min_r_dec6": frac_dec6(r33),
             "dip_35min_r_dec6": frac_dec6(r35),
             "refraction_k_one_seventh_factor": frac_str(refraction_bias_factor),
@@ -736,7 +933,13 @@ def analyze_pillar4_kindi_biruni_tusi_jazari() -> dict[str, Any]:
 def certify_polymath_lineage_graph(
     nodes: Sequence[dict[str, Any]], edges: Sequence[dict[str, Any]]
 ) -> dict[str, Any]:
-    """Fail-closed chronological & DAG acyclicity certifier for the Bayt al-Hikma polymath network."""
+    """Fail-closed active-voice encoding-consistency checker for the Bayt al-Hikma lineage dataset.
+
+    Edge direction convention (active voice): every edge {source, target, relation, citation}
+    means `source <relation> target`. For extended, commented_on, and critiqued, source is the
+    later actor engaging target's prior work; influence-order DAG edges therefore run
+    teacher->student for teacher_of and target->source for engagement relations.
+    """
     _require(isinstance(nodes, (list, tuple)) and len(nodes) >= 1, "lineage-nodes-nonempty")
     _require(isinstance(edges, (list, tuple)), "lineage-edges-seq")
 
@@ -749,6 +952,7 @@ def certify_polymath_lineage_graph(
         _require_clean_ascii(node["name"], f"name[{idx}]")
         _require_clean_ascii(node["city"], f"city[{idx}]")
         _require_clean_ascii(node["primary_work"], f"primary_work[{idx}]")
+        _require_citation(node["source"], f"node.source[{idx}]")
         birth = _require_exact_int(node["birth_year"], f"birth_year[{idx}]")
         death = _require_exact_int(node["death_year"], f"death_year[{idx}]")
         _require(birth < death, f"lineage-lifespan-order:{nid}")
@@ -757,7 +961,8 @@ def certify_polymath_lineage_graph(
         seen_lower.add(low)
         by_id[nid] = node
 
-    adj: dict[str, list[str]] = {nid: [] for nid in by_id}
+    # Influence-order adjacency (earlier -> later) for cycle checking
+    influence_adj: dict[str, list[str]] = {nid: [] for nid in by_id}
     seen_edges: set[tuple[str, str, str]] = set()
     chronology_violations: list[str] = []
 
@@ -767,6 +972,7 @@ def certify_polymath_lineage_graph(
         src = _require_clean_ascii(edge["source"], f"edge.source[{idx}]")
         dst = _require_clean_ascii(edge["target"], f"edge.target[{idx}]")
         rel = _require_exact_choice(edge["relation"], ALLOWED_RELATIONS, f"edge.relation[{idx}]")
+        _require_citation(edge["citation"], f"edge.citation[{idx}]")
         _require(src in by_id, f"lineage-unknown-source:{src}")
         _require(dst in by_id, f"lineage-unknown-target:{dst}")
         _require(src != dst, f"lineage-self-loop:{src}")
@@ -776,11 +982,11 @@ def certify_polymath_lineage_graph(
 
         s_node, d_node = by_id[src], by_id[dst]
         if rel == "teacher_of":
-            if not (
-                s_node["birth_year"] + 10 <= d_node["birth_year"]
-                and d_node["birth_year"] + 12 <= min(s_node["death_year"], d_node["death_year"])
-            ):
-                chronology_violations.append(f"CHRONO_TEACHER:{src}->{dst}")
+            if s_node["birth_year"] + 10 > d_node["birth_year"]:
+                chronology_violations.append(f"CHRONO_TEACHER_AGE_GAP:{src}->{dst}")
+            elif d_node["birth_year"] + 12 > min(s_node["death_year"], d_node["death_year"]):
+                chronology_violations.append(f"CHRONO_TEACHER_OVERLAP:{src}->{dst}")
+            influence_adj[src].append(dst)
         elif rel == "corresponded_with":
             overlap = min(s_node["death_year"], d_node["death_year"]) - max(
                 s_node["birth_year"], d_node["birth_year"]
@@ -788,23 +994,24 @@ def certify_polymath_lineage_graph(
             if overlap < 15:
                 chronology_violations.append(f"CHRONO_CORRESPONDENCE_NO_OVERLAP:{src}<->{dst}")
         else:
-            # both source and target must reach scholarly maturity (birth + 15), and source before target dies
-            if (
-                s_node["birth_year"] + 15 > min(s_node["death_year"], d_node["death_year"])
-                or d_node["birth_year"] + 15 > d_node["death_year"]
-            ):
-                chronology_violations.append(f"CHRONO_ANACHRONISTIC_INFLUENCE:{src}->{dst}")
+            # Active voice: actor=src engaged prior subject=dst
+            if s_node["birth_year"] + 15 > s_node["death_year"]:
+                chronology_violations.append(f"CHRONO_IMMATURE_ACTOR:{src}->{dst}")
+            if d_node["birth_year"] + 15 > d_node["death_year"]:
+                chronology_violations.append(f"CHRONO_IMMATURE_SUBJECT:{src}->{dst}")
+            if s_node["death_year"] < d_node["birth_year"] + 15:
+                chronology_violations.append(f"CHRONO_ACTOR_DIED_BEFORE_SUBJECT_MATURITY:{src}->{dst}")
+            if s_node["birth_year"] < d_node["birth_year"]:
+                chronology_violations.append(f"CHRONO_ACTOR_PRECEDES_SUBJECT:{src}->{dst}")
+            influence_adj[dst].append(src)
 
-        if rel in DIRECTED_DAG_RELATIONS:
-            adj[src].append(dst)
-
-    # Exact 3-color DFS cycle detection on directional lineage graph
+    # Exact 3-color DFS cycle detection on forward-time influence graph
     color: dict[str, int] = {nid: 0 for nid in by_id}
     has_cycle = False
 
     def _dfs(u: str) -> bool:
         color[u] = 1
-        for v in adj[u]:
+        for v in influence_adj[u]:
             if color[v] == 1:
                 return True
             if color[v] == 0 and _dfs(v):
@@ -819,15 +1026,18 @@ def certify_polymath_lineage_graph(
 
     return {
         "certified": (len(chronology_violations) == 0 and not has_cycle),
+        "encoding_consistency_only": True,
+        "edge_direction_convention": EDGE_DIRECTION_CONVENTION,
         "node_count": len(by_id),
         "edge_count": len(seen_edges),
+        "all_nodes_and_edges_cited": True,
         "chronology_violations": chronology_violations,
         "directed_dag_acyclic": not has_cycle,
     }
 
 
 def certify_bounded_feedback_and_anti_epicycle(spec: Any) -> dict[str, Any]:
-    """Unified fail-closed Ibn Rushd Anti-Epicycle (Law 3) + al-Jazari Float-Valve Stability Gate."""
+    """Unified fail-closed anti-epicycle DOF/null gate + discrete float-valve stability gate."""
     _require(isinstance(spec, dict), "feedback-spec-dict")
     _require(set(spec.keys()) == ALLOWED_FEEDBACK_KEYS, "feedback-spec-keys")
 
@@ -886,7 +1096,7 @@ def certify_bounded_feedback_and_anti_epicycle(spec: Any) -> dict[str, Any]:
 
 
 def analyze_pillar5_lineage_and_certifiers() -> dict[str, Any]:
-    """Pillar 5: Certified 13-polymath lineage graph + before/after anti-epicycle & valve receipts."""
+    """Pillar 5: 13-scholar active-voice encoding-consistency check + anti-epicycle & valve receipts."""
     lineage = certify_polymath_lineage_graph(BAYT_AL_HIKMA_NODES, BAYT_AL_HIKMA_EDGES)
 
     bad_epicycle_and_valve = certify_bounded_feedback_and_anti_epicycle(
@@ -930,42 +1140,25 @@ def analyze_pillar5_lineage_and_certifiers() -> dict[str, Any]:
     }
 
 
-def audit_live_vault_anchors(symbiosis_root: Path) -> dict[str, Any]:
-    """Read-only SHA-256 verification of expedition vault cross-links (continuum, AUDIT-085R, AUDIT-088R)."""
-    _require(symbiosis_root.is_dir(), f"symbiosis-root-missing:{symbiosis_root.name}")
-    root_res = symbiosis_root.resolve()
-    digests: dict[str, dict[str, Any]] = {}
-    for rel_path, expected in PINNED_VAULT_DIGESTS.items():
-        full_p = (root_res / rel_path).resolve()
-        _require(full_p.is_relative_to(root_res), f"vault-path-escape:{rel_path}")
-        _require(full_p.is_file(), f"vault-file-missing:{rel_path}")
-        raw = full_p.read_bytes()
-        sha = hashlib.sha256(raw).hexdigest()
-        _require(len(raw) == expected["bytes"], f"vault-bytes-mismatch:{rel_path}")
-        _require(sha == expected["sha256"], f"vault-sha256-mismatch:{rel_path}")
-        digests[rel_path] = {"bytes": len(raw), "sha256": sha, "verified": True}
-    return {
-        "mode": "live_read_only",
-        "verified_vault_anchors": len(digests),
-        "file_digests": digests,
-    }
-
-
-def build_certificate(symbiosis_root: Path | None = None) -> dict[str, Any]:
-    """Build canonical zero-float JSON certificate with deterministic SHA-256."""
+def build_certificate() -> dict[str, Any]:
+    """Build self-contained canonical zero-float JSON certificate with deterministic SHA-256."""
     body: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "audit_id": AUDIT_ID,
+        "execution_mode": "standalone_pure_q",
+        "novelty_classification": {
+            "honest_tier": "N0",
+            "rationale": (
+                "All mathematical theorems and historical reconstructions are N0 classical prior art; "
+                "this package provides reproducible pure-Q stdlib verification scripts and encoding-"
+                "consistency checks without claiming N1 mathematical novelty."
+            ),
+        },
         "pillar1_continuum_vs_atomism": analyze_pillar1_continuum_vs_atomism(),
         "pillar2_haytham_khayyam_rushd": analyze_pillar2_haytham_khayyam_rushd(),
         "pillar3_transformational_algebra_laurent": analyze_pillar3_transformational_algebra_laurent(),
         "pillar4_kindi_biruni_tusi_jazari": analyze_pillar4_kindi_biruni_tusi_jazari(),
         "pillar5_lineage_and_certifiers": analyze_pillar5_lineage_and_certifiers(),
-        "live_vault_verification": (
-            audit_live_vault_anchors(symbiosis_root)
-            if symbiosis_root is not None
-            else {"mode": "standalone_pure_q", "verified_vault_anchors": 0}
-        ),
     }
     canonical = json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
     body["certificate_sha256"] = hashlib.sha256(canonical.encode("ascii")).hexdigest()
@@ -973,22 +1166,20 @@ def build_certificate(symbiosis_root: Path | None = None) -> dict[str, Any]:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Bayt al-Hikma polymath pure-Q certifier (AUDIT-092).")
-    parser.add_argument("--symbiosis-root", type=Path, default=None, help="Read-only symbiosis vault root.")
+    parser = argparse.ArgumentParser(description="Bayt al-Hikma polymath pure-Q certifier (AUDIT-092R2).")
     parser.add_argument("--json", action="store_true", help="Emit canonical JSON to stdout.")
     parser.add_argument("--write-cert", type=Path, default=None, help="Write JSON certificate path.")
     args = parser.parse_args(argv)
 
-    cert = build_certificate(symbiosis_root=args.symbiosis_root)
+    cert = build_certificate()
     rendered = json.dumps(cert, indent=2, sort_keys=True, ensure_ascii=True) + "\n"
     if args.write_cert is not None:
         args.write_cert.write_text(rendered, encoding="utf-8")
     if args.json:
         sys.stdout.write(rendered)
     else:
-        lv = cert["live_vault_verification"]
         sys.stdout.write(
-            f"{AUDIT_ID} | mode={lv['mode']} | vault_anchors={lv['verified_vault_anchors']} "
+            f"{AUDIT_ID} | mode={cert['execution_mode']} | tier={cert['novelty_classification']['honest_tier']} "
             f"| sha256={cert['certificate_sha256']}\n"
         )
     return 0

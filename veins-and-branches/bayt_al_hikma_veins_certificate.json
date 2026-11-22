@@ -1,15 +1,17 @@
 {
-  "audit_id": "AUDIT-095",
-  "certificate_sha256": "e495d9bcfdf15a77147cc82d5f4c8f96eb68812d7c08cbad3ef0d470640c282d",
+  "audit_id": "AUDIT-095R",
+  "certificate_sha256": "d9e2af09c6b2d83dae1e31cae56717b309476e52c7d0261f6781180b21cffbd0",
+  "execution_mode": "standalone_pure_q",
   "novelty_classification": {
-    "honest_tier": "N1",
+    "honest_tier": "N0",
     "n0_historical_prior_art": "Archimedes, Apollonius, Heron, Brahmagupta, Bhaskara II/Jayadeva, al-Khwarizmi, al-Kindi, Banu Musa, Hunayn ibn Ishaq, Thabit ibn Qurra, al-Farabi, al-Karaji, Ibn al-Haytham, al-Biruni, Ibn Sina, Umar al-Khayyam, al-Ghazali, al-Samawal, Ibn Rushd, Ismail al-Jazari, Nasir al-Din al-Tusi, Ibn al-Shatir, Jamshid al-Kashi, Nicolaus Copernicus",
-    "n1_engineering_contribution": "Pure-Q zero-float verification engine uniting tributary veins & downstream branches of Bayt al-Hikma, certified pure-integer 3*2^28-gon pi & Banach sin(1 deg) solvers, pure-integer 11-limit acoustic cent defect proof, structural-causal witness, and two 100%-R5-killed fail-closed certifiers"
+    "rationale": "All mathematical theorems and historical reconstructions are N0 classical prior art; this package provides reproducible pure-Q stdlib verification scripts, conservative interval arithmetic, and encoding-consistency checks without claiming N1 novelty."
   },
   "pillar1_tributary_veins": {
     "brahmagupta_bhavana_and_chakravala": {
       "bhavana_norm_multiplicativity_exact": true,
-      "chakravala_D61_steps": 14,
+      "chakravala_D61_steps": 13,
+      "chakravala_D61_table_rows": 14,
       "pell_D61_fundamental": [
         1766319049,
         226153980
@@ -50,15 +52,15 @@
       "apollonius_focal_sum_10_exact": true,
       "apollonius_on_ellipse": true,
       "archimedes_223_71_to_22_7_nested": true,
-      "archimedes_96gon_bracket_dec6": [
+      "archimedes_96gon_bracket_dec6_conservative": [
         "3.141031",
-        "3.142714"
+        "3.142715"
       ],
       "heron_area_84_exact": true,
       "heron_d0_limit_area_sq": "7056/1",
-      "heron_sqrt720_bracket": [
+      "heron_sqrt720_bracket_conservative": [
         "26.832815729",
-        "26.832815729"
+        "26.832815730"
       ],
       "heron_sqrt720_certified": true
     }
@@ -98,6 +100,9 @@
   "pillar3_kashi_banach_and_pi": {
     "kashi_3_times_2_28_gon_pi": {
       "agrees_to_16_decimal_digits": true,
+      "base60_10place_conservative_pi_width_e17_ceil": "2.481",
+      "base60_10place_floored_pi_width_e17": "2.398",
+      "base60_10place_floored_twopi_width_e17": "4.796",
       "bracket_width_lt_1e16": true,
       "kashi_1424_twopi_sexagesimal": [
         6,
@@ -112,10 +117,16 @@
         50
       ],
       "kashi_1424_value_strictly_inside_3x2_28_bracket": true,
-      "pi_hi_dec16": "3.1415926535897932",
-      "pi_lo_dec16": "3.1415926535897932",
+      "pi_bracket_dec17_conservative": [
+        "3.14159265358979323",
+        "3.14159265358979326"
+      ],
+      "pi_exact_width_e17_ceil": "2.416352",
+      "pi_hi_dec16_ceil": "3.1415926535897933",
+      "pi_lo_dec16_floor": "3.1415926535897932",
       "polygon_sides": 805306368,
-      "twopi_hi_sexagesimal": [
+      "twopi_exact_width_e17_ceil": "4.832703",
+      "twopi_hi_sexagesimal_ceil": [
         6,
         16,
         59,
@@ -126,9 +137,9 @@
         46,
         14,
         50,
-        14
+        15
       ],
-      "twopi_lo_sexagesimal": [
+      "twopi_lo_sexagesimal_floor": [
         6,
         16,
         59,
@@ -149,7 +160,7 @@
         "1/50"
       ],
       "first_9_sexagesimal_places_exact_match": true,
-      "iteration_width_dec20_final": "0.00000000000000000000",
+      "iteration_width_dec20_ceil_final": "0.00000000000000000001",
       "kashi_1427_sexagesimal_10places": [
         1,
         2,
@@ -164,9 +175,9 @@
       ],
       "lipschitz_constant_exact": "1/625",
       "max_diff_from_kashi_1427_lt_1e17": true,
-      "sin1_bracket_dec18": [
+      "sin1_bracket_dec18_conservative": [
         "0.017452406437283512",
-        "0.017452406437283512"
+        "0.017452406437283513"
       ],
       "sin1_sexagesimal_10places_exact": [
         1,
@@ -180,9 +191,9 @@
         26,
         18
       ],
-      "sin3_bracket_dec18": [
+      "sin3_bracket_dec18_conservative": [
         "0.052335956242943832",
-        "0.052335956242943832"
+        "0.052335956242943833"
       ],
       "step0_gap_dec12": "0.017445318747"
     }
@@ -277,10 +288,13 @@
       "violations": []
     },
     "extended_lineage_dag_receipt": {
+      "all_nodes_and_edges_cited": true,
       "certified": true,
       "chronology_violations": [],
       "directed_dag_acyclic": true,
       "edge_count": 28,
+      "edge_direction_convention": "Active voice ('source <relation> target'): for teacher_of, source taught target; for corresponded_with, source and target corresponded as contemporaries; for extended, commented_on, and critiqued, the later actor (source) engaged the prior subject (target).",
+      "encoding_consistency_only": true,
       "node_count": 23,
       "reaches_branch_from_tributary_via_core": true,
       "tier_counts": {
@@ -305,29 +319,5 @@
       ]
     }
   },
-  "schema_version": "1.0.0",
-  "vault_cross_links": {
-    "anchors": {
-      "round10/portals/continuum/pr_1_files/continuum.md": {
-        "bytes": 10121,
-        "role": "Foundation-0/continuum primary portal (acoustic & geometric continuum bridge)",
-        "sha256": "516f6080563f223a4d8da437d37aaff479988f08f9079bfa48116cbb4fdc3150",
-        "verified": true
-      },
-      "wave3/bayt-al-hikma-arabic/arabic_continuum_certificate.json": {
-        "bytes": 12999,
-        "role": "AUDIT-091R verified Classical Arabic continuum certificate (OWN_TERMS_FIRST)",
-        "sha256": "aa8608057664961c25c18dd52af0b98c25a2d990268e64d5e30547beb8ab16ec",
-        "verified": true
-      },
-      "wave3/bayt-al-hikma-polymaths/bayt_al_hikma_polymath_certificate.json": {
-        "bytes": 8591,
-        "role": "AUDIT-092R verified 13-scholar Bayt al-Hikma core polymath certificate",
-        "sha256": "c052a62a77182fe0ec11accf9e8836e7df935a2aa62fd5f338442f2680a8d4d3",
-        "verified": true
-      }
-    },
-    "mode": "live_read_only",
-    "verified_vault_anchors": 3
-  }
+  "schema_version": "bayt-al-hikma-veins-v2"
 }

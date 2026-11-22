@@ -1,24 +1,26 @@
 #!/usr/bin/env python3
-"""AUDIT-095: Bayt al-Hikma Tributary Veins & Downstream Branches Pure-Q Certifier.
+"""AUDIT-095R: Bayt al-Hikma Tributary Veins & Downstream Branches Pure-Q Certifier.
 
-Zero-float, exact rational/integer mathematical cartography and fail-closed certifiers
-spanning 23 interconnected scholars across 3 historical tiers (c. 287 BCE - 1543 CE):
+Zero-float, exact rational/integer mathematical transcription and encoding-consistency
+certifiers spanning 23 scholars across 3 historical tiers (c. 287 BCE - 1543 CE):
   - Tributary Veins (4): Archimedes, Apollonius, Heron of Alexandria, Brahmagupta
   - Core Bayt al-Hikma & Classical Lineage (15): al-Khwarizmi, al-Kindi, Banu Musa,
     Hunayn ibn Ishaq, Thabit ibn Qurra, al-Farabi, al-Karaji, Ibn al-Haytham, al-Biruni,
-    Ibn Sina, Umar al-Khayyam, al-Ghazali, al-Samawal, Ibn Rushd, Ismail al-Jazari
+    Ibn Sina, Umar al-Khayyam, al-Ghazali, Ibn Rushd, al-Samawal, Ismail al-Jazari
   - Downstream Branches (4): Nasir al-Din al-Tusi, Ibn al-Shatir, Jamshid al-Kashi,
     Nicolaus Copernicus
 
-Honest Law-4 Epistemic Framing:
-  - N0 (Historical Prior Art): All primary mathematical theorems, constructions, and
-    astronomical/acoustic/philosophical models credited strictly to their original authors.
-  - N1 (Engineering & Verification Contribution): Pure-Q zero-float verification engine,
-    strictly certified pure-integer interval arithmetic for al-Kashi's 3*2^28-gon pi
-    bracket and Banach fixed-point sin(1 deg) cubic solver, pure-integer cent-resolution
-    12-TET rounding defect proof for al-Farabi's 11-limit continuum, exact structural-
-    causal witness for al-Ghazali vs. Ibn Rushd, and two 100%-R5-killed fail-closed
-    certifiers.
+Edge Direction Convention (Active Voice):
+  Every edge {source, target, relation, citation} is read in active voice
+  ("source <relation> target"): for teacher_of, source taught target; for
+  corresponded_with, source and target exchanged letters as contemporaries; for
+  extended, commented_on, and critiqued, the later actor (source) engaged the
+  prior subject (target)'s work.
+
+Epistemic & Novelty Classification (Law 4):
+  N0 (reproducible pure-Q software transcription, strictly conservative interval
+  arithmetic, and encoding-consistency checks over classical historical mathematics
+  and published secondary editions; zero N1 novelty claims).
 """
 
 from __future__ import annotations
@@ -33,27 +35,16 @@ from pathlib import Path
 import sys
 from typing import Any
 
-SCHEMA_VERSION = "1.0.0"
-AUDIT_ID = "AUDIT-095"
+SCHEMA_VERSION = "bayt-al-hikma-veins-v2"
+AUDIT_ID = "AUDIT-095R"
 
-PINNED_VAULT_DIGESTS: dict[str, dict[str, Any]] = {
-    "wave3/bayt-al-hikma-polymaths/bayt_al_hikma_polymath_certificate.json": {
-        "bytes": 8591,
-        "sha256": "c052a62a77182fe0ec11accf9e8836e7df935a2aa62fd5f338442f2680a8d4d3",
-        "role": "AUDIT-092R verified 13-scholar Bayt al-Hikma core polymath certificate",
-    },
-    "wave3/bayt-al-hikma-arabic/arabic_continuum_certificate.json": {
-        "bytes": 12999,
-        "sha256": "aa8608057664961c25c18dd52af0b98c25a2d990268e64d5e30547beb8ab16ec",
-        "role": "AUDIT-091R verified Classical Arabic continuum certificate (OWN_TERMS_FIRST)",
-    },
-    "round10/portals/continuum/pr_1_files/continuum.md": {
-        "bytes": 10121,
-        "sha256": "516f6080563f223a4d8da437d37aaff479988f08f9079bfa48116cbb4fdc3150",
-        "role": "Foundation-0/continuum primary portal (acoustic & geometric continuum bridge)",
-    },
-}
+EDGE_DIRECTION_CONVENTION = (
+    "Active voice ('source <relation> target'): for teacher_of, source taught target; "
+    "for corresponded_with, source and target corresponded as contemporaries; for extended, "
+    "commented_on, and critiqued, the later actor (source) engaged the prior subject (target)."
+)
 
+ALLOWED_CITATION_KEYS: frozenset[str] = frozenset({"work", "edition", "location"})
 ALLOWED_TIERS: tuple[str, ...] = ("tributary", "core", "branch")
 TIER_RANK: dict[str, int] = {"tributary": 0, "core": 1, "branch": 2}
 ALLOWED_RELATIONS: tuple[str, ...] = (
@@ -63,13 +54,10 @@ ALLOWED_RELATIONS: tuple[str, ...] = (
     "commented_on",
     "critiqued",
 )
-DIRECTED_DAG_RELATIONS: frozenset[str] = frozenset(
-    {"teacher_of", "extended", "commented_on", "critiqued"}
-)
 ALLOWED_NODE_KEYS: frozenset[str] = frozenset(
-    {"node_id", "name", "birth_year", "death_year", "tier", "city", "primary_work"}
+    {"node_id", "name", "birth_year", "death_year", "tier", "city", "primary_work", "source"}
 )
-ALLOWED_EDGE_KEYS: frozenset[str] = frozenset({"source", "target", "relation"})
+ALLOWED_EDGE_KEYS: frozenset[str] = frozenset({"source", "target", "relation", "citation"})
 ALLOWED_JOINT_KEYS: frozenset[str] = frozenset({"p11", "p10", "p01", "p00"})
 ALLOWED_UNIFIED_KEYS: frozenset[str] = frozenset(
     {
@@ -91,7 +79,7 @@ ALLOWED_UNIFIED_KEYS: frozenset[str] = frozenset(
     }
 )
 
-# 23 historically attested scholars spanning tributaries -> Bayt al-Hikma core -> downstream branches
+# 23 historically attested scholars with structured secondary-edition citations
 EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
     # Tier 1: Tributaries (4)
     {
@@ -102,6 +90,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "tributary",
         "city": "Syracuse",
         "primary_work": "Measurement of a Circle",
+        "source": {
+            "work": "The Works of Archimedes",
+            "edition": "T. L. Heath, Cambridge UP (1897)",
+            "location": "pp. 91-98 (Measurement of a Circle, Prop. 3)",
+        },
     },
     {
         "node_id": "apollonius",
@@ -111,6 +104,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "tributary",
         "city": "Alexandria",
         "primary_work": "Conics",
+        "source": {
+            "work": "Apollonius: Conics Books V to VII (Arabic Translation)",
+            "edition": "G. J. Toomer, Springer (1990)",
+            "location": "vol. 1 pp. xi-xxv",
+        },
     },
     {
         "node_id": "heron",
@@ -120,6 +118,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "tributary",
         "city": "Alexandria",
         "primary_work": "Metrica",
+        "source": {
+            "work": "A History of Greek Mathematics; Codex Constantinopolitanus",
+            "edition": "T. L. Heath (1921); E. M. Bruins, Brill (1964)",
+            "location": "Heath vol. 2 pp. 320-326 (Metrica I.8)",
+        },
     },
     {
         "node_id": "brahmagupta",
@@ -129,6 +132,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "tributary",
         "city": "Bhillamala",
         "primary_work": "Brahmasphutasiddhanta",
+        "source": {
+            "work": "Algebra with Arithmetic and Mensuration (BSS); Mathematics in India",
+            "edition": "H. T. Colebrooke (1817); K. Plofker, Princeton UP (2009)",
+            "location": "BSS XII.21-38, XVIII.64-67; Plofker pp. 142-157",
+        },
     },
     # Tier 2: Core Bayt al-Hikma & Classical Lineage (15)
     {
@@ -139,6 +147,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "core",
         "city": "Baghdad",
         "primary_work": "Kitab al-Jabr and Zij al-Sindhind",
+        "source": {
+            "work": "Al-Khwarizmi: The Beginnings of Algebra; Astronomical Tables",
+            "edition": "R. Rashed, Saqi (2009); O. Neugebauer, Copenhagen (1962)",
+            "location": "Rashed pp. 8-22; Neugebauer pp. 1-14",
+        },
     },
     {
         "node_id": "kindi",
@@ -147,7 +160,12 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "death_year": 873,
         "tier": "core",
         "city": "Baghdad",
-        "primary_work": "De Gradibus and Cryptanalysis",
+        "primary_work": "De Gradibus and Musical Treatises",
+        "source": {
+            "work": "Al-Kindi's Treatise on Cryptanalysis; Musical Treatises",
+            "edition": "Mrayati et al. (2003); H. G. Farmer, JRAS (1926)",
+            "location": "Mrayati pp. 121-158; Farmer pp. 90-98",
+        },
     },
     {
         "node_id": "banu_musa",
@@ -156,7 +174,12 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "death_year": 873,
         "tier": "core",
         "city": "Baghdad",
-        "primary_work": "Measurement of Plane and Spherical Figures",
+        "primary_work": "Measurement of Plane and Spherical Figures (Verba Filiorum)",
+        "source": {
+            "work": "Archimedes in the Middle Ages, Vol. 1: Verba Filiorum",
+            "edition": "M. Clagett, Univ. of Wisconsin Press (1964)",
+            "location": "pp. 223-367 (Props. 4-7)",
+        },
     },
     {
         "node_id": "hunayn",
@@ -166,6 +189,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "core",
         "city": "Baghdad",
         "primary_work": "Syriac-Arabic Scientific Translation Corpus",
+        "source": {
+            "work": "Hunayn ibn Ishaq uber die syrischen und arabischen Galen-Ubersetzungen",
+            "edition": "G. Bergstrasser, AKM 17.2 (1925); G. Saliba (2007)",
+            "location": "pp. 1-53; Saliba Islamic Science pp. 58-66",
+        },
     },
     {
         "node_id": "thabit",
@@ -175,6 +203,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "core",
         "city": "Baghdad",
         "primary_work": "Amicable Numbers and Apollonius Conics V-VII",
+        "source": {
+            "work": "Thabit ibn Qurra: Science and Philosophy in Ninth-Century Baghdad",
+            "edition": "R. Rashed (ed.), de Gruyter (2009)",
+            "location": "pp. 3-14, 155-290",
+        },
     },
     {
         "node_id": "farabi",
@@ -184,6 +217,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "core",
         "city": "Baghdad",
         "primary_work": "Kitab al-Musiqa al-Kabir",
+        "source": {
+            "work": "La Musique Arabe, Vols. 1-2 (Kitab al-Musiqa al-Kabir)",
+            "edition": "R. d'Erlanger, Geuthner (1930-1935)",
+            "location": "vol. 1 pp. 163-218 (ud fretting & tetrachord genera)",
+        },
     },
     {
         "node_id": "karaji",
@@ -193,6 +231,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "core",
         "city": "Baghdad",
         "primary_work": "al-Fakhri",
+        "source": {
+            "work": "The Development of Arabic Mathematics",
+            "edition": "R. Rashed, Kluwer (1994)",
+            "location": "ch. 1, pp. 22-45",
+        },
     },
     {
         "node_id": "haytham",
@@ -202,6 +245,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "core",
         "city": "Cairo",
         "primary_work": "Kitab al-Manazir and al-Shukuk",
+        "source": {
+            "work": "The Optics of Ibn al-Haytham; al-Shukuk ala Batlamyus",
+            "edition": "A. I. Sabra (1989); Sabra & Shehaby (1971)",
+            "location": "Optics vol. 2 pp. xix-xxxii; al-Shukuk pp. 3-42",
+        },
     },
     {
         "node_id": "biruni",
@@ -211,6 +259,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "core",
         "city": "Ghazna",
         "primary_work": "Tahdid Nihayat al-Amakin",
+        "source": {
+            "work": "The Determination of the Coordinates of Positions (Tahdid)",
+            "edition": "J. Ali (tr.), AUB (1967); E. S. Kennedy, AUB (1973)",
+            "location": "Ali pp. 187-190; Kennedy pp. 139-144",
+        },
     },
     {
         "node_id": "ibn_sina",
@@ -220,6 +273,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "core",
         "city": "Isfahan",
         "primary_work": "al-Shifa and al-Asila",
+        "source": {
+            "work": "Al-Asilah wa-l-Ajwibah",
+            "edition": "S. H. Nasr & M. Mohaghegh, ISTAC (1995)",
+            "location": "pp. 1-62",
+        },
     },
     {
         "node_id": "khayyam",
@@ -229,6 +287,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "core",
         "city": "Nishapur",
         "primary_work": "Sharh ma Ashkala and Algebra",
+        "source": {
+            "work": "Omar Khayyam the Mathematician",
+            "edition": "R. Rashed & B. Vahabzadeh, Bibliotheca Persica (2000)",
+            "location": "pp. 113-162, 217-244",
+        },
     },
     {
         "node_id": "ghazali",
@@ -238,6 +301,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "core",
         "city": "Baghdad",
         "primary_work": "Tahafut al-Falasifa",
+        "source": {
+            "work": "The Incoherence of the Philosophers (Tahafut al-Falasifa)",
+            "edition": "M. E. Marmura, BYU Press (2000)",
+            "location": "Discussion 17, pp. 166-177 (fire and cotton)",
+        },
     },
     {
         "node_id": "ibn_rushd",
@@ -247,6 +315,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "core",
         "city": "Cordoba",
         "primary_work": "Tahafut al-Tahafut",
+        "source": {
+            "work": "Averroes' Tahafut al-Tahafut (The Incoherence of the Incoherence)",
+            "edition": "S. van den Bergh, Gibb Memorial (1954)",
+            "location": "vol. 1 pp. 316-333 (Discussion 17 reply)",
+        },
     },
     {
         "node_id": "samawal",
@@ -256,6 +329,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "core",
         "city": "Maragheh",
         "primary_work": "al-Bahir fi al-Jabr",
+        "source": {
+            "work": "Al-Bahir en Algebre d'As-Samawal",
+            "edition": "S. Ahmad & R. Rashed, Damascus (1972)",
+            "location": "pp. 20-58",
+        },
     },
     {
         "node_id": "jazari",
@@ -265,6 +343,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "core",
         "city": "Diyarbakir",
         "primary_work": "Kitab al-Hiyal",
+        "source": {
+            "work": "The Book of Knowledge of Ingenious Mechanical Devices",
+            "edition": "D. R. Hill, Reidel (1974)",
+            "location": "pp. 17-34",
+        },
     },
     # Tier 3: Downstream Branches (4)
     {
@@ -275,6 +358,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "branch",
         "city": "Maragheh",
         "primary_work": "al-Tadhkira fi Ilm al-Haya",
+        "source": {
+            "work": "Nasir al-Din al-Tusi's Memoir on Astronomy (al-Tadhkira)",
+            "edition": "F. J. Ragep, Springer (1993)",
+            "location": "vol. 1 pp. 194-223 (II.11)",
+        },
     },
     {
         "node_id": "shatir",
@@ -284,6 +372,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "branch",
         "city": "Damascus",
         "primary_work": "Nihayat al-Sul",
+        "source": {
+            "work": "The Solar and Lunar Theory of Ibn ash-Shatir",
+            "edition": "V. Roberts, Isis 48 (1957); Kennedy & Roberts, Isis 50 (1959)",
+            "location": "Isis 48 pp. 428-432 (r1=6;35, r2=1;25); Isis 50 pp. 227-235",
+        },
     },
     {
         "node_id": "kashi",
@@ -293,6 +386,11 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "branch",
         "city": "Samarkand",
         "primary_work": "al-Risala al-Muhitiyya and Risalat al-Watar",
+        "source": {
+            "work": "Der Lehrbrief uber den Kreisumfang; Episodes in the Mathematics of Medieval Islam",
+            "edition": "P. Luckey, Berlin (1953); J. L. Berggren, Springer (1986)",
+            "location": "Luckey pp. 1-42; Berggren pp. 50-55, 134-141",
+        },
     },
     {
         "node_id": "copernicus",
@@ -302,42 +400,300 @@ EXTENDED_POLYMATH_NODES: tuple[dict[str, Any], ...] = (
         "tier": "branch",
         "city": "Frombork",
         "primary_work": "De Revolutionibus Orbium Coelestium",
+        "source": {
+            "work": "On the Revolutions (De Revolutionibus)",
+            "edition": "E. Rosen (tr.), Johns Hopkins UP (1978)",
+            "location": "III.4, IV.3 (R=10000, r1=1097, r2=237), V.25",
+        },
     },
 )
 
-EXTENDED_POLYMATH_EDGES: tuple[dict[str, str], ...] = (
-    # Tributary -> Core
-    {"source": "brahmagupta", "target": "khwarizmi", "relation": "extended"},
-    {"source": "archimedes", "target": "banu_musa", "relation": "extended"},
-    {"source": "heron", "target": "banu_musa", "relation": "extended"},
-    {"source": "apollonius", "target": "banu_musa", "relation": "extended"},
-    {"source": "apollonius", "target": "thabit", "relation": "extended"},
-    {"source": "archimedes", "target": "thabit", "relation": "extended"},
-    {"source": "heron", "target": "hunayn", "relation": "commented_on"},
-    # Core -> Core
-    {"source": "banu_musa", "target": "thabit", "relation": "teacher_of"},
-    {"source": "hunayn", "target": "thabit", "relation": "corresponded_with"},
-    {"source": "kindi", "target": "farabi", "relation": "extended"},
-    {"source": "khwarizmi", "target": "karaji", "relation": "extended"},
-    {"source": "karaji", "target": "samawal", "relation": "extended"},
-    {"source": "khwarizmi", "target": "khayyam", "relation": "extended"},
-    {"source": "thabit", "target": "haytham", "relation": "extended"},
-    {"source": "haytham", "target": "khayyam", "relation": "extended"},
-    {"source": "biruni", "target": "ibn_sina", "relation": "corresponded_with"},
-    {"source": "ibn_sina", "target": "ghazali", "relation": "critiqued"},
-    {"source": "ghazali", "target": "ibn_rushd", "relation": "critiqued"},
-    {"source": "haytham", "target": "ibn_rushd", "relation": "extended"},
-    {"source": "banu_musa", "target": "jazari", "relation": "extended"},
-    # Core -> Branch
-    {"source": "haytham", "target": "tusi", "relation": "extended"},
-    {"source": "khayyam", "target": "tusi", "relation": "extended"},
-    {"source": "banu_musa", "target": "kashi", "relation": "extended"},
-    {"source": "khayyam", "target": "kashi", "relation": "extended"},
-    # Branch -> Branch
-    {"source": "tusi", "target": "shatir", "relation": "extended"},
-    {"source": "tusi", "target": "kashi", "relation": "extended"},
-    {"source": "tusi", "target": "copernicus", "relation": "extended"},
-    {"source": "shatir", "target": "copernicus", "relation": "extended"},
+# Active voice: {source} <relation> {target}
+EXTENDED_POLYMATH_EDGES: tuple[dict[str, Any], ...] = (
+    # Core acting on Tributary (7)
+    {
+        "source": "khwarizmi",
+        "target": "brahmagupta",
+        "relation": "extended",
+        "citation": {
+            "work": "Zij al-Sindhind & Indian Calculation",
+            "edition": "O. Neugebauer, Copenhagen (1962); Plofker (2009)",
+            "location": "Neugebauer pp. 1-14; Plofker pp. 255-259",
+        },
+    },
+    {
+        "source": "banu_musa",
+        "target": "archimedes",
+        "relation": "extended",
+        "citation": {
+            "work": "Verba Filiorum (Measurement of Plane and Spherical Figures)",
+            "edition": "M. Clagett, Univ. of Wisconsin Press (1964)",
+            "location": "pp. 250-279 (Props. 4-6 extending Measurement of a Circle)",
+        },
+    },
+    {
+        "source": "banu_musa",
+        "target": "heron",
+        "relation": "extended",
+        "citation": {
+            "work": "Verba Filiorum (Prop. 7 triangle area proof)",
+            "edition": "M. Clagett, Univ. of Wisconsin Press (1964)",
+            "location": "pp. 278-289 (first Arabic geometric proof of Heron's formula)",
+        },
+    },
+    {
+        "source": "banu_musa",
+        "target": "apollonius",
+        "relation": "extended",
+        "citation": {
+            "work": "Preface to Arabic Conics & String Ellipse",
+            "edition": "G. J. Toomer, Springer (1990)",
+            "location": "vol. 1 pp. xviii-xxv, 620-629",
+        },
+    },
+    {
+        "source": "thabit",
+        "target": "apollonius",
+        "relation": "extended",
+        "citation": {
+            "work": "Arabic Translation of Apollonius Conics Books V-VII",
+            "edition": "G. J. Toomer, Springer (1990)",
+            "location": "vol. 1 pp. xi-xxv (sole surviving transmission of Books V-VII)",
+        },
+    },
+    {
+        "source": "thabit",
+        "target": "archimedes",
+        "relation": "extended",
+        "citation": {
+            "work": "On the Measurement of the Parabola",
+            "edition": "R. Rashed, de Gruyter (2009)",
+            "location": "pp. 155-209 (unequal-interval quadrature extending Archimedes)",
+        },
+    },
+    {
+        "source": "hunayn",
+        "target": "archimedes",
+        "relation": "commented_on",
+        "citation": {
+            "work": "Baghdad Translation School (Ishaq/Hunayn & Thabit Greek-Arabic corpus)",
+            "edition": "M. Clagett (1964); R. Rashed, de Gruyter (2009)",
+            "location": "Clagett pp. 12-16; Rashed pp. 15-24",
+        },
+    },
+    # Core acting on Core (13)
+    {
+        "source": "banu_musa",
+        "target": "thabit",
+        "relation": "teacher_of",
+        "citation": {
+            "work": "Kitab al-Fihrist; Thabit ibn Qurra",
+            "edition": "R. Rashed (ed.), de Gruyter (2009)",
+            "location": "pp. 4-7",
+        },
+    },
+    {
+        "source": "hunayn",
+        "target": "thabit",
+        "relation": "corresponded_with",
+        "citation": {
+            "work": "Baghdad Translation Circle Collaborations",
+            "edition": "G. Bergstrasser (1925); R. Rashed (2009)",
+            "location": "Rashed pp. 6-12 (shared Baghdad translation circle)",
+        },
+    },
+    {
+        "source": "farabi",
+        "target": "kindi",
+        "relation": "extended",
+        "citation": {
+            "work": "Kitab al-Musiqa al-Kabir",
+            "edition": "R. d'Erlanger, Geuthner (1930)",
+            "location": "vol. 1 pp. 163-218 (mathematical ud fretting beyond al-Kindi)",
+        },
+    },
+    {
+        "source": "karaji",
+        "target": "khwarizmi",
+        "relation": "extended",
+        "citation": {
+            "work": "al-Fakhri fi al-Jabr",
+            "edition": "R. Rashed, Kluwer (1994)",
+            "location": "ch. 1, pp. 22-31",
+        },
+    },
+    {
+        "source": "samawal",
+        "target": "karaji",
+        "relation": "extended",
+        "citation": {
+            "work": "al-Bahir fi al-Jabr",
+            "edition": "S. Ahmad & R. Rashed, Damascus (1972)",
+            "location": "pp. 20-38",
+        },
+    },
+    {
+        "source": "khayyam",
+        "target": "khwarizmi",
+        "relation": "extended",
+        "citation": {
+            "work": "Risala fi al-Jabr wa-l-Muqabala",
+            "edition": "R. Rashed & B. Vahabzadeh (2000)",
+            "location": "pp. 113-135",
+        },
+    },
+    {
+        "source": "haytham",
+        "target": "thabit",
+        "relation": "extended",
+        "citation": {
+            "work": "Sharh Musadarat Uqlidis & Quadrature of the Paraboloid",
+            "edition": "R. Rashed (1994/2009); B. Rosenfeld (1988)",
+            "location": "Rosenfeld pp. 58-64",
+        },
+    },
+    {
+        "source": "khayyam",
+        "target": "haytham",
+        "relation": "extended",
+        "citation": {
+            "work": "Sharh ma Ashkala min Musadarat Uqlidis",
+            "edition": "R. Rashed & B. Vahabzadeh (2000)",
+            "location": "Book I, pp. 217-235",
+        },
+    },
+    {
+        "source": "biruni",
+        "target": "ibn_sina",
+        "relation": "corresponded_with",
+        "citation": {
+            "work": "al-Asilah wa-l-Ajwibah",
+            "edition": "S. H. Nasr & M. Mohaghegh, ISTAC (1995)",
+            "location": "Questions 1-18, pp. 1-62",
+        },
+    },
+    {
+        "source": "ghazali",
+        "target": "ibn_sina",
+        "relation": "critiqued",
+        "citation": {
+            "work": "Tahafut al-Falasifa",
+            "edition": "M. E. Marmura, BYU Press (2000)",
+            "location": "Discussion 17, pp. 166-177 (critique of Avicennan necessity)",
+        },
+    },
+    {
+        "source": "ibn_rushd",
+        "target": "ghazali",
+        "relation": "critiqued",
+        "citation": {
+            "work": "Tahafut al-Tahafut",
+            "edition": "S. van den Bergh, Gibb Memorial (1954)",
+            "location": "vol. 1 pp. 316-333 (point-by-point reply to Discussion 17)",
+        },
+    },
+    {
+        "source": "ibn_rushd",
+        "target": "haytham",
+        "relation": "extended",
+        "citation": {
+            "work": "Tafsir ma Bad al-Tabia (Book Lambda)",
+            "edition": "A. I. Sabra, JHA 15 (1984)",
+            "location": "pp. 133-153",
+        },
+    },
+    {
+        "source": "jazari",
+        "target": "banu_musa",
+        "relation": "extended",
+        "citation": {
+            "work": "Kitab fi Marifat al-Hiyal al-Handasiyya",
+            "edition": "D. R. Hill, Reidel (1974)",
+            "location": "pp. 12-15, 272",
+        },
+    },
+    # Branch acting on Core (4)
+    {
+        "source": "tusi",
+        "target": "haytham",
+        "relation": "extended",
+        "citation": {
+            "work": "al-Tadhkira fi Ilm al-Haya",
+            "edition": "F. J. Ragep, Springer (1993)",
+            "location": "vol. 1 pp. 194-223",
+        },
+    },
+    {
+        "source": "tusi",
+        "target": "khayyam",
+        "relation": "extended",
+        "citation": {
+            "work": "al-Risala al-Shafiya",
+            "edition": "B. Rosenfeld, Springer (1988)",
+            "location": "pp. 73-84",
+        },
+    },
+    {
+        "source": "kashi",
+        "target": "banu_musa",
+        "relation": "extended",
+        "citation": {
+            "work": "al-Risala al-Muhitiyya (Archimedean polygon pi tradition)",
+            "edition": "P. Luckey, Berlin (1953); J. L. Berggren (1986)",
+            "location": "Luckey pp. 1-42; Berggren pp. 50-55",
+        },
+    },
+    {
+        "source": "kashi",
+        "target": "khayyam",
+        "relation": "extended",
+        "citation": {
+            "work": "Risalat al-Watar wa-l-Jayb (iterative cubic root solver)",
+            "edition": "J. L. Berggren, Springer (1986)",
+            "location": "pp. 134-141",
+        },
+    },
+    # Branch acting on Branch (4)
+    {
+        "source": "shatir",
+        "target": "tusi",
+        "relation": "extended",
+        "citation": {
+            "work": "Nihayat al-Sul",
+            "edition": "V. Roberts, Isis 48 (1957); E. S. Kennedy & V. Roberts, Isis 50 (1959)",
+            "location": "Isis 50 pp. 227-235 (Tusi couple in Mercury model)",
+        },
+    },
+    {
+        "source": "kashi",
+        "target": "tusi",
+        "relation": "extended",
+        "citation": {
+            "work": "Zij-i Khaqani (extending Maragheh Zij-i Ilkhani)",
+            "edition": "E. S. Kennedy, TAPS 46 (1956)",
+            "location": "pp. 164-166 (Zij-i Khaqani preface)",
+        },
+    },
+    {
+        "source": "copernicus",
+        "target": "tusi",
+        "relation": "extended",
+        "citation": {
+            "work": "De Revolutionibus III.4 (mathematical equivalence; transmission route debated)",
+            "edition": "F. J. Ragep (1993); G. Saliba, MIT Press (2007)",
+            "location": "Ragep vol. 2 pp. 429-431; Saliba pp. 193-209",
+        },
+    },
+    {
+        "source": "copernicus",
+        "target": "shatir",
+        "relation": "extended",
+        "citation": {
+            "work": "De Revolutionibus IV.3 & V.25 (kinematic equivalence; transmission route debated)",
+            "edition": "V. Roberts, Isis 48 (1957); N. Swerdlow & O. Neugebauer (1984)",
+            "location": "Roberts pp. 428-432; Swerdlow & Neugebauer pp. 193-201",
+        },
+    },
 )
 
 
@@ -379,12 +735,23 @@ def _require_exact_choice(value: Any, allowed: tuple[str, ...], name: str) -> st
     return value
 
 
+def _require_citation(value: Any, name: str) -> dict[str, str]:
+    _require(isinstance(value, dict), f"citation-dict:{name}")
+    _require(set(value.keys()) == ALLOWED_CITATION_KEYS, f"citation-keys:{name}")
+    return {
+        "work": _require_clean_ascii(value["work"], f"{name}.work"),
+        "edition": _require_clean_ascii(value["edition"], f"{name}.edition"),
+        "location": _require_clean_ascii(value["location"], f"{name}.location"),
+    }
+
+
 def frac_str(value: Fraction) -> str:
     v = _require_exact_fraction(value, "frac_str")
     return f"{v.numerator}/{v.denominator}"
 
 
 def frac_dec(value: Fraction, digits: int = 6) -> str:
+    """Truncate exact Fraction toward zero to `digits` decimals (conservative lower bound for v >= 0)."""
     v = _require_exact_fraction(value, "frac_dec")
     d = _require_exact_int(digits, "digits")
     _require(d >= 1, "digits-pos")
@@ -394,6 +761,17 @@ def frac_dec(value: Fraction, digits: int = 6) -> str:
     scaled = (av.numerator * ten_pow) // av.denominator
     whole, rem = divmod(scaled, ten_pow)
     return f"{sign}{whole}.{rem:0{d}d}"
+
+
+def frac_dec_ceil(value: Fraction, digits: int = 6) -> str:
+    """Round non-negative exact Fraction strictly UP to `digits` decimals (conservative upper bound)."""
+    v = _require_exact_fraction(value, "frac_dec_ceil")
+    d = _require_exact_int(digits, "digits")
+    _require(v >= 0 and d >= 1, "frac-dec-ceil-domain")
+    ten_pow = 10**d
+    scaled = (v.numerator * ten_pow + v.denominator - 1) // v.denominator
+    whole, rem = divmod(scaled, ten_pow)
+    return f"{whole}.{rem:0{d}d}"
 
 
 def _isqrt_scaled_bounds(num: int, den: int, scale: int) -> tuple[int, int]:
@@ -409,7 +787,7 @@ def _isqrt_scaled_bounds(num: int, den: int, scale: int) -> tuple[int, int]:
 
 
 def _to_sexagesimal_digits(value: Fraction, places: int) -> list[int]:
-    """Return exact base-60 fractional digits [d1, ..., d_places] for 0 <= value < 1."""
+    """Return exact base-60 floored fractional digits [d1, ..., d_places] for 0 <= value < 1."""
     v = _require_exact_fraction(value, "sex-value")
     p = _require_exact_int(places, "sex-places")
     _require(Fraction(0, 1) <= v < Fraction(1, 1) and p >= 1, "sex-domain")
@@ -421,6 +799,23 @@ def _to_sexagesimal_digits(value: Fraction, places: int) -> list[int]:
         digits.append(dig)
         cur -= dig
     return digits
+
+
+def _to_sexagesimal_digits_ceil(value: Fraction, places: int) -> list[int]:
+    """Return exact base-60 ceiled fractional digits [d1, ..., d_places] >= value (conservative upper)."""
+    v = _require_exact_fraction(value, "sex-ceil-value")
+    p = _require_exact_int(places, "sex-ceil-places")
+    _require(Fraction(0, 1) <= v < Fraction(1, 1) and p >= 1, "sex-ceil-domain")
+    base_pow = 60**p
+    scaled = (v.numerator * base_pow + v.denominator - 1) // v.denominator
+    _require(scaled < base_pow, "sex-ceil-overflow")
+    rev: list[int] = []
+    rem = scaled
+    for _ in range(p):
+        rem, dig = divmod(rem, 60)
+        rev.append(dig)
+    rev.reverse()
+    return rev
 
 
 def _sexagesimal_to_fraction(whole: int, frac_digits: Sequence[int]) -> Fraction:
@@ -437,23 +832,21 @@ def _sexagesimal_to_fraction(whole: int, frac_digits: Sequence[int]) -> Fraction
 
 # =============================================================================
 # PILLAR 1: Tributary Veins Feeding Bayt al-Hikma
-#   - Brahmagupta (628 CE): cyclic quadrilateral XII.38, Bhavana composition,
-#     varga-prakriti D=92, and Bhaskara/Jayadeva integer Chakravala D=61.
-#   - Greek/Syriac -> Gundishapur / Hunayn / Banu Musa / Thabit:
-#     Heron d=0 limit + Babylonian sqrt bracket, Archimedes 96-gon pi bracket,
-#     Apollonius / Banu Musa exact Pythagorean ellipse focal-reflection property.
 # =============================================================================
 
 
 def run_chakravala_exact(D: int) -> list[tuple[int, int, int]]:
-    """Pure exact-integer Chakravala solver for Pell equation x^2 - D*y^2 = 1."""
+    """Pure exact-integer Chakravala solver for Pell equation x^2 - D*y^2 = 1.
+
+    Returns table rows [(a_0, b_0, k_0), ..., (a_s, b_s, 1)] so iteration count is len(rows) - 1.
+    """
     d_i = _require_exact_int(D, "D")
     root = math.isqrt(d_i)
     _require(d_i >= 2 and root * root != d_i, "chakravala-nonsquare-D")
     a = root + 1 if abs((root + 1) ** 2 - d_i) < abs(root * root - d_i) else root
     b = 1
     k = a * a - d_i
-    steps: list[tuple[int, int, int]] = [(a, b, k)]
+    rows: list[tuple[int, int, int]] = [(a, b, k)]
     while k != 1:
         absk = abs(k)
         r0 = (-a * pow(b, -1, absk)) % absk
@@ -466,17 +859,12 @@ def run_chakravala_exact(D: int) -> list[tuple[int, int, int]]:
         b_new = (a + b * m) // absk
         k_new = (m * m - d_i) // k
         a, b, k = a_new, b_new, k_new
-        steps.append((a, b, k))
-    return steps
+        rows.append((a, b, k))
+    return rows
 
 
 def archimedean_polygon_pi_bracket(doublings: int, scale_exp: int) -> dict[str, Any]:
-    """Strictly certified pure-integer Archimedean 6 * 2^doublings-gon pi bracket.
-
-    Starting from the unit-circle inscribed hexagon (c_0 = 2 cos(2pi/6) = 1),
-    applies c_{k+1} = sqrt(2 + c_k) with strictly conservative integer rounding
-    so pi_lo < pi < pi_hi holds by exact arithmetic with zero floats.
-    """
+    """Strictly certified pure-integer Archimedean 6 * 2^doublings-gon pi bracket."""
     k_steps = _require_exact_int(doublings, "doublings")
     exp_i = _require_exact_int(scale_exp, "scale_exp")
     _require(k_steps >= 1 and exp_i >= 12, "archimedes-params")
@@ -490,7 +878,6 @@ def archimedean_polygon_pi_bracket(doublings: int, scale_exp: int) -> dict[str, 
         r_hi = math.isqrt(n_hi * scale)
         c_hi = r_hi + (1 if r_hi * r_hi < n_hi * scale else 0)
     n_sides = 6 * (1 << k_steps)
-    # 2*pi > N * sqrt(2 - c_hi), 2*pi < 2 * N * sqrt((2 - c_lo)/(2 + c_lo))
     sin_half_lo = math.isqrt((2 * scale - c_hi) * scale)
     _, tan_half_hi = _isqrt_scaled_bounds(2 * scale - c_lo, 2 * scale + c_lo, scale)
     twopi_lo = Fraction(n_sides * sin_half_lo, scale)
@@ -507,33 +894,26 @@ def archimedean_polygon_pi_bracket(doublings: int, scale_exp: int) -> dict[str, 
 
 def analyze_pillar1_tributary_veins() -> dict[str, Any]:
     """Pillar 1: Brahmagupta (628 CE) + Greek/Syriac -> Gundishapur/Banu Musa/Thabit veins."""
-    # 1A. Brahmagupta cyclic quadrilateral (BSS XII.38) with perpendicular integer diagonals
-    # Vertices (15, 0), (0, 36), (-48, 0), (0, -20) -> chord product 15*48 == 36*20 == 720
     a, b, c, d = Fraction(39, 1), Fraction(60, 1), Fraction(52, 1), Fraction(25, 1)
     s = (a + b + c + d) / 2
     k_sq = (s - a) * (s - b) * (s - c) * (s - d)
     k_exact = Fraction(1764, 1)
-    e_exact, f_exact = Fraction(63, 1), Fraction(56, 1)  # 15+48, 36+20
+    e_exact, f_exact = Fraction(63, 1), Fraction(56, 1)
     e_sq_formula = ((a * c + b * d) * (a * d + b * c)) / (a * b + c * d)
     f_sq_formula = ((a * c + b * d) * (a * b + c * d)) / (a * d + b * c)
     ptolemy_holds = (e_exact * f_exact == a * c + b * d)
-    circum_diam_sq = a * a + c * c  # 39^2 + 52^2 == 60^2 + 25^2 == 65^2
-    # Brahmagupta's perpendicular-bisector theorem: perp from (0,0) to AD=(15,0)-(0,-20)
-    # has slope -3/4 and passes through midpoint of BC=(0,36)-(-48,0) = (-24, 18)
+    circum_diam_sq = a * a + c * c
     ad_dx, ad_dy = Fraction(15, 1), Fraction(20, 1)
     bc_mid_x, bc_mid_y = Fraction(-24, 1), Fraction(18, 1)
-    perp_bisector_dot = ad_dx * bc_mid_x + ad_dy * bc_mid_y  # 15*(-24) + 20*18 == 0!
+    perp_bisector_dot = ad_dx * bc_mid_x + ad_dy * bc_mid_y
 
-    # 1B. Brahmagupta-Fibonacci Bhavana composition + BSS XVIII.67 (D=92) + Chakravala (D=61)
     def bhavana(x1: Fraction, y1: Fraction, x2: Fraction, y2: Fraction, D_val: int) -> tuple[Fraction, Fraction]:
         return (x1 * x2 + D_val * y1 * y2, x1 * y2 + x2 * y1)
 
-    # Check Bhavana norm multiplicativity on D=92 with (10, 1) [k=8]
     x92_1, y92_1 = Fraction(10, 1), Fraction(1, 1)
-    k92_1 = x92_1 * x92_1 - 92 * y92_1 * y92_1  # 8
-    x92_2, y92_2 = bhavana(x92_1, y92_1, x92_1, y92_1, 92)  # (192, 20), k=64
+    k92_1 = x92_1 * x92_1 - 92 * y92_1 * y92_1
+    x92_2, y92_2 = bhavana(x92_1, y92_1, x92_1, y92_1, 92)
     bhavana_norm_exact = (x92_2 * x92_2 - 92 * y92_2 * y92_2 == k92_1 * k92_1)
-    # Divide by 8 -> (24, 5/2) with k=1; self-compose -> fundamental integer (1151, 120)
     x92_h, y92_h = x92_2 / 8, y92_2 / 8
     x92_fund, y92_fund = bhavana(x92_h, y92_h, x92_h, y92_h, 92)
     pell92_exact = (x92_fund == 1151 and y92_fund == 120 and x92_fund**2 - 92 * y92_fund**2 == 1)
@@ -542,26 +922,20 @@ def analyze_pillar1_tributary_veins() -> dict[str, Any]:
     x61, y61, k61 = chak61[-1]
     pell61_exact = (k61 == 1 and x61 == 1766319049 and y61 == 226153980 and x61 * x61 - 61 * y61 * y61 == 1)
 
-    # 1C. Greek/Syriac -> Banu Musa / Thabit transmission
-    # Heron's triangle (13, 14, 15) as exact d=0 limit of Brahmagupta's formula
     ha, hb, hc, hd = Fraction(13, 1), Fraction(14, 1), Fraction(15, 1), Fraction(0, 1)
     hs = (ha + hb + hc + hd) / 2
     heron_k_sq = (hs - ha) * (hs - hb) * (hs - hc) * (hs - hd)
-    # Heron Metrica I.8 Babylonian sqrt(720) iteration starting at x0 = 27
     hx = Fraction(27, 1)
     for _ in range(3):
         hx = (hx + Fraction(720, 1) / hx) / 2
     h_lo = Fraction(720, 1) / hx
     heron_sqrt720_certified = (h_lo * h_lo < 720 < hx * hx)
 
-    # Archimedes 96-gon (k=4 doublings from hexagon) vs historical [223/71, 22/7]
     arch96 = archimedean_polygon_pi_bracket(doublings=4, scale_exp=20)
     arch_classical_lo = Fraction(223, 71)
     arch_classical_hi = Fraction(22, 7)
     arch_nested_exact = (arch_classical_lo < arch96["pi_lo"] < arch96["pi_hi"] < arch_classical_hi)
 
-    # Apollonius Conics / Banu Musa string-ellipse on (x/5)^2 + (y/4)^2 = 1 at P=(3, 16/5)
-    # Foci F1=(3,0), F2=(-3,0); d1 = 16/5, d2 = 34/5, d1 + d2 = 10 = 2a
     px, py = Fraction(3, 1), Fraction(16, 5)
     on_ellipse = ((px / 5) ** 2 + (py / 4) ** 2 == Fraction(1, 1))
     d1, d2 = Fraction(16, 5), Fraction(34, 5)
@@ -570,11 +944,9 @@ def analyze_pillar1_tributary_veins() -> dict[str, Any]:
         and d2 * d2 == (px + 3) ** 2 + py * py
         and d1 + d2 == Fraction(10, 1)
     )
-    # Inward normal at (x, y) is proportional to (-x/25, -y/16) = (-3/25, -1/5) -> (-3, -5)
-    # Unit-vector dot products with (F1 - P)/d1 = (0, -1) and (F2 - P)/d2 = (-30/34, -16/34) = (-15/17, -8/17)
     nx, ny = Fraction(-3, 1), Fraction(-5, 1)
-    dot1 = nx * Fraction(0, 1) + ny * Fraction(-1, 1)  # 5
-    dot2 = nx * Fraction(-15, 17) + ny * Fraction(-8, 17)  # (45 + 40)/17 = 5!
+    dot1 = nx * Fraction(0, 1) + ny * Fraction(-1, 1)
+    dot2 = nx * Fraction(-15, 17) + ny * Fraction(-8, 17)
     apollonius_reflection_exact = (dot1 == dot2 and dot1 == Fraction(5, 1))
 
     return {
@@ -594,16 +966,20 @@ def analyze_pillar1_tributary_veins() -> dict[str, Any]:
             "bhavana_norm_multiplicativity_exact": bhavana_norm_exact,
             "pell_D92_fundamental": [int(x92_fund), int(y92_fund)],
             "pell_D92_verified": pell92_exact,
-            "chakravala_D61_steps": len(chak61),
+            "chakravala_D61_steps": len(chak61) - 1,
+            "chakravala_D61_table_rows": len(chak61),
             "pell_D61_fundamental": [x61, y61],
             "pell_D61_verified": pell61_exact,
         },
         "greek_syriac_baghdad_veins": {
             "heron_d0_limit_area_sq": frac_str(heron_k_sq),
             "heron_area_84_exact": heron_k_sq == Fraction(84 * 84, 1),
-            "heron_sqrt720_bracket": [frac_dec(h_lo, 9), frac_dec(hx, 9)],
+            "heron_sqrt720_bracket_conservative": [frac_dec(h_lo, 9), frac_dec_ceil(hx, 9)],
             "heron_sqrt720_certified": heron_sqrt720_certified,
-            "archimedes_96gon_bracket_dec6": [frac_dec(arch96["pi_lo"], 6), frac_dec(arch96["pi_hi"], 6)],
+            "archimedes_96gon_bracket_dec6_conservative": [
+                frac_dec(arch96["pi_lo"], 6),
+                frac_dec_ceil(arch96["pi_hi"], 6),
+            ],
             "archimedes_223_71_to_22_7_nested": arch_nested_exact,
             "apollonius_ellipse_point": [frac_str(px), frac_str(py)],
             "apollonius_on_ellipse": on_ellipse,
@@ -615,40 +991,28 @@ def analyze_pillar1_tributary_veins() -> dict[str, Any]:
 
 # =============================================================================
 # PILLAR 2: Downstream Astronomical & Causal Branches
-#   - Ibn al-Shatir (1304-1375) vs Copernicus (1543): exact zero-equant lunar
-#     double-epicycle & Mercury Tusi-couple kinematic equivalence + Ptolemy
-#     lunar-distance defect removal.
-#   - Al-Ghazali (Tahafut) vs Ibn Rushd (Tahafut al-Tahafut): exact pure-Q
-#     structural-causal / counterfactual intervention identifiability witness.
 # =============================================================================
 
 
 def analyze_pillar2_shatir_copernicus_and_ghazali_rushd() -> dict[str, Any]:
     """Pillar 2: Ibn al-Shatir <-> Copernicus kinematics & al-Ghazali <-> Ibn Rushd causal witness."""
-    # 2A. Lunar model comparison: Ptolemy vs Ibn al-Shatir (Nihayat al-Sul) vs Copernicus (De Rev. IV.3)
-    # Ptolemy (R=60, e=10;19, r=5;15): d_max = 65;15, d_min = 60 - 2(10;19) - 5;15 = 34;07
-    ptol_max = Fraction(65 * 60 + 15, 60)  # 261/4
-    ptol_min = Fraction(34 * 60 + 7, 60)   # 2047/60
-    ptol_ratio = ptol_max / ptol_min       # 3915/2047
+    ptol_max = Fraction(65 * 60 + 15, 60)
+    ptol_min = Fraction(34 * 60 + 7, 60)
+    ptol_ratio = ptol_max / ptol_min
 
-    # Ibn al-Shatir (R=60, r1=6;35=79/12, r2=1;25=17/12)
     r_sh = Fraction(60, 1)
-    r1_sh = Fraction(6 * 60 + 35, 60)  # 79/12
-    r2_sh = Fraction(1 * 60 + 25, 60)  # 17/12
-    sh_syzygy_eff = r1_sh - r2_sh      # 31/6 = 5;10
-    sh_quad_eff = r1_sh + r2_sh        # 8 = 8;00
-    sh_ratio = (r_sh + sh_quad_eff) / (r_sh - sh_quad_eff)  # 68/52 = 17/13
+    r1_sh = Fraction(6 * 60 + 35, 60)
+    r2_sh = Fraction(1 * 60 + 25, 60)
+    sh_syzygy_eff = r1_sh - r2_sh
+    sh_quad_eff = r1_sh + r2_sh
+    sh_ratio = (r_sh + sh_quad_eff) / (r_sh - sh_quad_eff)
 
-    # Copernicus (R=10000, r1=1097, r2=237)
     r_cop = Fraction(10000, 1)
     r1_cop = Fraction(1097, 1)
     r2_cop = Fraction(237, 1)
-    cop_ratio = (r_cop + r1_cop + r2_cop) / (r_cop - r1_cop - r2_cop)  # 5667/4333
-
-    # Normalized parameter agreement: |r1_sh/60 - r1_cop/10000| + |r2_sh/60 - r2_cop/10000|
+    cop_ratio = (r_cop + r1_cop + r2_cop) / (r_cop - r1_cop - r2_cop)
     param_diff_l1 = abs(r1_sh / r_sh - r1_cop / r_cop) + abs(r2_sh / r_sh - r2_cop / r_cop)
 
-    # Exact 0/1 structural vector equivalence across rational Weierstrass grid (t_a, t_e)
     def _cos_sin(t: Fraction) -> tuple[Fraction, Fraction]:
         den = Fraction(1, 1) + t * t
         return ((Fraction(1, 1) - t * t) / den, (2 * t) / den)
@@ -666,42 +1030,32 @@ def analyze_pillar2_shatir_copernicus_and_ghazali_rushd() -> dict[str, Any]:
     for ta, te in grid_pairs:
         ca, sa = _cos_sin(ta)
         ce, se = _cos_sin(te)
-        # cos(2e), sin(2e)
         c2e = ce * ce - se * se
         s2e = 2 * ce * se
-        # cos(a - 2e), sin(a - 2e)
         c_diff = ca * c2e + sa * s2e
         s_diff = sa * c2e - ca * s2e
-        # Ibn al-Shatir geocentric double-epicycle vector
         zs_x = Fraction(1, 1) + rho1 * ca - rho2 * c_diff
         zs_y = -rho1 * sa + rho2 * s_diff
-        # Copernicus De Revolutionibus IV.3 vector (identical double-epicycle mechanism)
         zc_x = Fraction(1, 1) + (rho1 - rho2 * c2e) * ca - rho2 * s2e * sa
         zc_y = -(rho1 - rho2 * c2e) * sa - rho2 * s2e * ca
         if zs_x != zc_x or zs_y != zc_y:
             lunar_residuals_zero = False
-        # Mercury Tusi-couple radial modulation (De Rev. V.25 == Nihayat al-Sul):
-        # Two counter-rotating half-amplitude circles produce exact radial oscillation a*cos(2e)
-        # with 0/1 transverse residual
         a_amp = Fraction(1, 5)
         tusi_radial = (a_amp / 2) * c2e + (a_amp / 2) * c2e
         tusi_transverse = (a_amp / 2) * s2e - (a_amp / 2) * s2e
         if tusi_radial != a_amp * c2e or tusi_transverse != Fraction(0, 1):
             mercury_tusi_residuals_zero = False
 
-    # 2B. Al-Ghazali (17th Discussion: Fire & Cotton) vs Ibn Rushd (Tahafut al-Tahafut)
-    # Confounded model (U -> F, U -> C, NO F -> C): p(U=1)=1/2, p(F=1|U=1)=4/5, p(F=1|U=0)=1/5,
-    # p(C=1|U=1)=4/5, p(C=1|U=0)=1/5
     p_u1 = Fraction(1, 2)
     pf_u1, pf_u0 = Fraction(4, 5), Fraction(1, 5)
     pc_u1, pc_u0 = Fraction(4, 5), Fraction(1, 5)
     conf_joint = _compute_confounded_joint(p_u1, pf_u1, pf_u0, pc_u1, pc_u0)
-    direct_joint = dict(conf_joint)  # Exact observational twin (17/50, 4/25, 4/25, 17/50)
+    direct_joint = dict(conf_joint)
     obs_l1 = sum(abs(direct_joint[k] - conf_joint[k]) for k in ("p11", "p10", "p01", "p00"))
     p_f1 = direct_joint["p11"] + direct_joint["p10"]
     p_f0 = direct_joint["p01"] + direct_joint["p00"]
-    ate_direct = (direct_joint["p11"] / p_f1) - (direct_joint["p01"] / p_f0)  # 17/25 - 8/25 = 9/25
-    ate_confounded = Fraction(0, 1)  # do(F) cuts U->F; C depends only on U!
+    ate_direct = (direct_joint["p11"] / p_f1) - (direct_joint["p01"] / p_f0)
+    ate_confounded = Fraction(0, 1)
 
     return {
         "shatir_copernicus_lunar_and_mercury": {
@@ -734,11 +1088,6 @@ def analyze_pillar2_shatir_copernicus_and_ghazali_rushd() -> dict[str, Any]:
 
 # =============================================================================
 # PILLAR 3: Samarkand Precision Analysis — Jamshid al-Kashi (1380-1429)
-#   - Exact Banach fixed-point cubic solver for sin(1 deg) from sin(3 deg)=3x-4x^3
-#     with certified Lipschitz L = 1/625 on [0, 1/50] and exact pure-Q sin(3 deg)
-#     interval arithmetic.
-#   - Exact pure-integer 3*2^28 = 805,306,368-gon Archimedean pi bracket matching
-#     al-Kashi's 1424 CE 9-place sexagesimal 2*pi = 6;16,59,28,01,34,51,46,14,50.
 # =============================================================================
 
 
@@ -749,14 +1098,12 @@ def analyze_pillar3_kashi_banach_and_pi() -> dict[str, Any]:
     s5_lo, s5_hi = _isqrt_scaled_bounds(5, 1, scale)
     s6_lo, s6_hi = _isqrt_scaled_bounds(6, 1, scale)
 
-    # r10 = sqrt(10 + 2*sqrt(5))
     in_lo = 10 * scale + 2 * s5_lo
     in_hi = 10 * scale + 2 * s5_hi
     r10_lo = math.isqrt(in_lo * scale)
     r10_r = math.isqrt(in_hi * scale)
     r10_hi = r10_r + (1 if r10_r * r10_r < in_hi * scale else 0)
 
-    # sin(3 deg) = ((sqrt(6)+sqrt(2))*(sqrt(5)-1) - (sqrt(6)-sqrt(2))*sqrt(10+2sqrt(5))) / 16
     t1_lo = ((s6_lo + s2_lo) * (s5_lo - scale)) // (16 * scale)
     t1_hi = ((s6_hi + s2_hi) * (s5_hi - scale) + 16 * scale - 1) // (16 * scale)
     t2_lo = ((s6_lo - s2_hi) * r10_lo) // (16 * scale)
@@ -764,25 +1111,20 @@ def analyze_pillar3_kashi_banach_and_pi() -> dict[str, Any]:
     sin3_lo = Fraction(t1_lo - t2_hi, scale)
     sin3_hi = Fraction(t1_hi - t2_lo, scale)
 
-    # Exact Banach contraction T(x) = (sin(3 deg) + 4 x^3) / 3 on [0, 1/50]
-    # T'(x) = 4 x^2 <= 4 / 2500 = 1/625 on [0, 1/50]
     dom_lo, dom_hi = Fraction(0, 1), Fraction(1, 50)
-    lipschitz_tight = Fraction(4, 1) * dom_hi * dom_hi  # 1/625
+    lipschitz_tight = Fraction(4, 1) * dom_hi * dom_hi
     x_lo, x_hi = dom_lo, dom_hi
-    # Track exact interval widths across 7 monotone fixed-point iterations
     step0_upper_gap = (sin3_hi + 4 * dom_lo**3) / 3 - dom_lo
     widths: list[str] = []
     for _ in range(7):
         x_lo = (sin3_lo + 4 * x_lo**3) / 3
         x_hi = (sin3_hi + 4 * x_hi**3) / 3
-        widths.append(frac_dec(x_hi - x_lo, 20))
+        widths.append(frac_dec_ceil(x_hi - x_lo, 20))
 
-    # Certify exact cubic residual |3x - 4x^3 - sin(3 deg)| <= 10^-18
     x_mid = (x_lo + x_hi) / 2
     cubic_val = 3 * x_mid - 4 * (x_mid**3)
     cubic_res_bound = max(abs(cubic_val - sin3_lo), abs(cubic_val - sin3_hi))
 
-    # Compare against al-Kashi's 1427 CE 10-place sexagesimal sin(1 deg)
     kashi_1427_sex_digits = [1, 2, 49, 43, 11, 14, 44, 16, 26, 17]
     kashi_1427_val = _sexagesimal_to_fraction(0, kashi_1427_sex_digits)
     exact_sin1_sex_lo = _to_sexagesimal_digits(x_lo, 10)
@@ -792,48 +1134,69 @@ def analyze_pillar3_kashi_banach_and_pi() -> dict[str, Any]:
     )
     sin1_diff_from_kashi = max(abs(x_lo - kashi_1427_val), abs(x_hi - kashi_1427_val))
 
-    # 3B. Al-Kashi's 1424 CE 3*2^28 = 805,306,368-gon pi bracket (27 doublings from hexagon)
     kashi_pi = archimedean_polygon_pi_bracket(doublings=27, scale_exp=35)
     kashi_1424_twopi_digits = [16, 59, 28, 1, 34, 51, 46, 14, 50]
     kashi_1424_twopi = _sexagesimal_to_fraction(6, kashi_1424_twopi_digits)
     kashi_twopi_inside_bracket = (kashi_pi["twopi_lo"] < kashi_1424_twopi < kashi_pi["twopi_hi"])
+
+    # Strictly conservative sexagesimal & decimal outer brackets
+    twopi_lo_sex = [6] + _to_sexagesimal_digits(kashi_pi["twopi_lo"] - 6, 10)
+    twopi_hi_sex_ceil = [6] + _to_sexagesimal_digits_ceil(kashi_pi["twopi_hi"] - 6, 10)
+    twopi_hi_sex_floor = [6] + _to_sexagesimal_digits(kashi_pi["twopi_hi"] - 6, 10)
+    twopi_sex_floor_width = (
+        _sexagesimal_to_fraction(twopi_hi_sex_floor[0], twopi_hi_sex_floor[1:])
+        - _sexagesimal_to_fraction(twopi_lo_sex[0], twopi_lo_sex[1:])
+    )
+    twopi_sex_ceil_width = (
+        _sexagesimal_to_fraction(twopi_hi_sex_ceil[0], twopi_hi_sex_ceil[1:])
+        - _sexagesimal_to_fraction(twopi_lo_sex[0], twopi_lo_sex[1:])
+    )
+    pi_exact_width = kashi_pi["pi_hi"] - kashi_pi["pi_lo"]
+    twopi_exact_width = kashi_pi["twopi_hi"] - kashi_pi["twopi_lo"]
+
     pi_lo_dec16 = frac_dec(kashi_pi["pi_lo"], 16)
-    pi_hi_dec16 = frac_dec(kashi_pi["pi_hi"], 16)
+    pi_hi_dec16_floor = frac_dec(kashi_pi["pi_hi"], 16)
+    pi_hi_dec16_ceil = frac_dec_ceil(kashi_pi["pi_hi"], 16)
 
     return {
         "kashi_banach_sin1_cubic": {
             "domain": [frac_str(dom_lo), frac_str(dom_hi)],
             "lipschitz_constant_exact": frac_str(lipschitz_tight),
-            "sin3_bracket_dec18": [frac_dec(sin3_lo, 18), frac_dec(sin3_hi, 18)],
-            "sin1_bracket_dec18": [frac_dec(x_lo, 18), frac_dec(x_hi, 18)],
+            "sin3_bracket_dec18_conservative": [frac_dec(sin3_lo, 18), frac_dec_ceil(sin3_hi, 18)],
+            "sin1_bracket_dec18_conservative": [frac_dec(x_lo, 18), frac_dec_ceil(x_hi, 18)],
             "sin1_sexagesimal_10places_exact": exact_sin1_sex_lo,
             "kashi_1427_sexagesimal_10places": kashi_1427_sex_digits,
             "first_9_sexagesimal_places_exact_match": first_9_sex_match,
             "max_diff_from_kashi_1427_lt_1e17": sin1_diff_from_kashi < Fraction(1, 10**17),
             "cubic_residual_lt_1e18": cubic_res_bound < Fraction(1, 10**18),
             "step0_gap_dec12": frac_dec(step0_upper_gap, 12),
-            "iteration_width_dec20_final": widths[-1],
+            "iteration_width_dec20_ceil_final": widths[-1],
         },
         "kashi_3_times_2_28_gon_pi": {
             "polygon_sides": kashi_pi["sides"],
-            "twopi_lo_sexagesimal": [6] + _to_sexagesimal_digits(kashi_pi["twopi_lo"] - 6, 10),
-            "twopi_hi_sexagesimal": [6] + _to_sexagesimal_digits(kashi_pi["twopi_hi"] - 6, 10),
+            "twopi_lo_sexagesimal_floor": twopi_lo_sex,
+            "twopi_hi_sexagesimal_ceil": twopi_hi_sex_ceil,
             "kashi_1424_twopi_sexagesimal": [6] + kashi_1424_twopi_digits,
             "kashi_1424_value_strictly_inside_3x2_28_bracket": kashi_twopi_inside_bracket,
-            "pi_lo_dec16": pi_lo_dec16,
-            "pi_hi_dec16": pi_hi_dec16,
-            "agrees_to_16_decimal_digits": pi_lo_dec16 == pi_hi_dec16 == "3.1415926535897932",
-            "bracket_width_lt_1e16": (kashi_pi["pi_hi"] - kashi_pi["pi_lo"]) < Fraction(1, 10**16),
+            "pi_lo_dec16_floor": pi_lo_dec16,
+            "pi_hi_dec16_ceil": pi_hi_dec16_ceil,
+            "pi_bracket_dec17_conservative": [
+                frac_dec(kashi_pi["pi_lo"], 17),
+                frac_dec_ceil(kashi_pi["pi_hi"], 17),
+            ],
+            "pi_exact_width_e17_ceil": frac_dec_ceil(pi_exact_width * (10**17), 6),
+            "twopi_exact_width_e17_ceil": frac_dec_ceil(twopi_exact_width * (10**17), 6),
+            "base60_10place_floored_pi_width_e17": frac_dec((twopi_sex_floor_width / 2) * (10**17), 3),
+            "base60_10place_floored_twopi_width_e17": frac_dec(twopi_sex_floor_width * (10**17), 3),
+            "base60_10place_conservative_pi_width_e17_ceil": frac_dec_ceil((twopi_sex_ceil_width / 2) * (10**17), 3),
+            "agrees_to_16_decimal_digits": (pi_lo_dec16 == pi_hi_dec16_floor == "3.1415926535897932"),
+            "bracket_width_lt_1e16": pi_exact_width < Fraction(1, 10**16),
         },
     }
 
 
 # =============================================================================
 # PILLAR 4: Acoustic Continuum vs. Discrete 12-TET Bucketization
-#   - Al-Farabi (Kitab al-Musiqa al-Kabir, c. 940 CE): exact 11-limit rational
-#     tetrachords (9/8, 12/11, 88/81, 27/22, 4/3, 3/2), Pythagorean comma,
-#     prime-factorization incommensurability, and exact pure-integer cent
-#     brackets proving catastrophic ~45-49 cent 12-TET quantization defect.
 # =============================================================================
 
 
@@ -864,28 +1227,20 @@ def analyze_pillar4_farabi_acoustic_continuum() -> dict[str, Any]:
         "complement_88_81": Fraction(88, 81),
     }
 
-    # Exact tetrachord & Zalzal identities
     zalzal_from_tone_and_12_11 = (Fraction(9, 8) * Fraction(12, 11) == Fraction(27, 22))
     tetrachord_farabi_exact = (Fraction(9, 8) * Fraction(12, 11) * Fraction(88, 81) == Fraction(4, 3))
     tetrachord_superparticular_exact = (Fraction(12, 11) * Fraction(11, 10) * Fraction(10, 9) == Fraction(4, 3))
-
-    # Pythagorean comma: (3/2)^12 / 2^7 = 531441 / 524288
     pyth_comma = (Fraction(3, 2) ** 12) / Fraction(1 << 7, 1)
 
-    # Exact integer cent intervals & 12-TET nearest-semitone rounding defect
-    # A ratio r with cents in (c, c+1) has min distance to {100*k} bounded below by min_k |{c, c+1} - 100k|
     interval_rows: dict[str, dict[str, Any]] = {}
     for label, r in ratios.items():
         c_lo = exact_cent_floor(r)
         c_hi = c_lo + 1
-        # Exact prime-factorization check: r^12 is a pure power of 2 iff numerator and denominator
-        # are powers of 2 (true for 1/1 and 2/1, false for all 3-limit / 11-limit ratios)
         is_pow2_num = (r.numerator & (r.numerator - 1)) == 0
         is_pow2_den = (r.denominator & (r.denominator - 1)) == 0
         exact_in_12tet = is_pow2_num and is_pow2_den
         nearest_k = (c_lo + 50) // 100
         nearest_bucket = nearest_k * 100
-        # Guaranteed lower bound on |cents(r) - nearest_bucket|
         if c_hi <= nearest_bucket:
             defect_lo = nearest_bucket - c_hi
         elif c_lo >= nearest_bucket:
@@ -916,19 +1271,18 @@ def analyze_pillar4_farabi_acoustic_continuum() -> dict[str, Any]:
 
 # =============================================================================
 # PILLAR 5: Two Fail-Closed Pure-Q Certifiers
-#   1. certify_extended_polymath_dag(nodes, edges): 3-tier (tributary/core/branch)
-#      chronological, epoch, tier-monotonicity, DAG acyclicity, and
-#      tributary->core->branch provenance-bridge certifier.
-#   2. certify_contraction_and_causal_identifiability(spec): Unified fail-closed
-#      al-Kashi Banach fixed-point (contraction + domain-invariance ball + a-priori
-#      tolerance) & al-Ghazali/Ibn Rushd structural-causal identifiability certifier.
 # =============================================================================
 
 
 def certify_extended_polymath_dag(
     nodes: Sequence[dict[str, Any]], edges: Sequence[dict[str, Any]]
 ) -> dict[str, Any]:
-    """Fail-closed 3-tier chronological, epoch, DAG & tributary->core->branch certifier."""
+    """Fail-closed 3-tier active-voice encoding-consistency checker for the 23-scholar dataset.
+
+    Edge direction convention (active voice): every edge {source, target, relation, citation}
+    means `source <relation> target`. Influence-order DAG edges (earlier -> later) therefore
+    run source->target for teacher_of and target->source for extended/commented_on/critiqued.
+    """
     _require(isinstance(nodes, (list, tuple)) and len(nodes) >= 1, "lineage-nodes-nonempty")
     _require(isinstance(edges, (list, tuple)), "lineage-edges-seq")
 
@@ -944,6 +1298,7 @@ def certify_extended_polymath_dag(
         _require_clean_ascii(node["name"], f"name[{idx}]")
         _require_clean_ascii(node["city"], f"city[{idx}]")
         _require_clean_ascii(node["primary_work"], f"primary_work[{idx}]")
+        _require_citation(node["source"], f"node.source[{idx}]")
         tier = _require_exact_choice(node["tier"], ALLOWED_TIERS, f"tier[{idx}]")
         birth = _require_exact_int(node["birth_year"], f"birth_year[{idx}]")
         death = _require_exact_int(node["death_year"], f"death_year[{idx}]")
@@ -961,7 +1316,8 @@ def certify_extended_polymath_dag(
         elif tier == "branch" and birth < 1200:
             tier_violations.append(f"EPOCH_BRANCH_EARLY:{nid}")
 
-    adj: dict[str, list[str]] = {nid: [] for nid in by_id}
+    # Forward-time influence adjacency (earlier -> later) for cycle & tributary->core->branch reachability
+    influence_adj: dict[str, list[str]] = {nid: [] for nid in by_id}
     seen_edges: set[tuple[str, str, str]] = set()
     chronology_violations: list[str] = []
 
@@ -971,6 +1327,7 @@ def certify_extended_polymath_dag(
         src = _require_clean_ascii(edge["source"], f"edge.source[{idx}]")
         dst = _require_clean_ascii(edge["target"], f"edge.target[{idx}]")
         rel = _require_exact_choice(edge["relation"], ALLOWED_RELATIONS, f"edge.relation[{idx}]")
+        _require_citation(edge["citation"], f"edge.citation[{idx}]")
         _require(src in by_id, f"lineage-unknown-source:{src}")
         _require(dst in by_id, f"lineage-unknown-target:{dst}")
         _require(src != dst, f"lineage-self-loop:{src}")
@@ -988,30 +1345,35 @@ def certify_extended_polymath_dag(
             )
             if overlap < 15:
                 chronology_violations.append(f"CHRONO_CORRESPONDENCE_NO_OVERLAP:{src}<->{dst}")
-        else:
+        elif rel == "teacher_of":
             if s_rank > d_rank:
                 tier_violations.append(f"TIER_BACKWARD_FLOW:{src}->{dst}")
-            if rel == "teacher_of":
-                if s_node["birth_year"] + 10 > d_node["birth_year"]:
-                    chronology_violations.append(f"CHRONO_TEACHER_AGE_GAP:{src}->{dst}")
-                elif d_node["birth_year"] + 12 > min(s_node["death_year"], d_node["death_year"]):
-                    chronology_violations.append(f"CHRONO_TEACHER_OVERLAP:{src}->{dst}")
-            else:
-                if s_node["birth_year"] + 15 > min(s_node["death_year"], d_node["death_year"]):
-                    chronology_violations.append(f"CHRONO_ANACHRONISTIC_INFLUENCE:{src}->{dst}")
-                elif d_node["birth_year"] + 15 > d_node["death_year"]:
-                    chronology_violations.append(f"CHRONO_IMMATURE_TARGET:{src}->{dst}")
+            if s_node["birth_year"] + 10 > d_node["birth_year"]:
+                chronology_violations.append(f"CHRONO_TEACHER_AGE_GAP:{src}->{dst}")
+            elif d_node["birth_year"] + 12 > min(s_node["death_year"], d_node["death_year"]):
+                chronology_violations.append(f"CHRONO_TEACHER_OVERLAP:{src}->{dst}")
+            influence_adj[src].append(dst)
+        else:
+            # Active voice: later actor=src engaged prior subject=dst
+            if s_rank < d_rank:
+                tier_violations.append(f"TIER_BACKWARD_FLOW:{src}->{dst}")
+            if s_node["birth_year"] + 15 > s_node["death_year"]:
+                chronology_violations.append(f"CHRONO_IMMATURE_ACTOR:{src}->{dst}")
+            if d_node["birth_year"] + 15 > d_node["death_year"]:
+                chronology_violations.append(f"CHRONO_IMMATURE_SUBJECT:{src}->{dst}")
+            if s_node["death_year"] < d_node["birth_year"] + 15:
+                chronology_violations.append(f"CHRONO_ACTOR_DIED_BEFORE_SUBJECT_MATURITY:{src}->{dst}")
+            if s_node["birth_year"] < d_node["birth_year"]:
+                chronology_violations.append(f"CHRONO_ACTOR_PRECEDES_SUBJECT:{src}->{dst}")
+            influence_adj[dst].append(src)
 
-        if rel in DIRECTED_DAG_RELATIONS:
-            adj[src].append(dst)
-
-    # Exact 3-color DFS cycle detection on directional lineage graph
+    # Exact 3-color DFS cycle detection on forward-time influence graph
     color: dict[str, int] = {nid: 0 for nid in by_id}
     has_cycle = False
 
     def _dfs(u: str) -> bool:
         color[u] = 1
-        for v in adj[u]:
+        for v in influence_adj[u]:
             if color[v] == 1:
                 return True
             if color[v] == 0 and _dfs(v):
@@ -1024,13 +1386,13 @@ def certify_extended_polymath_dag(
             has_cycle = True
             break
 
-    # Verify tributary ->+ core ->+ branch directed provenance bridge (blocks vacuous empty-edge certs)
+    # Verify tributary ->+ core ->+ branch directed path in influence order
     reached_core: set[str] = set()
     stack = [nid for nid, nd in by_id.items() if nd["tier"] == "tributary"]
     visited: set[str] = set(stack)
     while stack:
         u = stack.pop()
-        for v in adj[u]:
+        for v in influence_adj[u]:
             if by_id[v]["tier"] == "core":
                 reached_core.add(v)
             if v not in visited:
@@ -1042,7 +1404,7 @@ def certify_extended_polymath_dag(
     visited2: set[str] = set(stack2)
     while stack2:
         u = stack2.pop()
-        for v in adj[u]:
+        for v in influence_adj[u]:
             if by_id[v]["tier"] == "branch":
                 reaches_branch_via_core = True
                 break
@@ -1057,8 +1419,11 @@ def certify_extended_polymath_dag(
 
     return {
         "certified": (len(chronology_violations) == 0 and len(tier_violations) == 0 and not has_cycle),
+        "encoding_consistency_only": True,
+        "edge_direction_convention": EDGE_DIRECTION_CONVENTION,
         "node_count": len(by_id),
         "edge_count": len(seen_edges),
+        "all_nodes_and_edges_cited": True,
         "tier_counts": tier_counts,
         "chronology_violations": chronology_violations,
         "tier_violations": tier_violations,
@@ -1184,7 +1549,7 @@ def certify_contraction_and_causal_identifiability(spec: Any) -> dict[str, Any]:
 
 
 def analyze_pillar5_lineage_and_certifiers() -> dict[str, Any]:
-    """Pillar 5: Certified 23-scholar 3-tier lineage DAG + unified Banach/causal receipts."""
+    """Pillar 5: 23-scholar 3-tier encoding-consistency check + unified Banach/causal receipts."""
     lineage = certify_extended_polymath_dag(EXTENDED_POLYMATH_NODES, EXTENDED_POLYMATH_EDGES)
 
     shared_joint = {
@@ -1218,7 +1583,7 @@ def analyze_pillar5_lineage_and_certifiers() -> dict[str, Any]:
             "domain_lo": Fraction(0, 1),
             "domain_hi": Fraction(1, 50),
             "x0": Fraction(1, 100),
-            "lipschitz_L": Fraction(1, 1),  # non-contractive!
+            "lipschitz_L": Fraction(1, 1),
             "step0_gap": Fraction(1, 125),
             "iterations": 3,
             "target_tol": Fraction(1, 10**6),
@@ -1245,35 +1610,14 @@ def analyze_pillar5_lineage_and_certifiers() -> dict[str, Any]:
     }
 
 
-def audit_live_vault_anchors(symbiosis_root: Path) -> dict[str, Any]:
-    """Read-only live SHA-256 verification of pinned expedition vault cross-links."""
-    _require(symbiosis_root.is_dir(), f"symbiosis-root-missing:{symbiosis_root}")
-    root_res = symbiosis_root.resolve()
-    anchors: dict[str, dict[str, Any]] = {}
-    for rel, expected in PINNED_VAULT_DIGESTS.items():
-        full_p = (symbiosis_root / rel).resolve()
-        _require(full_p.is_relative_to(root_res), f"vault-path-escape:{rel}")
-        _require(full_p.is_file(), f"vault-file-missing:{rel}")
-        raw = full_p.read_bytes()
-        sha = hashlib.sha256(raw).hexdigest()
-        _require(len(raw) == expected["bytes"], f"vault-bytes-mismatch:{rel}")
-        _require(sha == expected["sha256"], f"vault-sha256-mismatch:{rel}")
-        anchors[rel] = {"bytes": len(raw), "sha256": sha, "role": expected["role"], "verified": True}
-    return {"mode": "live_read_only", "verified_vault_anchors": len(anchors), "anchors": anchors}
-
-
-def build_certificate(symbiosis_root: Path | None = None) -> dict[str, Any]:
-    """Build deterministic pure-Q zero-float AUDIT-095 certificate."""
-    vault = (
-        audit_live_vault_anchors(symbiosis_root)
-        if symbiosis_root is not None
-        else {"mode": "standalone_pure_math", "verified_vault_anchors": 0, "anchors": {}}
-    )
+def build_certificate() -> dict[str, Any]:
+    """Build self-contained deterministic pure-Q zero-float AUDIT-095R certificate."""
     payload: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "audit_id": AUDIT_ID,
+        "execution_mode": "standalone_pure_q",
         "novelty_classification": {
-            "honest_tier": "N1",
+            "honest_tier": "N0",
             "n0_historical_prior_art": (
                 "Archimedes, Apollonius, Heron, Brahmagupta, Bhaskara II/Jayadeva, "
                 "al-Khwarizmi, al-Kindi, Banu Musa, Hunayn ibn Ishaq, Thabit ibn Qurra, "
@@ -1281,14 +1625,12 @@ def build_certificate(symbiosis_root: Path | None = None) -> dict[str, Any]:
                 "al-Ghazali, al-Samawal, Ibn Rushd, Ismail al-Jazari, Nasir al-Din al-Tusi, "
                 "Ibn al-Shatir, Jamshid al-Kashi, Nicolaus Copernicus"
             ),
-            "n1_engineering_contribution": (
-                "Pure-Q zero-float verification engine uniting tributary veins & downstream "
-                "branches of Bayt al-Hikma, certified pure-integer 3*2^28-gon pi & Banach "
-                "sin(1 deg) solvers, pure-integer 11-limit acoustic cent defect proof, "
-                "structural-causal witness, and two 100%-R5-killed fail-closed certifiers"
+            "rationale": (
+                "All mathematical theorems and historical reconstructions are N0 classical prior art; "
+                "this package provides reproducible pure-Q stdlib verification scripts, conservative "
+                "interval arithmetic, and encoding-consistency checks without claiming N1 novelty."
             ),
         },
-        "vault_cross_links": vault,
         "pillar1_tributary_veins": analyze_pillar1_tributary_veins(),
         "pillar2_shatir_copernicus_and_ghazali_rushd": analyze_pillar2_shatir_copernicus_and_ghazali_rushd(),
         "pillar3_kashi_banach_and_pi": analyze_pillar3_kashi_banach_and_pi(),
@@ -1301,22 +1643,20 @@ def build_certificate(symbiosis_root: Path | None = None) -> dict[str, Any]:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="AUDIT-095 Bayt al-Hikma Veins & Branches Certifier")
-    parser.add_argument("--symbiosis-root", type=Path, default=None, help="Read-only symbiosis vault root")
+    parser = argparse.ArgumentParser(description="AUDIT-095R Bayt al-Hikma Veins & Branches Certifier")
     parser.add_argument("--json", action="store_true", help="Emit canonical JSON certificate")
     parser.add_argument("--write-cert", type=Path, default=None, help="Write canonical JSON certificate to path")
     args = parser.parse_args(list(argv) if argv is not None else None)
 
-    cert = build_certificate(symbiosis_root=args.symbiosis_root)
+    cert = build_certificate()
     rendered = json.dumps(cert, indent=2, sort_keys=True, allow_nan=False) + "\n"
     if args.write_cert is not None:
         args.write_cert.write_text(rendered, encoding="utf-8")
     if args.json:
         sys.stdout.write(rendered)
     else:
-        v = cert["vault_cross_links"]
         sys.stdout.write(
-            f"{AUDIT_ID} | mode={v['mode']} | vault_anchors={v['verified_vault_anchors']} "
+            f"{AUDIT_ID} | mode={cert['execution_mode']} | tier={cert['novelty_classification']['honest_tier']} "
             f"| sha256={cert['certificate_sha256']}\n"
         )
     return 0
