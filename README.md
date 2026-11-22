@@ -1,5 +1,7 @@
 # Bayt al-Ḥikma — Classical Arabic Corpus Analyses & Polymath Pure-$\mathbb{Q}$ Verification
 
+**Website:** <https://foundation-0.github.io/bayt-al-hikma/> (source in [`docs/`](docs/), plain HTML/CSS/JS, no build step; preview with `cd docs && python3 -m http.server 8000`). GitHub Pages serves `main` branch, `/docs` folder.
+
 > **Scope, Execution Honesty & Law-4 `N0` Default**
 >
 > This repository contains **4 pure-$\mathbb{Q}$ Python 3 stdlib research packages** (`0` IEEE-754 floats on trust paths, `0` bare `assert`s) across two tracks:
@@ -23,6 +25,7 @@ bayt-al-hikma/
 ├── PREREGISTERED_HYPOTHESES.md                      # Retrospective 9-pattern ledger, root-selection disclosure & locked protocol
 ├── fetch_corpora.py                                 # Pure-stdlib fetcher & SHA-256 verifier for all 9 primary texts (URLs, editions, licences)
 ├── verify_all_standalone.py                         # Zero-dependency verifier: offline fixture/standalone check OR --live corpus recount
+├── docs/                                            # GitHub Pages site (index, continuum, lexicon, lineage, method, reproduce; no build step)
 ├── arabic-continuum/                                # AUDIT-091-V2 (N0, B=250 multi-shuffle nulls + Holm-Bonferroni)
 │   ├── ARABIC_CONTINUUM_AUDIT_REPORT.md             # Full report, 12-cell lift reversal retraction & honest inclusio adjudication
 │   ├── arabic_continuum_oracle.py                   # Pure-Q lattice, B=250 null, Holm-Bonferroni & feature-naming filter

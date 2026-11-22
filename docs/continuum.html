@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Arabic Continuum (AUDIT-091-V2) · Bayt al-Hikma</title>
+<meta name="description" content="Root and pattern cohesion in Classical Arabic, counted in exact fractions. A retracted ladder, a falsified mirror, and an inconclusive inclusio, kept on record.">
+<link rel="canonical" href="https://foundation-0.github.io/bayt-al-hikma/continuum.html">
+<meta property="og:type" content="article"><meta property="og:site_name" content="Bayt al-Hikma">
+<meta property="og:title" content="Arabic Continuum: the ladder ran backwards">
+<meta property="og:description" content="Root and pattern cohesion in Classical Arabic, counted in exact fractions. Retraction and falsification kept on record.">
+<meta property="og:url" content="https://foundation-0.github.io/bayt-al-hikma/continuum.html">
+<meta property="og:image" content="https://foundation-0.github.io/bayt-al-hikma/assets/og.svg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script>try{var h=localStorage.getItem("bayt-hue");if(h!==null)document.documentElement.style.setProperty("--eco-hue",h);var t=localStorage.getItem("bayt-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<script src="assets/site.js" defer></script><script src="assets/figures.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-row">
+<a class="masthead" href="index.html" aria-label="Bayt al-Hikma home"><svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="32" cy="32" r="21"/><circle cx="32" cy="32" r="10.5"/><circle cx="32" cy="21.5" r="10.5"/><circle cx="41.1" cy="26.8" r="10.5"/><circle cx="41.1" cy="37.2" r="10.5"/><circle cx="32" cy="42.5" r="10.5"/><circle cx="22.9" cy="37.2" r="10.5"/><circle cx="22.9" cy="26.8" r="10.5"/></g><circle cx="32" cy="32" r="2.4" fill="currentColor"/></svg>Bayt al-Hikma <span class="ar" lang="ar" dir="rtl">بيت الحكمة</span></a>
+<nav class="site-nav" aria-label="Main navigation"><a href="continuum.html" aria-current="page">Continuum</a><a href="lexicon.html">Lexicon</a><a href="lineage.html">Lineage</a><a href="method.html">Method</a><a href="reproduce.html">Reproduce</a><a class="ext" href="https://github.com/Foundation-0/bayt-al-hikma">Source ↗</a></nav>
+<label class="hue-row">hue <input type="range" min="0" max="360" step="1" value="92" data-hue-input aria-label="Style hue, 0 to 360"> <output data-hue-out>92</output></label>
+<button class="theme-btn" type="button" data-theme-btn>dark</button>
+</div></header>
+<main id="main" tabindex="-1">
+<div class="wrap">
+  <div class="page-head">
+    <p class="crumbs"><a href="index.html">Bayt al-Hikma</a> / AUDIT-091-V2 · <span class="tg n0">N0</span></p>
+    <h1>Arabic Continuum: the ladder ran <em>backwards.</em></h1>
+    <p class="lede">Do nearby words in Classical Arabic share roots and patterns more than chance allows? Yes, in every layer tested. The surprise is the order. Once each layer meets its own baseline, the finest layer leads and the coarsest comes last.</p>
+    <nav class="jump" aria-label="On this page"><a href="#lift">Cohesion lift</a><a href="#ring">Ring and inclusio</a><a href="#translation">Translation loss</a><a href="#files">Files and certificate</a></nav>
+  </div>
+
+  <section class="ip" id="lift" aria-labelledby="lift-h">
+    <p class="lbl"><b>01 // Cohesion lift</b><span>1,642 roots. 11 verb forms. 49,968 tokens.</span><span class="spacer"></span><span class="tg verified">Verified</span> <span class="tg retracted">Ladder retracted</span></p>
+    <div class="chapter">
+      <div><h2 id="lift-h">Count, shuffle, <em>compare.</em></h2><p class="method-line">A pattern means little until the shuffled text has had its turn.</p></div>
+      <div class="prose">
+        <p>A token is one counted word piece. A layer is a way of grouping those pieces: the surface form (raw), the consonant skeleton without vowels (rasm), the light stem, or the triliteral root. Cohesion asks how often neighbours inside a window of W words collide in the same group.</p>
+        <p>The first report compared raw cohesion across layers. Roots won. That win was built in. Fewer, larger groups collide more often even in scrambled text. The repair gives each layer its own null: shuffle the order 250 times, recount, and divide. That quotient is the lift.</p>
+        <p>All 12 cells (4 layers at windows 10, 20 and 40) beat their nulls. Each cell scores p = 1/251. After Holm-Bonferroni correction for 12 tests, p_adj = 12/251 = 0.0478. Holm-Bonferroni is a stricter threshold that pays for testing many things at once.</p>
+      </div>
+    </div>
+    <div class="duo" style="margin-top:2.2rem">
+      <figure><div class="stage" data-lift></div><figcaption class="fig-cap">Lift at W = 20. The <i>Kalila wa-Dimna</i> prose control (second bar) exceeds the Quran stem. Local cohesion is shared Classical Arabic prose behaviour.</figcaption></figure>
+      <div>
+        <div class="tscroll"><table>
+          <thead><tr><th scope="col">Layer (W = 20)</th><th scope="col" class="n">Lift</th><th scope="col">Reading</th></tr></thead>
+          <tbody>
+            <tr><td>Raw surface form</td><td class="n">2.11x</td><td>Highest lift</td></tr>
+            <tr><td>Rasm skeleton</td><td class="n">1.68x</td><td></td></tr>
+            <tr><td>Light stem</td><td class="n">1.65x</td><td>Kalila stem: 1.82x</td></tr>
+            <tr><td>Triliteral root</td><td class="n">1.49x</td><td>Lowest lift</td></tr>
+          </tbody>
+        </table></div>
+        <div class="note bad"><strong>Retraction, in full.</strong> The absolute ordering raw &lt; rasm &lt; stem &lt; root is withdrawn. It measured group size, not textual structure. The lift table above replaces it. The old numbers stay in the report so the error can be studied.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ip" id="ring" aria-labelledby="ring-h">
+    <p class="lbl"><b>02 // Ring and inclusio</b><span>79 surahs with 20 or more verses.</span><span class="spacer"></span><span class="tg falsified">Mirror falsified</span></p>
+    <div class="chapter">
+      <div><h2 id="ring-h">A mirror that <em>was not there.</em></h2></div>
+      <div class="prose">
+        <p>A ring would pair verse i with verse L-1-i, so the second half mirrors the first. The test compared true mirror pairs with shifted and shuffled pairs across 79 long surahs. The mirror scored 0.040319. The pooled null scored 0.042126. The mirror sits below chance, with lower-tail p = 5/251 = 0.0199. The pointwise mirror is falsified.</p>
+        <p>A softer idea followed: the opening tenth and closing tenth might share more than either shares with the middle. That pattern is called inclusio, a frame that opens and closes a text. It was formed after the mirror failed, on the same 79 surahs, so it starts life as exploratory.</p>
+        <p>Six Quran slices were tested, with and without the ten most frequent words removed. All six fail Holm-Bonferroni at B = 250. The best adjusted value is 42/251 = 0.1673, well above 0.05. Framed chapters in <i>Kalila</i> score higher (+0.009739) than the Quran set (+0.008283). The honest label is EXPLORATORY_INCONCLUSIVE_NOT_SEPARATED. The idea is neither confirmed nor separated from ordinary framed prose.</p>
+        <p>Odd and even surah halves appear in the code as split-half internal consistency checks. They are the same corpus seen twice. They are never called unseen or held-out data.</p>
+      </div>
+    </div>
+    <div class="tscroll"><table>
+      <thead><tr><th scope="col">Test</th><th scope="col" class="n">Observed</th><th scope="col" class="n">Null</th><th scope="col">Disposition</th></tr></thead>
+      <tbody>
+        <tr><td>Pointwise mirror (79 surahs)</td><td class="n">0.040319</td><td class="n">0.042126</td><td><span class="tg falsified">Falsified</span> p_le = 5/251</td></tr>
+        <tr><td>Inclusio, 6 Quran slices</td><td class="n">+0.008283 (all)</td><td class="n">B = 250 shuffles</td><td><span class="tg exploratory">Inconclusive</span> min p_adj = 0.1673</td></tr>
+        <tr><td>Inclusio, Kalila chapters</td><td class="n">+0.009739</td><td class="n">p = 20/251</td><td>Control exceeds target. No separation.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="ip" id="translation" aria-labelledby="tr-h">
+    <p class="lbl"><b>03 // Translation loss</b><span>9 named roots. 2 English versions.</span><span class="spacer"></span><span class="tg descriptive">Descriptive</span></p>
+    <div class="chapter">
+      <div><h2 id="tr-h">What English <em>lets go.</em></h2></div>
+      <div class="prose">
+        <p>Pick verses linked in Arabic by a shared root. Then ask how often the English keeps any shared word at all. On nine hand-picked roots (ftq, rtq, sbH, mdd, wsE, flk, kwr, qdr, zwj), 50.91% of linked pairs share no English content word in Saheeh International. In Pickthall the figure is 65.88%.</p>
+        <p>Unrelated verse pairs score 89.70% and 92.30% on the same measure, so the root link does survive in part. The root list was chosen by the authors for its physical and structural flavour. It was not sampled at random. Read the two percentages as a named, descriptive measurement. The lexicon study gives the same question a full null and distance controls.</p>
+        <p><a class="text-link" href="lexicon.html">Lexicon: the controlled version <span aria-hidden="true">→</span></a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ip" id="files" aria-labelledby="files-h">
+    <p class="lbl"><b>04 // Files and certificate</b><span>Live recount or offline replay. The two are never confused.</span></p>
+    <h2 id="files-h" style="margin-bottom:1rem">Receipts</h2>
+    <div class="tscroll"><table>
+      <thead><tr><th scope="col">File</th><th scope="col">What it does</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://github.com/Foundation-0/bayt-al-hikma/blob/main/arabic-continuum/ARABIC_CONTINUUM_AUDIT_REPORT.md">ARABIC_CONTINUUM_AUDIT_REPORT.md ↗</a></td><td>Full report, including the retraction and the inclusio ruling.</td></tr>
+        <tr><td><a href="https://github.com/Foundation-0/bayt-al-hikma/blob/main/arabic-continuum/arabic_continuum_oracle.py">arabic_continuum_oracle.py ↗</a></td><td>Exact lattice, B = 250 nulls, Holm correction, naming guard.</td></tr>
+        <tr><td><a href="https://github.com/Foundation-0/bayt-al-hikma/blob/main/arabic-continuum/arabic_continuum_audit.py">arabic_continuum_audit.py ↗</a></td><td>Live recount with --live, or offline fixture replay with --standalone.</td></tr>
+        <tr><td><a href="https://github.com/Foundation-0/bayt-al-hikma/blob/main/arabic-continuum/arabic_continuum_certificate.json">arabic_continuum_certificate.json ↗</a></td><td>Saved live result. Live mode must rebuild it byte for byte.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small">Certificate file SHA-256 starts <code>7081c463</code>. Inner certificate digest:</p>
+    <p><span class="digest" id="cert-091">99ec338fc7aec339c1ea5216afd2a0bcac4bff647d487a1a3f80c403b581b951</span> <button class="copy" type="button" data-copy="#cert-091">Copy</button></p>
+    <div class="note"><strong>Two modes, two meanings.</strong> Live mode reads the nine texts and recounts (live_corpus_recounted: true). Offline mode reads no corpus file. It replays pinned fixtures (live_corpus_recounted: false). An offline pass must never be read as a live recount. <a href="reproduce.html">Both commands are on the reproduce page.</a></div>
+  </section>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<div class="footer-top"><div><a class="footer-name" href="index.html">Bayt al-Hikma</a><p class="footer-line">Classical Arabic corpus analyses and polymath verification in exact rational arithmetic. A Foundation-0 research program under Aletheia v2.0.0.</p></div>
+<nav class="footer-nav" aria-label="Footer navigation"><a href="continuum.html">Continuum</a><a href="lexicon.html">Lexicon</a><a href="lineage.html">Lineage</a><a href="method.html">Method</a><a href="reproduce.html">Reproduce</a></nav></div>
+<div class="footer-base"><span>Code Apache-2.0</span><span>Novelty N0</span><span>Not peer reviewed</span><span><a href="https://github.com/Foundation-0/bayt-al-hikma">GitHub ↗</a></span><span><a href="https://github.com/Foundation-0/aletheia">Aletheia ↗</a></span><span><a href="https://foundation-0.github.io/incentre-lattices/">Foundation-0 ↗</a></span></div>
+</div></footer>
+</body>
+</html>

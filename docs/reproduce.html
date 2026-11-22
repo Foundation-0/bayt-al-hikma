@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Reproduce: run every check · Bayt al-Hikma</title>
+<meta name="description" content="Clone, fetch the nine pinned texts, and recount all four studies. Live and offline paths, what PASS means in each, and every certificate digest.">
+<link rel="canonical" href="https://foundation-0.github.io/bayt-al-hikma/reproduce.html">
+<meta property="og:type" content="article"><meta property="og:site_name" content="Bayt al-Hikma">
+<meta property="og:title" content="Reproduce: run every check">
+<meta property="og:description" content="Clone, fetch the nine pinned texts, and recount all four studies. What PASS means in live and offline modes.">
+<meta property="og:url" content="https://foundation-0.github.io/bayt-al-hikma/reproduce.html">
+<meta property="og:image" content="https://foundation-0.github.io/bayt-al-hikma/assets/og.svg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script>try{var h=localStorage.getItem("bayt-hue");if(h!==null)document.documentElement.style.setProperty("--eco-hue",h);var t=localStorage.getItem("bayt-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<script src="assets/site.js" defer></script><script src="assets/figures.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-row">
+<a class="masthead" href="index.html" aria-label="Bayt al-Hikma home"><svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="32" cy="32" r="21"/><circle cx="32" cy="32" r="10.5"/><circle cx="32" cy="21.5" r="10.5"/><circle cx="41.1" cy="26.8" r="10.5"/><circle cx="41.1" cy="37.2" r="10.5"/><circle cx="32" cy="42.5" r="10.5"/><circle cx="22.9" cy="37.2" r="10.5"/><circle cx="22.9" cy="26.8" r="10.5"/></g><circle cx="32" cy="32" r="2.4" fill="currentColor"/></svg>Bayt al-Hikma <span class="ar" lang="ar" dir="rtl">بيت الحكمة</span></a>
+<nav class="site-nav" aria-label="Main navigation"><a href="continuum.html">Continuum</a><a href="lexicon.html">Lexicon</a><a href="lineage.html">Lineage</a><a href="method.html">Method</a><a href="reproduce.html" aria-current="page">Reproduce</a><a class="ext" href="https://github.com/Foundation-0/bayt-al-hikma">Source ↗</a></nav>
+<label class="hue-row">hue <input type="range" min="0" max="360" step="1" value="92" data-hue-input aria-label="Style hue, 0 to 360"> <output data-hue-out>92</output></label>
+<button class="theme-btn" type="button" data-theme-btn>dark</button>
+</div></header>
+<main id="main" tabindex="-1">
+<div class="wrap">
+  <div class="page-head">
+    <p class="crumbs"><a href="index.html">Bayt al-Hikma</a> / Reproduce · Python 3 standard library only</p>
+    <h1>Reproduce: run <em>every check.</em></h1>
+    <p class="lede">You need Git and Python 3. Nothing else. Two paths are offered because they prove different things. The live path recounts the Arabic texts. The offline path needs no network and says plainly that it did not.</p>
+    <nav class="jump" aria-label="On this page"><a href="#live">Live recount</a><a href="#offline">Offline check</a><a href="#corpora">The nine texts</a><a href="#certs">Certificates</a><a href="#site-preview">Preview this site</a></nav>
+  </div>
+
+  <section class="ip" id="live" aria-labelledby="live-h">
+    <p class="lbl"><b>Path A // Live recount</b><span>Recommended. Downloads about 10 MB, once.</span><span class="spacer"></span><span class="tg verified">live_corpus_recounted: true</span></p>
+    <h2 id="live-h" style="margin-bottom:1rem">Recount from <em>the texts.</em></h2>
+    <p class="prose">Step 1 prints the source, edition, licence, byte size and SHA-256 digest of each text without touching the network. Step 2 downloads each file and refuses it unless size and digest match the pin. Files land in ./corpora, which Git ignores. Step 3 recounts both corpus studies from those files, recomputes both lineage studies, runs all test suites and checks all 20 pinned files.</p>
+    <figure class="codeblock">
+      <figcaption><span>Live recount: all four studies</span><button class="copy" type="button" data-copy="#cmd-live">Copy</button></figcaption>
+      <pre id="cmd-live" tabindex="0">git clone https://github.com/Foundation-0/bayt-al-hikma.git
+cd bayt-al-hikma
+python3 -I -B -W error fetch_corpora.py --manifest-json
+python3 -I -B -W error fetch_corpora.py --dest ./corpora
+python3 -I -B -W error verify_all_standalone.py --live --corpus-dir ./corpora</pre>
+    </figure>
+    <p class="prose">PASS in live mode means: all 9 texts on disk match their pins. Both corpus audits recomputed every count and every B = 250 null from the texts and matched their saved certificates byte for byte. Both lineage certifiers rebuilt every theorem and matched. All 4 test suites exited 0 under -I -O -B -W error. The flags mean: -I isolated mode (ignore environment), -O optimised (asserts stripped, so tests cannot hide behind them), -B no bytecode files, -W error warnings as errors.</p>
+  </section>
+
+  <section class="ip" id="offline" aria-labelledby="off-h">
+    <p class="lbl"><b>Path B // Offline check</b><span>No network. No downloads.</span><span class="spacer"></span><span class="tg descriptive">live_corpus_recounted: false</span></p>
+    <h2 id="off-h" style="margin-bottom:1rem">Check without <em>the corpus.</em></h2>
+    <p class="prose">The lineage studies need no texts, so offline mode still rebuilds them in full. The corpus studies instead replay small pinned fixtures (saved example inputs with known answers) and read no corpus file at all. Run the verifier three ways. Output must be identical each time. That sameness is part of the check.</p>
+    <figure class="codeblock">
+      <figcaption><span>Offline check: three isolated modes plus JSON receipt</span><button class="copy" type="button" data-copy="#cmd-off">Copy</button></figcaption>
+      <pre id="cmd-off" tabindex="0">python3 -I -B verify_all_standalone.py
+python3 -I -O -B verify_all_standalone.py
+python3 -I -B -W error verify_all_standalone.py
+python3 -I -B -W error verify_all_standalone.py --json</pre>
+    </figure>
+    <div class="note bad"><strong>Read the banner.</strong> Offline PASS prints arabic_live_corpora_recounted=false. It proves the lineage arithmetic and the fixture logic. It does not prove a recount from the nine texts. Only Path A does that. Any summary that drops this line misstates the result.</div>
+    <p class="prose" style="margin-top:1.2rem">Individual studies can run alone. Examples:</p>
+    <figure class="codeblock">
+      <figcaption><span>One study at a time</span><button class="copy" type="button" data-copy="#cmd-one">Copy</button></figcaption>
+      <pre id="cmd-one" tabindex="0">python3 -I -B -W error arabic-continuum/arabic_continuum_audit.py --live --corpus-dir ./corpora
+python3 -I -O -B -W error arabic-lexicon/test_arabic_lexicon_r5.py
+(cd polymath-lineage && python3 -I -B -W error bayt_al_hikma_polymath_certifier.py --json)
+(cd veins-and-branches && python3 -I -O -B -W error test_bayt_al_hikma_veins_r5.py)</pre>
+    </figure>
+  </section>
+
+  <section class="ip" id="corpora" aria-labelledby="corp-h">
+    <p class="lbl"><b>The nine texts</b><span>Each pinned by size and digest in fetch_corpora.py.</span></p>
+    <h2 id="corp-h" style="margin-bottom:1rem">What gets <em>counted.</em></h2>
+    <p class="prose">Four Quran-related files and five OpenITI controls. Controls matter: without other Classical Arabic prose and poetry beside the target text, shared language behaviour looks like a property of one book. Licences travel with the files and are printed by the manifest command. Digest prefixes below identify each pin. Full digests live in fetch_corpora.py.</p>
+    <div class="tscroll"><table>
+      <thead><tr><th scope="col">#</th><th scope="col">Text (edition)</th><th scope="col">Role</th><th scope="col" class="n">Bytes</th><th scope="col">SHA-256 starts</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">1</td><td>Leeds Quranic Arabic Corpus morphology v0.4 (cltk mirror)</td><td>Roots, lemmas, forms</td><td class="n">6,309,503</td><td class="mono">a1d12923</td></tr>
+        <tr><td class="mono">2</td><td>Tanzil Quran text, Uthmani v1.1</td><td>Arabic verses</td><td class="n">1,370,878</td><td class="mono">bf4f57b9</td></tr>
+        <tr><td class="mono">3</td><td>Saheeh International English (en.sahih)</td><td>Translation A</td><td class="n">898,049</td><td class="mono">a1778a1a</td></tr>
+        <tr><td class="mono">4</td><td>M. M. Pickthall English (en.pickthall)</td><td>Translation B</td><td class="n">864,918</td><td class="mono">4aabbfa9</td></tr>
+        <tr><td class="mono">5</td><td>OpenITI Ibn al-Muqaffa, Kalila wa-Dimna</td><td>Prose control</td><td class="n">430,145</td><td class="mono">0b55371e</td></tr>
+        <tr><td class="mono">6</td><td>OpenITI Ibn al-Muqaffa, al-Adab al-Kabir</td><td>Prose control</td><td class="n">95,949</td><td class="mono">7b6aa0a3</td></tr>
+        <tr><td class="mono">7</td><td>OpenITI Imru al-Qays ibn Hujr, Diwan (0025AH)</td><td>Poetry control</td><td class="n">60,731</td><td class="mono">7236a43a</td></tr>
+        <tr><td class="mono">8</td><td>OpenITI Tarafa ibn al-Abd, Diwan (0025AH)</td><td>Poetry control</td><td class="n">47,045</td><td class="mono">bde2655e</td></tr>
+        <tr><td class="mono">9</td><td>OpenITI Antara ibn Shaddad, Muallaqa (0025AH)</td><td>Poetry control</td><td class="n">7,604</td><td class="mono">e346bde4</td></tr>
+      </tbody>
+    </table></div>
+    <p class="quiet small">Full OpenITI file names, upstream commits and complete 64-character digests are printed by python3 fetch_corpora.py --manifest-json. Totals: 10,084,822 bytes across the nine files.</p>
+  </section>
+
+  <section class="ip" id="certs" aria-labelledby="cert-h">
+    <p class="lbl"><b>Certificates</b><span>Saved results the code must rebuild byte for byte.</span></p>
+    <h2 id="cert-h" style="margin-bottom:1rem">Digests</h2>
+    <div class="tscroll"><table>
+      <thead><tr><th scope="col">Study</th><th scope="col">Mode of saved certificate</th><th scope="col">File SHA-256 starts</th><th scope="col">Inner digest starts</th></tr></thead>
+      <tbody>
+        <tr><td>AUDIT-091-V2 arabic-continuum</td><td class="mono">live_corpus_recount</td><td class="mono">7081c463</td><td class="mono">99ec338f</td></tr>
+        <tr><td>AUDIT-094-V2 arabic-lexicon</td><td class="mono">live_corpus_recount</td><td class="mono">96d855fa</td><td class="mono">230441ac</td></tr>
+        <tr><td>AUDIT-092R2 polymath-lineage</td><td class="mono">standalone_pure_q</td><td class="mono">76fac890</td><td class="mono">4834f376</td></tr>
+        <tr><td>AUDIT-095R veins-and-branches</td><td class="mono">standalone_pure_q</td><td class="mono">236c165d</td><td class="mono">d9e2af09</td></tr>
+      </tbody>
+    </table></div>
+    <p class="prose">Full inner digests are printed on each study page with copy buttons: <a href="continuum.html#files">continuum</a>, <a href="lexicon.html#files">lexicon</a>, <a href="lineage.html#consistency">lineage</a>. If your run produces different bytes, the verifier fails and says which study diverged. File an issue with your Python version and the verifier JSON attached.</p>
+    <p class="prose" style="margin-top:1rem">Contributions follow the locked protocol on the <a href="method.html#locked">method page</a>. In one line: decide the test before you see the data, or label the result exploratory.</p>
+  </section>
+
+  <section class="ip" id="site-preview" aria-labelledby="prev-h">
+    <p class="lbl"><b>This website</b><span>Plain HTML, CSS and JavaScript in docs/. No build step.</span></p>
+    <h2 id="prev-h" style="margin-bottom:1rem">Preview this <em>site.</em></h2>
+    <p class="prose">The site you are reading lives in the docs folder of the same repository. Any static file server can preview it. GitHub Pages serves it from the main branch, docs folder.</p>
+    <figure class="codeblock">
+      <figcaption><span>Local preview</span><button class="copy" type="button" data-copy="#cmd-site">Copy</button></figcaption>
+      <pre id="cmd-site" tabindex="0">cd bayt-al-hikma/docs
+python3 -m http.server 8000</pre>
+    </figure>
+    <p class="prose">Then open http://localhost:8000/ in a browser. Pages: index, continuum, lexicon, lineage, method, reproduce. With JavaScript off, every number remains in tables and text. The canvas pattern and the two charts are the only losses, and each says so in place.</p>
+  </section>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<div class="footer-top"><div><a class="footer-name" href="index.html">Bayt al-Hikma</a><p class="footer-line">Classical Arabic corpus analyses and polymath verification in exact rational arithmetic. A Foundation-0 research program under Aletheia v2.0.0.</p></div>
+<nav class="footer-nav" aria-label="Footer navigation"><a href="continuum.html">Continuum</a><a href="lexicon.html">Lexicon</a><a href="lineage.html">Lineage</a><a href="method.html">Method</a><a href="reproduce.html">Reproduce</a></nav></div>
+<div class="footer-base"><span>Code Apache-2.0</span><span>Novelty N0</span><span>Not peer reviewed</span><span><a href="https://github.com/Foundation-0/bayt-al-hikma">GitHub ↗</a></span><span><a href="https://github.com/Foundation-0/aletheia">Aletheia ↗</a></span><span><a href="https://foundation-0.github.io/incentre-lattices/">Foundation-0 ↗</a></span></div>
+</div></footer>
+</body>
+</html>
