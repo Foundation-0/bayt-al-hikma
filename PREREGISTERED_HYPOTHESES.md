@@ -1,0 +1,45 @@
+# Pre-Registered Hypotheses, Exploratory Disclosure & Multiplicity Ledger
+
+- **Date Locked:** `2026-11-22`
+- **Scope:** Classical Arabic corpus studies (`arabic-continuum/`, `arabic-lexicon/`) in `Foundation-0/bayt-al-hikma`
+- **Governance Standard:** Aletheia v2.0.0 (`OWN_TERMS_FIRST`, Law 2b Transformational Steelman, Law 4 honest novelty default `N0`, Law 5 anti-numerology)
+- **Revision Trigger:** Added in direct response to peer review `6011346623` (`@orda-aska`) to separate retrospective exploratory findings from pre-registered future protocols, document exact root-selection rules, report exact pattern counts inspected, and replace single-shuffle nulls with $B = 250$ deterministic multi-shuffle empirical rank $p$-values and Holm-Bonferroni multiplicity correction.
+
+---
+
+## 1. Honest Disclosure of Retrospective Exploratory Analyses (Already Inspected)
+
+Before `2026-11-22`, the initial Wave-3 (`AUDIT-091`) and Wave-3b (`AUDIT-094`) studies inspected the 9 pinned primary corpora directly while designing and refining metrics. Accordingly, **none of the odd/even surah splits in `arabic-continuum/` or `arabic-lexicon/` are "unseen held-out data."** They are strictly **split-half internal consistency checks** on the same corpus and pipeline.
+
+### Complete Ledger of Patterns Inspected & Outcomes
+
+| # | Study | Pattern / Hypothesis Inspected | Formulation Status | Multi-Shuffle Null ($B=250$) | Honest Disposition |
+|---|---|---|---|---|---|
+| 1 | `arabic-continuum` | Global pointwise mirror ring (`i` vs `L-1-i`, `79` surahs `>= 20` verses) | Exploratory (initial test) | Verse permutation (`B=250`): `obs=0.040319 < null_pooled=0.042126`, `p_ge=247/251 (0.9841)`, `p_le=5/251 (0.0199)` | **FALSIFIED** (below shift & below multi-shuffle null) |
+| 2 | `arabic-continuum` | Post-hoc boundary *inclusio* (`first 10%` vs `last 10%` minus middle `10%`, raw & top-10 stripped) | Post-hoc (formulated AFTER inspecting mirror on all `79` surahs) | Verse permutation (`B=250`): `ALL p=31/251 (0.1235)`, `ODD p=51/251 (0.2032)`, `EVEN p=49/251 (0.1952)`, `ALL_STRIP10 p=12/251 (0.0478)`, `ODD_STRIP10 p=7/251 (0.0279)`, `EVEN_STRIP10 p=65/251 (0.2590)`; all `6/6` fail Holm-Bonferroni (`min p_adj=42/251=0.1673 > 0.05`); *Kalīla* natural chapters `p=20/251 (0.0797)` | **EXPLORATORY_INCONCLUSIVE_NOT_SEPARATED** (fails Holm-Bonferroni at $B=250$ across all `6/6` Qur'an tests and does not separate from framed prose control) |
+| 3 | `arabic-continuum` | Absolute cohesion ordering `raw < rasm < stem < root` across `W ∈ {10, 20, 40}` | Exploratory (initial metric) | Per-layer `B=250` shuffle null across all 12 `(layer, W)` cells: **lift reverses** (`raw > rasm/stem > root` at all `W`; at `W=20`, `raw 2.11× > rasm 1.68× > stem 1.65× > root 1.49×`) | **RETRACTED** as coarsening-baseline artifact; replaced by full 12-cell per-layer null-normalized lift (every cell beats its own null at `p = 1/251`, Holm `p_adj = 12/251 = 0.0478 <= 0.05`) |
+| 4 | `arabic-continuum` | Local thematic discourse cohesion lift above shuffle nulls (`W ∈ {10, 20, 40}`) vs OpenITI prose & poetry controls | Exploratory | `B=250` shuffles: all 12 `(layer, W)` cells `p = 1/251 (0.0040)`, Holm `p_adj = 12/251 (0.0478)`; OpenITI *Kalīla* stem lift (`1.82×`) exceeds Qur'an stem lift (`1.65×`) at `W=20` | **DESCRIPTIVE SHARED CLASSICAL ARABIC PROPERTY** (confirmed across Qur'an & OpenITI prose; NOT unique to one text) |
+| 5 | `arabic-continuum` | 2-translator (`en.sahih`, `en.pickthall`) zero-overlap edge loss across `9` author-selected thematic roots | Exploratory (hand-selected thematic set) | Compared against unrelated random verse-pair background (`89.70%` / `92.30%`) | **DESCRIPTIVE TWO-INSTRUMENT MEASUREMENT** on named thematic set (selection rule disclosed below) |
+| 6 | `arabic-lexicon` | `1,642`-root × *Wazn* (Forms `I–X`) within-root Rényi-2 concentration (`0.926980`) | Exploratory (single-corpus measure; no form-tagged OpenITI control) | `B=250` global (T4A) & frequency-stratified (T4B) shuffles: all 4 tests `p = 1/251`, Holm `p_adj = 4/251 (0.0159)` | **SINGLE-CORPUS DESCRIPTIVE MORPHOLOGY** (expected in any language where roots prefer fixed stems; no form-tagged control corpus yet staged) |
+| 7 | `arabic-lexicon` | OpenITI `W=20` light-stem Rényi-2 cross-collision lift & global effective diversity $D_2 = 1/C_2$ | Exploratory | `B=250` shuffles: all 4 corpora `p = 1/251`; *Kalīla* lift (`1.81×`) > Qur'an (`1.69×`); pre-Islamic poetry `D2=477.68` > prose `159–206` | **DESCRIPTIVE MULTI-CORPUS CONTRAST** (shared prose lift; poetry shows higher global dispersion) |
+| 8 | `arabic-lexicon` | Native Arabic top-10-stripped context topology (`ctx_r2`, `ctx_jaccard`, `cooccur`) across `15` author-selected roots (`14` fields) | Exploratory (hand-selected thematic set) | `B=250` verse-slot shuffles: `ctx_r2` (`all/odd/even` all `p=1/251`), `ctx_jaccard` (`all/even p=1/251`, `odd p=2/251`), `cooccur` (`all p=1/251`, `odd/even p=2/251`); all `9/9` survive Holm-Bonferroni (`p_adj=9/251=0.0359`) | **SURVIVES $B=250$ + HOLM-BONFERRONI** on this corpus (exploratory root set; awaits external/algorithmic root-set replication) |
+| 9 | `arabic-lexicon` | Cross-lemma vs. same-lemma translation-loss gap across `12` multi-lemma roots (out of `15` hand-selected) in `en.sahih` & `en.pickthall` | Exploratory (hand-selected thematic set) | `B=250` within-root lemma-label shuffle: pooled Sahih `+0.3349` & Pickthall `+0.2734` both `p = 1/251`; **4-stratum verse-distance-matched control** positive (`+25` to `+36` pp) in all 4/4 strata on both translators; per-root Holm-Bonferroni fails on `wzn` (Sahih `p_adj=44/251=0.1753`, Pickthall `p_adj=98/251=0.3904`) & `Erj` (Pickthall `p_adj=14/251=0.0558`) | **SURVIVES LEMMA-SHUFFLE NULL & DISTANCE CONTROL** as a descriptive two-layer quantification (noting a positive gap is expected in any derivational language where distinct lemmas carry distinct glosses) |
+
+### Disclosure of Root-List Selection & Feature-Naming Guard
+- **9-root list (`arabic-continuum`):** `ftq, rtq, sbH, mdd, wsE, flk, kwr, qdr, zwj` — hand-selected by the authors in the initial `AUDIT-091` study design as physically/structurally evocative classical Arabic roots (not randomly sampled from the `1,642` roots).
+- **15-root / 14-field list (`arabic-lexicon`):** The same 9 roots plus 6 hand-selected high-salience structural roots (`Erj, nzl, xlq, Amr, Hqq, wzn`) added in the `AUDIT-094` lexical follow-up (not randomly sampled).
+- **Feature-Naming Guard (`enforce_zero_numerology_policy`):** This function is strictly a **label / feature-name hygiene filter** checking author-supplied feature names against forbidden substrings (`abjad, gematria, digitsum, base10, miracle, code19, numerology`) after NFKC + non-alnum normalization. It is **NOT** a statistical proof of methodological soundness; methodological soundness rests on pre-registration, multi-shuffle nulls, multiplicity adjustment, and matched controls documented here.
+
+---
+
+## 2. Locked Pre-Registered Protocol for Future Confirmatory Runs (`v1.0`, Locked `2026-11-22`)
+
+Any future **confirmatory** claim (including any claim using the word `"unseen"` or `"held-out"`) MUST satisfy ALL of the following pre-committed rules BEFORE inspecting the target data:
+
+1. **Multi-Shuffle Null Floor:** Every inferential test uses **$B = 250$** ($\ge 200$, chosen specifically so even $M = 12$-test families can reach Holm-Bonferroni significance since $12 / 251 = 0.047809 \le 0.05$) deterministic seeded shuffles with exact pure-$\mathbb{Q}$ empirical rank $p = (1 + \#\{\text{null} \ge \text{obs}\}) / (B + 1)$ (or $\le$ for lower-tail tests) and exact 95% empirical null quantiles (`rank 6` and `rank 244` for $B = 250$). Single-shuffle nulls are prohibited for inference.
+2. **Multiplicity Budget:** For every family of $M$ tests evaluated in a study, apply exact pure-$\mathbb{Q}$ **Holm-Bonferroni** adjustment at family-wise $\alpha = 1/20$ (`0.05`). Report the full count $M$ including every null or falsified test.
+3. **Algorithmic Root Selection (Zero Hand-Picking):** Future confirmatory Arabic lexical studies MUST select roots algorithmically before running — specifically: **all multi-lemma roots in Leeds v0.4 with `20 <= verse_count <= 300`** (deterministic frequency-band rule, zero manual cherry-picking).
+4. **True External Held-Out Data & Matched Morphologically Tagged Controls:**
+   - Odd/even surah partitions are ALWAYS labeled **`split_half_internal_consistency`**, NEVER `"unseen held-out"`.
+   - Any future cross-corpus claim about within-root *wazn* concentration requires a morphologically form-tagged Classical Arabic control corpus (e.g., CAMeL/MADAMIRA-analyzed OpenITI prose & poetry) evaluated under the identical pipeline.
+5. **Novelty Default (`N0`):** Per Aletheia Law 4, all findings remain **`N0`** (or empirical replications / exact pure-$\mathbb{Q}$ computational verifications of known linguistic phenomena) unless backed by an explicit full-text prior-art search demonstrating genuine methodological or empirical novelty.
