@@ -3,10 +3,17 @@
 Portable Zero-Dependency Standalone Verifier for Foundation-0/bayt-al-hikma.
 
 Runs all committed standalone pure-Q certifiers and R5 mutation-hardened test suites
-(`arabic-continuum/` AUDIT-091R and `polymath-lineage/` AUDIT-092R) under isolated
-Python execution (`-I -B -W error` / `-I -O -B -W error`), enforces strict zero-float
-JSON parsing (zero duplicate keys, zero NaN/Infinity, zero IEEE-754 floats), and
-verifies exact SHA-256 parity on all committed package files and standalone outputs.
+across all 4 verified studies:
+  - `arabic-continuum/`   (AUDIT-091R, 5 files, 68/68 R5)
+  - `arabic-lexicon/`     (AUDIT-094R, 5 files, 81/81 R5)
+  - `polymath-lineage/`   (AUDIT-092R, 4 files, 75/75 R5)
+  - `veins-and-branches/` (AUDIT-095,  4 files, 110/110 R5)
+
+Executes every certifier under isolated `-I -B -W error` and every R5 test suite
+under `-I -O -B -W error`, enforces strict zero-float JSON parsing (zero duplicate
+keys, zero NaN/Infinity, zero IEEE-754 floats) on both committed JSON certificates
+and standalone certifier outputs, and verifies exact SHA-256 parity on all 18/18
+committed package files and 4/4 standalone outputs.
 
 Pure Python 3 stdlib only. Zero bare `assert`s. Zero hardcoded absolute paths.
 """
@@ -51,6 +58,33 @@ STUDY_SPECS: tuple[dict[str, Any], ...] = (
         },
     },
     {
+        "audit_id": "AUDIT-094R",
+        "study_dir": "arabic-lexicon",
+        "cert_script": "arabic_lexicon_audit.py",
+        "cert_args": ["--standalone"],
+        "test_script": "test_arabic_lexicon_r5.py",
+        "expected_standalone_stdout_sha256": (
+            "c81d5a6d4e5173b4b82c74dffe08f5612a68cd6b97f43acd763b5ef4815b2ebd"
+        ),
+        "expected_file_sha256": {
+            "ARABIC_LEXICON_TOPOLOGY_REPORT.md": (
+                "0f04afffd3942f4c5715c2ed6765f379f3bc9f49ff46b818084b75bae23d901d"
+            ),
+            "arabic_lexicon_audit.py": (
+                "e34a5f80ff9e8cb2e47851159b1fa19da1f223e07e52ebcfe135f0c3e4f9f4d6"
+            ),
+            "arabic_lexicon_certificate.json": (
+                "6dcfbc8bcef2d11992aed2883995cf705b3c4bad6b9ad518cd28c1447f10d60c"
+            ),
+            "arabic_lexicon_oracle.py": (
+                "797dc7ece64a96a1fac9bb87a4f2a0ad9471838c9afc03b704ae512a17f4b56c"
+            ),
+            "test_arabic_lexicon_r5.py": (
+                "5d1ccc8431d648ef0f59b65c69429f509e797583bde57812e2692f620b1bde8e"
+            ),
+        },
+    },
+    {
         "audit_id": "AUDIT-092R",
         "study_dir": "polymath-lineage",
         "cert_script": "bayt_al_hikma_polymath_certifier.py",
@@ -71,6 +105,30 @@ STUDY_SPECS: tuple[dict[str, Any], ...] = (
             ),
             "test_bayt_al_hikma_polymaths_r5.py": (
                 "f4c29cb9b9931abe7ccb887c939803ec8f04c5002b0e2ed2921bf89a5fd95ace"
+            ),
+        },
+    },
+    {
+        "audit_id": "AUDIT-095",
+        "study_dir": "veins-and-branches",
+        "cert_script": "bayt_al_hikma_veins_certifier.py",
+        "cert_args": ["--json"],
+        "test_script": "test_bayt_al_hikma_veins_r5.py",
+        "expected_standalone_stdout_sha256": (
+            "df16a48ee68027eaa525bbe90ff1eb1f4aa3e540b60d155c503069101d573756"
+        ),
+        "expected_file_sha256": {
+            "BAYT_AL_HIKMA_VEINS_AND_BRANCHES_REPORT.md": (
+                "49e10bbab2cf7f45327f39ede25aaa6cc2bf5b6c0d04a7c39c897a4cfbb70393"
+            ),
+            "bayt_al_hikma_veins_certificate.json": (
+                "12059e44b248c4579117c446a17679ce7043cb1f45f0c664aa80796aad725c77"
+            ),
+            "bayt_al_hikma_veins_certifier.py": (
+                "efa0e702d29b5e5becd05fc9db59249f66f64b3d024a9ae1af14ddd904e81b25"
+            ),
+            "test_bayt_al_hikma_veins_r5.py": (
+                "dc58bfb4e8898fab8308e251ecc4070d7631114c6b174a03e772efa725d43e23"
             ),
         },
     },
@@ -116,23 +174,31 @@ def verify_study(spec: dict[str, Any], repo_root: Path) -> dict[str, Any]:
             "audit_id": spec["audit_id"],
             "study_dir": spec["study_dir"],
             "passed": False,
+            "files_verified": 0,
             "errors": [f"MISSING_STUDY_DIR: {spec['study_dir']}"],
         }
 
-    # 1. Verify byte-identical SHA-256 on every pinned package file
+    # 1. Verify byte-identical SHA-256 on every pinned package file (and strict JSON on .json files)
     files_verified = 0
     for fname, expected_sha in sorted(spec["expected_file_sha256"].items()):
         fpath = study_path / fname
         if not fpath.is_file():
             errors.append(f"MISSING_FILE: {spec['study_dir']}/{fname}")
             continue
-        actual_sha = hashlib.sha256(fpath.read_bytes()).hexdigest()
+        raw = fpath.read_bytes()
+        actual_sha = hashlib.sha256(raw).hexdigest()
         if actual_sha != expected_sha:
             errors.append(
                 f"FILE_SHA256_MISMATCH: {spec['study_dir']}/{fname} got={actual_sha} expected={expected_sha}"
             )
-        else:
-            files_verified += 1
+            continue
+        if fname.endswith(".json"):
+            try:
+                parse_strict_zero_float_json(raw)
+            except ValueError as exc:
+                errors.append(f"COMMITTED_JSON_ERROR: {spec['study_dir']}/{fname}: {exc}")
+                continue
+        files_verified += 1
 
     if errors:
         return {
@@ -189,6 +255,7 @@ def main(argv: list[str] | None = None) -> int:
         "schema": "bayt_al_hikma.standalone_check.v1",
         "studies_checked": len(results),
         "studies_passed": sum(1 for r in results if r["passed"]),
+        "total_files_verified": sum(int(r.get("files_verified", 0)) for r in results),
         "passed": all_passed,
         "status": "PASS" if all_passed else "FAIL",
         "results": results,
@@ -199,7 +266,8 @@ def main(argv: list[str] | None = None) -> int:
     else:
         print(
             f"BAYT_AL_HIKMA_STANDALONE_CHECK: {summary['status']} "
-            f"({summary['studies_passed']}/{summary['studies_checked']} studies)"
+            f"({summary['studies_passed']}/{summary['studies_checked']} studies, "
+            f"{summary['total_files_verified']} files)"
         )
         for r in results:
             tag = "PASS" if r["passed"] else "FAIL"

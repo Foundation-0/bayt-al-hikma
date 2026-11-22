@@ -1,0 +1,333 @@
+{
+  "audit_id": "AUDIT-095",
+  "certificate_sha256": "e495d9bcfdf15a77147cc82d5f4c8f96eb68812d7c08cbad3ef0d470640c282d",
+  "novelty_classification": {
+    "honest_tier": "N1",
+    "n0_historical_prior_art": "Archimedes, Apollonius, Heron, Brahmagupta, Bhaskara II/Jayadeva, al-Khwarizmi, al-Kindi, Banu Musa, Hunayn ibn Ishaq, Thabit ibn Qurra, al-Farabi, al-Karaji, Ibn al-Haytham, al-Biruni, Ibn Sina, Umar al-Khayyam, al-Ghazali, al-Samawal, Ibn Rushd, Ismail al-Jazari, Nasir al-Din al-Tusi, Ibn al-Shatir, Jamshid al-Kashi, Nicolaus Copernicus",
+    "n1_engineering_contribution": "Pure-Q zero-float verification engine uniting tributary veins & downstream branches of Bayt al-Hikma, certified pure-integer 3*2^28-gon pi & Banach sin(1 deg) solvers, pure-integer 11-limit acoustic cent defect proof, structural-causal witness, and two 100%-R5-killed fail-closed certifiers"
+  },
+  "pillar1_tributary_veins": {
+    "brahmagupta_bhavana_and_chakravala": {
+      "bhavana_norm_multiplicativity_exact": true,
+      "chakravala_D61_steps": 14,
+      "pell_D61_fundamental": [
+        1766319049,
+        226153980
+      ],
+      "pell_D61_verified": true,
+      "pell_D92_fundamental": [
+        1151,
+        120
+      ],
+      "pell_D92_verified": true
+    },
+    "brahmagupta_cyclic_quadrilateral": {
+      "area_exact": "1764/1",
+      "area_formula_exact": true,
+      "circumdiameter_sq_both_pairs_65sq": true,
+      "circumradius": "65/2",
+      "diagonal_formulas_exact": true,
+      "diagonals": [
+        "63/1",
+        "56/1"
+      ],
+      "perpendicular_bisector_dot": "0/1",
+      "ptolemy_identity_exact": true,
+      "semiperimeter": "88/1",
+      "sides": [
+        "39/1",
+        "60/1",
+        "52/1",
+        "25/1"
+      ]
+    },
+    "greek_syriac_baghdad_veins": {
+      "apollonius_ellipse_point": [
+        "3/1",
+        "16/5"
+      ],
+      "apollonius_equal_angle_reflection_exact": true,
+      "apollonius_focal_sum_10_exact": true,
+      "apollonius_on_ellipse": true,
+      "archimedes_223_71_to_22_7_nested": true,
+      "archimedes_96gon_bracket_dec6": [
+        "3.141031",
+        "3.142714"
+      ],
+      "heron_area_84_exact": true,
+      "heron_d0_limit_area_sq": "7056/1",
+      "heron_sqrt720_bracket": [
+        "26.832815729",
+        "26.832815729"
+      ],
+      "heron_sqrt720_certified": true
+    }
+  },
+  "pillar2_shatir_copernicus_and_ghazali_rushd": {
+    "ghazali_rushd_causal_witness": {
+      "ate_ghazali_confounded_iqtiran": "0/1",
+      "ate_rushd_direct_mechanism": "9/25",
+      "ghazali_nonidentifiability_certified": true,
+      "interventional_separation": "9/25",
+      "observational_association": "9/25",
+      "observational_l1_distance": "0/1",
+      "rushd_intervention_separates_models": true,
+      "shared_obs_joint": {
+        "p00": "17/50",
+        "p01": "4/25",
+        "p10": "4/25",
+        "p11": "17/50"
+      }
+    },
+    "shatir_copernicus_lunar_and_mercury": {
+      "copernicus_distance_ratio": "5667/4333",
+      "copernicus_distance_ratio_dec6": "1.307869",
+      "eliminates_ptolemy_distance_artifact": true,
+      "mercury_tusi_couple_zero_residual": true,
+      "normalized_lunar_vector_zero_residual": true,
+      "ptolemy_distance_ratio": "3915/2047",
+      "ptolemy_distance_ratio_dec6": "1.912554",
+      "published_param_l1_diff": "1/9000",
+      "published_param_l1_diff_dec6": "0.000111",
+      "shatir_distance_ratio": "17/13",
+      "shatir_distance_ratio_dec6": "1.307692",
+      "shatir_quadrature_eff_radius": "8/1",
+      "shatir_syzygy_eff_radius": "31/6"
+    }
+  },
+  "pillar3_kashi_banach_and_pi": {
+    "kashi_3_times_2_28_gon_pi": {
+      "agrees_to_16_decimal_digits": true,
+      "bracket_width_lt_1e16": true,
+      "kashi_1424_twopi_sexagesimal": [
+        6,
+        16,
+        59,
+        28,
+        1,
+        34,
+        51,
+        46,
+        14,
+        50
+      ],
+      "kashi_1424_value_strictly_inside_3x2_28_bracket": true,
+      "pi_hi_dec16": "3.1415926535897932",
+      "pi_lo_dec16": "3.1415926535897932",
+      "polygon_sides": 805306368,
+      "twopi_hi_sexagesimal": [
+        6,
+        16,
+        59,
+        28,
+        1,
+        34,
+        51,
+        46,
+        14,
+        50,
+        14
+      ],
+      "twopi_lo_sexagesimal": [
+        6,
+        16,
+        59,
+        28,
+        1,
+        34,
+        51,
+        46,
+        14,
+        49,
+        45
+      ]
+    },
+    "kashi_banach_sin1_cubic": {
+      "cubic_residual_lt_1e18": true,
+      "domain": [
+        "0/1",
+        "1/50"
+      ],
+      "first_9_sexagesimal_places_exact_match": true,
+      "iteration_width_dec20_final": "0.00000000000000000000",
+      "kashi_1427_sexagesimal_10places": [
+        1,
+        2,
+        49,
+        43,
+        11,
+        14,
+        44,
+        16,
+        26,
+        17
+      ],
+      "lipschitz_constant_exact": "1/625",
+      "max_diff_from_kashi_1427_lt_1e17": true,
+      "sin1_bracket_dec18": [
+        "0.017452406437283512",
+        "0.017452406437283512"
+      ],
+      "sin1_sexagesimal_10places_exact": [
+        1,
+        2,
+        49,
+        43,
+        11,
+        14,
+        44,
+        16,
+        26,
+        18
+      ],
+      "sin3_bracket_dec18": [
+        "0.052335956242943832",
+        "0.052335956242943832"
+      ],
+      "step0_gap_dec12": "0.017445318747"
+    }
+  },
+  "pillar4_farabi_acoustic_continuum": {
+    "farabi_tetrachord_4_3_exact": true,
+    "intervals": {
+      "complement_88_81": {
+        "cents_interval": [
+          143,
+          144
+        ],
+        "exact_in_12tet": false,
+        "min_12tet_rounding_defect_cents": 43,
+        "nearest_12tet_cents": 100,
+        "nearest_12tet_semitone": 1,
+        "ratio": "88/81"
+      },
+      "fifth_3_2": {
+        "cents_interval": [
+          701,
+          702
+        ],
+        "exact_in_12tet": false,
+        "min_12tet_rounding_defect_cents": 1,
+        "nearest_12tet_cents": 700,
+        "nearest_12tet_semitone": 7,
+        "ratio": "3/2"
+      },
+      "fourth_4_3": {
+        "cents_interval": [
+          498,
+          499
+        ],
+        "exact_in_12tet": false,
+        "min_12tet_rounding_defect_cents": 1,
+        "nearest_12tet_cents": 500,
+        "nearest_12tet_semitone": 5,
+        "ratio": "4/3"
+      },
+      "neutral_three_quarter_12_11": {
+        "cents_interval": [
+          150,
+          151
+        ],
+        "exact_in_12tet": false,
+        "min_12tet_rounding_defect_cents": 49,
+        "nearest_12tet_cents": 200,
+        "nearest_12tet_semitone": 2,
+        "ratio": "12/11"
+      },
+      "whole_tone_9_8": {
+        "cents_interval": [
+          203,
+          204
+        ],
+        "exact_in_12tet": false,
+        "min_12tet_rounding_defect_cents": 3,
+        "nearest_12tet_cents": 200,
+        "nearest_12tet_semitone": 2,
+        "ratio": "9/8"
+      },
+      "zalzal_neutral_third_27_22": {
+        "cents_interval": [
+          354,
+          355
+        ],
+        "exact_in_12tet": false,
+        "min_12tet_rounding_defect_cents": 45,
+        "nearest_12tet_cents": 400,
+        "nearest_12tet_semitone": 4,
+        "ratio": "27/22"
+      }
+    },
+    "neutral_third_27_22_defect_ge_45c": true,
+    "pythagorean_comma": "531441/524288",
+    "pythagorean_comma_gt_1": true,
+    "superparticular_tetrachord_4_3_exact": true,
+    "three_quarter_12_11_defect_ge_49c": true,
+    "western_fifth_3_2_defect_le_2c": true,
+    "zalzal_product_9_8_times_12_11_exact": true
+  },
+  "pillar5_lineage_and_certifiers": {
+    "certified_kashi_banach_and_ghazali_rushd": {
+      "ate_confounded": "0/1",
+      "ate_direct": "9/25",
+      "ate_separation": "9/25",
+      "banach_a_priori_error": "1/4649162292480468750000",
+      "banach_ball_radius": "5/624",
+      "causal_obs_l1": "0/1",
+      "certified": true,
+      "violations": []
+    },
+    "extended_lineage_dag_receipt": {
+      "certified": true,
+      "chronology_violations": [],
+      "directed_dag_acyclic": true,
+      "edge_count": 28,
+      "node_count": 23,
+      "reaches_branch_from_tributary_via_core": true,
+      "tier_counts": {
+        "branch": 4,
+        "core": 15,
+        "tributary": 4
+      },
+      "tier_violations": []
+    },
+    "rejected_noncontractive_and_unseparated": {
+      "ate_confounded": "0/1",
+      "ate_direct": "0/1",
+      "ate_separation": "0/1",
+      "banach_a_priori_error": "UNBOUNDED",
+      "banach_ball_radius": "UNBOUNDED",
+      "causal_obs_l1": "9/25",
+      "certified": false,
+      "violations": [
+        "KASHI_NON_CONTRACTIVE_MAP",
+        "GHAZALI_OBS_MODELS_NOT_EQUIVALENT",
+        "RUSHD_INTERVENTION_UNSEPARATED"
+      ]
+    }
+  },
+  "schema_version": "1.0.0",
+  "vault_cross_links": {
+    "anchors": {
+      "round10/portals/continuum/pr_1_files/continuum.md": {
+        "bytes": 10121,
+        "role": "Foundation-0/continuum primary portal (acoustic & geometric continuum bridge)",
+        "sha256": "516f6080563f223a4d8da437d37aaff479988f08f9079bfa48116cbb4fdc3150",
+        "verified": true
+      },
+      "wave3/bayt-al-hikma-arabic/arabic_continuum_certificate.json": {
+        "bytes": 12999,
+        "role": "AUDIT-091R verified Classical Arabic continuum certificate (OWN_TERMS_FIRST)",
+        "sha256": "aa8608057664961c25c18dd52af0b98c25a2d990268e64d5e30547beb8ab16ec",
+        "verified": true
+      },
+      "wave3/bayt-al-hikma-polymaths/bayt_al_hikma_polymath_certificate.json": {
+        "bytes": 8591,
+        "role": "AUDIT-092R verified 13-scholar Bayt al-Hikma core polymath certificate",
+        "sha256": "c052a62a77182fe0ec11accf9e8836e7df935a2aa62fd5f338442f2680a8d4d3",
+        "verified": true
+      }
+    },
+    "mode": "live_read_only",
+    "verified_vault_anchors": 3
+  }
+}
