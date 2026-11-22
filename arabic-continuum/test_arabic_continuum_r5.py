@@ -322,6 +322,13 @@ class TestOraclePrimitives(unittest.TestCase):
         )
         # Verify post-strip <4 filtered out ("running" -> "run" len 3, "mapped" -> "map" len 3)
         self.assertEqual(o.en_content_stems("running mapped"), set())
+        # Verify 3-letter non-stopwords and pre-strip stopwords whose stripped stems are not stopwords
+        # ("indeed" -> "inde", "themselves" -> "themselv", "whereas" -> "wherea", "ourselves" -> "ourselv",
+        # "yourselves" -> "yourselv") are excluded cleanly (regression for bayt-al-hikma#2 mutate2 N5c).
+        self.assertEqual(
+            o.en_content_stems("cat dog sky running mapped indeed themselves whereas ourselves yourselves"),
+            set(),
+        )
 
     def test_block_jaccard_and_naming_guard(self):
         self.assertEqual(o.block_jaccard_cohesion_exact(["a", "b", "b", "c"], 2), (1, 3, Fraction(1, 3)))
