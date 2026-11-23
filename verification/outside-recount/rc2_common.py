@@ -22,6 +22,12 @@ P = {
 }
 
 
+def require_corpus():
+    if not CORP or not os.path.isdir(CORP):
+        sys.stderr.write("usage: %s <corpus dir> [draws]  (the folder written by fetch_corpora.py)\n" % os.path.basename(sys.argv[0]))
+        sys.exit(2)
+
+
 def fixture(rel):
     return C.load_fixture(REPO2 + "/" + rel)
 

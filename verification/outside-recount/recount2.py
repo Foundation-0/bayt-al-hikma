@@ -6,6 +6,7 @@ from collections import Counter, defaultdict
 from fractions import Fraction
 import rc_common as C
 import rc2_common as R
+R.require_corpus()
 
 FA = R.fixture("arabic-continuum/arabic_continuum_audit.py")
 FB = R.fixture("arabic-lexicon/arabic_lexicon_audit.py")
@@ -155,7 +156,6 @@ kf, af, pf = C.flat(kal), C.flat(ada), C.flat(imr) + C.flat(tar) + C.flat(ant)
 print("OpenITI tokens kalila/adab/poetry:", len(kf), len(af), len(pf))
 check("N3", "quran_stem (=stem layer W=20)", MS["stem"][20], CW["quran_stem"])
 for nm, seq, base in (("kalila_prose", kf, 20268000), ("adab_prose", af, 20268500), ("poetry_pooled", pf, 20269000)):
-    m = multishuffle_one = None
     ids = R.enc(seq)
     o = C.jaccard_pair(ids, 20)
     ni = nu = ge = 0

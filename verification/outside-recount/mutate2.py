@@ -1,5 +1,4 @@
-"""Guard-removal sample at head 2 (own code). Copies the tree per mutation inside out2/scratch, edits one guard, runs the package's own test suite under -I -O -B -W error in the sandbox."""
-import json
+"""Guard-removal sample (own code). Copies the tree per mutation into the scratch folder given on the command line, edits one guard, runs the package's own test suite under -I -O -B -W error in the sandbox."""
 import os
 import shutil
 import subprocess

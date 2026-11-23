@@ -2,10 +2,11 @@
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from collections import Counter, defaultdict
+from collections import defaultdict
 from fractions import Fraction
 import rc_common as C
 import rc2_common as R
+R.require_corpus()
 
 L = C.read_leeds(R.P["leeds"])
 sah = R.read_tanzil(R.P["sahih"]); pik = R.read_tanzil(R.P["pick"])
@@ -63,7 +64,6 @@ def run(label, minlen, stop, suf):
         same += a; cross += c; sl_s += b; sl_c += d; pl_s += e; pl_c += f
         if a > 0 and c > 0:
             msame += a; mcross += c; msl_s += b; msl_c += d; mpl_s += e; mpl_c += f
-    import random
     keys = sorted(sah.keys())
     sh = C.lcg_shuffle(keys, 2026097)
     bs = sum(1 for i in range(1000) if not (ss[sh[2 * i]] & ss[sh[2 * i + 1]]))

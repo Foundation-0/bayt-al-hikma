@@ -6,6 +6,7 @@ from collections import Counter, defaultdict
 from fractions import Fraction
 import rc_common as C
 import rc2_common as R
+R.require_corpus()
 
 FB = R.fixture("arabic-lexicon/arabic_lexicon_audit.py")
 RES = []
@@ -288,7 +289,6 @@ for mr in multi_roots:
     pos_s += gs_ > 0; pos_p += gp_ > 0
     print("   %-4s same=%d cross=%d gap sahih %s pickthall %s" % (mr, a, c, R.fx(gs_, 4, True), R.fx(gp_, 4, True)))
 check("B13", "cross > same on all 12 multi-lemma roots (Sahih, Pickthall)", (pos_s, pos_p, len(multi_roots)), (12, 12, 12))
-adx = R.holm({"ctx_r2_all": Fraction(1, 251)})
 ge9 = {k: ex[k] for k in sorted(ex)}
 ad9 = R.holm({k: Fraction(1 + g, B + 1) for k, g in ge9.items()})
 print("Holm over 9 context tests:", {k: "%s/251" % (v * 251) for k, v in sorted(ad9.items())}, "rejected:", sum(1 for v in ad9.values() if v <= Fraction(1, 20)))

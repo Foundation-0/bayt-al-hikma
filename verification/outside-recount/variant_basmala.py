@@ -7,6 +7,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fractions import Fraction
 import rc_common as C
 import rc2_common as R
+R.require_corpus()
 
 ND = int(sys.argv[2]) if len(sys.argv) > 2 else 500
 uth = R.read_tanzil(R.P["uth"])
@@ -52,7 +53,6 @@ def lifts(seq, base):
 
 L = C.read_leeds(R.P["leeds"])
 roots = R.enc([r["root"] for r in L])
-root_l = {}
 obs = {w: C.jaccard_pair(roots, w) for w in W3}
 ni = {w: 0 for w in W3}; nu = {w: 0 for w in W3}
 for d in range(ND):

@@ -7,6 +7,7 @@ from collections import Counter, defaultdict
 from fractions import Fraction
 import rc_common as C
 import rc2_common as R
+R.require_corpus()
 
 ND = int(sys.argv[2]) if len(sys.argv) > 2 else 2000
 FA = R.fixture("arabic-continuum/arabic_continuum_audit.py")
