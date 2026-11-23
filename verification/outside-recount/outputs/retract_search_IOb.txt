@@ -6,7 +6,7 @@ unseen/held-out             15 hits
       arabic-lexicon/ARABIC_LEXICON_TOPOLOGY_REPORT.md : 19
       arabic-lexicon/arabic_lexicon_certificate.json : 1
       arabic-lexicon/arabic_lexicon_oracle.py : 12,753
-      arabic-lexicon/test_arabic_lexicon_r5.py : 391
+      arabic-lexicon/test_arabic_lexicon_r5.py : 435
       polymath-lineage/BAYT_AL_HIKMA_POLYMATH_REPORT.md : 55
       polymath-lineage/bayt_al_hikma_polymath_certifier.py : 1047
       polymath-lineage/test_bayt_al_hikma_polymaths_r5.py : 450
@@ -34,11 +34,11 @@ anachronistic influences     0 hits
       arabic-lexicon/arabic_lexicon_audit.py : 1329
       arabic-lexicon/arabic_lexicon_certificate.json : 1
       arabic-lexicon/arabic_lexicon_oracle.py : 1019,1026,1081,1246
-      arabic-lexicon/test_arabic_lexicon_r5.py : 606,666,669,751
+      arabic-lexicon/test_arabic_lexicon_r5.py : 650,710,713,795
 thresholds 9/20 3/10         8 hits
       arabic-continuum/ARABIC_CONTINUUM_AUDIT_REPORT.md : 72,92
       arabic-continuum/arabic_continuum_certificate.json : 1
-      arabic-continuum/test_arabic_continuum_r5.py : 579
+      arabic-continuum/test_arabic_continuum_r5.py : 610
       arabic-lexicon/ARABIC_LEXICON_TOPOLOGY_REPORT.md : 21
       arabic-lexicon/arabic_lexicon_oracle.py : 13
       arabic-lexicon/test_arabic_lexicon_r5.py : 103
@@ -58,7 +58,7 @@ novel                       16 hits
       PREREGISTERED_HYPOTHESES.md : 5,19
       arabic-continuum/ARABIC_CONTINUUM_AUDIT_REPORT.md : 4,25,73
       arabic-continuum/arabic_continuum_oracle.py : 919
-      arabic-continuum/test_arabic_continuum_r5.py : 735,895
+      arabic-continuum/test_arabic_continuum_r5.py : 766,926
       arabic-lexicon/ARABIC_LEXICON_TOPOLOGY_REPORT.md : 4
       arabic-lexicon/arabic_lexicon_oracle.py : 1097
       veins-and-branches/BAYT_AL_HIKMA_VEINS_AND_BRANCHES_REPORT.md : 65
