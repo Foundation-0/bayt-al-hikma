@@ -10,6 +10,6 @@ Classical Arabic corpus analyses and polymath lineage verification under Alethei
 ## Reproduce
 
 - Offline: `python3 verify_all_standalone.py` replays oracle invariants on pinned fixtures.
-- Live recount: `fetch_corpora.py` + `verify_all_standalone.py --live` recomputes from the 9 primary texts with B = 250 multi-shuffle nulls and Holm-Bonferroni correction.
+- Live recount: `python3 fetch_corpora.py` + `python3 verify_all_standalone.py --live` recomputes from the 9 primary texts with B = 250 multi-shuffle nulls and Holm-Bonferroni correction.
 
 Full scope, layout, reports, and the pre-registered hypotheses ledger are in the [repository README](https://github.com/Foundation-0/bayt-al-hikma#readme).
