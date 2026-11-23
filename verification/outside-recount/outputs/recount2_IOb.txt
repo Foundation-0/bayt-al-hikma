@@ -1,0 +1,114 @@
+
+== hash gate (all nine pins)
+leeds    a1d12923815341fa
+uth      bf4f57b968d03f41
+sahih    a1778a1a56695d9b
+pick     4aabbfa9d96796f5
+kalila   0b55371e4c69f44f
+adab     7b6aa0a311465a28
+imru     7236a43a2309e92f
+tarafa   bde2655e74a09670
+antara   e346bde4145972d7
+all 9 files match the 9 pins in the head-2 continuum audit script: True 9
+
+== Leeds lattice and lexicon descriptive counts (A1-A5, B1-B3)
+A1     root-bearing segments                                MATCH
+A2     unique roots                                         MATCH
+A3     unique (root, lem)                                   MATCH
+A4     unique (root, POS:WAZN:DERIV) cells                  MATCH
+A5     verb forms                                           MATCH
+B1     verb roots / tokens I-X / XII                        MATCH
+B2     multi-wazn roots                                     MATCH
+B2     transition counts                                    MATCH
+B3     operator classes                                     MATCH
+
+== N1-N2 per-layer window cohesion: observed, then 250 shuffles with the authors' seeds (own implementation)
+Uthmani tokens: raw=77881 (PR raw window union at W=10 implies 149959 per 10-token block pairs)
+N1-2   raw W=10 obs/null_pooled/ge                          MATCH
+N1-2   raw W=20 obs/null_pooled/ge                          MATCH
+N1-2   raw W=40 obs/null_pooled/ge                          MATCH
+N1-2   rasm W=10 obs/null_pooled/ge                         MATCH
+N1-2   rasm W=20 obs/null_pooled/ge                         MATCH
+N1-2   rasm W=40 obs/null_pooled/ge                         MATCH
+N1-2   stem W=10 obs/null_pooled/ge                         MATCH
+N1-2   stem W=20 obs/null_pooled/ge                         MATCH
+N1-2   stem W=40 obs/null_pooled/ge                         MATCH
+N1-2   root W=10 obs/null_pooled/ge                         MATCH
+N1-2   root W=20 obs/null_pooled/ge                         MATCH
+N1-2   root W=40 obs/null_pooled/ge                         MATCH
+N1-2   root_t4b W=10 obs/null_pooled/ge                     MATCH
+N1-2   root_t4b W=20 obs/null_pooled/ge                     MATCH
+N1-2   root_t4b W=40 obs/null_pooled/ge                     MATCH
+N1-2   odd_split_root_t4b W=10 obs/null_pooled/ge           MATCH
+N1-2   odd_split_root_t4b W=20 obs/null_pooled/ge           MATCH
+N1-2   odd_split_root_t4b W=40 obs/null_pooled/ge           MATCH
+N1-2   even_split_root_t4b W=10 obs/null_pooled/ge          MATCH
+N1-2   even_split_root_t4b W=20 obs/null_pooled/ge          MATCH
+N1-2   even_split_root_t4b W=40 obs/null_pooled/ge          MATCH
+lifts (obs / pooled null), recomputed:
+  raw       W10=2.509622 W20=2.105700 W40=1.650846
+  rasm      W10=1.876153 W20=1.677785 W40=1.447895
+  stem      W10=1.898772 W20=1.649213 W40=1.390489
+  root      W10=1.876457 W20=1.492894 W40=1.227335
+  root_t4b  W10=1.779309 W20=1.483473 W40=1.249566
+raw lift > root lift at every W (the PR's 'reversal'): True
+
+== N1 Holm over the 12 (layer, W) cells, own implementation
+ge counts: {'raw_W10': 0, 'raw_W20': 0, 'raw_W40': 0, 'rasm_W10': 0, 'rasm_W20': 0, 'rasm_W40': 0, 'stem_W10': 0, 'stem_W20': 0, 'stem_W40': 0, 'root_W10': 0, 'root_W20': 0, 'root_W40': 0}
+adjusted p (min, max): 0.047809 0.047809 = 12/251? True
+rejected at 0.05: 12 of 12
+
+== A9/N3 controls at W=20 with the authors' seeds (Qur'an stem row reuses the stem layer null)
+OpenITI tokens kalila/adab/poetry: 44090 9586 10249
+N3     quran_stem (=stem layer W=20)                        MATCH
+N3     kalila_prose W=20 obs/null/ge                        MATCH
+N3     adab_prose W=20 obs/null/ge                          MATCH
+N3     poetry_pooled W=20 obs/null/ge                       MATCH
+
+== N4 ring and inclusio with 250 verse permutations and the authors' seeds
+N4     all inclusio/middle                                  MATCH
+N4     all delta ge_count / quantiles                       MATCH
+N4     odd inclusio/middle                                  MATCH
+N4     odd delta ge_count / quantiles                       MATCH
+N4     even inclusio/middle                                 MATCH
+N4     even delta ge_count / quantiles                      MATCH
+N4     all_strip10 inclusio/middle                          MATCH
+N4     all_strip10 delta ge_count / quantiles               MATCH
+N4     odd_strip10 inclusio/middle                          MATCH
+N4     odd_strip10 delta ge_count / quantiles               MATCH
+N4     even_strip10 inclusio/middle                         MATCH
+N4     even_strip10 delta ge_count / quantiles              MATCH
+N4     all mirror/shift                                     MATCH
+N4     mirror null pooled, ge, le                           MATCH
+N4     kalila_arb inclusio/middle                           MATCH
+N4     kalila_arb delta ge / quantiles                      MATCH
+N4     kalila_nat inclusio/middle                           MATCH
+N4     kalila_nat delta ge / quantiles                      MATCH
+
+== N4 Holm over the six Qur'an inclusio tests, own implementation
+ge counts: {'all': 30, 'odd': 50, 'even': 48, 'all_strip10': 11, 'odd_strip10': 6, 'even_strip10': 64}
+raw p: {'all': '31/251', 'odd': '51/251', 'even': '49/251', 'all_strip10': '12/251', 'odd_strip10': '7/251', 'even_strip10': '65/251'}
+Holm adjusted: {'odd_strip10': '42/251', 'all_strip10': '60/251', 'all': '124/251', 'even': '147/251', 'odd': '147/251', 'even_strip10': '147/251'}
+rejected at 0.05: []
+
+== Pillar 3 translation remainder (A18-A21), Tanzil English files
+A18    verse keys equal across Uthmani/Sahih/Pickthall/Leeds MATCH
+A19    background pairs sahih/pickthall                     MATCH
+A20    root ftq row                                         MATCH
+A20    root rtq row                                         MATCH
+A20    root sbH row                                         MATCH
+A20    root mdd row                                         MATCH
+A20    root wsE row                                         MATCH
+A20    root flk row                                         MATCH
+A20    root kwr row                                         MATCH
+A20    root qdr row                                         MATCH
+A20    root zwj row                                         MATCH
+pooled (from my per-root rows above, which matched): sahih 7468/14670 pickthall 9665/14670
+A18    pooled edge loss (as reduced fractions 3734/7335, 1933/2934) MATCH
+A21    pooled single-gloss miss 167/365 and 220/365 (=44/73) MATCH
+roots losing >= 40% of edges in both translators: ['mdd', 'wsE', 'qdr', 'zwj'] (report says 4: mdd wsE qdr zwj)
+roots losing > 53% in both (head-1 wording): ['mdd', 'wsE', 'qdr', 'zwj']
+
+RESULT per head-2 claim ids so far; summary below
+checks=65 match=65 diff=0
+diff ids: []

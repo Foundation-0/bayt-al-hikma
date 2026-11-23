@@ -1,0 +1,73 @@
+
+== L1 within-root wazn Renyi-2 with 250 shuffles and the authors' seeds
+B4     all obs                                                  MATCH
+B5     odd obs, even obs                                        MATCH
+B4-5   all_t4a pooled null / ge                                 MATCH
+B4-5   all_t4b pooled null / ge                                 MATCH
+B4-5   odd_t4b pooled null / ge                                 MATCH
+B4-5   even_t4b pooled null / ge                                MATCH
+
+== L2 OpenITI and Qur'an Renyi-2 controls, 250 shuffles, seed 20263000 + 1000*k + b
+B6     quran_stem global C2 / W20 obs / pooled null / ge        MATCH
+B6     kalila_prose global C2 / W20 obs / pooled null / ge      MATCH
+B6     adab_prose global C2 / W20 obs / pooled null / ge        MATCH
+B6     poetry_pooled global C2 / W20 obs / pooled null / ge     MATCH
+
+== L3 context topology, 250 verse-slot shuffles, seed 20264000 + 251*b
+B7-9   9 observed pairs                                         MATCH
+B7-9   9 pooled null pairs                                      MATCH
+B7-9   9 extreme counts                                         MATCH
+   extreme counts: {'cooccur_all': 0, 'cooccur_even': 1, 'cooccur_odd': 1, 'ctx_jaccard_all': 0, 'ctx_jaccard_even': 0, 'ctx_jaccard_odd': 1, 'ctx_r2_all': 0, 'ctx_r2_even': 0, 'ctx_r2_odd': 0}
+
+== L4 two-translator projection defect: per-root rows, 250 within-root lemma shuffles (seed 20265000 + 131*b + idx), distance strata
+B10-14 root ftq row (15 fields)                                 MATCH
+B10-14 root rtq row (15 fields)                                 MATCH
+B10-14 root sbH row (15 fields)                                 MATCH
+B10-14 root flk row (15 fields)                                 MATCH
+B10-14 root kwr row (15 fields)                                 MATCH
+B10-14 root wsE row (15 fields)                                 MATCH
+B10-14 root mdd row (15 fields)                                 MATCH
+B10-14 root qdr row (15 fields)                                 MATCH
+B10-14 root zwj row (15 fields)                                 MATCH
+B10-14 root Erj row (15 fields)                                 MATCH
+B10-14 root nzl row (15 fields)                                 MATCH
+B10-14 root xlq row (15 fields)                                 MATCH
+B10-14 root Amr row (15 fields)                                 MATCH
+B10-14 root Hqq row (15 fields)                                 MATCH
+B10-14 root wzn row (15 fields)                                 MATCH
+B11-12 pooled same/cross pair counts and losses                 MATCH
+B10    overall loss 63362/131343 and 75196/131343               MATCH
+B13p   multi-lemma roots count                                  MATCH
+B-str  4 distance strata                                        MATCH
+B13    lemma-shuffle null (ge counts, quantiles, per-root ge)   MATCH
+observed pooled gaps: sahih +0.334907 pickthall +0.273432
+per-root sahih ge: {'sbH': 0, 'flk': 3, 'wsE': 0, 'mdd': 1, 'qdr': 0, 'zwj': 0, 'Erj': 3, 'nzl': 0, 'xlq': 0, 'Amr': 0, 'Hqq': 0, 'wzn': 43}
+per-root pickthall ge: {'sbH': 0, 'flk': 3, 'wsE': 0, 'mdd': 0, 'qdr': 0, 'zwj': 0, 'Erj': 6, 'nzl': 0, 'xlq': 0, 'Amr': 1, 'Hqq': 0, 'wzn': 97}
+Holm over 12 roots (sahih), own implementation: {'Amr': '12/251', 'Erj': '12/251', 'Hqq': '12/251', 'flk': '12/251', 'mdd': '12/251', 'nzl': '12/251', 'qdr': '12/251', 'sbH': '12/251', 'wsE': '12/251', 'wzn': '44/251', 'xlq': '12/251', 'zwj': '12/251'}
+   rejected at 0.05: ['Amr', 'Erj', 'Hqq', 'flk', 'mdd', 'nzl', 'qdr', 'sbH', 'wsE', 'xlq', 'zwj']
+   min attainable adjusted p with B=250 and M=12: 12/251 = 0.0478 ; exceedance tolerance per root: {'sbH': 2, 'flk': 5, 'wsE': 2, 'mdd': 2, 'qdr': 2, 'zwj': 2, 'Erj': 5, 'nzl': 2, 'xlq': 2, 'Amr': 2, 'Hqq': 2, 'wzn': 11}
+Holm over 12 roots (pickthall), own implementation: {'Amr': '12/251', 'Erj': '14/251', 'Hqq': '12/251', 'flk': '12/251', 'mdd': '12/251', 'nzl': '12/251', 'qdr': '12/251', 'sbH': '12/251', 'wsE': '12/251', 'wzn': '98/251', 'xlq': '12/251', 'zwj': '12/251'}
+   rejected at 0.05: ['Amr', 'Hqq', 'flk', 'mdd', 'nzl', 'qdr', 'sbH', 'wsE', 'xlq', 'zwj']
+   min attainable adjusted p with B=250 and M=12: 12/251 = 0.0478 ; exceedance tolerance per root: {'sbH': 2, 'flk': 3, 'wsE': 2, 'mdd': 2, 'qdr': 2, 'zwj': 2, 'Erj': 5, 'nzl': 2, 'xlq': 2, 'Amr': 2, 'Hqq': 2, 'wzn': 5}
+
+== L5 per-root sign of the cross-minus-same gap (the '12 of 12' claim), both translators
+   sbH  same=1603 cross=2138 gap sahih +0.1484 pickthall +0.4239
+   flk  same=254 cross=46 gap sahih +0.8478 pickthall +0.9130
+   wsE  same=77 cross=329 gap sahih +0.4543 pickthall +0.4797
+   mdd  same=124 cross=282 gap sahih +0.1724 pickthall +0.2046
+   qdr  same=1582 cross=5678 gap sahih +0.5708 pickthall +0.3696
+   zwj  same=2288 cross=268 gap sahih +0.1987 pickthall +0.3051
+   Erj  same=12 cross=24 gap sahih +0.7917 pickthall +0.4167
+   nzl  same=15036 cross=17860 gap sahih +0.2650 pickthall +0.2008
+   xlq  same=15065 cross=8588 gap sahih +0.6531 pickthall +0.4868
+   Amr  same=14111 cross=11314 gap sahih +0.0988 pickthall +0.0397
+   Hqq  same=26803 cross=7650 gap sahih +0.4779 pickthall +0.3909
+   wzn  same=125 cross=85 gap sahih +0.0875 pickthall +0.0362
+B13    cross > same on all 12 multi-lemma roots (Sahih, Pickthall) MATCH
+Holm over 9 context tests: {'cooccur_all': '9/251', 'cooccur_even': '9/251', 'cooccur_odd': '9/251', 'ctx_jaccard_all': '9/251', 'ctx_jaccard_even': '9/251', 'ctx_jaccard_odd': '9/251', 'ctx_r2_all': '9/251', 'ctx_r2_even': '9/251', 'ctx_r2_odd': '9/251'} rejected: 9
+   exceedance tolerance: {'cooccur_all': 11, 'cooccur_even': 11, 'cooccur_odd': 11, 'ctx_jaccard_all': 11, 'ctx_jaccard_even': 11, 'ctx_jaccard_odd': 11, 'ctx_r2_all': 11, 'ctx_r2_even': 11, 'ctx_r2_odd': 11}
+Holm over 4 wazn tests: {'all_t4a': '4/251', 'all_t4b': '4/251', 'even_t4b': '4/251', 'odd_t4b': '4/251'} rejected: 4
+   exceedance tolerance: {'all_t4a': 11, 'all_t4b': 11, 'odd_t4b': 11, 'even_t4b': 11}
+
+checks=34 match=34 diff=0
+diff ids: []

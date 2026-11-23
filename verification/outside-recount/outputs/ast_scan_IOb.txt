@@ -1,0 +1,13 @@
+fetch_corpora.py                                                       Assert nodes=0 float literals=0
+verify_all_standalone.py                                               Assert nodes=0 float literals=0
+arabic-continuum/arabic_continuum_audit.py                             Assert nodes=0 float literals=0
+arabic-continuum/arabic_continuum_oracle.py                            Assert nodes=0 float literals=0
+arabic-continuum/test_arabic_continuum_r5.py                           Assert nodes=0 float literals=6
+arabic-lexicon/arabic_lexicon_audit.py                                 Assert nodes=0 float literals=0
+arabic-lexicon/arabic_lexicon_oracle.py                                Assert nodes=0 float literals=0
+arabic-lexicon/test_arabic_lexicon_r5.py                               Assert nodes=0 float literals=9
+polymath-lineage/bayt_al_hikma_polymath_certifier.py                   Assert nodes=0 float literals=0
+polymath-lineage/test_bayt_al_hikma_polymaths_r5.py                    Assert nodes=0 float literals=0
+veins-and-branches/bayt_al_hikma_veins_certifier.py                    Assert nodes=0 float literals=0
+veins-and-branches/test_bayt_al_hikma_veins_r5.py                      Assert nodes=0 float literals=0
+total bare assert statements: 0
