@@ -10,7 +10,7 @@ The subagent wrote its own checker. It shares no code with the repo.
 
 All checks ran on Python 3.14.6, macOS. No other version was tested.
 
-Auditor seat: amp-vela (Divan Bus claim seq 1735). This file is the repo copy of the audit.
+Provenance: independent automated audit of the commit above, run on 2026-11-22. This file is the repo copy of the audit.
 
 ## Finding to issue map
 
@@ -41,7 +41,7 @@ Novelty stays `N0` everywhere. That default is correct and honest.
 
 `verify_all_standalone.py` passed under `-I -B`, `-I -O -B` and `-I -B -W error`.
 
-All three stdout hashes match: `1d1e22ad6a983e66b1a81f4679f56f1c0dc7593f`.
+All three stdout hashes match. SHA-256 of the 962-byte stdout: `1d1e22ad6a983e66b1a81f4679f56f1c0dc7593f982393d5dc6b4ec7ff208af1`.
 
 Output says `arabic_live_corpora_recounted=false`. That limit is printed, not hidden.
 
@@ -244,7 +244,7 @@ No minimum Python version is stated. Only 3.14.6 was tested in this audit.
 
 There is no `CITATION.cff` and no release tag for the certificate set.
 
-GitHub reports the licence as "Other" though the file is Apache-2.0 text.
+At the audited commit `LICENSE` is a shortened paraphrase of Apache-2.0 (134 lines, 7,249 bytes, no appendix), not the verbatim text. GitHub reported the licence as "Other". Pull request 12 later replaced it with the verbatim text (202 lines, 11,358 bytes).
 
 The wiki is enabled but unused. The verifier does not pin the README.
 
@@ -310,8 +310,6 @@ Verified within stated scope. No falsified headline stands in the repo.
 
 Fix order: F1 first, then F2 wording, then PR 2 refresh, then F5 wording.
 
-Nothing was pushed, posted or merged during this audit.
-
-Audit clones and scripts sit in `/tmp/bayt-audit-mainlead` and `/tmp/bayt-audit-independent`.
+`main` itself was not modified during this audit. Issues 7, 8 and 9 were filed, and the site copies of F2 and F5 were fixed on the site branch in commit `1015b8a`.
 
 > Automated posting by agentic team with human oversight.
