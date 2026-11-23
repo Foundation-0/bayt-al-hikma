@@ -122,6 +122,50 @@ def test_primitives_holm_and_naming_guard():
     check(oracle.light_stem_ar("\u0648\u0627\u0644\u0643\u062a\u0628\u0647\u0645") == "\u0643\u062a\u0628", "stem")
     expect_error(lambda: oracle.en_content_stems(None), "INVALID_TYPE")
     check(oracle.en_content_stems("wrapped wraps spinning walking fishes ships lorded") == {"wrap", "spin", "walk", "fish", "ship"}, "en stems")
+    # Verify 3-letter non-stopwords, post-strip 3-letter stems ("running" -> "run", "mapped" -> "map"),
+    # 4-letter -s preservation ("gods"), and pre-strip stopwords whose stripped stems are not stopwords
+    # ("indeed" -> "inde", "themselves" -> "themselv", "whereas" -> "wherea", "ourselves" -> "ourselv",
+    # "yourselves" -> "yourselv") are handled accurately (regression for bayt-al-hikma#2 mutate2 N5l).
+    check(
+        oracle.en_content_stems("cat dog sky running mapped indeed themselves whereas ourselves yourselves") == set(),
+        "en stems min-len-4 and pre-strip stopwords",
+    )
+    check(oracle.en_content_stems("gods theirs") == {"gods"}, "en stems 4-char -s and post-strip stopword")
+    check(
+        oracle.en_content_stems("seeing loved trees walked") == {"seeing", "loved", "tree", "walk"},
+        "en stems suffix thresholds and -ed non-double",
+    )
+    # Verify bayt-al-hikma#4 non-equivalent mutants: suffix endswith specificity, elif exclusivity,
+    # strict lowercase-alpha tokenization, case-folding, and exact 87-word EN_STOPWORDS parity.
+    check(
+        oracle.en_content_stems("hamstrung accusing exceeding accursed classes reward justice certain")
+        == {"hamstrung", "accus", "exceed", "accurs", "class", "reward", "justice", "certain"},
+        "en stems endswith specificity and elif exclusivity",
+    )
+    check(oracle.en_content_stems("Allah's mercy") == {"mercy"}, "en stems apostrophe tokenizer and content word")
+    check(oracle.en_content_stems("Walked") == {"walk"}, "en stems lowercase normalization")
+    check(
+        oracle.en_content_stems("alpha-beta_gamma 1234") == {"alpha", "beta", "gamma"},
+        "en stems strict lowercase-alpha tokenizer",
+    )
+    expected_en_stopwords = frozenset({
+        "about", "after", "against", "allah", "also", "because", "been", "before", "being",
+        "between", "came", "come", "could", "does", "done", "doth", "during", "except",
+        "from", "gave", "give", "hast", "hath", "have", "himself", "indeed", "into", "knew",
+        "know", "lord", "made", "make", "more", "most", "only", "ours", "ourselves", "over",
+        "said", "says", "shall", "shalt", "should", "some", "such", "surely", "take", "than",
+        "that", "thee", "their", "them", "themselves", "then", "there", "therein", "thereof",
+        "thereto", "thereon", "these", "they", "this", "those", "thou", "through", "took",
+        "unto", "upon", "verily", "were", "what", "when", "where", "whereas", "wherein",
+        "whereof", "which", "while", "whom", "whose", "will", "wilt", "with", "without",
+        "would", "your", "yourselves",
+    })
+    check(len(expected_en_stopwords) == 87, "expected_en_stopwords count 87")
+    check(oracle.EN_STOPWORDS == expected_en_stopwords, "EN_STOPWORDS exact 87-word set")
+    check(
+        oracle.en_content_stems(" ".join(sorted(expected_en_stopwords))) == set(),
+        "all 87 EN_STOPWORDS excluded end-to-end",
+    )
     check(oracle.renyi2_concentration_pair({"a": 2, "b": 2}) == (8, 16, Fraction(1, 2)), "r2")
     expect_error(lambda: oracle.renyi2_concentration_pair({}), "INVALID_COUNTS")
     check(oracle.block_renyi2_cross_pair(["a", "a", "a", "b"], 2) == (2, 4, Fraction(1, 2)), "block r2")
