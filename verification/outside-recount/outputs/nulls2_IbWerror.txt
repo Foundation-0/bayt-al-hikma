@@ -1,0 +1,112 @@
+draws per null: 2000 ; seeds: random.Random(base + d), d=0..1999 ; bases listed per family
+
+== F1 per-layer cohesion, IID shuffle (bases 3000000 raw, 3100000 rasm, 3200000 stem, 3300000 root); POS-strat T4B (3400000 all, 3500000 odd, 3600000 even)
+raw                  W=10 obs=0.020506 null(pooled mean)=0.008139 lift=2.5193 ge=0/2000 p=0.00050
+raw                  W=20 obs=0.032502 null(pooled mean)=0.015439 lift=2.1051 ge=0/2000 p=0.00050
+raw                  W=40 obs=0.046046 null(pooled mean)=0.027877 lift=1.6517 ge=0/2000 p=0.00050
+rasm                 W=10 obs=0.033948 null(pooled mean)=0.018111 lift=1.8745 ge=0/2000 p=0.00050
+rasm                 W=20 obs=0.052127 null(pooled mean)=0.031101 lift=1.6761 ge=0/2000 p=0.00050
+rasm                 W=40 obs=0.069585 null(pooled mean)=0.048027 lift=1.4489 ge=0/2000 p=0.00050
+stem                 W=10 obs=0.044275 null(pooled mean)=0.023296 lift=1.9005 ge=0/2000 p=0.00050
+stem                 W=20 obs=0.066625 null(pooled mean)=0.040344 lift=1.6514 ge=0/2000 p=0.00050
+stem                 W=40 obs=0.087996 null(pooled mean)=0.063268 lift=1.3908 ge=0/2000 p=0.00050
+root                 W=10 obs=0.070409 null(pooled mean)=0.037473 lift=1.8789 ge=0/2000 p=0.00050
+root                 W=20 obs=0.094115 null(pooled mean)=0.063043 lift=1.4929 ge=0/2000 p=0.00050
+root                 W=40 obs=0.120019 null(pooled mean)=0.097728 lift=1.2281 ge=0/2000 p=0.00050
+root_t4b_all         W=10 obs=0.070409 null(pooled mean)=0.039538 lift=1.7808 ge=0/2000 p=0.00050
+root_t4b_all         W=20 obs=0.094115 null(pooled mean)=0.063410 lift=1.4842 ge=0/2000 p=0.00050
+root_t4b_all         W=40 obs=0.120019 null(pooled mean)=0.095978 lift=1.2505 ge=0/2000 p=0.00050
+root_t4b_odd         W=10 obs=0.070426 null(pooled mean)=0.040247 lift=1.7499 ge=0/2000 p=0.00050
+root_t4b_odd         W=20 obs=0.092168 null(pooled mean)=0.064367 lift=1.4319 ge=0/2000 p=0.00050
+root_t4b_odd         W=40 obs=0.116415 null(pooled mean)=0.097827 lift=1.1900 ge=0/2000 p=0.00050
+root_t4b_even        W=10 obs=0.070432 null(pooled mean)=0.039639 lift=1.7768 ge=0/2000 p=0.00050
+root_t4b_even        W=20 obs=0.095126 null(pooled mean)=0.063006 lift=1.5098 ge=0/2000 p=0.00050
+root_t4b_even        W=40 obs=0.118193 null(pooled mean)=0.095218 lift=1.2413 ge=0/2000 p=0.00050
+-- ordering of lifts (obs/null mean), mine:
+   W=10 raw 2.519 > stem 1.901 > root 1.879 > rasm 1.875
+   W=20 raw 2.105 > rasm 1.676 > stem 1.651 > root 1.493
+   W=40 raw 1.652 > rasm 1.449 > stem 1.391 > root 1.228
+   12 cells Holm (M=12, B=2000): min attainable adjusted p = 12/2001 = 0.0060 ; rejection at 0.05 attainable: True
+   12 cells raw ge counts: {'rasm_W10': 0, 'rasm_W20': 0, 'rasm_W40': 0, 'raw_W10': 0, 'raw_W20': 0, 'raw_W40': 0, 'root_W10': 0, 'root_W20': 0, 'root_W40': 0, 'stem_W10': 0, 'stem_W20': 0, 'stem_W40': 0}
+   12 cells adjusted p: {'rasm_W10': '0.0060', 'rasm_W20': '0.0060', 'rasm_W40': '0.0060', 'raw_W10': '0.0060', 'raw_W20': '0.0060', 'raw_W40': '0.0060', 'root_W10': '0.0060', 'root_W20': '0.0060', 'root_W40': '0.0060', 'stem_W10': '0.0060', 'stem_W20': '0.0060', 'stem_W40': '0.0060'}
+   12 cells rejected: 12 of 12: ['rasm_W10', 'rasm_W20', 'rasm_W40', 'raw_W10', 'raw_W20', 'raw_W40', 'root_W10', 'root_W20', 'root_W40', 'stem_W10', 'stem_W20', 'stem_W40']
+   authors' B=250 family: reported ge counts all [0] ; max extra exceedances each cell can absorb (others fixed) before Holm stops rejecting it: [11]
+
+== F2 ring and inclusio, within-surah verse permutation (base 3700000)
+top-10 from whole text vs odd-only vs even-only; symmetric difference whole/odd: ['byn', 'rsl'] whole/even: ['$yA', 'kfr']
+all                                          D=+0.008283 null band [-0.012035, +0.013043] ge=200/2000 raw p=0.10045
+odd                                          D=+0.009500 null band [-0.016872, +0.017898] ge=291/2000 raw p=0.14593
+even                                         D=+0.007185 null band [-0.017532, +0.017509] ge=440/2000 raw p=0.22039
+all_strip10                                  D=+0.010870 null band [-0.012563, +0.012852] ge=97/2000 raw p=0.04898
+odd_strip10                                  D=+0.014695 null band [-0.016941, +0.017814] ge=107/2000 raw p=0.05397
+even_strip10                                 D=+0.007423 null band [-0.017998, +0.017748] ge=402/2000 raw p=0.20140
+VARIANT even_strip10_top10_from_odd_only     D=+0.010057 null band [-0.017960, +0.017366] ge=256/2000 raw p=0.12844
+VARIANT odd_strip10_top10_from_even_only     D=+0.013576 null band [-0.017149, +0.017700] ge=139/2000 raw p=0.06997
+   6 Qur'an inclusio tests Holm (M=6, B=2000): min attainable adjusted p = 6/2001 = 0.0030 ; rejection at 0.05 attainable: True
+   6 Qur'an inclusio tests raw ge counts: {'all': 200, 'all_strip10': 97, 'even': 440, 'even_strip10': 402, 'odd': 291, 'odd_strip10': 107}
+   6 Qur'an inclusio tests adjusted p: {'all': '0.4018', 'all_strip10': '0.2939', 'even': '0.4378', 'even_strip10': '0.4378', 'odd': '0.4378', 'odd_strip10': '0.2939'}
+   6 Qur'an inclusio tests rejected: 0 of 6: []
+   authors' B=250 reported ge counts (30,50,48,11,6,64): none rejected; exceedance count at which each WOULD still be rejected (largest ge keeping Holm<=0.05, others fixed): {'all': 1, 'odd': 1, 'even': 1, 'all_strip10': 1, 'odd_strip10': 1, 'even_strip10': 1}
+mirror (all 79): obs 0.040319 ; null >= obs 1974/2000, null <= obs 26/2000 ; lower-tail p=0.01349 upper-tail p=0.98701
+
+== F2b Kalila units, within-unit line permutation (base 3800000)
+kalila_arb   D=-0.002096 null band [-0.009527, +0.009656] ge=1334/2000 raw p=0.66717
+kalila_nat   D=+0.009739 null band [-0.011874, +0.011845] ge=99/2000 raw p=0.04998
+
+== F3 OpenITI controls W=20 Jaccard, IID shuffle (bases 3900000 kalila, 3910000 adab, 3920000 poetry); Qur'an stem from F1
+kalila   obs=0.070811 null mean=0.038845 band [0.037726,0.039991] lift=1.8229 ge=0/2000
+adab     obs=0.073441 null mean=0.047168 band [0.044495,0.049930] lift=1.5570 ge=0/2000
+poetry   obs=0.026125 null mean=0.016527 band [0.014982,0.018127] lift=1.5807 ge=0/2000
+lift ranking W=20: kalila 1.823 > quran 1.651 > poetry 1.581 > adab 1.557
+
+== F4 within-root wazn Renyi-2: global shuffle (bases 4000000/4010000/4020000 all/odd/even) and freq-strat (4100000/4110000/4120000)
+wazn R2 all  global     obs=0.926980 null band [0.438963,0.460314] mean=0.449522 ge=0/2000
+wazn R2 all  freq-strat obs=0.926980 null band [0.499424,0.519496] mean=0.509494 ge=0/2000
+wazn R2 odd  global     obs=0.930983 null band [0.437809,0.469178] mean=0.453131 ge=0/2000
+wazn R2 odd  freq-strat obs=0.930983 null band [0.534201,0.560527] mean=0.547046 ge=0/2000
+wazn R2 even global     obs=0.923794 null band [0.435369,0.464442] mean=0.449745 ge=0/2000
+wazn R2 even freq-strat obs=0.923794 null band [0.527997,0.553006] mean=0.540251 ge=0/2000
+   wazn 6 tests Holm (M=6, B=2000): min attainable adjusted p = 6/2001 = 0.0030 ; rejection at 0.05 attainable: True
+   wazn 6 tests raw ge counts: {'all_freq-strat': 0, 'all_global': 0, 'even_freq-strat': 0, 'even_global': 0, 'odd_freq-strat': 0, 'odd_global': 0}
+   wazn 6 tests adjusted p: {'all_freq-strat': '0.0030', 'all_global': '0.0030', 'even_freq-strat': '0.0030', 'even_global': '0.0030', 'odd_freq-strat': '0.0030', 'odd_global': '0.0030'}
+   wazn 6 tests rejected: 6 of 6: ['all_freq-strat', 'all_global', 'even_freq-strat', 'even_global', 'odd_freq-strat', 'odd_global']
+   (the PR's family has 4 tests: all T4A, all T4B, odd T4B, even T4B; same Holm result when restricted to those)
+
+== F5 Renyi-2 W=20 cross-collision lift, IID shuffle (base 4200000 + 10000*k)
+quran_stem obs=0.009060 null mean=0.005362 lift=1.6896 ge=0/2000
+kalila     obs=0.008747 null mean=0.004831 lift=1.8105 ge=0/2000
+adab       obs=0.009874 null mean=0.006175 lift=1.5990 ge=0/2000
+poetry     obs=0.003219 null mean=0.001995 lift=1.6133 ge=0/2000
+
+== F6 context topology, verse-slot shuffle (base 4400000)
+ctx_r2       all  obs=0.006803 null band [0.004165,0.004444] mean=0.004298 extreme=0/2000
+ctx_jaccard  all  obs=0.182547 null band [0.213877,0.230567] mean=0.221830 extreme=0/2000
+cooccur      all  obs=0.149009 null band [0.097844,0.132140] mean=0.114546 extreme=0/2000
+ctx_r2       odd  obs=0.007506 null band [0.004871,0.005403] mean=0.005121 extreme=0/2000
+ctx_jaccard  odd  obs=0.156174 null band [0.164904,0.191146] mean=0.177614 extreme=2/2000
+cooccur      odd  obs=0.151246 null band [0.086882,0.134752] mean=0.110480 extreme=0/2000
+ctx_r2       even obs=0.007303 null band [0.004628,0.005097] mean=0.004863 extreme=0/2000
+ctx_jaccard  even obs=0.161662 null band [0.176465,0.202487] mean=0.189425 extreme=0/2000
+cooccur      even obs=0.146912 null band [0.094703,0.142379] mean=0.118216 extreme=21/2000
+   9 context tests Holm (M=9, B=2000): min attainable adjusted p = 9/2001 = 0.0045 ; rejection at 0.05 attainable: True
+   9 context tests raw ge counts: {'cooccur_all': 0, 'cooccur_even': 21, 'cooccur_odd': 0, 'ctx_jaccard_all': 0, 'ctx_jaccard_even': 0, 'ctx_jaccard_odd': 2, 'ctx_r2_all': 0, 'ctx_r2_even': 0, 'ctx_r2_odd': 0}
+   9 context tests adjusted p: {'cooccur_all': '0.0045', 'cooccur_even': '0.0110', 'cooccur_odd': '0.0045', 'ctx_jaccard_all': '0.0045', 'ctx_jaccard_even': '0.0045', 'ctx_jaccard_odd': '0.0045', 'ctx_r2_all': '0.0045', 'ctx_r2_even': '0.0045', 'ctx_r2_odd': '0.0045'}
+   9 context tests rejected: 9 of 9: ['cooccur_all', 'cooccur_even', 'cooccur_odd', 'ctx_jaccard_all', 'ctx_jaccard_even', 'ctx_jaccard_odd', 'ctx_r2_all', 'ctx_r2_even', 'ctx_r2_odd']
+
+== F7 cross-vs-same lemma gap: within-root lemma-set shuffle (base 4500000), and a stem-count-matched control
+multi-lemma roots (same>0 and cross>0): 12 ['sbH', 'flk', 'wsE', 'mdd', 'qdr', 'zwj', 'Erj', 'nzl', 'xlq', 'Amr', 'Hqq', 'wzn']
+observed pooled gap (12 multi-lemma roots): sahih +0.334907 pickthall +0.273432
+pooled gap sahih     obs=+0.334907 null band [-0.010742,+0.040758] mean=+0.014944 ge=0/2000 raw p=0.00050
+pooled gap pickthall obs=+0.273432 null band [+0.002333,+0.049343] mean=+0.025380 ge=0/2000 raw p=0.00050
+   12 per-root sahih Holm (M=12, B=2000): min attainable adjusted p = 12/2001 = 0.0060 ; rejection at 0.05 attainable: True
+   12 per-root sahih raw ge counts: {'Amr': 0, 'Erj': 5, 'Hqq': 0, 'flk': 11, 'mdd': 21, 'nzl': 0, 'qdr': 0, 'sbH': 0, 'wsE': 0, 'wzn': 395, 'xlq': 0, 'zwj': 2}
+   12 per-root sahih adjusted p: {'Amr': '0.0060', 'Erj': '0.0120', 'Hqq': '0.0060', 'flk': '0.0180', 'mdd': '0.0220', 'nzl': '0.0060', 'qdr': '0.0060', 'sbH': '0.0060', 'wsE': '0.0060', 'wzn': '0.1979', 'xlq': '0.0060', 'zwj': '0.0075'}
+   12 per-root sahih rejected: 11 of 12: ['Amr', 'Erj', 'Hqq', 'flk', 'mdd', 'nzl', 'qdr', 'sbH', 'wsE', 'xlq', 'zwj']
+   12 per-root pickthall Holm (M=12, B=2000): min attainable adjusted p = 12/2001 = 0.0060 ; rejection at 0.05 attainable: True
+   12 per-root pickthall raw ge counts: {'Amr': 8, 'Erj': 42, 'Hqq': 0, 'flk': 11, 'mdd': 0, 'nzl': 0, 'qdr': 0, 'sbH': 0, 'wsE': 0, 'wzn': 785, 'xlq': 0, 'zwj': 0}
+   12 per-root pickthall adjusted p: {'Amr': '0.0180', 'Erj': '0.0430', 'Hqq': '0.0060', 'flk': '0.0180', 'mdd': '0.0060', 'nzl': '0.0060', 'qdr': '0.0060', 'sbH': '0.0060', 'wsE': '0.0060', 'wzn': '0.3928', 'xlq': '0.0060', 'zwj': '0.0060'}
+   12 per-root pickthall rejected: 11 of 12: ['Amr', 'Erj', 'Hqq', 'flk', 'mdd', 'nzl', 'qdr', 'sbH', 'wsE', 'xlq', 'zwj']
+stem-count-matched (4 quartile strata) gap sahih     obs=+0.327354 per-stratum=['+0.4770', '+0.3672', '+0.2789', '+0.1733'] null band [-0.008250,+0.042139] ge=0/2000
+stem-count-matched (4 quartile strata) gap pickthall obs=+0.267526 per-stratum=['+0.3832', '+0.2798', '+0.2201', '+0.1596'] null band [+0.002545,+0.051952] ge=0/2000
+
+nulls2 done

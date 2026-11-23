@@ -87,7 +87,7 @@ STUDY_SPECS: tuple[dict[str, Any], ...] = (
                 "24e3b164365b7d00fe22e067bcfbc4c298292d714c90491b1e944c344d26dea3"
             ),
             "test_arabic_continuum_r5.py": (
-                "847a6f7826c7adf1d01ebeb082cf3ac3217458c320835147d5a6d226ad9da0d4"
+                "9f88ea2126424d8c130632b93818e66bda023f84e2d65ee0aadf482ebfd59a8b"
             ),
         },
     },
@@ -120,7 +120,7 @@ STUDY_SPECS: tuple[dict[str, Any], ...] = (
                 "9d6da97ba142f00b624e23635c6618df9238229425a86b20e427fc0c7e7a11c8"
             ),
             "test_arabic_lexicon_r5.py": (
-                "135538bb309fc4f149c9cbe8b1db11447565c6110802a7e475a016a686c29204"
+                "1cf767cc51520784e73f2487b15c68bd1ec2b1a1871065e116ac144c8d168d05"
             ),
         },
     },

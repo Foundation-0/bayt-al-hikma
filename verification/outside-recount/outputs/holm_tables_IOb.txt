@@ -1,0 +1,72 @@
+== continuum 12 cells (layer x W) | B=250 | M=12
+   smallest raw p = 1/251 = 0.00398 ; smallest Holm-adjusted p over the family = 12/251 = 0.04781 ; rejection at 0.05 attainable: True
+   max exceedances still rejected at sorted rank 1..12 (ge ceiling): [0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 5, 11]
+   reported ge counts: {'rasm_W10': 0, 'rasm_W20': 0, 'rasm_W40': 0, 'raw_W10': 0, 'raw_W20': 0, 'raw_W40': 0, 'root_W10': 0, 'root_W20': 0, 'root_W40': 0, 'stem_W10': 0, 'stem_W20': 0, 'stem_W40': 0}
+   adjusted p: {'rasm_W10': '12/251', 'rasm_W20': '12/251', 'rasm_W40': '12/251', 'raw_W10': '12/251', 'raw_W20': '12/251', 'raw_W40': '12/251', 'root_W10': '12/251', 'root_W20': '12/251', 'root_W40': '12/251', 'stem_W10': '12/251', 'stem_W20': '12/251', 'stem_W40': '12/251'}
+   rejected now: ['rasm_W10', 'rasm_W20', 'rasm_W40', 'raw_W10', 'raw_W20', 'raw_W40', 'root_W10', 'root_W20', 'root_W40', 'stem_W10', 'stem_W20', 'stem_W40']
+   largest exceedance count (out of B) at which each hypothesis would still be rejected, others held at their reported counts (None = cannot be rejected at any count): {'rasm_W10': 11, 'rasm_W20': 11, 'rasm_W40': 11, 'raw_W10': 11, 'raw_W20': 11, 'raw_W40': 11, 'root_W10': 11, 'root_W20': 11, 'root_W40': 11, 'stem_W10': 11, 'stem_W20': 11, 'stem_W40': 11}
+   if every test in the family had 1 exceedances (of 250), none would be rejected
+   if every test had 1 exceedances, not all would be rejected (largest uniform count that still rejects all: 0)
+== continuum 12 cells (layer x W) | B=2000 | M=12
+   smallest raw p = 1/2001 = 0.00050 ; smallest Holm-adjusted p over the family = 12/2001 = 0.00600 ; rejection at 0.05 attainable: True
+   max exceedances still rejected at sorted rank 1..12 (ge ceiling): [7, 8, 9, 10, 11, 13, 15, 19, 24, 32, 49, 99]
+== continuum 6 Qur'an inclusio tests | B=250 | M=6
+   smallest raw p = 1/251 = 0.00398 ; smallest Holm-adjusted p over the family = 6/251 = 0.02390 ; rejection at 0.05 attainable: True
+   max exceedances still rejected at sorted rank 1..6 (ge ceiling): [1, 1, 2, 3, 5, 11]
+   reported ge counts: {'all': 30, 'all_strip10': 11, 'even': 48, 'even_strip10': 64, 'odd': 50, 'odd_strip10': 6}
+   adjusted p: {'all': '124/251', 'all_strip10': '60/251', 'even': '147/251', 'even_strip10': '147/251', 'odd': '147/251', 'odd_strip10': '42/251'}
+   rejected now: []
+   largest exceedance count (out of B) at which each hypothesis would still be rejected, others held at their reported counts (None = cannot be rejected at any count): {'all': 1, 'all_strip10': 1, 'even': 1, 'even_strip10': 1, 'odd': 1, 'odd_strip10': 1}
+   if every test in the family had 2 exceedances (of 250), none would be rejected
+   if every test had 2 exceedances, not all would be rejected (largest uniform count that still rejects all: 1)
+== continuum 6 Qur'an inclusio tests | B=2000 | M=6
+   smallest raw p = 1/2001 = 0.00050 ; smallest Holm-adjusted p over the family = 6/2001 = 0.00300 ; rejection at 0.05 attainable: True
+   max exceedances still rejected at sorted rank 1..6 (ge ceiling): [15, 19, 24, 32, 49, 99]
+== lexicon 4 wazn tests | B=250 | M=4
+   smallest raw p = 1/251 = 0.00398 ; smallest Holm-adjusted p over the family = 4/251 = 0.01594 ; rejection at 0.05 attainable: True
+   max exceedances still rejected at sorted rank 1..4 (ge ceiling): [2, 3, 5, 11]
+   reported ge counts: {'all_t4a': 0, 'all_t4b': 0, 'even_t4b': 0, 'odd_t4b': 0}
+   adjusted p: {'all_t4a': '4/251', 'all_t4b': '4/251', 'even_t4b': '4/251', 'odd_t4b': '4/251'}
+   rejected now: ['all_t4a', 'all_t4b', 'even_t4b', 'odd_t4b']
+   largest exceedance count (out of B) at which each hypothesis would still be rejected, others held at their reported counts (None = cannot be rejected at any count): {'all_t4a': 11, 'all_t4b': 11, 'even_t4b': 11, 'odd_t4b': 11}
+   if every test in the family had 3 exceedances (of 250), none would be rejected
+   if every test had 3 exceedances, not all would be rejected (largest uniform count that still rejects all: 2)
+== lexicon 4 wazn tests | B=2000 | M=4
+   smallest raw p = 1/2001 = 0.00050 ; smallest Holm-adjusted p over the family = 4/2001 = 0.00200 ; rejection at 0.05 attainable: True
+   max exceedances still rejected at sorted rank 1..4 (ge ceiling): [24, 32, 49, 99]
+== lexicon 9 context tests | B=250 | M=9
+   smallest raw p = 1/251 = 0.00398 ; smallest Holm-adjusted p over the family = 9/251 = 0.03586 ; rejection at 0.05 attainable: True
+   max exceedances still rejected at sorted rank 1..9 (ge ceiling): [0, 0, 0, 1, 1, 2, 3, 5, 11]
+   reported ge counts: {'cooccur_all': 0, 'cooccur_even': 1, 'cooccur_odd': 1, 'ctx_jaccard_all': 0, 'ctx_jaccard_even': 0, 'ctx_jaccard_odd': 1, 'ctx_r2_all': 0, 'ctx_r2_even': 0, 'ctx_r2_odd': 0}
+   adjusted p: {'cooccur_all': '9/251', 'cooccur_even': '9/251', 'cooccur_odd': '9/251', 'ctx_jaccard_all': '9/251', 'ctx_jaccard_even': '9/251', 'ctx_jaccard_odd': '9/251', 'ctx_r2_all': '9/251', 'ctx_r2_even': '9/251', 'ctx_r2_odd': '9/251'}
+   rejected now: ['cooccur_all', 'cooccur_even', 'cooccur_odd', 'ctx_jaccard_all', 'ctx_jaccard_even', 'ctx_jaccard_odd', 'ctx_r2_all', 'ctx_r2_even', 'ctx_r2_odd']
+   largest exceedance count (out of B) at which each hypothesis would still be rejected, others held at their reported counts (None = cannot be rejected at any count): {'cooccur_all': 11, 'cooccur_even': 11, 'cooccur_odd': 11, 'ctx_jaccard_all': 11, 'ctx_jaccard_even': 11, 'ctx_jaccard_odd': 11, 'ctx_r2_all': 11, 'ctx_r2_even': 11, 'ctx_r2_odd': 11}
+   if every test in the family had 1 exceedances (of 250), none would be rejected
+   if every test had 1 exceedances, not all would be rejected (largest uniform count that still rejects all: 0)
+== lexicon 9 context tests | B=2000 | M=9
+   smallest raw p = 1/2001 = 0.00050 ; smallest Holm-adjusted p over the family = 9/2001 = 0.00450 ; rejection at 0.05 attainable: True
+   max exceedances still rejected at sorted rank 1..9 (ge ceiling): [10, 11, 13, 15, 19, 24, 32, 49, 99]
+== lexicon 12 per-root lemma tests (Sahih) | B=250 | M=12
+   smallest raw p = 1/251 = 0.00398 ; smallest Holm-adjusted p over the family = 12/251 = 0.04781 ; rejection at 0.05 attainable: True
+   max exceedances still rejected at sorted rank 1..12 (ge ceiling): [0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 5, 11]
+   reported ge counts: {'Amr': 0, 'Erj': 3, 'Hqq': 0, 'flk': 3, 'mdd': 1, 'nzl': 0, 'qdr': 0, 'sbH': 0, 'wsE': 0, 'wzn': 43, 'xlq': 0, 'zwj': 0}
+   adjusted p: {'Amr': '12/251', 'Erj': '12/251', 'Hqq': '12/251', 'flk': '12/251', 'mdd': '12/251', 'nzl': '12/251', 'qdr': '12/251', 'sbH': '12/251', 'wsE': '12/251', 'wzn': '44/251', 'xlq': '12/251', 'zwj': '12/251'}
+   rejected now: ['Amr', 'Erj', 'Hqq', 'flk', 'mdd', 'nzl', 'qdr', 'sbH', 'wsE', 'xlq', 'zwj']
+   largest exceedance count (out of B) at which each hypothesis would still be rejected, others held at their reported counts (None = cannot be rejected at any count): {'Amr': 2, 'Erj': 5, 'Hqq': 2, 'flk': 5, 'mdd': 2, 'nzl': 2, 'qdr': 2, 'sbH': 2, 'wsE': 2, 'wzn': 11, 'xlq': 2, 'zwj': 2}
+   if every test in the family had 1 exceedances (of 250), none would be rejected
+   if every test had 1 exceedances, not all would be rejected (largest uniform count that still rejects all: 0)
+== lexicon 12 per-root lemma tests (Sahih) | B=2000 | M=12
+   smallest raw p = 1/2001 = 0.00050 ; smallest Holm-adjusted p over the family = 12/2001 = 0.00600 ; rejection at 0.05 attainable: True
+   max exceedances still rejected at sorted rank 1..12 (ge ceiling): [7, 8, 9, 10, 11, 13, 15, 19, 24, 32, 49, 99]
+== lexicon 12 per-root lemma tests (Pickthall) | B=250 | M=12
+   smallest raw p = 1/251 = 0.00398 ; smallest Holm-adjusted p over the family = 12/251 = 0.04781 ; rejection at 0.05 attainable: True
+   max exceedances still rejected at sorted rank 1..12 (ge ceiling): [0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 5, 11]
+   reported ge counts: {'Amr': 1, 'Erj': 6, 'Hqq': 0, 'flk': 3, 'mdd': 0, 'nzl': 0, 'qdr': 0, 'sbH': 0, 'wsE': 0, 'wzn': 97, 'xlq': 0, 'zwj': 0}
+   adjusted p: {'Amr': '12/251', 'Erj': '14/251', 'Hqq': '12/251', 'flk': '12/251', 'mdd': '12/251', 'nzl': '12/251', 'qdr': '12/251', 'sbH': '12/251', 'wsE': '12/251', 'wzn': '98/251', 'xlq': '12/251', 'zwj': '12/251'}
+   rejected now: ['Amr', 'Hqq', 'flk', 'mdd', 'nzl', 'qdr', 'sbH', 'wsE', 'xlq', 'zwj']
+   largest exceedance count (out of B) at which each hypothesis would still be rejected, others held at their reported counts (None = cannot be rejected at any count): {'Amr': 2, 'Erj': 5, 'Hqq': 2, 'flk': 3, 'mdd': 2, 'nzl': 2, 'qdr': 2, 'sbH': 2, 'wsE': 2, 'wzn': 5, 'xlq': 2, 'zwj': 2}
+   if every test in the family had 1 exceedances (of 250), none would be rejected
+   if every test had 1 exceedances, not all would be rejected (largest uniform count that still rejects all: 0)
+== lexicon 12 per-root lemma tests (Pickthall) | B=2000 | M=12
+   smallest raw p = 1/2001 = 0.00050 ; smallest Holm-adjusted p over the family = 12/2001 = 0.00600 ; rejection at 0.05 attainable: True
+   max exceedances still rejected at sorted rank 1..12 (ge ceiling): [7, 8, 9, 10, 11, 13, 15, 19, 24, 32, 49, 99]

@@ -1,0 +1,33 @@
+name: verify
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    name: Offline verifier, 3 isolated modes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run verifier in 3 isolated modes and compare stdout hashes
+        run: |
+          set -eu
+          python3 -I -B verify_all_standalone.py > /tmp/verify-mode1.txt
+          python3 -I -O -B verify_all_standalone.py > /tmp/verify-mode2.txt
+          python3 -I -B -W error verify_all_standalone.py > /tmp/verify-mode3.txt
+          sha256sum /tmp/verify-mode1.txt /tmp/verify-mode2.txt /tmp/verify-mode3.txt
+          test "$(sha256sum < /tmp/verify-mode1.txt)" = "$(sha256sum < /tmp/verify-mode2.txt)"
+          test "$(sha256sum < /tmp/verify-mode1.txt)" = "$(sha256sum < /tmp/verify-mode3.txt)"
+          cat /tmp/verify-mode1.txt
