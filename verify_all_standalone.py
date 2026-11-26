@@ -5,17 +5,19 @@ Portable Zero-Dependency Verifier for Foundation-0/bayt-al-hikma.
 Supports two explicitly distinguished modes:
 
 1. Offline mode (default):
-   - Verifies exact SHA-256 parity on all 20/20 pinned repository files
-     (fetch_corpora.py, PREREGISTERED_HYPOTHESES.md, and all 18 study files).
+   - Verifies exact SHA-256 parity on all 47/47 pinned repository files
+     (fetch_corpora.py, PREREGISTERED_HYPOTHESES.md, test_verify_all_standalone.py,
+     and all 44 study files).
    - Verifies fetch_corpora.py --manifest-json parses strictly zero-float
      (9 pinned primary corpora) and matches its pinned digest.
-   - Recomputes every mathematical claim in polymath-lineage/ and
-     veins-and-branches/ from scratch under isolated `-I -B -W error` and
-     confirms byte-identical parity with their committed JSON certificates.
+   - Recomputes every mathematical claim in polymath-lineage/,
+     veins-and-branches/, heritage-corpus-atlas/, heritage-exact-operators/,
+     and raw-arabic-scientific-mesh/ from scratch under isolated `-I -B -W error`
+     and confirms byte-identical parity with their committed JSON certificates.
    - Runs arabic-continuum/ and arabic-lexicon/ in `--standalone` mode
      (pinned-fixture invariant replay; reads NO corpus file;
      `arabic_live_corpora_recounted: false`).
-   - Runs all 4 assertion-free R5 + known-answer test suites under
+   - Runs all 7 assertion-free R5 + known-answer test suites under
      `-I -O -B -W error`.
 
 2. Live corpus recount mode (`--live` or `--corpus-dir <path>`):
@@ -45,10 +47,13 @@ REPO_ROOT = Path(__file__).resolve().parent
 
 ROOT_FILES_EXPECTED_SHA256: dict[str, str] = {
     "PREREGISTERED_HYPOTHESES.md": (
-        "a28633cb95e66f6b8eb5e1d7cb9224f0ac95ad7aa191edbe8e5532cb08b2468d"
+        "8513d403963041c6996818218f4d6f389bd92fd2c048f1fc4b99119c7f2087b7"
     ),
     "fetch_corpora.py": (
         "606353db2207ea75ad20d7b5f5b1f608242f617cae81ce8d434c5172d59677e0"
+    ),
+    "test_verify_all_standalone.py": (
+        "d7dd972b973cde38886261ae2ffa3a397b5010543d667568e2cd12c8a6ddc83b"
     ),
 }
 
@@ -75,7 +80,7 @@ STUDY_SPECS: tuple[dict[str, Any], ...] = (
         ),
         "expected_file_sha256": {
             "ARABIC_CONTINUUM_AUDIT_REPORT.md": (
-                "e809204ecde8a0f6fd93b36f18e615552a6f348961ec62d2c7a55038306268a6"
+                "1bbd30afb89d91585c6c31112afe9e8fea9e05246623786fb929e9b0f543ded4"
             ),
             "arabic_continuum_audit.py": (
                 "3f3aa47dad6397d6a4a5bef954d23a5bfa8eb5431a6d5b6d17f17a49eb4932ee"
@@ -177,6 +182,132 @@ STUDY_SPECS: tuple[dict[str, Any], ...] = (
             ),
             "test_bayt_al_hikma_veins_r5.py": (
                 "9405cadf70dc3dc26f99a6279aaca1f5713a603fa7af7797e9f7c7c809afb4f9"
+            ),
+        },
+    },
+    {
+        "audit_id": "HERITAGE-ATLAS",
+        "study_dir": "heritage-corpus-atlas",
+        "cert_script": "verify_s89_heritage_atlas.py",
+        "cert_args": ["--standalone"],
+        "test_script": "test_s89_heritage_atlas_r5.py",
+        "committed_certificate_file": "s89_heritage_atlas_certificate.json",
+        "recomputes_from_scratch_offline": True,
+        "supports_live_corpus_recount": False,
+        "expected_standalone_stdout_sha256": (
+            "34a9cb772c623ea046d9739c10fdad8111dce10ad6b3c0c866b18263f152d3e4"
+        ),
+        "expected_live_stdout_sha256": None,
+        "expected_file_sha256": {
+            "ClassicalHeritageAtlas.lean": (
+                "83274dde83f2aa8cc5629b4509e9ff8e755ae724bc6f5d6f00d106bec3212cab"
+            ),
+            "REPORT.md": (
+                "1acf523a922c88bf3a5b50aabd9aeaa496d82a4fdaee9b13407f6693a5dbcfcb"
+            ),
+            "lakefile.toml": (
+                "40cebcde95ef89e4034c818723423eaed660e6a957930e608b8586315343891b"
+            ),
+            "lean-toolchain": (
+                "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a"
+            ),
+            "s89_heritage_atlas_certificate.json": (
+                "34a9cb772c623ea046d9739c10fdad8111dce10ad6b3c0c866b18263f152d3e4"
+            ),
+            "s89_heritage_atlas_oracle.py": (
+                "b37f0b5218306edc65e26f3559718b715be6306ec80bc252b2b848890ef4649f"
+            ),
+            "test_s89_heritage_atlas_r5.py": (
+                "0f5ae4fbed0eb1d51c8d1513f5678a6ee484237dc615371f9ecc98ede40c1bc8"
+            ),
+            "verify_s89_heritage_atlas.py": (
+                "e94624db16d4a528f2eb897b39fb5f28ad8b8a06056461c5710d3abd168084c3"
+            ),
+        },
+    },
+    {
+        "audit_id": "HERITAGE-OPS",
+        "study_dir": "heritage-exact-operators",
+        "cert_script": "verify_s90_heritage_operators.py",
+        "cert_args": ["--standalone"],
+        "test_script": "test_s90_heritage_operators_r5.py",
+        "committed_certificate_file": "s90_heritage_operators_certificate.json",
+        "recomputes_from_scratch_offline": True,
+        "supports_live_corpus_recount": False,
+        "expected_standalone_stdout_sha256": (
+            "51430e59d32471e0cbafd3836a8d4438511a41fc89aac5594a9b9b1adcddd2bd"
+        ),
+        "expected_live_stdout_sha256": None,
+        "expected_file_sha256": {
+            "HeritageExactOperators.lean": (
+                "4ac15befb87c774d6fa114e2b864639c68c32f5e170c65e3b6af2ef472cfede3"
+            ),
+            "REPORT.md": (
+                "4ab46f8315774158a343d37ee613689cb6bb2c400585d1d2e6bc8b2bd46c2fca"
+            ),
+            "lakefile.toml": (
+                "70df68cd815c757ccb7461560b9765c2f206313449a0cbe3759ab5a42501dac9"
+            ),
+            "lean-toolchain": (
+                "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a"
+            ),
+            "s90_heritage_operators_certificate.json": (
+                "51430e59d32471e0cbafd3836a8d4438511a41fc89aac5594a9b9b1adcddd2bd"
+            ),
+            "s90_heritage_operators_oracle.py": (
+                "222120eabcb2b478ca8210e0b1f1abf6e252aa83989cf3feaf26035fc6500aaf"
+            ),
+            "test_s90_heritage_operators_r5.py": (
+                "a3f74718261b80a0ce57e017aa527c2a8dc59b50312ab1dadce1387e8d8df571"
+            ),
+            "verify_s90_heritage_operators.py": (
+                "a1782054c798f252bbf98ddcff82c8a1ff0c674b342d97fae5d2d2fc6ffc1551"
+            ),
+        },
+    },
+    {
+        "audit_id": "ARABIC-MESH",
+        "study_dir": "raw-arabic-scientific-mesh",
+        "cert_script": "verify_s92_raw_arabic_mesh.py",
+        "cert_args": ["--standalone"],
+        "test_script": "test_s92_raw_arabic_mesh_r5.py",
+        "committed_certificate_file": "s92_raw_arabic_mesh_certificate.json",
+        "recomputes_from_scratch_offline": True,
+        "supports_live_corpus_recount": False,
+        "expected_standalone_stdout_sha256": (
+            "687ef58006d5032692af01c8607d5c0c0f873f925cbd1bed4c43eb8fe9f0bfb9"
+        ),
+        "expected_live_stdout_sha256": None,
+        "expected_file_sha256": {
+            "REPORT.md": (
+                "47562abc925bfb74fd821439c8cbb66bddbb4449e89e36e19ddecd67b7a250c4"
+            ),
+            "RawArabicHigherOrderMesh.lean": (
+                "5218f72990f82c8aedd948daeac0bd105349dcc41848a455c824933a71235486"
+            ),
+            "lakefile.toml": (
+                "f4cccdd80678ecc5aa12fdc85f19ab8eee1f784f49c514c76b6329c7d24fcf40"
+            ),
+            "lean-toolchain": (
+                "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a"
+            ),
+            "s92_raw_arabic_anchor.json": (
+                "eeffe3c912d8f4037b5e04cfc06abbe6fd9145802ca9009ac0a2ae184621db89"
+            ),
+            "s92_raw_arabic_capture.py": (
+                "2fe9edbf5055a205cf1fa454746548487c1e98f22ee37caa27209551cbed9c58"
+            ),
+            "s92_raw_arabic_mesh_certificate.json": (
+                "687ef58006d5032692af01c8607d5c0c0f873f925cbd1bed4c43eb8fe9f0bfb9"
+            ),
+            "s92_raw_arabic_mesh_oracle.py": (
+                "1c3bf140a065a4a584599b1d6ab64faec9655dc0c42014275c390ecd8023aac4"
+            ),
+            "test_s92_raw_arabic_mesh_r5.py": (
+                "0f63459d875981d01af0a0638e77092aaff91dded258304537a68eb684dad38b"
+            ),
+            "verify_s92_raw_arabic_mesh.py": (
+                "f5d736ecf50e36eda4fcd71cf528cf804650d0de9bd7d0e82da4df3b8c588965"
             ),
         },
     },
@@ -314,6 +445,11 @@ def verify_study(
 ) -> dict[str, Any]:
     study_path = repo_root / spec["study_dir"]
     errors: list[str] = []
+    offline_scope = (
+        "recomputed_from_scratch_pure_q"
+        if spec["recomputes_from_scratch_offline"]
+        else "pinned_fixture_replay_no_corpus_read"
+    )
 
     if not study_path.is_dir():
         return {
@@ -321,6 +457,7 @@ def verify_study(
             "study_dir": spec["study_dir"],
             "passed": False,
             "files_verified": 0,
+            "offline_scope": offline_scope,
             "recomputes_from_scratch_offline": spec["recomputes_from_scratch_offline"],
             "live_corpus_recounted": False,
             "errors": [f"MISSING_STUDY_DIR: {spec['study_dir']}"],
@@ -359,6 +496,7 @@ def verify_study(
             "study_dir": spec["study_dir"],
             "passed": False,
             "files_verified": files_verified,
+            "offline_scope": offline_scope,
             "recomputes_from_scratch_offline": spec["recomputes_from_scratch_offline"],
             "live_corpus_recounted": False,
             "errors": errors,
@@ -442,11 +580,6 @@ def verify_study(
     if test_proc.returncode != 0:
         errors.append(f"R5_TEST_NONZERO_EXIT: rc={test_proc.returncode}")
 
-    offline_scope = (
-        "recomputed_from_scratch_pure_q"
-        if spec["recomputes_from_scratch_offline"]
-        else "pinned_fixture_replay_no_corpus_read"
-    )
     return {
         "audit_id": spec["audit_id"],
         "study_dir": spec["study_dir"],
@@ -554,8 +687,10 @@ def main(argv: list[str] | None = None) -> int:
         )
         if not use_live:
             print(
-                "NOTE: Offline mode recomputes polymath-lineage & veins-and-branches from scratch, "
-                "and replays pinned fixtures (reading NO corpus text) for arabic-continuum & arabic-lexicon."
+                "NOTE: Offline mode recomputes polymath-lineage, veins-and-branches, "
+                "heritage-corpus-atlas, heritage-exact-operators & raw-arabic-scientific-mesh "
+                "from scratch, and replays pinned fixtures (reading NO corpus text) for "
+                "arabic-continuum & arabic-lexicon."
             )
             print(
                 "      Run `python3 fetch_corpora.py --dest ./corpora && "
@@ -568,9 +703,12 @@ def main(argv: list[str] | None = None) -> int:
             sha16 = r.get("standalone_stdout_sha256", "")[:16]
             live_part = ""
             if use_live and r.get("live_stdout_sha256") is not None:
-                live_part = f" live_sha256={r['live_stdout_sha256'][:16]} live_rc={r['live_rc']}"
+                live_part = (
+                    f" live_sha256={r.get('live_stdout_sha256', '')[:16]}"
+                    f" live_rc={r.get('live_rc')}"
+                )
             print(
-                f"  [{tag}] {r['audit_id']} ({r['study_dir']}, {r['offline_scope']}): "
+                f"  [{tag}] {r['audit_id']} ({r['study_dir']}, {r.get('offline_scope', 'unknown')}): "
                 f"files={r.get('files_verified', 0)} sha256={sha16} "
                 f"cert_rc={r.get('cert_rc')}{live_part} test_rc={r.get('test_rc')}"
             )
