@@ -1,0 +1,6 @@
+name = "HeritageExactOperators"
+version = "0.1.0"
+defaultTargets = ["HeritageExactOperators"]
+
+[[lean_lib]]
+name = "HeritageExactOperators"

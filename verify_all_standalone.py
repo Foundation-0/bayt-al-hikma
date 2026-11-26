@@ -5,17 +5,18 @@ Portable Zero-Dependency Verifier for Foundation-0/bayt-al-hikma.
 Supports two explicitly distinguished modes:
 
 1. Offline mode (default):
-   - Verifies exact SHA-256 parity on all 20/20 pinned repository files
-     (fetch_corpora.py, PREREGISTERED_HYPOTHESES.md, and all 18 study files).
+   - Verifies exact SHA-256 parity on all 46/46 pinned repository files
+     (fetch_corpora.py, PREREGISTERED_HYPOTHESES.md, and all 44 study files).
    - Verifies fetch_corpora.py --manifest-json parses strictly zero-float
      (9 pinned primary corpora) and matches its pinned digest.
-   - Recomputes every mathematical claim in polymath-lineage/ and
-     veins-and-branches/ from scratch under isolated `-I -B -W error` and
-     confirms byte-identical parity with their committed JSON certificates.
+   - Recomputes every mathematical claim in polymath-lineage/,
+     veins-and-branches/, heritage-corpus-atlas/, heritage-exact-operators/,
+     and raw-arabic-scientific-mesh/ from scratch under isolated `-I -B -W error`
+     and confirms byte-identical parity with their committed JSON certificates.
    - Runs arabic-continuum/ and arabic-lexicon/ in `--standalone` mode
      (pinned-fixture invariant replay; reads NO corpus file;
      `arabic_live_corpora_recounted: false`).
-   - Runs all 4 assertion-free R5 + known-answer test suites under
+   - Runs all 7 assertion-free R5 + known-answer test suites under
      `-I -O -B -W error`.
 
 2. Live corpus recount mode (`--live` or `--corpus-dir <path>`):
@@ -45,7 +46,7 @@ REPO_ROOT = Path(__file__).resolve().parent
 
 ROOT_FILES_EXPECTED_SHA256: dict[str, str] = {
     "PREREGISTERED_HYPOTHESES.md": (
-        "a28633cb95e66f6b8eb5e1d7cb9224f0ac95ad7aa191edbe8e5532cb08b2468d"
+        "7ac83a49d63e56c0e8381ecdd12640344df877d03c67ae4e808824895e16be14"
     ),
     "fetch_corpora.py": (
         "606353db2207ea75ad20d7b5f5b1f608242f617cae81ce8d434c5172d59677e0"
@@ -75,7 +76,7 @@ STUDY_SPECS: tuple[dict[str, Any], ...] = (
         ),
         "expected_file_sha256": {
             "ARABIC_CONTINUUM_AUDIT_REPORT.md": (
-                "e809204ecde8a0f6fd93b36f18e615552a6f348961ec62d2c7a55038306268a6"
+                "1bbd30afb89d91585c6c31112afe9e8fea9e05246623786fb929e9b0f543ded4"
             ),
             "arabic_continuum_audit.py": (
                 "3f3aa47dad6397d6a4a5bef954d23a5bfa8eb5431a6d5b6d17f17a49eb4932ee"
@@ -177,6 +178,132 @@ STUDY_SPECS: tuple[dict[str, Any], ...] = (
             ),
             "test_bayt_al_hikma_veins_r5.py": (
                 "9405cadf70dc3dc26f99a6279aaca1f5713a603fa7af7797e9f7c7c809afb4f9"
+            ),
+        },
+    },
+    {
+        "audit_id": "HERITAGE-ATLAS",
+        "study_dir": "heritage-corpus-atlas",
+        "cert_script": "verify_s89_heritage_atlas.py",
+        "cert_args": ["--standalone"],
+        "test_script": "test_s89_heritage_atlas_r5.py",
+        "committed_certificate_file": "s89_heritage_atlas_certificate.json",
+        "recomputes_from_scratch_offline": True,
+        "supports_live_corpus_recount": False,
+        "expected_standalone_stdout_sha256": (
+            "d91b7fca5433970008af865572436e61f17891c7e3cbd26790370966ec0c293c"
+        ),
+        "expected_live_stdout_sha256": None,
+        "expected_file_sha256": {
+            "ClassicalHeritageAtlas.lean": (
+                "afd694b95e16f1badbae8ccf72c328501be6ab9bc6101b4c3fdea2a183d8cba8"
+            ),
+            "REPORT.md": (
+                "33332d22d0b1f56ac6b5813aada68bb65207d96ab1ef82b07df429d6c587670c"
+            ),
+            "lakefile.toml": (
+                "40cebcde95ef89e4034c818723423eaed660e6a957930e608b8586315343891b"
+            ),
+            "lean-toolchain": (
+                "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a"
+            ),
+            "s89_heritage_atlas_certificate.json": (
+                "d91b7fca5433970008af865572436e61f17891c7e3cbd26790370966ec0c293c"
+            ),
+            "s89_heritage_atlas_oracle.py": (
+                "777513b58524539935ee8789f01a99f71110ae8d3d29119ce589be82dc1347fb"
+            ),
+            "test_s89_heritage_atlas_r5.py": (
+                "0f5ae4fbed0eb1d51c8d1513f5678a6ee484237dc615371f9ecc98ede40c1bc8"
+            ),
+            "verify_s89_heritage_atlas.py": (
+                "e94624db16d4a528f2eb897b39fb5f28ad8b8a06056461c5710d3abd168084c3"
+            ),
+        },
+    },
+    {
+        "audit_id": "HERITAGE-OPS",
+        "study_dir": "heritage-exact-operators",
+        "cert_script": "verify_s90_heritage_operators.py",
+        "cert_args": ["--standalone"],
+        "test_script": "test_s90_heritage_operators_r5.py",
+        "committed_certificate_file": "s90_heritage_operators_certificate.json",
+        "recomputes_from_scratch_offline": True,
+        "supports_live_corpus_recount": False,
+        "expected_standalone_stdout_sha256": (
+            "51430e59d32471e0cbafd3836a8d4438511a41fc89aac5594a9b9b1adcddd2bd"
+        ),
+        "expected_live_stdout_sha256": None,
+        "expected_file_sha256": {
+            "HeritageExactOperators.lean": (
+                "4ac15befb87c774d6fa114e2b864639c68c32f5e170c65e3b6af2ef472cfede3"
+            ),
+            "REPORT.md": (
+                "2c31524d2bafeff2cfde62b7b3a9bd8dd173faf879d5f8834d4eb86c5b19926e"
+            ),
+            "lakefile.toml": (
+                "70df68cd815c757ccb7461560b9765c2f206313449a0cbe3759ab5a42501dac9"
+            ),
+            "lean-toolchain": (
+                "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a"
+            ),
+            "s90_heritage_operators_certificate.json": (
+                "51430e59d32471e0cbafd3836a8d4438511a41fc89aac5594a9b9b1adcddd2bd"
+            ),
+            "s90_heritage_operators_oracle.py": (
+                "222120eabcb2b478ca8210e0b1f1abf6e252aa83989cf3feaf26035fc6500aaf"
+            ),
+            "test_s90_heritage_operators_r5.py": (
+                "a3f74718261b80a0ce57e017aa527c2a8dc59b50312ab1dadce1387e8d8df571"
+            ),
+            "verify_s90_heritage_operators.py": (
+                "a1782054c798f252bbf98ddcff82c8a1ff0c674b342d97fae5d2d2fc6ffc1551"
+            ),
+        },
+    },
+    {
+        "audit_id": "ARABIC-MESH",
+        "study_dir": "raw-arabic-scientific-mesh",
+        "cert_script": "verify_s92_raw_arabic_mesh.py",
+        "cert_args": ["--standalone"],
+        "test_script": "test_s92_raw_arabic_mesh_r5.py",
+        "committed_certificate_file": "s92_raw_arabic_mesh_certificate.json",
+        "recomputes_from_scratch_offline": True,
+        "supports_live_corpus_recount": False,
+        "expected_standalone_stdout_sha256": (
+            "687ef58006d5032692af01c8607d5c0c0f873f925cbd1bed4c43eb8fe9f0bfb9"
+        ),
+        "expected_live_stdout_sha256": None,
+        "expected_file_sha256": {
+            "REPORT.md": (
+                "47562abc925bfb74fd821439c8cbb66bddbb4449e89e36e19ddecd67b7a250c4"
+            ),
+            "RawArabicHigherOrderMesh.lean": (
+                "5218f72990f82c8aedd948daeac0bd105349dcc41848a455c824933a71235486"
+            ),
+            "lakefile.toml": (
+                "f4cccdd80678ecc5aa12fdc85f19ab8eee1f784f49c514c76b6329c7d24fcf40"
+            ),
+            "lean-toolchain": (
+                "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a"
+            ),
+            "s92_raw_arabic_anchor.json": (
+                "eeffe3c912d8f4037b5e04cfc06abbe6fd9145802ca9009ac0a2ae184621db89"
+            ),
+            "s92_raw_arabic_capture.py": (
+                "2fe9edbf5055a205cf1fa454746548487c1e98f22ee37caa27209551cbed9c58"
+            ),
+            "s92_raw_arabic_mesh_certificate.json": (
+                "687ef58006d5032692af01c8607d5c0c0f873f925cbd1bed4c43eb8fe9f0bfb9"
+            ),
+            "s92_raw_arabic_mesh_oracle.py": (
+                "1c3bf140a065a4a584599b1d6ab64faec9655dc0c42014275c390ecd8023aac4"
+            ),
+            "test_s92_raw_arabic_mesh_r5.py": (
+                "0f63459d875981d01af0a0638e77092aaff91dded258304537a68eb684dad38b"
+            ),
+            "verify_s92_raw_arabic_mesh.py": (
+                "f5d736ecf50e36eda4fcd71cf528cf804650d0de9bd7d0e82da4df3b8c588965"
             ),
         },
     },
@@ -554,8 +681,10 @@ def main(argv: list[str] | None = None) -> int:
         )
         if not use_live:
             print(
-                "NOTE: Offline mode recomputes polymath-lineage & veins-and-branches from scratch, "
-                "and replays pinned fixtures (reading NO corpus text) for arabic-continuum & arabic-lexicon."
+                "NOTE: Offline mode recomputes polymath-lineage, veins-and-branches, "
+                "heritage-corpus-atlas, heritage-exact-operators & raw-arabic-scientific-mesh "
+                "from scratch, and replays pinned fixtures (reading NO corpus text) for "
+                "arabic-continuum & arabic-lexicon."
             )
             print(
                 "      Run `python3 fetch_corpora.py --dest ./corpora && "

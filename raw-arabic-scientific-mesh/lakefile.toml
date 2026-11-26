@@ -1,0 +1,7 @@
+name = "raw_arabic_higher_order_mesh"
+version = "0.1.0"
+defaultTargets = ["RawArabicHigherOrderMesh"]
+
+[[lean_lib]]
+name = "RawArabicHigherOrderMesh"
+roots = ["RawArabicHigherOrderMesh"]
