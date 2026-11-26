@@ -1,0 +1,304 @@
+{
+  "all_passed": true,
+  "anti_theater_rejections": [
+    {
+      "case": "prose_missing_conjecture",
+      "expected_code": "THEATER_MISSING_FIELD",
+      "observed_code": "THEATER_MISSING_FIELD",
+      "rejected_as_expected": true
+    },
+    {
+      "case": "empty_test_cases",
+      "expected_code": "THEATER_EMPTY_SPEC",
+      "observed_code": "THEATER_EMPTY_SPEC",
+      "rejected_as_expected": true
+    },
+    {
+      "case": "trivial_constant_true_oracle",
+      "expected_code": "THEATER_TRIVIAL_ORACLE",
+      "observed_code": "THEATER_TRIVIAL_ORACLE",
+      "rejected_as_expected": true
+    },
+    {
+      "case": "float_literal_in_oracle",
+      "expected_code": "SANDBOX_FLOAT_FORBIDDEN",
+      "observed_code": "SANDBOX_FLOAT_FORBIDDEN",
+      "rejected_as_expected": true
+    },
+    {
+      "case": "seat0_missing_interpositions",
+      "expected_code": "THEATER_MISSING_INTERPOSITIONS",
+      "observed_code": "THEATER_MISSING_INTERPOSITIONS",
+      "rejected_as_expected": true
+    }
+  ],
+  "certificate_sha256": "67e2bf162fd97354af4d9b3859787ac79796f62d8a92116f095ad2aecba1fced",
+  "dry_run_session": {
+    "chair": "aletheia",
+    "counterexample_repairs": [
+      {
+        "broken_turn": "R1-SEAT-4",
+        "repaired_turn": "R2-SEAT-0"
+      }
+    ],
+    "cross_seat_compositions": [
+      {
+        "dst_turn": "R2-SEAT-0",
+        "src_turn": "R1-SEAT-4"
+      },
+      {
+        "dst_turn": "R2-SEAT-5",
+        "src_turn": "R1-SEAT-0"
+      },
+      {
+        "dst_turn": "R3-SEAT-6",
+        "src_turn": "R2-SEAT-5"
+      }
+    ],
+    "dag_edges": [
+      {
+        "dst_seat_id": "SEAT-0",
+        "dst_turn_id": "R2-SEAT-0",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "repair",
+        "src_seat_id": "SEAT-4",
+        "src_turn_id": "R1-SEAT-4",
+        "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+      },
+      {
+        "dst_seat_id": "SEAT-5",
+        "dst_turn_id": "R2-SEAT-5",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "SEAT-0",
+        "src_turn_id": "R1-SEAT-0",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "SEAT-6",
+        "dst_turn_id": "R3-SEAT-6",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "SEAT-5",
+        "src_turn_id": "R2-SEAT-5",
+        "src_verdict": "PASS_WITNESS"
+      }
+    ],
+    "historical_to_modern_edges": [
+      {
+        "aletheia_turn": "R2-SEAT-0",
+        "historical_turn": "R1-SEAT-4"
+      }
+    ],
+    "max_dag_depth": 3,
+    "minimal_counterexample_count": 1,
+    "modern_to_historical_edges": [
+      {
+        "aletheia_turn": "R1-SEAT-0",
+        "historical_turn": "R2-SEAT-5"
+      }
+    ],
+    "pass_witness_count": 4,
+    "s150_g2_dynamic_compounding_passed": true,
+    "s150_g5_bidirectional_pollination_passed": true,
+    "session_id": "SEMINAR-DRYRUN-PILOT0-ARM-A-PLUS",
+    "topic_id": "TOPIC-1-CONTINUUM",
+    "transcript_sha256": "d577f2b258e23025095f67ca302a52e09fd13ae756df8a895ac64f0e0c68144f",
+    "turn_count": 5,
+    "turn_records": [
+      {
+        "dag_depth": 1,
+        "interpositions_count": 3,
+        "mode": "compose",
+        "round_num": 1,
+        "seat_id": "SEAT-0",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "SEAT-5",
+        "turn_id": "R1-SEAT-0",
+        "verdict": {
+          "conjecture_id": "CONJ-R1-SEAT0-CAYLEY-NORM",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 3,
+          "status": "PASS_WITNESS",
+          "total_cases": 3,
+          "verdict_sha256": "eac712789fb8fd839ef3f1d02737ce0cd22f92747904d5f341915bbe3c6e630f"
+        }
+      },
+      {
+        "dag_depth": 1,
+        "interpositions_count": 0,
+        "mode": "challenge",
+        "round_num": 1,
+        "seat_id": "SEAT-4",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "SEAT-0",
+        "turn_id": "R1-SEAT-4",
+        "verdict": {
+          "conjecture_id": "CONJ-R1-INCOMPLETE-CRT",
+          "failing_case_index": 1,
+          "failure_reason": "PREDICATE_RETURNED_FALSE",
+          "minimal_counterexample": {
+            "a": 0,
+            "b": 0,
+            "c": 1,
+            "m1": 260,
+            "m2": 365,
+            "m3": 584
+          },
+          "passed_cases": 1,
+          "status": "MINIMAL_COUNTEREXAMPLE",
+          "total_cases": 2,
+          "verdict_sha256": "e62d778142096d1501bc5d7107993b911faf2b60cf42a2bf0a0f9a615808eece"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 3,
+        "mode": "repair",
+        "round_num": 2,
+        "seat_id": "SEAT-0",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-SEAT-4",
+        "turn_id": "R2-SEAT-0",
+        "verdict": {
+          "conjecture_id": "CONJ-R2-SEAT0-REPAIRED-CRT",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 3,
+          "status": "PASS_WITNESS",
+          "total_cases": 3,
+          "verdict_sha256": "a70a0994b256ddb60741278cdf4027c815454b68d112941e19a9b1904b83dfb2"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 2,
+        "seat_id": "SEAT-5",
+        "target_frontier": "Foundation-0/aletheion",
+        "target_seat_or_turn": "R1-SEAT-0",
+        "turn_id": "R2-SEAT-5",
+        "verdict": {
+          "conjecture_id": "CONJ-R2-SONA-CLOCK-ORBITS",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 4,
+          "status": "PASS_WITNESS",
+          "total_cases": 4,
+          "verdict_sha256": "f00e2215324523df9b28d0d530f035e7d4d2a84d48837a82e847341665babe55"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 3,
+        "seat_id": "SEAT-6",
+        "target_frontier": "Foundation-0/cave-expedition",
+        "target_seat_or_turn": "R2-SEAT-5",
+        "turn_id": "R3-SEAT-6",
+        "verdict": {
+          "conjecture_id": "CONJ-R3-SCHUR-BOUNDARY-CONDUCTANCE",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 3,
+          "status": "PASS_WITNESS",
+          "total_cases": 3,
+          "verdict_sha256": "11f22abe1a0144ba540e38ad6d80b075a8f29e8057cfb221ae621a369c1980a8"
+        }
+      }
+    ],
+    "variation": "scholars"
+  },
+  "energy_power_status": "UNCONTROLLED_LAPTOP_NOT_CLAIMED",
+  "local_interpose_probe": {
+    "backend": "local_exact_operator_catalog",
+    "hits": [
+      {
+        "gate_status": "EXACT_OPERATOR_VERIFIED",
+        "id": "repo:Foundation-0/aletheion",
+        "kind": "frontier_repo",
+        "org": "Foundation-0",
+        "score_q": "7/13",
+        "shared_operators": [
+          "non_coprime_crt",
+          "bounded_chatter_hysteresis",
+          "hierarchical_tree_checksum"
+        ]
+      },
+      {
+        "gate_status": "EXACT_OPERATOR_VERIFIED",
+        "id": "repo:Foundation-0/continuum",
+        "kind": "frontier_repo",
+        "org": "Foundation-0",
+        "score_q": "2/9",
+        "shared_operators": [
+          "cayley_unit_sphere_lift",
+          "fricke_commutator_discriminant",
+          "continued_fraction_transpose"
+        ]
+      },
+      {
+        "gate_status": "EXACT_OPERATOR_VERIFIED",
+        "id": "repo:Foundation-0/cave-expedition",
+        "kind": "frontier_repo",
+        "org": "Foundation-0",
+        "score_q": "2/11",
+        "shared_operators": [
+          "schur_complement_pushforward",
+          "gf2_parity_folding",
+          "mirror_billiard_gcd"
+        ]
+      }
+    ],
+    "matched_count": 3
+  },
+  "payload_sha256": "330d515f4a90ba189fdda50a2e6d06622dc2f1b32c92b71077e22e83703ef397",
+  "pure_q_ast_clean": true,
+  "schema": "bayt-al-hikma.socratic_operator_seminar.v1",
+  "variation_packs_summary": {
+    "arm_a_minus": {
+      "chair": "none",
+      "pack_sha256": "c91d695b28307ecf0429641a1e4304218a0f9ded6b4c10452bd71807b2a27056",
+      "seat_count": 6,
+      "variation": "scholars"
+    },
+    "arm_a_plus": {
+      "chair": "aletheia",
+      "pack_sha256": "765449298316071c50c6f382d8f991f1d05b74e612220586c7027c4f7c6b655c",
+      "seat_count": 7,
+      "variation": "scholars"
+    },
+    "arm_b_plus": {
+      "chair": "aletheia",
+      "pack_sha256": "1727ee1058abbe15f8fc25818424afa3f9bc5327ab5bbf08ed8998b49d75caea",
+      "seat_count": 7,
+      "variation": "civilizations"
+    },
+    "arm_c_plus": {
+      "chair": "aletheia",
+      "pack_sha256": "7ccbb196fb2739a6b2582b2c2ec63ccfca5c6cb3861643123bfb52a5e54cc002",
+      "seat_count": 7,
+      "variation": "operators"
+    },
+    "arm_c_pure": {
+      "chair": "none",
+      "pack_sha256": "c9a7b464833c88cb461d537dd6f0a79764d202f3c58f3b98ea32e1d6b33a35b0",
+      "seat_count": 6,
+      "variation": "operators"
+    },
+    "arm_d_single": {
+      "chair": "none",
+      "pack_sha256": "2c3bc9d9efcc197bbdaad782cff389c642b181190d3a5cd4dba0ad6103ac1bf9",
+      "seat_count": 1,
+      "variation": "single"
+    }
+  },
+  "zero_floats": true
+}

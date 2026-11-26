@@ -1,0 +1,5 @@
+name = "S150Pilot1Theorems"
+defaultTargets = ["S150Pilot1Theorems"]
+
+[[lean_lib]]
+name = "S150Pilot1Theorems"

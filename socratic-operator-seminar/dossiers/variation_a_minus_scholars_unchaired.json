@@ -1,0 +1,68 @@
+{
+  "chair": "none",
+  "pack_sha256": "c91d695b28307ecf0429641a1e4304218a0f9ded6b4c10452bd71807b2a27056",
+  "schema": "bayt-al-hikma.seminar_dossier_pack.v1",
+  "seat_count": 6,
+  "seats": [
+    {
+      "exact_operators": [
+        "Rational stereographic projection <-> Cayley S^2/S^3 lift",
+        "Subtractive cancellation condition number kappa_sub = 215989/11",
+        "Geodesy dip-angle amplification 1288000/616517"
+      ],
+      "seat_id": "SEAT-1",
+      "signature_lens": "Exact rational spherical projection, conditioning/cancellation audits, empirical-to-exact bridges",
+      "title": "Abu Rayhan al-Biruni (973-1048)"
+    },
+    {
+      "exact_operators": [
+        "Antya-samskara rational remainder hierarchy R1, R2, R3 (O(1/n^3)->O(1/n^5)->O(1/n^7))",
+        "Al-Kashi 16-digit rational pi outer bracket"
+      ],
+      "seat_id": "SEAT-2",
+      "signature_lens": "Asymptotic rational tail-acceleration and alternating-series enclosures",
+      "title": "Madhava of Sangamagrama (c. 1340-1425)"
+    },
+    {
+      "exact_operators": [
+        "14 Sivasutras Consecutive-Ones Property (C1P) minimal interval cover over 43 pratyaharas",
+        "Pingala nasta/uddista binary bijection and O(log n) exponentiation"
+      ],
+      "seat_id": "SEAT-3",
+      "signature_lens": "Minimal sufficient partitions (C1P), generative compression, binary/Gray bijections",
+      "title": "Panini (c. 5th c. BCE) & Pingala Prosodic Lens"
+    },
+    {
+      "exact_operators": [
+        "Jiuzhang Ch. 8 fangcheng fraction-free Z elimination",
+        "Qin Jiushao Dayan non-coprime CRT and 260/365/584 lcm = 37960 (1460x compression)",
+        "Zu Chongzhi 355/113 exhaustive optimality over 1 <= q <= 16603",
+        "Bilinear friction-hysteresis damping"
+      ],
+      "seat_id": "SEAT-4",
+      "signature_lens": "Non-coprime modular arithmetic, fraction-free linear algebra, Hurwitz CF, passive hysteresis",
+      "title": "Qin Jiushao (1202-1261), Zu Chongzhi & Jiuzhang"
+    },
+    {
+      "exact_operators": [
+        "Hierarchical tree-sum conservation and single-cord tamper detection",
+        "Radial-ring cut survival and rocking dissipation bounds",
+        "Chokwe Sona mirror-curve theorem loop_count(m,n) == gcd(m,n) and GF(2) parity"
+      ],
+      "seat_id": "SEAT-5",
+      "signature_lens": "Non-prose topological tree-checksums, chirality parity, Eulerian winding, GF(2) codes",
+      "title": "Master Khipukamayuq & Chokwe Sona Geometer"
+    },
+    {
+      "exact_operators": [
+        "Ibn al-Nafis Schur pushforward readable-record symmetry break",
+        "Spinor-Hippopede order-3 BCH commutator suppression",
+        "Antikythera 254/19, 223/19, 53-tooth epicycle and hydraulic Schur conductance"
+      ],
+      "seat_id": "SEAT-6",
+      "signature_lens": "Schur complement conductance elimination, mechanical phase-locking, bounded-dissipation control",
+      "title": "Ibn al-Nafis, Al-Jazari & Antikythera Master Mechanic"
+    }
+  ],
+  "variation": "scholars"
+}

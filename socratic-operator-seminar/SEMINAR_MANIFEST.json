@@ -1,0 +1,176 @@
+{
+  "energy_power_status": "UNCONTROLLED_LAPTOP_NOT_CLAIMED",
+  "file_count": 42,
+  "files": {
+    "README.md": {
+      "bytes": 16903,
+      "sha256": "87c9d922a577fe8ca7e0dedfebe549fd95f4170ce797b68196298da361ba3f2a"
+    },
+    "ablation_transcripts/arm_a_minus.json": {
+      "bytes": 197938,
+      "sha256": "7881768720032b9904b7b909e673945e0eb94eaeb65fc7903c4b41ff11409ab5"
+    },
+    "ablation_transcripts/arm_b_plus.json": {
+      "bytes": 197853,
+      "sha256": "5c5bc553298f7b94430232d1dc6a13a89336e54b423f4a614c2a183cdbc88b1f"
+    },
+    "ablation_transcripts/arm_c_plus.json": {
+      "bytes": 184258,
+      "sha256": "00a8f61f26fb77d759eac829dca27ee6d18c1ab63ff0ee477a00ae41f7d568f2"
+    },
+    "ablation_transcripts/arm_d.json": {
+      "bytes": 125426,
+      "sha256": "83369f8aa7269f52274522e83aca43a7adf3dceee8af3c634e8cd0f602f9991f"
+    },
+    "ablation_transcripts/provenance_map.json": {
+      "bytes": 42747,
+      "sha256": "aab295d3e0c07f6144ec3a2f95ed46740f68f1bf0b599ba4c575e861c083b3f0"
+    },
+    "certificates/ablation_scorecard_certificate.json": {
+      "bytes": 13790,
+      "sha256": "436ec03628a6f7ba00286c1297f4a39f36037735ca0fca0f81f16164a5f8f288"
+    },
+    "certificates/pilot1_theorems_certificate.json": {
+      "bytes": 9330,
+      "sha256": "bf1a1b7f18fdc57ea58ad1a95eae80a2e10a6035447fd38ebed7ad31a544e8d2"
+    },
+    "certificates/seminar_harness_certificate.json": {
+      "bytes": 9305,
+      "sha256": "552467381026f06c74ebb804c3fdeeee0d97cb12e615734841e454326412fa27"
+    },
+    "dossiers/pilot1_prompts_arm_a_plus.json": {
+      "bytes": 19971,
+      "sha256": "2023f894b05d6ed8b134436b8cc98b975afb406b9f71546dfba3ffdf29d89305"
+    },
+    "dossiers/seat0_aletheia_scholar.json": {
+      "bytes": 1525,
+      "sha256": "8d2aab98c48f2da9265d51ef345e550faff8ef8d7f9530b2b5d012ea980793c9"
+    },
+    "dossiers/variation_a_minus_scholars_unchaired.json": {
+      "bytes": 3000,
+      "sha256": "06ee0db7653c763992808344441bca1b5d769704839c8eda065c0a666e84133b"
+    },
+    "dossiers/variation_a_plus_scholars_chaired.json": {
+      "bytes": 4415,
+      "sha256": "226e5f7910ceed78a452205cd112f9a64d3bb91c13aa3bcf67f6a7be68ab84c8"
+    },
+    "dossiers/variation_b_plus_civilizations.json": {
+      "bytes": 4061,
+      "sha256": "7b6beebc8d6256a545176b37924c87dc90328d129d8ead34f167fc8420341340"
+    },
+    "dossiers/variation_c_operators_label_stripped.json": {
+      "bytes": 2719,
+      "sha256": "b1ba0e806cc48efc1c064386c30c43cb12b578ac72611b7778356e098975b03a"
+    },
+    "dossiers/variation_c_plus_operators.json": {
+      "bytes": 4134,
+      "sha256": "0aa9f5df4c8e5835ebd2ddee7178c02502a6948d374a670f30643d71c71c10e4"
+    },
+    "dossiers/variation_d_single.json": {
+      "bytes": 807,
+      "sha256": "cee5d7e4417e368b3e3c60ac45198e5ae0ed9ea8cd5532ebc66220cd6545688e"
+    },
+    "lean_pilot1_theorems/AxiomAudit.lean": {
+      "bytes": 2572,
+      "sha256": "69571c3419f5ac5142275d6bf95a711aa83f5f3bdfaa9be7afe6b811ab057679"
+    },
+    "lean_pilot1_theorems/README.md": {
+      "bytes": 3732,
+      "sha256": "57ed4f8900df2b3b8d5b92572eec03609817d424e0d1769fbaa8b94e21346cc7"
+    },
+    "lean_pilot1_theorems/S150Pilot1Theorems.lean": {
+      "bytes": 168,
+      "sha256": "6d8d175ad44299e8400fd707055cfa697e7bdce5acc50093232d5975d882a23b"
+    },
+    "lean_pilot1_theorems/S150Pilot1Theorems/IntPoly.lean": {
+      "bytes": 10388,
+      "sha256": "1c7288f534a6f5ca1ba1f239ea4069874abdc7bb6bc226e03db048dd04b70990"
+    },
+    "lean_pilot1_theorems/S150Pilot1Theorems/Topic1FrickeCayley.lean": {
+      "bytes": 32034,
+      "sha256": "85e17836d193de5433e3c19c947f835c9eff4e42bc2130c7598031fbde0369f2"
+    },
+    "lean_pilot1_theorems/S150Pilot1Theorems/Topic2ValveKhipu.lean": {
+      "bytes": 17125,
+      "sha256": "7d2564ce4818a1fa5bc6cd8e541765de58ebac73b9590abbe9bd68aa437e0e9f"
+    },
+    "lean_pilot1_theorems/S150Pilot1Theorems/Topic3SchurWittFold.lean": {
+      "bytes": 28833,
+      "sha256": "cf75141c91bfe3441be42ee75c760d0d4e9cbaaabb231cce6f4e18d3fea4fd4b"
+    },
+    "lean_pilot1_theorems/lake-manifest.json": {
+      "bytes": 124,
+      "sha256": "060b1ee29aa380784fd30db5f7e135b36e0173313e67967b332648d96517a2d3"
+    },
+    "lean_pilot1_theorems/lakefile.toml": {
+      "bytes": 110,
+      "sha256": "4b9887a166c78e4a7127820f73090cfabc2ca0923b44b071b913bfc3ca405153"
+    },
+    "lean_pilot1_theorems/lean-toolchain": {
+      "bytes": 25,
+      "sha256": "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a"
+    },
+    "lean_pilot1_theorems/s150_lean_theorems_certificate.json": {
+      "bytes": 1893,
+      "sha256": "72f6d6733a454879dbb83507a0b7571992d8e227721b77dc9acd9fe11ee92fcf"
+    },
+    "lean_pilot1_theorems/test_verify_s150_lean_theorems_r5.py": {
+      "bytes": 42740,
+      "sha256": "0417c592c8b567e32830c7206231c93fd163370312b8b061b4e9999142b66029"
+    },
+    "lean_pilot1_theorems/verify_s150_lean_theorems.py": {
+      "bytes": 50614,
+      "sha256": "633c063f82e72a83bf3703219c427886401cd68b9b68f2c762f19797d91faf4e"
+    },
+    "pilot1_transcripts/topic1_continuum_session.json": {
+      "bytes": 20982,
+      "sha256": "de1963774eabc3d6c74f96c3eca679063c54684b52efe2935d60b68da9c4906d"
+    },
+    "pilot1_transcripts/topic1_continuum_turns.json": {
+      "bytes": 193322,
+      "sha256": "c275b696239aab2a44b921fe6b45d2ceb54355df8c8657ded7c097b1aefe1ebc"
+    },
+    "pilot1_transcripts/topic2_aletheion_session.json": {
+      "bytes": 22803,
+      "sha256": "07ef6a712a1c8acd5186f27cd2c8d8232cd9128d0cb703a93f58d4ee6d745ea8"
+    },
+    "pilot1_transcripts/topic2_aletheion_turns.json": {
+      "bytes": 288512,
+      "sha256": "d43632160c567f926a4bd37dc5b11f17bc5b976fcc9a24445d4d938ef4fdee58"
+    },
+    "pilot1_transcripts/topic3_cave_expedition_session.json": {
+      "bytes": 20637,
+      "sha256": "ebe554553716ef8fe37f3325541386489f17977e49a3e98904b600c579355c72"
+    },
+    "pilot1_transcripts/topic3_cave_expedition_turns.json": {
+      "bytes": 291461,
+      "sha256": "874f5df78ce271b5856e832f163c7534cc9e00d1d14b8d53199606c23e664eda"
+    },
+    "socratic_operator_seminar.py": {
+      "bytes": 85044,
+      "sha256": "e4f39de6d9fbb1a16265e8622e2ccf988f96654973a9c0930ab29437185eb196"
+    },
+    "tests/test_ablation_scorecard_r5.py": {
+      "bytes": 29656,
+      "sha256": "e26f6e803b51c343be7443ee5b48e45b20355ca4253e06f9733b552d24df35ee"
+    },
+    "tests/test_pilot1_theorems_r5.py": {
+      "bytes": 20626,
+      "sha256": "beb2a31810f71c9c9db94c1bb95862f60599cfa7fda18c95913a8fa365606051"
+    },
+    "tests/test_socratic_operator_seminar_r5.py": {
+      "bytes": 40399,
+      "sha256": "016d5ebc4c4aa750590eedb29bee976a1d03ae60bc792caec2754fb2fd73d9db"
+    },
+    "verify_ablation_scorecard.py": {
+      "bytes": 34425,
+      "sha256": "688106cdc2476e3f937eb34ff5c0995053692a3aebbd7012d14ab84cc242b237"
+    },
+    "verify_pilot1_theorems.py": {
+      "bytes": 40910,
+      "sha256": "d927eff59ce74b8f4b31b994354b3cb40807caec226e5b2a349a7667bc77fc85"
+    }
+  },
+  "manifest_sha256": "747a184977a556be370ad6c61960941a82712060f2a1a0f4fbb9d901ceb09cd8",
+  "schema": "bayt-al-hikma.socratic_seminar_manifest.v1"
+}

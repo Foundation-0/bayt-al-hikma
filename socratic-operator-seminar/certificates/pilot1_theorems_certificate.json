@@ -1,0 +1,379 @@
+{
+  "all_passed": true,
+  "certificate_sha256": "52db01a2ddcda5d3e22534bae7511b6ebdd0ad3ebd0922e5e3efa43b82e4da2f",
+  "energy_power_status": "UNCONTROLLED_LAPTOP_NOT_CLAIMED",
+  "payload_sha256": "60f817f6e437968ea58c1c74818764ab338aef97de75f593002c1a2a8b23e63d",
+  "pilot1_transcripts": {
+    "passed": true,
+    "topics": [
+      {
+        "cross_seat_compositions": 9,
+        "historical_to_modern": 2,
+        "minimal_counterexample_count": 5,
+        "modern_to_historical": 3,
+        "pass_witness_count": 16,
+        "repairs": 5,
+        "session_file": "pilot1_transcripts/topic1_continuum_session.json",
+        "session_file_sha256": "de1963774eabc3d6c74f96c3eca679063c54684b52efe2935d60b68da9c4906d",
+        "topic_key": "topic1_continuum",
+        "transcript_sha256": "33895402c91b5328404f46788d37e5fab2db4a251df7069f48cd071a5effcfd9",
+        "turns_file": "pilot1_transcripts/topic1_continuum_turns.json",
+        "turns_file_sha256": "c275b696239aab2a44b921fe6b45d2ceb54355df8c8657ded7c097b1aefe1ebc"
+      },
+      {
+        "cross_seat_compositions": 8,
+        "historical_to_modern": 2,
+        "minimal_counterexample_count": 5,
+        "modern_to_historical": 1,
+        "pass_witness_count": 16,
+        "repairs": 8,
+        "session_file": "pilot1_transcripts/topic2_aletheion_session.json",
+        "session_file_sha256": "07ef6a712a1c8acd5186f27cd2c8d8232cd9128d0cb703a93f58d4ee6d745ea8",
+        "topic_key": "topic2_aletheion",
+        "transcript_sha256": "a2ef42a15ac872fdc923dab3a8c96565d18767458661baffb2880c5769a6c13b",
+        "turns_file": "pilot1_transcripts/topic2_aletheion_turns.json",
+        "turns_file_sha256": "d43632160c567f926a4bd37dc5b11f17bc5b976fcc9a24445d4d938ef4fdee58"
+      },
+      {
+        "cross_seat_compositions": 13,
+        "historical_to_modern": 1,
+        "minimal_counterexample_count": 2,
+        "modern_to_historical": 7,
+        "pass_witness_count": 19,
+        "repairs": 7,
+        "session_file": "pilot1_transcripts/topic3_cave_expedition_session.json",
+        "session_file_sha256": "ebe554553716ef8fe37f3325541386489f17977e49a3e98904b600c579355c72",
+        "topic_key": "topic3_cave_expedition",
+        "transcript_sha256": "afff3a9cb98987772e51f30d92036b09f70b128246c4771b9848aef792df7aca",
+        "turns_file": "pilot1_transcripts/topic3_cave_expedition_turns.json",
+        "turns_file_sha256": "874f5df78ce271b5856e832f163c7534cc9e00d1d14b8d53199606c23e664eda"
+      }
+    ],
+    "topics_verified": 3,
+    "total_cross_seat_compositions": 30,
+    "total_historical_to_modern": 5,
+    "total_minimal_counterexample": 12,
+    "total_modern_to_historical": 11,
+    "total_pass_witness": 51,
+    "total_repairs": 20,
+    "total_turns": 63
+  },
+  "pure_q_ast_clean": true,
+  "schema": "bayt-al-hikma.pilot1_theorems_synthesis.v1",
+  "t1_fricke_signature_unified": {
+    "definite_hurwitz_odd_d1": {
+      "D": 1,
+      "D_parity": 1,
+      "F_cleared": 7048,
+      "identities_exact": true,
+      "kappa": 2,
+      "norm_product": 441,
+      "reC": 440,
+      "so3_invisible_kernel": false
+    },
+    "definite_lipschitz_d2": {
+      "D": 2,
+      "D_parity": 0,
+      "F_cleared": 14080,
+      "identities_exact": true,
+      "kappa": 4,
+      "norm_product": 441,
+      "reC": 439,
+      "so3_invisible_kernel": false
+    },
+    "definite_so3_kernel_ij": {
+      "D": 2,
+      "D_parity": 0,
+      "F_cleared": 0,
+      "identities_exact": true,
+      "kappa": 4,
+      "norm_product": 1,
+      "reC": -1,
+      "so3_invisible_kernel": true
+    },
+    "gate": "T1_PILOT1_FRICKE_SIGNATURE_UNIFIED",
+    "passed": true,
+    "split_13_8_nonpalindromic": {
+      "cf": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "fraction": "13/8",
+      "identities_exact": true,
+      "kappa": -2421,
+      "naive_sl2": 3447,
+      "overshoot": 1024,
+      "palindromic": false,
+      "sector": -1,
+      "t": 16,
+      "trace": 2423,
+      "z": 267
+    },
+    "split_355_113": {
+      "cf": [
+        3,
+        7,
+        16
+      ],
+      "fraction": "355/113",
+      "identities_exact": true,
+      "kappa": -1153783449,
+      "naive_sl2": 1154307627,
+      "overshoot": 524176,
+      "palindromic": false,
+      "sector": -1,
+      "t": 362,
+      "trace": 1153783451,
+      "z": 139327
+    },
+    "split_5_3": {
+      "cf": [
+        1,
+        1,
+        2
+      ],
+      "fraction": "5/3",
+      "identities_exact": true,
+      "kappa": -41,
+      "naive_sl2": 187,
+      "overshoot": 144,
+      "palindromic": false,
+      "sector": -1,
+      "t": 6,
+      "trace": 43,
+      "z": 39
+    },
+    "split_8_3_palindromic": {
+      "cf": [
+        2,
+        1,
+        2
+      ],
+      "fraction": "8/3",
+      "identities_exact": true,
+      "kappa": 0,
+      "naive_sl2": 326,
+      "overshoot": 324,
+      "palindromic": true,
+      "sector": -1,
+      "t": 9,
+      "trace": 2,
+      "z": 83
+    }
+  },
+  "t2_crt_valve_seal": {
+    "gate": "T2_PILOT1_CRT_STRIDE_VALVE_CHECKSUM",
+    "noncoprime_crt_witness": {
+      "chatter_bounds_exact": true,
+      "deciders_agree": true,
+      "flips": 2,
+      "intervals": [
+        [
+          0,
+          3,
+          1
+        ],
+        [
+          3,
+          1,
+          0
+        ]
+      ],
+      "lcm": 4,
+      "on_count": 3,
+      "root": 13,
+      "single_cycle_moduli": false,
+      "solvable": true,
+      "stride_single_cycle": true,
+      "timestamp": 3,
+      "tv": "10/1"
+    },
+    "noncoprime_stride_refutation": {
+      "deciders_agree": true,
+      "lcm": 4,
+      "solvable": true,
+      "stride_single_cycle": false,
+      "timestamp": 3
+    },
+    "passed": true,
+    "r1_inconsistent_refutation": {
+      "deciders_agree": true,
+      "lcm": 30,
+      "single_cycle_moduli": false,
+      "solvable": false
+    },
+    "r2_seat6_repaired_witness": {
+      "chatter_bounds_exact": true,
+      "deciders_agree": true,
+      "flips": 2,
+      "intervals": [
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          2,
+          0
+        ]
+      ],
+      "lcm": 3,
+      "on_count": 1,
+      "root": 15,
+      "single_cycle_moduli": true,
+      "solvable": true,
+      "stride_single_cycle": true,
+      "timestamp": 0,
+      "tv": "6/1"
+    },
+    "tight_rational_band_witness": {
+      "chatter_bounds_exact": true,
+      "deciders_agree": true,
+      "flips": 4,
+      "intervals": [
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          0
+        ],
+        [
+          2,
+          2,
+          1
+        ],
+        [
+          4,
+          1,
+          0
+        ],
+        [
+          5,
+          1,
+          1
+        ]
+      ],
+      "lcm": 6,
+      "on_count": 4,
+      "root": 123,
+      "single_cycle_moduli": true,
+      "solvable": true,
+      "stride_single_cycle": true,
+      "timestamp": 5,
+      "tv": "19/3"
+    }
+  },
+  "t3_unified_schur_witt_fold": {
+    "block_drop_refutation_3334": {
+      "S": [
+        [
+          "1/1"
+        ]
+      ],
+      "block_drop_1x1_q_congruent": true,
+      "det_a": 3,
+      "det_m": "3/1",
+      "gf2_even_diag_preserved": true,
+      "gf2_fold_defined": true,
+      "gl_z_canonical_shear": true,
+      "q_congruence_exact": true,
+      "s_integral": true,
+      "z_lift_exact": true
+    },
+    "explicit_q_witness_3334_verified": true,
+    "gate": "T3_PILOT1_UNIFIED_SCHUR_WITT_FOLD",
+    "gf2_fold_a3_witness": {
+      "S": [
+        [
+          "4/3"
+        ]
+      ],
+      "block_drop_1x1_q_congruent": false,
+      "det_a": 3,
+      "det_m": "4/1",
+      "gf2_even_diag_preserved": true,
+      "gf2_fold_defined": true,
+      "gl_z_canonical_shear": false,
+      "q_congruence_exact": true,
+      "s_integral": false,
+      "z_lift_exact": true
+    },
+    "gl_z_canonical_shear_witness": {
+      "S": [
+        [
+          "-15/1"
+        ]
+      ],
+      "block_drop_1x1_q_congruent": false,
+      "det_a": 6,
+      "det_m": "-90/1",
+      "gf2_even_diag_preserved": true,
+      "gf2_fold_defined": false,
+      "gl_z_canonical_shear": true,
+      "q_congruence_exact": true,
+      "s_integral": true,
+      "z_lift_exact": true
+    },
+    "mirror_billiard_2_3_refutation": {
+      "curves": 1,
+      "curves_equal_gcd": true,
+      "euclid_u": [
+        [
+          -1,
+          1
+        ],
+        [
+          3,
+          -2
+        ]
+      ],
+      "euclid_unimodular_ok": true,
+      "gcd": 1,
+      "p": 2,
+      "q": 3,
+      "single_shear_false_at_coprime": true
+    },
+    "passed": true,
+    "s_integral_converse_counterexample": {
+      "S": [
+        [
+          "0/1"
+        ]
+      ],
+      "block_drop_1x1_q_congruent": false,
+      "det_a": 4,
+      "det_m": "0/1",
+      "gf2_even_diag_preserved": true,
+      "gf2_fold_defined": false,
+      "gl_z_canonical_shear": false,
+      "q_congruence_exact": true,
+      "s_integral": true,
+      "z_lift_exact": true
+    },
+    "schur_q_and_block_obstruction_2111": {
+      "S": [
+        [
+          "1/2"
+        ]
+      ],
+      "block_drop_1x1_q_congruent": false,
+      "det_a": 2,
+      "det_m": "1/1",
+      "gf2_even_diag_preserved": true,
+      "gf2_fold_defined": false,
+      "gl_z_canonical_shear": false,
+      "q_congruence_exact": true,
+      "s_integral": false,
+      "z_lift_exact": true
+    }
+  },
+  "zero_floats": true
+}

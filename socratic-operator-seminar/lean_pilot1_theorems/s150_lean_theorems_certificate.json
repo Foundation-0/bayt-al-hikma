@@ -1,0 +1,48 @@
+{
+  "energy_power_status": "UNCONTROLLED_LAPTOP_NOT_CLAIMED",
+  "lean_verification": {
+    "axiom_breakdown": {
+      "propext_only_theorems": 11,
+      "propext_quot_theorems": 21,
+      "zero_axiom_theorems": 4
+    },
+    "lean_files": 6,
+    "lean_loc": 1867,
+    "lean_toolchain": "leanprover/lean4:v4.36.0",
+    "live_lean_verified": true,
+    "public_theorems_audited": 36
+  },
+  "module": "S150Pilot1Theorems",
+  "payload_sha256": "2fc4a0dee5f26ba448edc560e66e4c72af5eb45c3bd6076f80f0f847b76d4166",
+  "pure_q_ast": {
+    "pure_q_ast_clean": true
+  },
+  "schema_version": "bayt_al_hikma.s150_pilot1_lean436.v1",
+  "source_files_sha256": {
+    "AxiomAudit.lean": "69571c3419f5ac5142275d6bf95a711aa83f5f3bdfaa9be7afe6b811ab057679",
+    "S150Pilot1Theorems.lean": "6d8d175ad44299e8400fd707055cfa697e7bdce5acc50093232d5975d882a23b",
+    "S150Pilot1Theorems/IntPoly.lean": "1c7288f534a6f5ca1ba1f239ea4069874abdc7bb6bc226e03db048dd04b70990",
+    "S150Pilot1Theorems/Topic1FrickeCayley.lean": "85e17836d193de5433e3c19c947f835c9eff4e42bc2130c7598031fbde0369f2",
+    "S150Pilot1Theorems/Topic2ValveKhipu.lean": "7d2564ce4818a1fa5bc6cd8e541765de58ebac73b9590abbe9bd68aa437e0e9f",
+    "S150Pilot1Theorems/Topic3SchurWittFold.lean": "cf75141c91bfe3441be42ee75c760d0d4e9cbaaabb231cce6f4e18d3fea4fd4b",
+    "lake-manifest.json": "060b1ee29aa380784fd30db5f7e135b36e0173313e67967b332648d96517a2d3",
+    "lakefile.toml": "4b9887a166c78e4a7127820f73090cfabc2ca0923b44b071b913bfc3ca405153",
+    "lean-toolchain": "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a"
+  },
+  "topic1_fricke_cayley": {
+    "definite_witnesses": 3,
+    "split_cf_witnesses": 4
+  },
+  "topic2_valve_khipu": {
+    "seminar_roots": [
+      15,
+      13,
+      123
+    ],
+    "valve_streams_verified": 4
+  },
+  "topic3_schur_witt_fold": {
+    "mirror_billiard_2_3_period": 24,
+    "schur_witnesses_verified": 4
+  }
+}

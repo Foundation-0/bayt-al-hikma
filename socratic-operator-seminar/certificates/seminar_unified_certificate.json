@@ -1,0 +1,56 @@
+{
+  "all_passed": true,
+  "checks": [
+    {
+      "args": [
+        "socratic_operator_seminar.py",
+        "--check-cert",
+        "certificates/seminar_harness_certificate.json"
+      ],
+      "pillar": "seminar_harness",
+      "rc": 0,
+      "stderr": "",
+      "stdout": "{\"certificate_sha256\": \"67e2bf162fd97354af4d9b3859787ac79796f62d8a92116f095ad2aecba1fced\", \"status\": \"PASS\"}"
+    },
+    {
+      "args": [
+        "verify_pilot1_theorems.py",
+        "--check",
+        "certificates/pilot1_theorems_certificate.json"
+      ],
+      "pillar": "pilot1_theorems",
+      "rc": 0,
+      "stderr": "",
+      "stdout": "{\"certificate_sha256\": \"52db01a2ddcda5d3e22534bae7511b6ebdd0ad3ebd0922e5e3efa43b82e4da2f\", \"status\": \"PASS\"}"
+    },
+    {
+      "args": [
+        "verify_ablation_scorecard.py",
+        "--check",
+        "certificates/ablation_scorecard_certificate.json"
+      ],
+      "pillar": "ablation_scorecard",
+      "rc": 0,
+      "stderr": "",
+      "stdout": "{\"certificate_sha256\": \"a2d0205432240ac28331d8f9ce74023ec9996d266ffbf8bf2c86f07c1c812c8e\", \"status\": \"PASS\"}"
+    },
+    {
+      "args": [
+        "verify_s150_lean_theorems.py",
+        "--check"
+      ],
+      "pillar": "lean_pilot1_theorems",
+      "rc": 0,
+      "stderr": "",
+      "stdout": "{\n  \"lean_live_replayed\": false,\n  \"module\": \"S150Pilot1Theorems\",\n  \"payload_sha256\": \"2fc4a0dee5f26ba448edc560e66e4c72af5eb45c3bd6076f80f0f847b76d4166\",\n  \"public_theorems_verified\": 36,\n  \"status\": \"PASS\",\n  \"verification_mode\": \"offline_static_and_pure_q\"\n}"
+    }
+  ],
+  "live_lean": false,
+  "manifest_file_sha256": "f1862e224bd3c47c2c7727dd7a8e9c77e2a5a18c9eee4055927878b9025c5b45",
+  "manifest_files_verified": 42,
+  "pillar_files_verified": 8,
+  "pillars_passed": 4,
+  "pillars_total": 4,
+  "schema": "bayt-al-hikma.socratic_seminar_unified_verification.v1",
+  "summary_sha256": "9e7d08c5c66d18aa4bc62175861a08c7754e6fbf9c56ada61ca08b6e7a6b8a9d"
+}
