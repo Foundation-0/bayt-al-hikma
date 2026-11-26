@@ -1322,32 +1322,48 @@ def main(argv: Sequence[str] | None = None) -> int:
                 sys.stdout.buffer.write(
                     canonical_json_bytes({"status": "WRITTEN", "certificate_sha256": cert["certificate_sha256"]}) + b"\n"
                 )
-            return 0
-        if args.check is not None:
+        elif args.check is not None:
             cert = check_certificate_file(args.check, full_replay=True)
             if args.json:
                 sys.stdout.buffer.write(
                     canonical_json_bytes({"status": "PASS", "certificate_sha256": cert["certificate_sha256"]}) + b"\n"
                 )
-            return 0
-        if args.verify_lean is not None:
+        elif args.verify_lean is not None:
             res = verify_lean_file(args.verify_lean, check_pinned_sha=True)
             if args.json:
                 sys.stdout.buffer.write(canonical_json_bytes(res) + b"\n")
-            return 0
-        if args.verify_corpus is not None:
+        elif args.verify_corpus is not None:
             require_ok(args.inventory is not None, "MISSING_INVENTORY_ARG", "--inventory is required with --verify-corpus")
             res = s89.verify_live_corpus_on_disk(args.verify_corpus, args.inventory)
             if args.json:
                 sys.stdout.buffer.write(canonical_json_bytes(res) + b"\n")
-            return 0
-        _read_and_static_gate_lean(Path(__file__).resolve().parent / s89.LEAN_FILE_NAME, check_pinned_sha=True)
-        cert = build_certificate()
-        verify_certificate_dict(cert, full_replay=True)
-        sys.stdout.buffer.write(canonical_json_bytes(cert) + b"\n")
+        else:
+            _read_and_static_gate_lean(Path(__file__).resolve().parent / s89.LEAN_FILE_NAME, check_pinned_sha=True)
+            cert = build_certificate()
+            verify_certificate_dict(cert, full_replay=True)
+            sys.stdout.buffer.write(canonical_json_bytes(cert) + b"\n")
+        sys.stdout.flush()
         return 0
     except S89Error as exc:
-        sys.stderr.write(f"ERROR [{exc.code}]: {exc.message}\n")
+        try:
+            sys.stderr.write(f"ERROR [{exc.code}]: {exc.message}\n")
+            sys.stderr.flush()
+        except OSError:
+            pass
+        return 2
+    except BrokenPipeError:
+        devnull = os.open(os.devnull, os.O_WRONLY)
+        try:
+            os.dup2(devnull, 1)
+        finally:
+            os.close(devnull)
+        return 2
+    except (OSError, UnicodeDecodeError, RecursionError, MemoryError) as exc:
+        try:
+            sys.stderr.write(f"ERROR [RUNTIME_IO_ERROR]: {exc}\n")
+            sys.stderr.flush()
+        except OSError:
+            pass
         return 2
 
 

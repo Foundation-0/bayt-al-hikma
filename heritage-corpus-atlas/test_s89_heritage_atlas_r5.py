@@ -105,6 +105,24 @@ def test_01_oracle_math_and_pillars() -> None:
     check(tot["downloaded_text_files"] == 1460, "text files")
     check(tot["downloaded_text_bytes"] == 119327981, "text bytes")
     check(tot["downloaded_text_words"] == 10871572, "text words")
+    alt_txt_w = tuple(dict(r) for r in s89.TEXT_LAYER_BY_EXT)
+    alt_txt_w[0]["words"] += 5
+    alt_txt_w[0]["chars"] += 7
+    p1_alt_w = s89.compute_pillar1_corpus_audit(
+        text_ext_rows=alt_txt_w,
+        total_lines=261845,
+        crlf_files=108,
+        complete_pdf_trios=50,
+    )
+    check(
+        p1_alt_w["totals"]["downloaded_text_words"] == 10871577
+        and p1_alt_w["totals"]["downloaded_text_chars"] == 74958929
+        and p1_alt_w["totals"]["downloaded_text_lines"] == 261845
+        and p1_alt_w["totals"]["complete_pdf_trios_3_of_3"] == 50
+        and p1_alt_w["quality_diagnostics_law4"]["crlf_text_files"] == 108
+        and p1_alt_w["text_layer_by_extension"][0]["words"] == s89.TEXT_LAYER_BY_EXT[0]["words"] + 5,
+        "parameterized text_ext_rows words/chars/lines/crlf/pdf_trios",
+    )
     check(tot["complete_trios_3_of_3"] == 51, "trios")
     check(tot["tiered_works_total"] == 158, "tiered works")
     diag = p1["quality_diagnostics_law4"]
@@ -263,7 +281,9 @@ def test_02_synthetic_corpus_verification() -> None:
         (text_dir / ".cache" / "ignored.tmp").write_bytes(b"ignore")
 
         a1 = text_dir / "a1.txt"
-        a2 = text_dir / "a2.txt"
+        sub_dir = text_dir / "sub"
+        sub_dir.mkdir()
+        a2 = sub_dir / "a2.txt"
         bad_jl = text_dir / "bad.jsonl"
         csv_f = text_dir / "meta.csv"
         a1_raw = b"alpha"
@@ -276,7 +296,7 @@ def test_02_synthetic_corpus_verification() -> None:
         csv_f.write_bytes(csv_raw)
 
         inv_path = root / "inv.json"
-        inv_obj = {"sha": "abc123", "siblings": [{"rfilename": "a1.txt"}, {"rfilename": "a2.txt"}]}
+        inv_obj = {"sha": "abc123", "siblings": [{"rfilename": "a1.txt"}, {"rfilename": "sub/a2.txt"}]}
         inv_raw = json.dumps(inv_obj).encode("utf-8")
         inv_path.write_bytes(inv_raw)
         inv_sha = hashlib.sha256(inv_raw).hexdigest()
@@ -290,7 +310,7 @@ def test_02_synthetic_corpus_verification() -> None:
                     "sha256": hashlib.sha256(a1_raw).hexdigest(),
                 },
                 "secondary_anchor": {
-                    "rel_path": "a2.txt",
+                    "rel_path": "sub/a2.txt",
                     "bytes": len(a2_raw),
                     "sha256": hashlib.sha256(a2_raw).hexdigest(),
                 },
@@ -427,6 +447,213 @@ def test_02_synthetic_corpus_verification() -> None:
             "LIVE_SAMPLE_CSV_EMPTY",
             "short csv",
         )
+        short_csv.unlink()
+
+        # MED-1 hardening: FIFO, leaf/parent/grandparent symlinks, size cap, strict JSON & UTF-8 guards
+        fifo_inv = root / "fifo_inv.json"
+        os.mkfifo(fifo_inv)
+        t0 = time.monotonic()
+        expect_s89_error(
+            lambda: s89.verify_live_corpus_on_disk(text_dir, fifo_inv),
+            "NOT_REGULAR_FILE",
+            "fifo inventory must fail immediately without blocking",
+        )
+        check(time.monotonic() - t0 < 1, "fifo inventory sub-second")
+        check(v89.main(["--verify-corpus", str(text_dir), "--inventory", str(fifo_inv)]) == 2, "cli fifo inv rc=2")
+
+        sym_inv = root / "sym_inv.json"
+        sym_inv.symlink_to(inv_path)
+        expect_s89_error(
+            lambda: s89.verify_live_corpus_on_disk(text_dir, sym_inv),
+            "SYMLINK_FORBIDDEN",
+            "symlink inventory",
+        )
+        sym_gp = root / "sym_gp"
+        sym_gp.symlink_to(root)
+        expect_s89_error(
+            lambda: s89.verify_live_corpus_on_disk(sym_gp / "text", inv_path, expected_inv_sha=inv_sha),
+            "SYMLINK_FORBIDDEN",
+            "grandparent symlink text_root",
+        )
+        expect_s89_error(
+            lambda: s89.verify_live_corpus_on_disk(text_dir, sym_gp / "inv.json", expected_inv_sha=inv_sha),
+            "SYMLINK_FORBIDDEN",
+            "parent symlink inventory",
+        )
+        expect_s89_error(
+            lambda: s89._read_corpus_regular_bytes(Path("/")),
+            "NOT_REGULAR_FILE",
+            "root path corpus read",
+        )
+        expect_s89_error(
+            lambda: s89._read_corpus_regular_bytes(Path("/..")),
+            "NOT_REGULAR_FILE",
+            "root dotdot corpus read",
+        )
+        check(
+            s89._read_corpus_regular_bytes(sub_dir / ".." / "." / "a1.txt") == a1_raw,
+            "dotdot corpus read ok",
+        )
+        orig_cwd = os.getcwd()
+        try:
+            os.chdir(root)
+            check(s89._read_corpus_regular_bytes(Path("inv.json")) == inv_raw, "relative corpus read ok")
+        finally:
+            os.chdir(orig_cwd)
+        expect_s89_error(
+            lambda: s89._read_corpus_regular_bytes(root / "no_dir" / "x.txt"),
+            "LIVE_PATH_MISSING",
+            "missing dir component",
+        )
+        expect_s89_error(
+            lambda: s89._read_corpus_regular_bytes(inv_path / "child.txt"),
+            "NOT_DIRECTORY",
+            "file as dir component",
+        )
+        # Exact size-cap boundary: len(a1_raw) == 5 passes at max_bytes=5, fails at max_bytes=4
+        check(s89._read_corpus_regular_bytes(a1, max_bytes=len(a1_raw)) == a1_raw, "exact max_bytes pass")
+        expect_s89_error(
+            lambda: s89._read_corpus_regular_bytes(a1, max_bytes=len(a1_raw) - 1),
+            "FILE_TOO_LARGE",
+            "max_bytes - 1 fail",
+        )
+        expect_s89_error(
+            lambda: s89.verify_live_corpus_on_disk(
+                text_dir, inv_path, expected_inv_sha=inv_sha, expected_commit_sha="abc123",
+                expected_siblings=2, anchors=anchors, expected_text_files=4,
+                expected_text_bytes=total_b, malformed_files=malformed, sample_csv_rel="meta.csv",
+                max_file_bytes=4,
+            ),
+            "FILE_TOO_LARGE",
+            "verify_live_corpus max_file_bytes cap",
+        )
+
+        # Symlink and FIFO inside corpus tree walk
+        in_sym = text_dir / "evil_link.txt"
+        in_sym.symlink_to(a1)
+        try:
+            expect_s89_error(
+                lambda: s89.verify_live_corpus_on_disk(
+                    text_dir, inv_path, expected_inv_sha=inv_sha, expected_commit_sha="abc123",
+                    expected_siblings=2, anchors=anchors, expected_text_files=5,
+                    expected_text_bytes=total_b, malformed_files=malformed, sample_csv_rel="meta.csv",
+                ),
+                "SYMLINK_FORBIDDEN",
+                "symlink inside text_dir",
+            )
+        finally:
+            in_sym.unlink()
+
+        in_fifo = text_dir / "evil_fifo.txt"
+        os.mkfifo(in_fifo)
+        try:
+            expect_s89_error(
+                lambda: s89.verify_live_corpus_on_disk(
+                    text_dir, inv_path, expected_inv_sha=inv_sha, expected_commit_sha="abc123",
+                    expected_siblings=2, anchors=anchors, expected_text_files=5,
+                    expected_text_bytes=total_b, malformed_files=malformed, sample_csv_rel="meta.csv",
+                ),
+                "NOT_REGULAR_FILE",
+                "fifo inside text_dir",
+            )
+        finally:
+            in_fifo.unlink()
+
+        # Non-list siblings with matching length (kills BoolOp `type(siblings_val) is list and len(...) == ...`)
+        bad_sib_inv = root / "bad_sib_inv.json"
+        bad_sib_raw = b'{"sha":"abc123","siblings":"ab"}'
+        bad_sib_inv.write_bytes(bad_sib_raw)
+        expect_s89_error(
+            lambda: s89.verify_live_corpus_on_disk(
+                text_dir, bad_sib_inv, expected_inv_sha=hashlib.sha256(bad_sib_raw).hexdigest(),
+                expected_commit_sha="abc123", expected_siblings=2, anchors=anchors,
+                expected_text_files=4, expected_text_bytes=total_b,
+                malformed_files=malformed, sample_csv_rel="meta.csv",
+            ),
+            "LIVE_INV_COUNT_MISMATCH",
+            "siblings string len==2 must fail",
+        )
+
+        # Strict corpus JSON parser boundaries (UTF-8, float, NaN, dup key, int digits, depth, require_object)
+        expect_s89_error(lambda: s89.parse_strict_corpus_json_bytes(b"\xff\xfe"), "INVALID_UTF8", "corpus u8")
+        expect_s89_error(lambda: s89.parse_strict_corpus_json_bytes(b'{"x":1.5}'), "FLOAT_FORBIDDEN", "corpus flt")
+        expect_s89_error(lambda: s89.parse_strict_corpus_json_bytes(b'{"x":NaN}'), "NONFINITE_JSON", "corpus nan")
+        expect_s89_error(lambda: s89.parse_strict_corpus_json_bytes(b'{"x":1,"x":2}'), "DUPLICATE_JSON_KEY", "corpus dup")
+        expect_s89_error(lambda: s89.parse_strict_corpus_json_bytes(b"{bad"), "INVALID_JSON", "corpus syn")
+        expect_s89_error(lambda: s89.parse_strict_corpus_json_bytes(b"[1,2]"), "NON_OBJECT_ROOT", "corpus list root")
+        check(s89.parse_strict_corpus_json_bytes(b"[1,2]", require_object=False) == [1, 2], "corpus list allowed")
+        ok_c1024 = s89.parse_strict_corpus_json_bytes(b'{"x":-' + b"9" * 1024 + b"}")
+        check(ok_c1024["x"] == -(10**1024 - 1), "corpus 1024-digit neg int")
+        expect_s89_error(
+            lambda: s89.parse_strict_corpus_json_bytes(b'{"x":' + b"9" * 1025 + b"}"),
+            "INT_TOO_LARGE",
+            "corpus 1025-digit int",
+        )
+        expect_s89_error(
+            lambda: s89.parse_strict_corpus_json_bytes(b'{"x":-' + b"9" * 1025 + b"}"),
+            "INT_TOO_LARGE",
+            "corpus 1025-digit neg int",
+        )
+        check(
+            s89.parse_strict_corpus_json_bytes(b'{"s":"\\"' + (b"{" * 70) + b'\\""}')["s"] == '"' + ("{" * 70) + '"',
+            "corpus string braces ignored",
+        )
+        check(
+            type(s89.parse_strict_corpus_json_bytes((b'{"a":' * 64) + b"1" + (b"}" * 64))) is dict,
+            "corpus depth 64 ok",
+        )
+        expect_s89_error(
+            lambda: s89.parse_strict_corpus_json_bytes((b'{"a":' * 65) + b"1" + (b"}" * 65)),
+            "MAX_DEPTH_EXCEEDED",
+            "corpus depth 65 fail",
+        )
+
+        # Invalid UTF-8 in malformed_files & sample_csv, plus NUL byte CSV error
+        u8_f = text_dir / "u8.dat"
+        u8_f.write_bytes(b"\xff\xfe\n")
+        try:
+            expect_s89_error(
+                lambda: s89.verify_live_corpus_on_disk(
+                    text_dir, inv_path, expected_inv_sha=inv_sha, expected_commit_sha="abc123",
+                    expected_siblings=2, anchors=anchors, expected_text_files=5,
+                    expected_text_bytes=total_b + 3,
+                    malformed_files=({"rel_path": "u8.dat", "bad_lines": 0, "nonempty_lines": 1},),
+                    sample_csv_rel="meta.csv",
+                ),
+                "INVALID_UTF8",
+                "malformed jsonl invalid utf8",
+            )
+            expect_s89_error(
+                lambda: s89.verify_live_corpus_on_disk(
+                    text_dir, inv_path, expected_inv_sha=inv_sha, expected_commit_sha="abc123",
+                    expected_siblings=2, anchors=anchors, expected_text_files=5,
+                    expected_text_bytes=total_b + 3,
+                    malformed_files=malformed,
+                    sample_csv_rel="u8.dat",
+                ),
+                "INVALID_UTF8",
+                "sample csv invalid utf8",
+            )
+        finally:
+            u8_f.unlink()
+
+        bad_csv = text_dir / "bad.csv"
+        bad_csv_raw = b'"unclosed\n1,2\n'
+        bad_csv.write_bytes(bad_csv_raw)
+        try:
+            expect_s89_error(
+                lambda: s89.verify_live_corpus_on_disk(
+                    text_dir, inv_path, expected_inv_sha=inv_sha, expected_commit_sha="abc123",
+                    expected_siblings=2, anchors=anchors, expected_text_files=5,
+                    expected_text_bytes=total_b + len(bad_csv_raw),
+                    malformed_files=malformed,
+                    sample_csv_rel="bad.csv",
+                ),
+                "INVALID_CSV",
+                "sample csv strict quote error",
+            )
+        finally:
+            bad_csv.unlink()
 
 
 def test_03_zone_b_rationals_json_and_containers() -> None:
@@ -652,6 +879,7 @@ def test_05_surfaces_fr1_fr0_sec_deep_tamper() -> None:
     # Pillar 1 SEC mutations (including strict-int bool traps & re-hashed B3 pin tampering!)
     tamper_p(lambda p: p.__setitem__("pillar1_corpus_audit", []), "BAD_P1_TYPE", "p1 type")
     tamper_p(lambda p: p["pillar1_corpus_audit"].__setitem__("inventory_sha256", "bad"), "BAD_INV_SHA", "p1 sha")
+    tamper_p(lambda p: p["pillar1_corpus_audit"].__setitem__("inventory_sha256", "\u00e9" * 64), "BAD_INV_SHA", "p1 non-ascii sha")
     tamper_p(lambda p: p["pillar1_corpus_audit"].__setitem__("inventory_sha256", "ab" * 32), "BAD_INV_SHA", "p1 forged sha")
     tamper_p(lambda p: p["pillar1_corpus_audit"].__setitem__("repo_commit_sha", "0" * 40), "BAD_P1_COMMIT_SHA", "p1 forged commit")
     c_inv = copy.deepcopy(cert)
@@ -1210,6 +1438,40 @@ def test_08_cli_and_certificate_file_parity() -> None:
         bad_p.write_bytes(b"{}\n")
         check(v89.main(["--check", str(bad_p)]) == 2, "cli --check fail rc=2")
         check(v89.main(["--verify-corpus", td]) == 2, "cli --verify-corpus missing inv rc=2")
+
+        # Exercise main() BrokenPipeError (in-process + real closed pipe EPIPE) and OSError handlers
+        orig_vcorp = s89.verify_live_corpus_on_disk
+        try:
+            saved_fd1 = os.dup(1)
+            try:
+                s89.verify_live_corpus_on_disk = lambda *a, **kw: (_ for _ in ()).throw(BrokenPipeError())  # type: ignore[assignment]
+                check(v89.main(["--verify-corpus", td, "--inventory", td]) == 2, "cli BrokenPipeError rc=2")
+            finally:
+                os.dup2(saved_fd1, 1)
+                os.close(saved_fd1)
+            s89.verify_live_corpus_on_disk = lambda *a, **kw: (_ for _ in ()).throw(OSError("io boom"))  # type: ignore[assignment]
+            err_buf = io.StringIO()
+            orig_stderr = sys.stderr
+            try:
+                sys.stderr = err_buf
+                rc_io = v89.main(["--verify-corpus", td, "--inventory", td])
+            finally:
+                sys.stderr = orig_stderr
+            check(rc_io == 2 and "RUNTIME_IO_ERROR" in err_buf.getvalue(), "cli OSError rc=2")
+        finally:
+            s89.verify_live_corpus_on_disk = orig_vcorp
+
+        for epipe_args in (["--standalone"], ["--check", str(CERT_PATH), "--json"]):
+            r_fd, w_fd = os.pipe()
+            os.close(r_fd)
+            ep_proc = subprocess.Popen(
+                [sys.executable, "-I", "-B", str(HERE / "verify_s89_heritage_atlas.py"), *epipe_args],
+                stdout=w_fd,
+                stderr=subprocess.PIPE,
+            )
+            os.close(w_fd)
+            _, ep_err = ep_proc.communicate(timeout=30)
+            check(ep_proc.returncode == 2 and ep_err == b"", f"live EPIPE {epipe_args} got rc={ep_proc.returncode} err={ep_err!r}")
 
         # Subprocess --standalone bit-identical check
         proc = subprocess.run(

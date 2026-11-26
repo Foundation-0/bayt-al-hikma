@@ -2,20 +2,22 @@
 Classical Heritage Atlas: Cryptographically Pinned Islamic Scientific Heritage Corpus Atlas & K_10 Mesh
 Pure-Init Lean 4.36.0 Formal Companion (zero external imports, zero Mathlib).
 
-Certifies 17 public universal theorems (18 kernel-checked theorems incl. 1 private helper,
-plus 1 private Bool helper def) spanning:
+Certifies 17 public theorems (15 universally quantified ∀ theorems + 2 closed ground
+propositions; 18 kernel-checked theorems incl. 1 private helper, plus 1 private Bool helper def) spanning:
   1. K_N balanced silo-cut simplex identities, K_10 5|5 destruction ladder,
-     tetrahedral Z_2 Bianchi conservation, Schur compounding, and Foster law
+     tetrahedral Z_2 Bianchi conservation, 3x3 grounded-Laplacian Kirchhoff Schur-complement
+     compounding, and uniform-K_N Kirchhoff dipole effective-resistance & Foster sum law
   2. Classical exact-operator identities and obstructions for anchor nodes h00..h09:
      Al-Khwarizmi (completing the square), Thabit ibn Qurra (amicable product identity &
      n=3 composite obstruction), Al-Biruni (cleared dip-horizon radius), Ibn al-Haytham
      (2D Householder specular reflection law, Pythagorean circle & ray-norm invariance),
      Umar al-Khayyam (depressed-cubic positive negated discriminant), Nasir al-Din al-Tusi
-     (2x2 counter-rotating matrix curl annihilation & explicit 4-matrix 3x3 SO(3) spherical
-     hippopede/commutator obstruction), Jamshid al-Kashi (cubic difference factorization),
-     Kamal al-Din al-Farisi (rainbow caustic separation), Al-Khazini (hydrostatic alloy
-     inverse), and Ibn al-Nafis (2x2 grounded-Laplacian Kirchhoff Schur-complement pulmonary
-     rerouting & septal-leak conductance jump).
+     (2x2 counter-rotating orthogonal matrix curl annihilation & explicit 4-matrix 3x3 SO(3)
+     spherical hippopede/commutator obstruction), Jamshid al-Kashi (cubic difference
+     factorization), Kamal al-Din al-Farisi (stationary-deviation Snell caustic elimination
+     & Alexander dark-band separation), Al-Khazini (hydrostatic alloy inverse), and
+     Ibn al-Nafis (2x2 grounded-Laplacian Kirchhoff Schur-complement pulmonary rerouting
+     & septal-leak conductance jump).
 -/
 
 namespace ClassicalHeritageAtlas
@@ -65,22 +67,126 @@ theorem tetrahedral_z2_bianchi_universal (a b c d e f : Bool) :
         (xor (triParity b c f) (triParity d e f))) = false := by
   cases a <;> cases b <;> cases c <;> cases d <;> cases e <;> cases f <;> rfl
 
-/-- Theorem 4: Universal 3-node Schur-pushforward strict compounding on any positive triangle.
-Eliminating an intermediate node with positive legs a, b > 0 strictly raises effective
-pairwise conductance above direct edge weight w in cleared integer form. -/
-theorem schur_3node_compounding_strict (w a b : Int) (ha : 0 < a) (hb : 0 < b) :
-    w * (a + b) < w * (a + b) + a * b := by
+/-- Theorem 4: Universal 3-node grounded-Laplacian Kirchhoff Schur-complement elimination
+and strict conductance compounding on any triangle with positive indirect legs a, b > 0.
+For direct conductance w on (1, 2) and series legs a on (1, 3), b on (2, 3), grounding node 2
+gives the 2x2 Laplacian minor L_red = [[w + a, -a], [-a, a + b]] with determinant
+det_red = (w + a)*(a + b) - a^2 = w*(a + b) + a*b; under Kirchhoff internal balance
+(a + b)*v3 = a*v1 + b*v2, total terminal current i1 = w*(v1 - v2) + a*(v1 - v3) equals
+i2 = w*(v1 - v2) + b*(v3 - v2), satisfies cleared Schur Ohm's law (a + b)*i1 = det_red*(v1 - v2),
+and strictly exceeds the direct conductance w: w*(a + b) < det_red. -/
+theorem schur_3node_compounding_strict (w a b v1 v2 v3 : Int)
+    (ha : 0 < a) (hb : 0 < b)
+    (hkirch : (a + b) * v3 = a * v1 + b * v2) :
+    let det_red := (w + a) * (a + b) - a * a
+    let i1 := w * (v1 - v2) + a * (v1 - v3)
+    let i2 := w * (v1 - v2) + b * (v3 - v2)
+    (det_red = w * (a + b) + a * b) ∧
+    (i1 = i2) ∧
+    ((a + b) * i1 = det_red * (v1 - v2)) ∧
+    (w * (a + b) < det_red) := by
+  intro det_red i1 i2
+  have hdet : det_red = w * (a + b) + a * b := by
+    change (w + a) * (a + b) - a * a = _
+    rw [Int.add_mul, Int.mul_add a a b]
+    omega
+  have hbal : a * (v1 - v3) = b * (v3 - v2) := by
+    have h1 : (a + b) * v3 = a * v3 + b * v3 := Int.add_mul a b v3
+    have h2 : a * (v1 - v3) = a * v1 - a * v3 := Int.mul_sub a v1 v3
+    have h3 : b * (v3 - v2) = b * v3 - b * v2 := Int.mul_sub b v3 v2
+    omega
+  have hi_eq : i1 = i2 := by
+    change w * (v1 - v2) + a * (v1 - v3) = w * (v1 - v2) + b * (v3 - v2)
+    rw [hbal]
+  have hohm : (a + b) * i1 = det_red * (v1 - v2) := by
+    change (a + b) * (w * (v1 - v2) + a * (v1 - v3)) = det_red * (v1 - v2)
+    rw [Int.mul_add (a + b) (w * (v1 - v2)) (a * (v1 - v3))]
+    have hw_term : (a + b) * (w * (v1 - v2)) = (w * (a + b)) * (v1 - v2) := by
+      rw [← Int.mul_assoc (a + b) w (v1 - v2), Int.mul_comm (a + b) w]
+    have ha_diff : (a + b) * (v1 - v3) = b * (v1 - v2) := by
+      rw [Int.mul_sub (a + b) v1 v3, hkirch, Int.add_mul a b v1, Int.mul_sub b v1 v2]
+      omega
+    have ha_term : (a + b) * (a * (v1 - v3)) = (a * b) * (v1 - v2) := by
+      calc (a + b) * (a * (v1 - v3))
+          = ((a + b) * a) * (v1 - v3) := (Int.mul_assoc (a + b) a (v1 - v3)).symm
+        _ = (a * (a + b)) * (v1 - v3) := by rw [Int.mul_comm (a + b) a]
+        _ = a * ((a + b) * (v1 - v3)) := Int.mul_assoc a (a + b) (v1 - v3)
+        _ = a * (b * (v1 - v2)) := by rw [ha_diff]
+        _ = (a * b) * (v1 - v2) := (Int.mul_assoc a b (v1 - v2)).symm
+    rw [hw_term, ha_term, hdet, Int.add_mul (w * (a + b)) (a * b) (v1 - v2)]
   have hab : 0 < a * b := mul_pos_of_pos ha hb
-  omega
+  exact ⟨hdet, hi_eq, hohm, by omega⟩
 
-/-- Theorem 5: Universal Foster resistance sum identity on uniform K_N in cleared form.
-Across C(N, 2) edges each contributing w * (2 / (N * w)) = 2 / N, the doubled sum
-equals 2 * (N - 1) * N identically. -/
-theorem foster_uniform_kn_cleared (n : Int) :
-    n * (n - 1) * 2 = 2 * n * (n - 1) := by
-  calc
-    n * (n - 1) * 2 = 2 * (n * (n - 1)) := Int.mul_comm (n * (n - 1)) 2
-    _ = 2 * n * (n - 1) := (Int.mul_assoc 2 n (n - 1)).symm
+/-- Theorem 5: Universal uniform-K_N Kirchhoff dipole effective-resistance & Foster sum law.
+On complete graph K_n (n >= 2) with uniform edge conductance w > 0, for any dipole potential
+profile (vs at source s, vt < vs at sink t, vm at all n - 2 internal vertices) satisfying
+internal Kirchhoff balance 2*vm = vs + vt:
+  (1) every internal vertex has zero net Laplacian current (i_m = 0);
+  (2) total Laplacian current across all n vertices sums to zero: i_s + i_t + (n - 2)*i_m = 0;
+  (3) exact two-terminal Ohm's law 2*i_s = (n*w)*(vs - vt) (so R_eff = (vs - vt)/i_s = 2/(n*w))
+      with strictly positive dipole current 0 < i_s;
+  (4) summing w*R_eff across all C(n, 2) edges gives the cleared Foster identity
+      (n*(n - 1))*(w*(vs - vt)) = (n - 1)*(2*i_s) (i.e. C(n, 2)*w*R_eff = n - 1). -/
+theorem foster_uniform_kn_cleared (n w vs vt vm : Int)
+    (hn : 2 ≤ n) (hw : 0 < w) (hdrop : vt < vs)
+    (hkirch_int : 2 * vm = vs + vt) :
+    let i_s := w * (vs - vt) + (n - 2) * (w * (vs - vm))
+    let i_t := w * (vt - vs) + (n - 2) * (w * (vt - vm))
+    let i_m := w * (vm - vs) + w * (vm - vt) + (n - 3) * (w * (vm - vm))
+    (i_m = 0) ∧
+    (i_s + i_t + (n - 2) * i_m = 0) ∧
+    (2 * i_s = (n * w) * (vs - vt)) ∧
+    (0 < i_s) ∧
+    ((n * (n - 1)) * (w * (vs - vt)) = (n - 1) * (2 * i_s)) := by
+  intro i_s i_t i_m
+  have him : i_m = 0 := by
+    change w * (vm - vs) + w * (vm - vt) + (n - 3) * (w * (vm - vm)) = 0
+    have hself : vm - vm = 0 := by omega
+    rw [hself, Int.mul_zero, Int.mul_zero, Int.add_zero, ← Int.mul_add]
+    have hsum : (vm - vs) + (vm - vt) = 0 := by omega
+    rw [hsum, Int.mul_zero]
+  have hcons : i_s + i_t + (n - 2) * i_m = 0 := by
+    rw [him, Int.mul_zero, Int.add_zero]
+    change (w * (vs - vt) + (n - 2) * (w * (vs - vm))) +
+      (w * (vt - vs) + (n - 2) * (w * (vt - vm))) = 0
+    have hst : w * (vs - vt) + w * (vt - vs) = 0 := by
+      rw [← Int.mul_add]
+      have hz : (vs - vt) + (vt - vs) = 0 := by omega
+      rw [hz, Int.mul_zero]
+    have hsm : (n - 2) * (w * (vs - vm)) + (n - 2) * (w * (vt - vm)) = 0 := by
+      rw [← Int.mul_add, ← Int.mul_add]
+      have hz : (vs - vm) + (vt - vm) = 0 := by omega
+      rw [hz, Int.mul_zero, Int.mul_zero]
+    omega
+  have h2is : 2 * i_s = (n * w) * (vs - vt) := by
+    change 2 * (w * (vs - vt) + (n - 2) * (w * (vs - vm))) = (n * w) * (vs - vt)
+    have hmid : 2 * (vs - vm) = vs - vt := by omega
+    have h1 : 2 * ((n - 2) * (w * (vs - vm))) = (n - 2) * (w * (vs - vt)) := by
+      calc 2 * ((n - 2) * (w * (vs - vm)))
+          = ((n - 2) * 2) * (w * (vs - vm)) := by
+              rw [← Int.mul_assoc 2 (n - 2) (w * (vs - vm)), Int.mul_comm 2 (n - 2)]
+        _ = (n - 2) * (2 * (w * (vs - vm))) := Int.mul_assoc (n - 2) 2 (w * (vs - vm))
+        _ = (n - 2) * (w * (2 * (vs - vm))) := by
+              rw [← Int.mul_assoc 2 w (vs - vm), Int.mul_comm 2 w, Int.mul_assoc w 2 (vs - vm)]
+        _ = (n - 2) * (w * (vs - vt)) := by rw [hmid]
+    rw [Int.mul_add 2 (w * (vs - vt)) ((n - 2) * (w * (vs - vm))), h1]
+    have hsum_n : 2 * (w * (vs - vt)) + (n - 2) * (w * (vs - vt)) = n * (w * (vs - vt)) := by
+      rw [← Int.add_mul 2 (n - 2) (w * (vs - vt))]
+      have hn2 : 2 + (n - 2) = n := by omega
+      rw [hn2]
+    rw [hsum_n, ← Int.mul_assoc n w (vs - vt)]
+  have his_pos : 0 < i_s := by
+    have hnw : 0 < n * w := mul_pos_of_pos (by omega) hw
+    have hdv : 0 < vs - vt := by omega
+    have hprod : 0 < (n * w) * (vs - vt) := mul_pos_of_pos hnw hdv
+    omega
+  have hfoster : (n * (n - 1)) * (w * (vs - vt)) = (n - 1) * (2 * i_s) := by
+    rw [h2is]
+    calc (n * (n - 1)) * (w * (vs - vt))
+        = ((n - 1) * n) * (w * (vs - vt)) := by rw [Int.mul_comm n (n - 1)]
+      _ = (n - 1) * (n * (w * (vs - vt))) := Int.mul_assoc (n - 1) n (w * (vs - vt))
+      _ = (n - 1) * ((n * w) * (vs - vt)) := by rw [Int.mul_assoc n w (vs - vt)]
+  exact ⟨him, hcons, h2is, his_pos, hfoster⟩
 
 /-- Theorem 6 (h00 Al-Khwarizmi): Universal algebraic completing-the-square identity.
 For all integers x and b, 4 * (x^2 + b * x) + b^2 = (2 * x + b)^2 identically. -/
@@ -337,8 +443,8 @@ For c = p^2 - q^2, s = 2*p*q, D = p^2 + q^2, the counter-rotating 2x2 orthogonal
 R+ = [[c, -s], [s, c]] and R- = [[c, s], [-s, c]] acting on any vector (x, y) satisfy:
   (1) rational circle membership c^2 + s^2 = D^2;
   (2) R+ squared Euclidean norm preservation (c*x - s*y)^2 + (s*x + c*y)^2 = D^2*(x^2 + y^2);
-  (3) exact matrix-vector curl annihilation (R+ + R-)(x, y) = (2*c*x, 2*c*y);
-  (4) diameter collapse along (x, 0) with vanishing transverse component and squared norm 4*(c*x)^2. -/
+  (3) R- squared Euclidean norm preservation (c*x + s*y)^2 + (-s*x + c*y)^2 = D^2*(x^2 + y^2);
+  (4) exact matrix-vector curl annihilation (R+ + R-)(x, y) = (2*c*x, 2*c*y). -/
 theorem tusi_planar_curl_annihilation (p q x y : Int) :
     let c := p * p - q * q
     let s := 2 * (p * q)
@@ -346,11 +452,10 @@ theorem tusi_planar_curl_annihilation (p q x y : Int) :
     (c * c + s * s = D * D) ∧
     ((c * x - s * y) * (c * x - s * y) + (s * x + c * y) * (s * x + c * y) =
       (D * D) * (x * x + y * y)) ∧
+    ((c * x + s * y) * (c * x + s * y) + (-(s * x) + c * y) * (-(s * x) + c * y) =
+      (D * D) * (x * x + y * y)) ∧
     ((c * x - s * y) + (c * x + s * y) = (2 * c) * x ∧
-     (s * x + c * y) + (-(s * x) + c * y) = (2 * c) * y) ∧
-    ((s * x + (-(s * x)) = 0) ∧
-     (c * x + c * x) * (c * x + c * x) + (s * x + (-(s * x))) * (s * x + (-(s * x))) =
-       4 * ((c * x) * (c * x))) := by
+     (s * x + c * y) + (-(s * x) + c * y) = (2 * c) * y) := by
   intro c s D
   have hcircle : c * c + s * s = D * D := by
     change (p * p - q * q) * (p * p - q * q) + (2 * (p * q)) * (2 * (p * q)) =
@@ -375,49 +480,60 @@ theorem tusi_planar_curl_annihilation (p q x y : Int) :
         _ = 4 * ((p * q) * (p * q)) := by rw [← Int.mul_assoc 2 2 _]; rfl
         _ = 4 * ((p * p) * (q * q)) := by rw [hpq]
     omega
-  have hnorm : (c * x - s * y) * (c * x - s * y) + (s * x + c * y) * (s * x + c * y) =
+  have pcxx : c * x * (c * x) = (c * c) * (x * x) := by
+    calc c * x * (c * x) = c * (x * (c * x)) := Int.mul_assoc _ _ _
+      _ = c * (c * (x * x)) := by rw [← Int.mul_assoc x c x, Int.mul_comm x c, Int.mul_assoc c x x]
+      _ = (c * c) * (x * x) := (Int.mul_assoc c c (x * x)).symm
+  have psyy : s * y * (s * y) = (s * s) * (y * y) := by
+    calc s * y * (s * y) = s * (y * (s * y)) := Int.mul_assoc _ _ _
+      _ = s * (s * (y * y)) := by rw [← Int.mul_assoc y s y, Int.mul_comm y s, Int.mul_assoc s y y]
+      _ = (s * s) * (y * y) := (Int.mul_assoc s s (y * y)).symm
+  have pcxsy : c * x * (s * y) = (c * s) * (x * y) := by
+    calc c * x * (s * y) = c * (x * (s * y)) := Int.mul_assoc _ _ _
+      _ = c * (s * (x * y)) := by rw [← Int.mul_assoc x s y, Int.mul_comm x s, Int.mul_assoc s x y]
+      _ = (c * s) * (x * y) := (Int.mul_assoc c s (x * y)).symm
+  have psxx : s * x * (s * x) = (s * s) * (x * x) := by
+    calc s * x * (s * x) = s * (x * (s * x)) := Int.mul_assoc _ _ _
+      _ = s * (s * (x * x)) := by rw [← Int.mul_assoc x s x, Int.mul_comm x s, Int.mul_assoc s x x]
+      _ = (s * s) * (x * x) := (Int.mul_assoc s s (x * x)).symm
+  have pcyy : c * y * (c * y) = (c * c) * (y * y) := by
+    calc c * y * (c * y) = c * (y * (c * y)) := Int.mul_assoc _ _ _
+      _ = c * (c * (y * y)) := by rw [← Int.mul_assoc y c y, Int.mul_comm y c, Int.mul_assoc c y y]
+      _ = (c * c) * (y * y) := (Int.mul_assoc c c (y * y)).symm
+  have psxcy : s * x * (c * y) = (c * s) * (x * y) := by
+    calc s * x * (c * y) = s * (x * (c * y)) := Int.mul_assoc _ _ _
+      _ = s * (c * (x * y)) := by rw [← Int.mul_assoc x c y, Int.mul_comm x c, Int.mul_assoc c x y]
+      _ = (s * c) * (x * y) := (Int.mul_assoc s c (x * y)).symm
+      _ = (c * s) * (x * y) := by rw [Int.mul_comm s c]
+  have fx : (c * c) * (x * x) + (s * s) * (x * x) = (D * D) * (x * x) := by
+    rw [← Int.add_mul, hcircle]
+  have fy : (s * s) * (y * y) + (c * c) * (y * y) = (D * D) * (y * y) := by
+    rw [← Int.add_mul, Int.add_comm (s * s) (c * c), hcircle]
+  have hrhs : (D * D) * (x * x + y * y) = (D * D) * (x * x) + (D * D) * (y * y) :=
+    Int.mul_add (D * D) (x * x) (y * y)
+  have hnorm_pos : (c * x - s * y) * (c * x - s * y) + (s * x + c * y) * (s * x + c * y) =
       (D * D) * (x * x + y * y) := by
     have e1 : (c * x - s * y) * (c * x - s * y) =
         (c * c) * (x * x) - 2 * ((c * s) * (x * y)) + (s * s) * (y * y) := by
-      rw [Int.sub_mul, Int.mul_sub, Int.mul_sub]
-      have p1 : c * x * (c * x) = (c * c) * (x * x) := by
-        calc c * x * (c * x) = c * (x * (c * x)) := Int.mul_assoc _ _ _
-          _ = c * (c * (x * x)) := by rw [← Int.mul_assoc x c x, Int.mul_comm x c, Int.mul_assoc c x x]
-          _ = (c * c) * (x * x) := (Int.mul_assoc c c (x * x)).symm
-      have p2 : s * y * (s * y) = (s * s) * (y * y) := by
-        calc s * y * (s * y) = s * (y * (s * y)) := Int.mul_assoc _ _ _
-          _ = s * (s * (y * y)) := by rw [← Int.mul_assoc y s y, Int.mul_comm y s, Int.mul_assoc s y y]
-          _ = (s * s) * (y * y) := (Int.mul_assoc s s (y * y)).symm
-      have p3 : c * x * (s * y) = (c * s) * (x * y) := by
-        calc c * x * (s * y) = c * (x * (s * y)) := Int.mul_assoc _ _ _
-          _ = c * (s * (x * y)) := by rw [← Int.mul_assoc x s y, Int.mul_comm x s, Int.mul_assoc s x y]
-          _ = (c * s) * (x * y) := (Int.mul_assoc c s (x * y)).symm
-      have p4 : s * y * (c * x) = (c * s) * (x * y) := by rw [Int.mul_comm (s * y) (c * x), p3]
+      rw [Int.sub_mul, Int.mul_sub, Int.mul_sub, pcxx, psyy, pcxsy, Int.mul_comm (s * y) (c * x), pcxsy]
       omega
     have e2 : (s * x + c * y) * (s * x + c * y) =
         (s * s) * (x * x) + 2 * ((c * s) * (x * y)) + (c * c) * (y * y) := by
-      rw [Int.add_mul, Int.mul_add, Int.mul_add]
-      have p1 : s * x * (s * x) = (s * s) * (x * x) := by
-        calc s * x * (s * x) = s * (x * (s * x)) := Int.mul_assoc _ _ _
-          _ = s * (s * (x * x)) := by rw [← Int.mul_assoc x s x, Int.mul_comm x s, Int.mul_assoc s x x]
-          _ = (s * s) * (x * x) := (Int.mul_assoc s s (x * x)).symm
-      have p2 : c * y * (c * y) = (c * c) * (y * y) := by
-        calc c * y * (c * y) = c * (y * (c * y)) := Int.mul_assoc _ _ _
-          _ = c * (c * (y * y)) := by rw [← Int.mul_assoc y c y, Int.mul_comm y c, Int.mul_assoc c y y]
-          _ = (c * c) * (y * y) := (Int.mul_assoc c c (y * y)).symm
-      have p3 : s * x * (c * y) = (c * s) * (x * y) := by
-        calc s * x * (c * y) = s * (x * (c * y)) := Int.mul_assoc _ _ _
-          _ = s * (c * (x * y)) := by rw [← Int.mul_assoc x c y, Int.mul_comm x c, Int.mul_assoc c x y]
-          _ = (s * c) * (x * y) := (Int.mul_assoc s c (x * y)).symm
-          _ = (c * s) * (x * y) := by rw [Int.mul_comm s c]
-      have p4 : c * y * (s * x) = (c * s) * (x * y) := by rw [Int.mul_comm (c * y) (s * x), p3]
+      rw [Int.add_mul, Int.mul_add, Int.mul_add, psxx, pcyy, psxcy, Int.mul_comm (c * y) (s * x), psxcy]
       omega
-    have fx : (c * c) * (x * x) + (s * s) * (x * x) = (D * D) * (x * x) := by
-      rw [← Int.add_mul, hcircle]
-    have fy : (s * s) * (y * y) + (c * c) * (y * y) = (D * D) * (y * y) := by
-      rw [← Int.add_mul, Int.add_comm (s * s) (c * c), hcircle]
-    have hrhs : (D * D) * (x * x + y * y) = (D * D) * (x * x) + (D * D) * (y * y) :=
-      Int.mul_add (D * D) (x * x) (y * y)
+    omega
+  have hnorm_neg : (c * x + s * y) * (c * x + s * y) + (-(s * x) + c * y) * (-(s * x) + c * y) =
+      (D * D) * (x * x + y * y) := by
+    have hrew : -(s * x) + c * y = c * y - s * x := by omega
+    rw [hrew]
+    have e1 : (c * x + s * y) * (c * x + s * y) =
+        (c * c) * (x * x) + 2 * ((c * s) * (x * y)) + (s * s) * (y * y) := by
+      rw [Int.add_mul, Int.mul_add, Int.mul_add, pcxx, psyy, pcxsy, Int.mul_comm (s * y) (c * x), pcxsy]
+      omega
+    have e2 : (c * y - s * x) * (c * y - s * x) =
+        (c * c) * (y * y) - 2 * ((c * s) * (x * y)) + (s * s) * (x * x) := by
+      rw [Int.sub_mul, Int.mul_sub, Int.mul_sub, pcyy, psxx, Int.mul_comm (c * y) (s * x), psxcy]
+      omega
     omega
   have h2cx : (2 * c) * x = c * x + c * x := by
     have t : 2 * c = c + c := by omega
@@ -425,27 +541,18 @@ theorem tusi_planar_curl_annihilation (p q x y : Int) :
   have h2cy : (2 * c) * y = c * y + c * y := by
     have t : 2 * c = c + c := by omega
     rw [t, Int.add_mul]
-  have hzero : s * x + -(s * x) = 0 := Int.add_right_neg (s * x)
-  have hsq : (c * x + c * x) * (c * x + c * x) = 4 * ((c * x) * (c * x)) := by
-    have htwo : c * x + c * x = 2 * (c * x) := by omega
-    rw [htwo]
-    calc (2 * (c * x)) * (2 * (c * x)) = 2 * ((c * x) * (2 * (c * x))) := Int.mul_assoc _ _ _
-      _ = 2 * (2 * ((c * x) * (c * x))) := by
-          rw [← Int.mul_assoc (c * x) 2 (c * x), Int.mul_comm (c * x) 2, Int.mul_assoc 2 (c * x) (c * x)]
-      _ = 4 * ((c * x) * (c * x)) := by rw [← Int.mul_assoc 2 2 _]; rfl
-  refine ⟨hcircle, hnorm, ⟨by omega, by omega⟩, ⟨hzero, ?_⟩⟩
-  rw [hzero, hsq]
-  omega
+  exact ⟨hcircle, hnorm_pos, hnorm_neg, ⟨by omega, by omega⟩⟩
 
-/-- Theorem 13 (h05 Nasir al-Din al-Tusi): Explicit 3x3 SO(3) spherical Tusi-couple
-4-matrix product & non-Abelian commutator obstruction on S^2.
-Composing the four explicit 3x3 cleared rotations R_z(theta) * R_y(alpha) * R_z(-2*theta) * R_y(alpha)
-acting on the pole e_3 = (0, 0, 1) (with double-angle c2 = ct^2 - st^2, s2 = 2*st*ct, D2 = ct^2 + st^2):
-  (1) the exact lateral hippopede coordinate equals -2 * sa * (Da - ca) * st * ct^2;
-  (2) for any non-flat spherical tilt (0 < sa, ca < Da) and generic phase (st != 0, ct != 0),
-      the squared lateral deviation v4y * v4y is strictly positive (> 0);
-  (3) the 3x3 commutator (R_z(theta)*R_y(alpha) - R_y(alpha)*R_z(theta)) e_3 has y-component
-      st * sa with strictly positive square (proving non-commutativity of SO(3) rotations). -/
+/-- Theorem 13 (h05 Nasir al-Din al-Tusi): Algebraic polynomial identity and strict positivity
+for the expanded scalar coordinates of the spherical Tusi-couple hippopede and commutator.
+Evaluating the expanded scalar polynomial coordinates corresponding to the four cleared rotation
+stages R_z(theta) * R_y(alpha) * R_z(-2*theta) * R_y(alpha) on (0, 0, 1) (with double-angle
+polynomials c2 = ct^2 - st^2, s2 = 2*st*ct, D2 = ct^2 + st^2; explicit 3x3 matrix multiplication
+is verified in the Python pure-Q oracle rather than via matrix types or ca^2 + sa^2 = Da^2 here):
+  (1) the expanded lateral coordinate v4y equals -2 * sa * (Da - ca) * st * ct^2;
+  (2) for any non-flat tilt parameters (0 < sa, ca < Da) and generic phase (st != 0, ct != 0),
+      the squared lateral coordinate v4y * v4y is strictly positive (> 0);
+  (3) the expanded commutator y-coordinate st * sa - 0 has strictly positive square (> 0). -/
 theorem tusi_spherical_obstruction_pos (Da ca sa ct st : Int)
     (hsa : 0 < sa) (hca : ca < Da) (hst : st ≠ 0) (hct : ct ≠ 0) :
     let c2 := ct * ct - st * st
@@ -593,12 +700,33 @@ theorem kashi_cubic_difference_factorization (x y : Int) :
       _ = x * (y * y) := Int.mul_assoc x y y
   omega
 
-/-- Theorem 15 (h07 Kamal al-Din al-Farisi): Universal rainbow caustic separation (Alexander band).
-For every refractive index n = n_num / n_den > 1, the secondary caustic cos^2(i_2) = (n^2-1)/8
-is strictly less than the primary caustic cos^2(i_1) = (n^2-1)/3 in cleared integer form. -/
+/-- Theorem 15 (h07 Kamal al-Din al-Farisi): Stationary-deviation k-reflection rainbow caustic
+derivation (dD_k/di = 0 + Snell's law) and Alexander dark-band separation.
+For a spherical drop of refractive index n = n_num / n_den > 1 (0 < n_den < n_num):
+  (1) tangent stationary deviation 2*di - 2*(k + 1)*dr = 0 (from D_k = 2*i - 2*(k + 1)*r + k*pi)
+      combined with differentiated Snell's law (n_den*ci)*di = (n_num*cr)*dr (dr != 0) forces
+      (k + 1)*(n_den*ci) = n_num*cr;
+  (2) eliminating cr2 between cleared Snell's law n_den^2*(c_den - ci2) = n_num^2*(c_den - cr2)
+      and squared stationary condition (k + 1)^2*(n_den^2*ci2) = n_num^2*cr2 proves the universal
+      k-reflection caustic law (k*(k + 2))*(n_den^2*ci2) = (n_num^2 - n_den^2)*c_den;
+  (3) at primary (k = 1, divisor 1*3 = 3) and secondary (k = 2, divisor 2*4 = 8) caustics over
+      common denominator c_den > 0, 0 < ci2_2 < ci2_1 (cos^2(i_2) < cos^2(i_1), i_1 < i_2). -/
 theorem farisi_rainbow_caustic_separation (n_num n_den : Int)
     (hd : 0 < n_den) (hgt : n_den < n_num) :
-    (n_num * n_num - n_den * n_den) * 3 < (n_num * n_num - n_den * n_den) * 8 := by
+    (∀ k ci cr di dr : Int,
+      dr ≠ 0 →
+      2 * di - 2 * (k + 1) * dr = 0 →
+      (n_den * ci) * di = (n_num * cr) * dr →
+      (k + 1) * (n_den * ci) = n_num * cr) ∧
+    (∀ k ci2 cr2 c_den : Int,
+      (n_den * n_den) * (c_den - ci2) = (n_num * n_num) * (c_den - cr2) →
+      ((k + 1) * (k + 1)) * ((n_den * n_den) * ci2) = (n_num * n_num) * cr2 →
+      (k * (k + 2)) * ((n_den * n_den) * ci2) = (n_num * n_num - n_den * n_den) * c_den) ∧
+    (∀ ci2_1 ci2_2 c_den : Int,
+      0 < c_den →
+      3 * ((n_den * n_den) * ci2_1) = (n_num * n_num - n_den * n_den) * c_den →
+      8 * ((n_den * n_den) * ci2_2) = (n_num * n_num - n_den * n_den) * c_den →
+      0 < ci2_2 ∧ ci2_2 < ci2_1) := by
   have hdiff_pos : 0 < n_num - n_den := by omega
   have hsum_pos : 0 < n_num + n_den := by omega
   have hfac : n_num * n_num - n_den * n_den = (n_num - n_den) * (n_num + n_den) := by
@@ -614,7 +742,114 @@ theorem farisi_rainbow_caustic_separation (n_num n_den : Int)
   have hpos : 0 < n_num * n_num - n_den * n_den := by
     rw [hfac]
     exact mul_pos_of_pos hdiff_pos hsum_pos
-  omega
+  have hd2_pos : 0 < n_den * n_den := mul_pos_of_pos hd hd
+  refine ⟨?_, ?_, ?_⟩
+  · intro k ci cr di dr hdr hdD hdSnell
+    have hdi : di = (k + 1) * dr := by
+      have hm : 2 * ((k + 1) * dr) = 2 * (k + 1) * dr := (Int.mul_assoc 2 (k + 1) dr).symm
+      omega
+    rw [hdi] at hdSnell
+    have hassoc : (n_den * ci) * ((k + 1) * dr) = ((k + 1) * (n_den * ci)) * dr := by
+      rw [← Int.mul_assoc (n_den * ci) (k + 1) dr, Int.mul_comm (n_den * ci) (k + 1)]
+    rw [hassoc] at hdSnell
+    have hzero : ((k + 1) * (n_den * ci) - n_num * cr) * dr = 0 := by
+      rw [Int.sub_mul, hdSnell]
+      omega
+    let diff := (k + 1) * (n_den * ci) - n_num * cr
+    have hdiff_zero : diff = 0 := by
+      cases Int.lt_trichotomy diff 0 with
+      | inl hlt =>
+        have hnd : 0 < -diff := by omega
+        cases Int.lt_or_gt_of_ne hdr with
+        | inl hdr_neg =>
+          have hndr : 0 < -dr := by omega
+          have hp : 0 < (-diff) * (-dr) := mul_pos_of_pos hnd hndr
+          rw [Int.neg_mul_neg] at hp
+          change diff * dr = 0 at hzero
+          omega
+        | inr hdr_pos =>
+          have hp : 0 < (-diff) * dr := mul_pos_of_pos hnd hdr_pos
+          rw [Int.neg_mul] at hp
+          change diff * dr = 0 at hzero
+          omega
+      | inr hrest =>
+        cases hrest with
+        | inl heq => exact heq
+        | inr hgt_d =>
+          cases Int.lt_or_gt_of_ne hdr with
+          | inl hdr_neg =>
+            have hndr : 0 < -dr := by omega
+            have hp : 0 < diff * (-dr) := mul_pos_of_pos hgt_d hndr
+            rw [Int.mul_neg] at hp
+            change diff * dr = 0 at hzero
+            omega
+          | inr hdr_pos =>
+            have hp : 0 < diff * dr := mul_pos_of_pos hgt_d hdr_pos
+            change diff * dr = 0 at hzero
+            omega
+    change (k + 1) * (n_den * ci) - n_num * cr = 0 at hdiff_zero
+    omega
+  · intro k ci2 cr2 c_den hsnell hstat
+    have hs1 : (n_den * n_den) * (c_den - ci2) =
+        (n_den * n_den) * c_den - (n_den * n_den) * ci2 :=
+      Int.mul_sub (n_den * n_den) c_den ci2
+    have hs2 : (n_num * n_num) * (c_den - cr2) =
+        (n_num * n_num) * c_den - (n_num * n_num) * cr2 :=
+      Int.mul_sub (n_num * n_num) c_den cr2
+    have hk_id : (k + 1) * (k + 1) - 1 = k * (k + 2) := by
+      have e1 : (k + 1) * (k + 1) = k * k + 2 * k + 1 := by
+        rw [Int.add_mul, Int.mul_add, Int.mul_add]
+        omega
+      have e2 : k * (k + 2) = k * k + 2 * k := by
+        rw [Int.mul_add, Int.mul_comm k 2]
+      omega
+    have hlhs : (k * (k + 2)) * ((n_den * n_den) * ci2) =
+        ((k + 1) * (k + 1)) * ((n_den * n_den) * ci2) - 1 * ((n_den * n_den) * ci2) := by
+      rw [← hk_id, Int.sub_mul]
+    have hrhs : (n_num * n_num - n_den * n_den) * c_den =
+        (n_num * n_num) * c_den - (n_den * n_den) * c_den :=
+      Int.sub_mul (n_num * n_num) (n_den * n_den) c_den
+    have hone : 1 * ((n_den * n_den) * ci2) = (n_den * n_den) * ci2 :=
+      Int.one_mul ((n_den * n_den) * ci2)
+    omega
+  · intro ci2_1 ci2_2 c_den hc_pos hprim hsec
+    have hrhs_pos : 0 < (n_num * n_num - n_den * n_den) * c_den :=
+      mul_pos_of_pos hpos hc_pos
+    have hd2_ci2_pos : 0 < (n_den * n_den) * ci2_2 := by omega
+    have hci2_pos : 0 < ci2_2 := by
+      cases Int.le_total ci2_2 0 with
+      | inl hle =>
+        have hn : 0 ≤ -ci2_2 := by omega
+        have hm : 0 ≤ (n_den * n_den) * (-ci2_2) :=
+          Int.mul_nonneg (Int.le_of_lt hd2_pos) hn
+        rw [Int.mul_neg] at hm
+        omega
+      | inr hge =>
+        cases Int.lt_or_gt_of_ne (by
+          intro hz
+          rw [hz, Int.mul_zero] at hd2_ci2_pos
+          omega : ci2_2 ≠ 0) with
+        | inl hlt => omega
+        | inr hgt_c => exact hgt_c
+    have hgap_scaled : 0 < (n_den * n_den) * (ci2_1 - ci2_2) := by
+      rw [Int.mul_sub]
+      omega
+    have hlt_12 : ci2_2 < ci2_1 := by
+      cases Int.le_total (ci2_1 - ci2_2) 0 with
+      | inl hle =>
+        have hn : 0 ≤ -(ci2_1 - ci2_2) := by omega
+        have hm : 0 ≤ (n_den * n_den) * (-(ci2_1 - ci2_2)) :=
+          Int.mul_nonneg (Int.le_of_lt hd2_pos) hn
+        rw [Int.mul_neg] at hm
+        omega
+      | inr hge =>
+        cases Int.lt_or_gt_of_ne (by
+          intro hz
+          rw [hz, Int.mul_zero] at hgap_scaled
+          omega : ci2_1 - ci2_2 ≠ 0) with
+        | inl hlt => omega
+        | inr hgt_d => omega
+    exact ⟨hci2_pos, hlt_12⟩
 
 /-- Theorem 16 (h08 Al-Khazini): Exact 2-metal hydrostatic alloy inverse identity.
 Given component masses m1, m2 and specific gravities r1, r2, eliminating m2 yields
