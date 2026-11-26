@@ -25,11 +25,13 @@ Certifies four pillars anchored to `hozifa1/islamic-scientific-heritage`
 from __future__ import annotations
 
 import csv
+import errno
 from fractions import Fraction
 import hashlib
 import json
 import os
 from pathlib import Path
+import stat
 from typing import Any
 
 TRACK_ID = "BAYT-AL-HIKMA-HERITAGE-CORPUS-ATLAS"
@@ -46,7 +48,7 @@ GIB_BYTES = 1073741824
 
 # Pinned Lean 4.36.0 companion (`ClassicalHeritageAtlas.lean`)
 LEAN_FILE_NAME = "ClassicalHeritageAtlas.lean"
-LEAN_FILE_SHA256 = "83274dde83f2aa8cc5629b4509e9ff8e755ae724bc6f5d6f00d106bec3212cab"
+LEAN_FILE_SHA256 = "55832d30fe3af2ef1c5f2d22b638d4f927d9f1e3bef09729c81ec2bbf24f239a"
 LEAN_THEOREMS: tuple[str, ...] = (
     "ClassicalHeritageAtlas.kn_silo_cut_edges_exact",
     "ClassicalHeritageAtlas.k10_silo_cut_five_five_ladder",
@@ -237,6 +239,11 @@ def compute_pillar1_corpus_audit(
     ext_rows: tuple[dict[str, Any], ...] = INVENTORY_BY_EXT,
     text_ext_rows: tuple[dict[str, Any], ...] = TEXT_LAYER_BY_EXT,
     text_dir_rows: tuple[dict[str, Any], ...] = TEXT_LAYER_BY_TOP_DIR,
+    work_tier_rows: tuple[dict[str, Any], ...] = WORK_TIER_DISTRIBUTION,
+    malformed_rows: tuple[dict[str, Any], ...] = MALFORMED_JSONL_FILES,
+    total_lines: int = 261840,
+    crlf_files: int = 106,
+    complete_pdf_trios: int = 51,
 ) -> dict[str, Any]:
     total_files = sum(r["files"] for r in top_dirs)
     total_pdfs = sum(r["pdfs"] for r in top_dirs)
@@ -267,16 +274,14 @@ def compute_pillar1_corpus_audit(
         "downloaded text byte count mismatch",
     )
 
-    total_words = sum(r["words"] for r in TEXT_LAYER_BY_EXT)
-    total_chars = sum(r["chars"] for r in TEXT_LAYER_BY_EXT)
-    total_lines = 261840
-    tiered_works = sum(r["works"] for r in WORK_TIER_DISTRIBUTION)
-    complete_trios = sum(r["works"] for r in WORK_TIER_DISTRIBUTION if r["tier_count"] == 3)
-    partial_two_tier = sum(r["works"] for r in WORK_TIER_DISTRIBUTION if r["tier_count"] == 2)
-    single_tier = sum(r["works"] for r in WORK_TIER_DISTRIBUTION if r["tier_count"] == 1)
-    bad_jsonl_lines = sum(r["bad_lines"] for r in MALFORMED_JSONL_FILES)
-    checked_jsonl_lines = sum(r["nonempty_lines"] for r in MALFORMED_JSONL_FILES)
-    crlf_files = 106
+    total_words = sum(r["words"] for r in text_ext_rows)
+    total_chars = sum(r["chars"] for r in text_ext_rows)
+    tiered_works = sum(r["works"] for r in work_tier_rows)
+    complete_trios = sum(r["works"] for r in work_tier_rows if r["tier_count"] == 3)
+    partial_two_tier = sum(r["works"] for r in work_tier_rows if r["tier_count"] == 2)
+    single_tier = sum(r["works"] for r in work_tier_rows if r["tier_count"] == 1)
+    bad_jsonl_lines = sum(r["bad_lines"] for r in malformed_rows)
+    checked_jsonl_lines = sum(r["nonempty_lines"] for r in malformed_rows)
 
     return {
         "repo_id": DATASET_REPO_ID,
@@ -298,15 +303,15 @@ def compute_pillar1_corpus_audit(
             "downloaded_text_lines": total_lines,
             "tiered_works_total": tiered_works,
             "complete_trios_3_of_3": complete_trios,
-            "complete_pdf_trios_3_of_3": 51,
+            "complete_pdf_trios_3_of_3": complete_pdf_trios,
             "partial_works_2_of_3": partial_two_tier,
             "single_tier_works_1_of_3": single_tier,
         },
-        "by_top_dir": [dict(r) for r in INVENTORY_BY_TOP_DIR],
-        "by_extension": [dict(r) for r in INVENTORY_BY_EXT],
-        "text_layer_by_extension": [dict(r) for r in TEXT_LAYER_BY_EXT],
-        "text_layer_by_top_dir": [dict(r) for r in TEXT_LAYER_BY_TOP_DIR],
-        "work_tier_distribution": [dict(r) for r in WORK_TIER_DISTRIBUTION],
+        "by_top_dir": [dict(r) for r in top_dirs],
+        "by_extension": [dict(r) for r in ext_rows],
+        "text_layer_by_extension": [dict(r) for r in text_ext_rows],
+        "text_layer_by_top_dir": [dict(r) for r in text_dir_rows],
+        "work_tier_distribution": [dict(r) for r in work_tier_rows],
         "quality_diagnostics_law4": {
             "zero_byte_inventory_files": 0,
             "zero_byte_text_files": 0,
@@ -315,11 +320,11 @@ def compute_pillar1_corpus_audit(
             "duplicate_sha256_text_files": 0,
             "crlf_text_files": crlf_files,
             "crlf_text_fraction": fmt_q(Fraction(crlf_files, dl_text_files_ext)),
-            "malformed_jsonl_file_count": len(MALFORMED_JSONL_FILES),
+            "malformed_jsonl_file_count": len(malformed_rows),
             "malformed_jsonl_bad_lines": bad_jsonl_lines,
             "malformed_jsonl_checked_lines": checked_jsonl_lines,
             "malformed_jsonl_bad_fraction": fmt_q(Fraction(bad_jsonl_lines, checked_jsonl_lines)),
-            "malformed_jsonl_files": [dict(r) for r in MALFORMED_JSONL_FILES],
+            "malformed_jsonl_files": [dict(r) for r in malformed_rows],
             "readme_pdf_discipline_l1_drift": readme_pdf_l1_drift,
             "readme_omitted_top_dirs": ["04_physics_optics", "raw_data"],
             "readme_claimed_works": 156,
@@ -991,6 +996,197 @@ def build_certificate() -> dict[str, Any]:
     }
 
 
+MAX_CORPUS_FILE_BYTES = 64 * 1024 * 1024
+MAX_CORPUS_JSON_DEPTH = 64
+MAX_CORPUS_INT_DIGITS = 1024
+
+
+def _norm_corpus_parts(path: Path) -> list[str]:
+    full = path if path.is_absolute() else (Path(os.getcwd()) / path)
+    parts: list[str] = []
+    for part in full.parts[1:]:
+        if part == "..":
+            if parts:
+                parts.pop()
+        elif part != ".":
+            parts.append(part)
+    return parts
+
+
+def _open_corpus_dir_chain(dir_parts: list[str]) -> int:
+    """Open directory chain from '/' using O_DIRECTORY | O_NOFOLLOW + lstat symlink guard."""
+    dflags = os.O_RDONLY | os.O_DIRECTORY | getattr(os, "O_NOFOLLOW", 0)
+    dfd = os.open("/", dflags)
+    for comp in dir_parts:
+        try:
+            st_c = os.lstat(comp, dir_fd=dfd)
+            if stat.S_ISLNK(st_c.st_mode):
+                os.close(dfd)
+                raise S89Error("SYMLINK_FORBIDDEN", f"symlink directory component: {comp}")
+            nxt = os.open(comp, dflags, dir_fd=dfd)
+        except S89Error:
+            raise
+        except FileNotFoundError as exc:
+            os.close(dfd)
+            raise S89Error("LIVE_PATH_MISSING", f"missing directory component: {comp}") from exc
+        except OSError as exc:
+            os.close(dfd)
+            raise S89Error("NOT_DIRECTORY", f"non-directory component: {comp}") from exc
+        os.close(dfd)
+        dfd = nxt
+    return dfd
+
+
+def _read_corpus_regular_bytes(
+    path: Path,
+    *,
+    missing_code: str = "LIVE_PATH_MISSING",
+    max_bytes: int = MAX_CORPUS_FILE_BYTES,
+) -> bytes:
+    """Read regular non-symlink, non-FIFO file bytes with O_NOFOLLOW | O_NONBLOCK and size cap."""
+    parts = _norm_corpus_parts(path)
+    require_ok(len(parts) > 0, "NOT_REGULAR_FILE", "root path is not a regular file")
+    dfd = _open_corpus_dir_chain(parts[:-1])
+    oflags = (
+        os.O_RDONLY
+        | getattr(os, "O_NOFOLLOW", 0)
+        | getattr(os, "O_NONBLOCK", 0)
+        | getattr(os, "O_NOCTTY", 0)
+    )
+    fd: int | None = None
+    try:
+        try:
+            fd = os.open(parts[-1], oflags, dir_fd=dfd)
+        except FileNotFoundError as exc:
+            raise S89Error(missing_code, f"missing file: {parts[-1]}") from exc
+        except OSError as exc:
+            if exc.errno == errno.ELOOP:
+                raise S89Error("SYMLINK_FORBIDDEN", f"symlink forbidden: {parts[-1]}") from exc
+            raise S89Error("FILE_OPEN_FAILED", f"cannot open {parts[-1]}: {exc}") from exc
+        st_f = os.fstat(fd)
+        require_ok(stat.S_ISREG(st_f.st_mode), "NOT_REGULAR_FILE", f"not regular file: {parts[-1]}")
+        chunks: list[bytes] = []
+        total = 0
+        while True:
+            blk = os.read(fd, min(65536, max_bytes - total + 1))
+            if not blk:
+                break
+            total += len(blk)
+            require_ok(total <= max_bytes, "FILE_TOO_LARGE", f"file exceeds {max_bytes} bytes: {parts[-1]}")
+            chunks.append(blk)
+        return b"".join(chunks)
+    finally:
+        if fd is not None:
+            os.close(fd)
+        os.close(dfd)
+
+
+def _walk_corpus_tree_nofol(text_root: Path) -> tuple[int, int]:
+    """Walk corpus directory tree via dir_fd + O_NOFOLLOW, refusing symlinks and non-regular files."""
+    root_fd = _open_corpus_dir_chain(_norm_corpus_parts(text_root))
+    stack: list[int] = [root_fd]
+    file_cnt = 0
+    byte_cnt = 0
+    dflags = os.O_RDONLY | os.O_DIRECTORY | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        while stack:
+            cur_fd = stack.pop()
+            try:
+                for name in sorted(os.listdir(cur_fd)):
+                    if name == ".cache":
+                        continue
+                    st_e = os.lstat(name, dir_fd=cur_fd)
+                    require_ok(
+                        not stat.S_ISLNK(st_e.st_mode),
+                        "SYMLINK_FORBIDDEN",
+                        f"symlink inside corpus tree: {name}",
+                    )
+                    if stat.S_ISDIR(st_e.st_mode):
+                        stack.append(os.open(name, dflags, dir_fd=cur_fd))
+                    else:
+                        require_ok(
+                            stat.S_ISREG(st_e.st_mode),
+                            "NOT_REGULAR_FILE",
+                            f"non-regular entry inside corpus tree: {name}",
+                        )
+                        file_cnt += 1
+                        byte_cnt += st_e.st_size
+            finally:
+                os.close(cur_fd)
+    finally:
+        while stack:
+            os.close(stack.pop())
+    return file_cnt, byte_cnt
+
+
+def _parse_corpus_bounded_int(token: str) -> int:
+    digits = token[1:] if token.startswith("-") else token
+    require_ok(len(digits) <= MAX_CORPUS_INT_DIGITS, "INT_TOO_LARGE", "JSON integer exceeds digit limit")
+    return int(token)
+
+
+def _reject_corpus_float(token: str) -> Any:
+    raise S89Error("FLOAT_FORBIDDEN", f"JSON float forbidden: {token}")
+
+
+def _reject_corpus_constant(token: str) -> Any:
+    raise S89Error("NONFINITE_JSON", f"non-finite JSON constant forbidden: {token}")
+
+
+def _no_dup_corpus_pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    out: dict[str, Any] = {}
+    for k, v in pairs:
+        require_ok(k not in out, "DUPLICATE_JSON_KEY", f"duplicate JSON key: {k}")
+        out[k] = v
+    return out
+
+
+def _check_corpus_json_depth(text: str) -> None:
+    depth = 0
+    in_str = False
+    esc = False
+    for ch in text:
+        if in_str:
+            if esc:
+                esc = False
+            elif ch == "\\":
+                esc = True
+            elif ch == '"':
+                in_str = False
+        elif ch == '"':
+            in_str = True
+        elif ch in "{[":
+            depth += 1
+            require_ok(depth <= MAX_CORPUS_JSON_DEPTH, "MAX_DEPTH_EXCEEDED", "JSON nesting depth exceeds limit")
+        elif ch in "}]":
+            if depth > 0:
+                depth -= 1
+
+
+def parse_strict_corpus_json_bytes(raw: bytes, *, require_object: bool = True) -> Any:
+    """Strict zero-float, depth-bounded, digit-bounded JSON parser for live corpus checks."""
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise S89Error("INVALID_UTF8", f"invalid UTF-8 JSON: {exc}") from exc
+    _check_corpus_json_depth(text)
+    try:
+        obj = json.loads(
+            text,
+            parse_int=_parse_corpus_bounded_int,
+            parse_float=_reject_corpus_float,
+            parse_constant=_reject_corpus_constant,
+            object_pairs_hook=_no_dup_corpus_pairs,
+        )
+    except S89Error:
+        raise
+    except (ValueError, RecursionError) as exc:
+        raise S89Error("INVALID_JSON", f"JSON parse error: {exc}") from exc
+    if require_object:
+        require_ok(type(obj) is dict, "NON_OBJECT_ROOT", "JSON root must be an object")
+    return obj
+
+
 def verify_live_corpus_on_disk(
     text_root: Path,
     inventory_path: Path,
@@ -1003,14 +1199,21 @@ def verify_live_corpus_on_disk(
     expected_text_bytes: int = 119327981,
     malformed_files: tuple[dict[str, Any], ...] = MALFORMED_JSONL_FILES,
     sample_csv_rel: str = "03_mathematics/ghiyath_al_din_omar_khayyam_439_515h/al_jabr_wa_al_muqabala/omar_khayyam_algebra_metadata.csv",
+    max_file_bytes: int = MAX_CORPUS_FILE_BYTES,
 ) -> dict[str, Any]:
     """Read-only verification of live on-disk corpus against Pillar 1 & Pillar 2 pins."""
-    inv_raw = inventory_path.read_bytes()
+    os.close(_open_corpus_dir_chain(_norm_corpus_parts(text_root)))
+    inv_raw = _read_corpus_regular_bytes(inventory_path, max_bytes=max_file_bytes)
     inv_sha = hashlib.sha256(inv_raw).hexdigest()
     require_ok(inv_sha == expected_inv_sha, "LIVE_INV_SHA_MISMATCH", f"inventory sha {inv_sha} != {expected_inv_sha}")
-    inv = json.loads(inv_raw.decode("utf-8"))
+    inv = parse_strict_corpus_json_bytes(inv_raw, require_object=True)
     require_ok(inv.get("sha") == expected_commit_sha, "LIVE_REPO_SHA_MISMATCH", "dataset commit sha mismatch")
-    require_ok(len(inv.get("siblings", [])) == expected_siblings, "LIVE_INV_COUNT_MISMATCH", "sibling count mismatch")
+    siblings_val = inv.get("siblings")
+    require_ok(
+        type(siblings_val) is list and len(siblings_val) == expected_siblings,
+        "LIVE_INV_COUNT_MISMATCH",
+        "sibling count mismatch",
+    )
 
     # Verify all pinned primary & secondary anchor files bit-for-bit on disk
     verified_anchors = 0
@@ -1018,42 +1221,56 @@ def verify_live_corpus_on_disk(
         for slot in ("primary_anchor", "secondary_anchor"):
             meta = node[slot]
             fp = text_root / meta["rel_path"]
-            require_ok(fp.is_file(), "LIVE_ANCHOR_MISSING", f"missing anchor {meta['rel_path']}")
-            raw = fp.read_bytes()
+            raw = _read_corpus_regular_bytes(
+                fp,
+                missing_code="LIVE_ANCHOR_MISSING",
+                max_bytes=max_file_bytes,
+            )
             sha = hashlib.sha256(raw).hexdigest()
             require_ok(len(raw) == meta["bytes"], "LIVE_ANCHOR_SIZE_MISMATCH", meta["rel_path"])
             require_ok(sha == meta["sha256"], "LIVE_ANCHOR_SHA_MISMATCH", meta["rel_path"])
             verified_anchors += 1
 
-    # Verify downloaded text layer file & byte parity (excluding .cache)
-    file_cnt = 0
-    byte_cnt = 0
-    for r, ds, fs in os.walk(text_root):
-        ds[:] = sorted(d for d in ds if d != ".cache")
-        for fn in sorted(fs):
-            file_cnt += 1
-            byte_cnt += os.path.getsize(os.path.join(r, fn))
+    # Verify downloaded text layer file & byte parity (excluding .cache, refusing symlinks & FIFOs)
+    file_cnt, byte_cnt = _walk_corpus_tree_nofol(text_root)
     require_ok(file_cnt == expected_text_files, "LIVE_TEXT_FILE_COUNT_MISMATCH", f"got {file_cnt}")
     require_ok(byte_cnt == expected_text_bytes, "LIVE_TEXT_BYTE_COUNT_MISMATCH", f"got {byte_cnt}")
 
-    # Verify malformed PAL jsonl files fail line-parsing on exact bad_lines counts
+    # Verify malformed PAL jsonl files fail strict line-parsing on exact bad_lines counts
     for item in malformed_files:
         fp = text_root / item["rel_path"]
+        jl_raw = _read_corpus_regular_bytes(fp, max_bytes=max_file_bytes)
+        try:
+            jl_text = jl_raw.decode("utf-8")
+        except UnicodeDecodeError as exc:
+            raise S89Error("INVALID_UTF8", f"invalid UTF-8 in {item['rel_path']}: {exc}") from exc
         bad = 0
         nonempty = 0
-        for line in fp.read_text(encoding="utf-8").splitlines():
+        for line in jl_text.splitlines():
             if not line.strip():
                 continue
             nonempty += 1
             try:
-                json.loads(line)
-            except ValueError:
+                parse_strict_corpus_json_bytes(line.encode("utf-8"), require_object=False)
+            except S89Error:
                 bad += 1
-        require_ok(bad == item["bad_lines"] and nonempty == item["nonempty_lines"], "LIVE_PAL_ANOMALY_MISMATCH", item["rel_path"])
+        require_ok(
+            bad == item["bad_lines"] and nonempty == item["nonempty_lines"],
+            "LIVE_PAL_ANOMALY_MISMATCH",
+            item["rel_path"],
+        )
 
     # Verify CSV header parsing cleanly on a sample metadata check (zero parse error)
     sample_csv = text_root / sample_csv_rel
-    rows = list(csv.reader(sample_csv.read_text(encoding="utf-8").splitlines()))
+    csv_raw = _read_corpus_regular_bytes(sample_csv, max_bytes=max_file_bytes)
+    try:
+        csv_text = csv_raw.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise S89Error("INVALID_UTF8", f"invalid UTF-8 in {sample_csv_rel}: {exc}") from exc
+    try:
+        rows = list(csv.reader(csv_text.splitlines(), strict=True))
+    except csv.Error as exc:
+        raise S89Error("INVALID_CSV", f"invalid CSV in {sample_csv_rel}: {exc}") from exc
     require_ok(len(rows) >= 2, "LIVE_SAMPLE_CSV_EMPTY", "sample csv unexpectedly short")
 
     return {

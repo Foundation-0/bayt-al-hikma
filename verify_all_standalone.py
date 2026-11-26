@@ -36,8 +36,11 @@ Zero hardcoded absolute paths.
 from __future__ import annotations
 
 import argparse
+import errno
 import hashlib
 import json
+import os
+import stat
 import subprocess
 import sys
 from pathlib import Path
@@ -53,7 +56,7 @@ ROOT_FILES_EXPECTED_SHA256: dict[str, str] = {
         "606353db2207ea75ad20d7b5f5b1f608242f617cae81ce8d434c5172d59677e0"
     ),
     "test_verify_all_standalone.py": (
-        "d7dd972b973cde38886261ae2ffa3a397b5010543d667568e2cd12c8a6ddc83b"
+        "d7a0aaa214443ef990954af0b1d0f0fa09cc28b8d6c79292e461ed2b8b9d0637"
     ),
 }
 
@@ -195,15 +198,15 @@ STUDY_SPECS: tuple[dict[str, Any], ...] = (
         "recomputes_from_scratch_offline": True,
         "supports_live_corpus_recount": False,
         "expected_standalone_stdout_sha256": (
-            "34a9cb772c623ea046d9739c10fdad8111dce10ad6b3c0c866b18263f152d3e4"
+            "c1516abf5cf57882db13190a2176ed68c40da02305f6cb37f1bffd0729513f0d"
         ),
         "expected_live_stdout_sha256": None,
         "expected_file_sha256": {
             "ClassicalHeritageAtlas.lean": (
-                "83274dde83f2aa8cc5629b4509e9ff8e755ae724bc6f5d6f00d106bec3212cab"
+                "55832d30fe3af2ef1c5f2d22b638d4f927d9f1e3bef09729c81ec2bbf24f239a"
             ),
             "REPORT.md": (
-                "1acf523a922c88bf3a5b50aabd9aeaa496d82a4fdaee9b13407f6693a5dbcfcb"
+                "9b6c4b56e687b4c6d5f052b683d46e61a9444ec54848719c23fc30c2dc4dccf8"
             ),
             "lakefile.toml": (
                 "40cebcde95ef89e4034c818723423eaed660e6a957930e608b8586315343891b"
@@ -212,16 +215,16 @@ STUDY_SPECS: tuple[dict[str, Any], ...] = (
                 "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a"
             ),
             "s89_heritage_atlas_certificate.json": (
-                "34a9cb772c623ea046d9739c10fdad8111dce10ad6b3c0c866b18263f152d3e4"
+                "c1516abf5cf57882db13190a2176ed68c40da02305f6cb37f1bffd0729513f0d"
             ),
             "s89_heritage_atlas_oracle.py": (
-                "b37f0b5218306edc65e26f3559718b715be6306ec80bc252b2b848890ef4649f"
+                "5ccf7b8b016a68e0cbf0719098a610619a4f8d319f3bd56c1caa3f287f1bf911"
             ),
             "test_s89_heritage_atlas_r5.py": (
-                "0f5ae4fbed0eb1d51c8d1513f5678a6ee484237dc615371f9ecc98ede40c1bc8"
+                "f3588deedb9dc20e4da412f2cfca1392c4f465621266daa828619a4c5f29909d"
             ),
             "verify_s89_heritage_atlas.py": (
-                "e94624db16d4a528f2eb897b39fb5f28ad8b8a06056461c5710d3abd168084c3"
+                "69aac984fa264be52a4d62b0da2238ebcfe1aa1773a0c4a75e10a32c22be332f"
             ),
         },
     },
@@ -331,17 +334,173 @@ def _forbid_float(val: str) -> Any:
     raise ValueError(f"FLOAT_FORBIDDEN_IN_JSON: {val}")
 
 
-def parse_strict_zero_float_json(raw_bytes: bytes) -> dict[str, Any]:
-    text = raw_bytes.decode("utf-8")
-    parsed = json.loads(
-        text,
-        object_pairs_hook=_strict_no_dups_hook,
-        parse_constant=_forbid_constant,
-        parse_float=_forbid_float,
+MAX_REGULAR_FILE_BYTES = 16 * 1024 * 1024
+MAX_JSON_INT_DIGITS = 1024
+
+
+def _is_strict_int(val: Any) -> bool:
+    return type(val) is int
+
+
+def _parse_bounded_int(token: str) -> int:
+    digits = token[1:] if token.startswith("-") else token
+    if len(digits) > MAX_JSON_INT_DIGITS:
+        raise ValueError("MAX_INT_DIGITS_EXCEEDED")
+    return int(token)
+
+
+def _norm_abs_parts(path: Path) -> list[str]:
+    full = path if path.is_absolute() else (Path(os.getcwd()) / path)
+    parts: list[str] = []
+    for part in full.parts[1:]:
+        if part == "..":
+            if parts:
+                parts.pop()
+        elif part != ".":
+            parts.append(part)
+    return parts
+
+
+def _open_dir_chain_nofol(dir_parts: list[str]) -> tuple[str | None, int]:
+    """Traverse every directory component from '/' with O_DIRECTORY | O_NOFOLLOW."""
+    dflags = os.O_RDONLY | os.O_DIRECTORY | getattr(os, "O_NOFOLLOW", 0)
+    dfd = os.open("/", dflags)
+    for comp in dir_parts:
+        try:
+            st_c = os.lstat(comp, dir_fd=dfd)
+            if stat.S_ISLNK(st_c.st_mode):
+                os.close(dfd)
+                return "SYMLINK_FORBIDDEN", -1
+            nxt = os.open(comp, dflags, dir_fd=dfd)
+        except FileNotFoundError:
+            os.close(dfd)
+            return "MISSING", -1
+        except OSError:
+            os.close(dfd)
+            return "NOT_REGULAR_FILE", -1
+        os.close(dfd)
+        dfd = nxt
+    return None, dfd
+
+
+def _check_dir_nofol(path: Path | None) -> str | None:
+    if path is None:
+        return "MISSING"
+    err, dfd = _open_dir_chain_nofol(_norm_abs_parts(path))
+    if dfd >= 0:
+        os.close(dfd)
+    return err
+
+
+def _lstat_is_dir(path: Path | None) -> bool:
+    return _check_dir_nofol(path) is None
+
+
+def _lstat_is_reg(path: Path) -> bool:
+    ferr, _ = _read_regular_nofol_bytes(path, max_bytes=MAX_REGULAR_FILE_BYTES)
+    return ferr is None
+
+
+def _read_regular_nofol_bytes(
+    path: Path,
+    *,
+    max_bytes: int = MAX_REGULAR_FILE_BYTES,
+) -> tuple[str | None, bytes]:
+    """Read regular file bytes with root-to-leaf O_NOFOLLOW ancestor walk and size cap."""
+    parts = _norm_abs_parts(path)
+    if not parts:
+        return "NOT_REGULAR_FILE", b""
+    derr, dfd = _open_dir_chain_nofol(parts[:-1])
+    if derr is not None:
+        return derr, b""
+    oflags = (
+        os.O_RDONLY
+        | getattr(os, "O_NOFOLLOW", 0)
+        | getattr(os, "O_NONBLOCK", 0)
+        | getattr(os, "O_NOCTTY", 0)
     )
-    if not isinstance(parsed, dict):
+    fd = -1
+    try:
+        try:
+            fd = os.open(parts[-1], oflags, dir_fd=dfd)
+        except FileNotFoundError:
+            return "MISSING", b""
+        except OSError as exc:
+            if exc.errno == errno.ELOOP:
+                return "SYMLINK_FORBIDDEN", b""
+            return "NOT_REGULAR_FILE", b""
+        st_f = os.fstat(fd)
+        if not stat.S_ISREG(st_f.st_mode):
+            return "NOT_REGULAR_FILE", b""
+        chunks: list[bytes] = []
+        total = 0
+        while True:
+            blk = os.read(fd, min(65536, max_bytes - total + 1))
+            if not blk:
+                break
+            total += len(blk)
+            if total > max_bytes:
+                return "FILE_TOO_LARGE", b""
+            chunks.append(blk)
+        return None, b"".join(chunks)
+    finally:
+        if fd >= 0:
+            os.close(fd)
+        os.close(dfd)
+
+
+MAX_JSON_DEPTH = 64
+
+
+def _check_json_depth(text: str) -> None:
+    depth = 0
+    in_str = False
+    esc = False
+    for ch in text:
+        if in_str:
+            if esc:
+                esc = False
+            elif ch == "\\":
+                esc = True
+            elif ch == '"':
+                in_str = False
+        elif ch == '"':
+            in_str = True
+        elif ch in "{[":
+            depth += 1
+            if depth > MAX_JSON_DEPTH:
+                raise ValueError("MAX_JSON_DEPTH_EXCEEDED")
+        elif ch in "}]":
+            if depth > 0:
+                depth -= 1
+
+
+def parse_strict_zero_float_json(raw_bytes: bytes) -> dict[str, Any]:
+    if len(raw_bytes) > MAX_REGULAR_FILE_BYTES:
+        raise ValueError("JSON_PAYLOAD_TOO_LARGE")
+    try:
+        text = raw_bytes.decode("utf-8")
+        _check_json_depth(text)
+        parsed = json.loads(
+            text,
+            object_pairs_hook=_strict_no_dups_hook,
+            parse_constant=_forbid_constant,
+            parse_float=_forbid_float,
+            parse_int=_parse_bounded_int,
+        )
+    except (UnicodeDecodeError, ValueError) as exc:
+        raise ValueError(f"INVALID_STRICT_JSON: {exc}") from exc
+    if type(parsed) is not dict:
         raise ValueError("TOP_LEVEL_JSON_MUST_BE_OBJECT")
     return parsed
+
+
+def _resolve_corpus_dir(repo_root: Path, corpus_dir: Path | None) -> Path | None:
+    if corpus_dir is None:
+        return None
+    if corpus_dir.is_absolute():
+        return corpus_dir
+    return Path(os.path.abspath(repo_root / corpus_dir))
 
 
 def verify_root_files_and_fetch_manifest(
@@ -351,24 +510,29 @@ def verify_root_files_and_fetch_manifest(
 ) -> dict[str, Any]:
     errors: list[str] = []
     files_verified = 0
+    fetch_script_verified = False
+    abs_corpus_dir = _resolve_corpus_dir(repo_root, corpus_dir)
 
     for fname, expected_sha in sorted(ROOT_FILES_EXPECTED_SHA256.items()):
         fpath = repo_root / fname
-        if not fpath.is_file():
-            errors.append(f"MISSING_ROOT_FILE: {fname}")
+        ferr, raw = _read_regular_nofol_bytes(fpath)
+        if ferr is not None:
+            tag = "MISSING_ROOT_FILE" if ferr == "MISSING" else ferr
+            errors.append(f"{tag}: {fname}")
             continue
-        actual_sha = hashlib.sha256(fpath.read_bytes()).hexdigest()
+        actual_sha = hashlib.sha256(raw).hexdigest()
         if actual_sha != expected_sha:
             errors.append(
                 f"ROOT_FILE_SHA256_MISMATCH: {fname} got={actual_sha} expected={expected_sha}"
             )
             continue
         files_verified += 1
+        if fname == "fetch_corpora.py":
+            fetch_script_verified = True
 
     manifest_sha = ""
     manifest_count = 0
-    fetch_script = repo_root / "fetch_corpora.py"
-    if fetch_script.is_file():
+    if fetch_script_verified:
         m_proc = subprocess.run(
             [sys.executable, "-I", "-B", "-W", "error", "fetch_corpora.py", "--manifest-json"],
             cwd=str(repo_root),
@@ -384,7 +548,10 @@ def verify_root_files_and_fetch_manifest(
             )
         try:
             manifest_obj = parse_strict_zero_float_json(m_proc.stdout)
-            manifest_count = int(manifest_obj.get("count", 0))
+            raw_cnt = manifest_obj.get("count")
+            if not _is_strict_int(raw_cnt):
+                raise ValueError("MANIFEST_COUNT_NOT_STRICT_INT")
+            manifest_count = raw_cnt
             if manifest_count != EXPECTED_FETCH_MANIFEST_COUNT:
                 errors.append(
                     f"FETCH_MANIFEST_COUNT_MISMATCH: got={manifest_count} "
@@ -395,9 +562,9 @@ def verify_root_files_and_fetch_manifest(
 
     live_corpora_verified = 0
     if live:
-        if corpus_dir is None or not corpus_dir.is_dir():
+        if not _lstat_is_dir(abs_corpus_dir):
             errors.append("LIVE_CORPUS_DIR_MISSING")
-        elif fetch_script.is_file():
+        elif fetch_script_verified:
             v_proc = subprocess.run(
                 [
                     sys.executable,
@@ -408,7 +575,7 @@ def verify_root_files_and_fetch_manifest(
                     "fetch_corpora.py",
                     "--verify-only",
                     "--dest",
-                    str(corpus_dir),
+                    str(abs_corpus_dir),
                 ],
                 cwd=str(repo_root),
                 capture_output=True,
@@ -418,7 +585,10 @@ def verify_root_files_and_fetch_manifest(
             else:
                 try:
                     v_obj = parse_strict_zero_float_json(v_proc.stdout)
-                    live_corpora_verified = int(v_obj.get("count", 0))
+                    raw_lcnt = v_obj.get("count")
+                    if not _is_strict_int(raw_lcnt):
+                        raise ValueError("LIVE_COUNT_NOT_STRICT_INT")
+                    live_corpora_verified = raw_lcnt
                     if live_corpora_verified != EXPECTED_FETCH_MANIFEST_COUNT:
                         errors.append(
                             f"LIVE_CORPUS_COUNT_MISMATCH: got={live_corpora_verified} "
@@ -445,13 +615,16 @@ def verify_study(
 ) -> dict[str, Any]:
     study_path = repo_root / spec["study_dir"]
     errors: list[str] = []
+    supports_live = bool(spec["supports_live_corpus_recount"])
     offline_scope = (
         "recomputed_from_scratch_pure_q"
         if spec["recomputes_from_scratch_offline"]
         else "pinned_fixture_replay_no_corpus_read"
     )
 
-    if not study_path.is_dir():
+    sdir_err = _check_dir_nofol(study_path)
+    if sdir_err is not None:
+        err_tag = "SYMLINK_FORBIDDEN" if sdir_err == "SYMLINK_FORBIDDEN" else "MISSING_STUDY_DIR"
         return {
             "audit_id": spec["audit_id"],
             "study_dir": spec["study_dir"],
@@ -459,8 +632,9 @@ def verify_study(
             "files_verified": 0,
             "offline_scope": offline_scope,
             "recomputes_from_scratch_offline": spec["recomputes_from_scratch_offline"],
+            "supports_live_corpus_recount": supports_live,
             "live_corpus_recounted": False,
-            "errors": [f"MISSING_STUDY_DIR: {spec['study_dir']}"],
+            "errors": [f"{err_tag}: {spec['study_dir']}"],
         }
 
     # 1. Verify byte-identical SHA-256 on every pinned package file (and strict JSON on .json files)
@@ -469,10 +643,11 @@ def verify_study(
     committed_cert_name = spec["committed_certificate_file"]
     for fname, expected_sha in sorted(spec["expected_file_sha256"].items()):
         fpath = study_path / fname
-        if not fpath.is_file():
-            errors.append(f"MISSING_FILE: {spec['study_dir']}/{fname}")
+        ferr, raw = _read_regular_nofol_bytes(fpath)
+        if ferr is not None:
+            tag = "MISSING_FILE" if ferr == "MISSING" else ferr
+            errors.append(f"{tag}: {spec['study_dir']}/{fname}")
             continue
-        raw = fpath.read_bytes()
         actual_sha = hashlib.sha256(raw).hexdigest()
         if actual_sha != expected_sha:
             errors.append(
@@ -498,6 +673,7 @@ def verify_study(
             "files_verified": files_verified,
             "offline_scope": offline_scope,
             "recomputes_from_scratch_offline": spec["recomputes_from_scratch_offline"],
+            "supports_live_corpus_recount": supports_live,
             "live_corpus_recounted": False,
             "errors": errors,
         }
@@ -519,7 +695,7 @@ def verify_study(
     except ValueError as exc:
         errors.append(f"STRICT_JSON_ERROR: {exc}")
 
-    if spec["supports_live_corpus_recount"] and standalone_parsed is not None:
+    if supports_live and standalone_parsed is not None:
         if standalone_parsed.get("mode") != "standalone_fixture_replay":
             errors.append(
                 f"UNEXPECTED_STANDALONE_MODE: {standalone_parsed.get('mode')}"
@@ -536,10 +712,12 @@ def verify_study(
     live_stdout_sha: str | None = None
     live_rc: int | None = None
     live_matches_committed: bool | None = None
-    if live and spec["supports_live_corpus_recount"]:
-        if corpus_dir is None or not corpus_dir.is_dir():
+    if live and supports_live:
+        abs_corpus_dir = _resolve_corpus_dir(repo_root, corpus_dir)
+        if not _lstat_is_dir(abs_corpus_dir):
             errors.append("LIVE_CORPUS_DIR_UNAVAILABLE")
         else:
+            live_err_start = len(errors)
             live_cmd = [
                 sys.executable,
                 "-I",
@@ -548,7 +726,7 @@ def verify_study(
                 "error",
                 spec["cert_script"],
                 "--corpus-dir",
-                str(corpus_dir),
+                str(abs_corpus_dir),
             ]
             live_proc = subprocess.run(live_cmd, cwd=str(study_path), capture_output=True)
             live_rc = live_proc.returncode
@@ -569,7 +747,7 @@ def verify_study(
                     errors.append(f"UNEXPECTED_LIVE_MODE: {live_parsed.get('mode')}")
                 if live_parsed.get("live_corpus_recounted") is not True:
                     errors.append("LIVE_MUST_REPORT_LIVE_CORPUS_RECOUNTED_TRUE")
-                else:
+                elif len(errors) == live_err_start:
                     live_corpus_recounted = True
             except ValueError as exc:
                 errors.append(f"LIVE_STRICT_JSON_ERROR: {exc}")
@@ -579,6 +757,7 @@ def verify_study(
     test_proc = subprocess.run(test_cmd, cwd=str(study_path), capture_output=True)
     if test_proc.returncode != 0:
         errors.append(f"R5_TEST_NONZERO_EXIT: rc={test_proc.returncode}")
+        live_corpus_recounted = False
 
     return {
         "audit_id": spec["audit_id"],
@@ -587,6 +766,7 @@ def verify_study(
         "files_verified": files_verified,
         "offline_scope": offline_scope,
         "recomputes_from_scratch_offline": spec["recomputes_from_scratch_offline"],
+        "supports_live_corpus_recount": supports_live,
         "standalone_matches_committed_certificate": standalone_matches_committed,
         "standalone_stdout_sha256": cert_sha,
         "cert_rc": cert_proc.returncode,
@@ -623,9 +803,10 @@ def main(argv: list[str] | None = None) -> int:
     use_live = bool(args.live or args.corpus_dir is not None)
     resolved_corpus_dir: Path | None = None
     if use_live:
-        resolved_corpus_dir = (
-            (REPO_ROOT / "corpora") if args.corpus_dir is None else args.corpus_dir.resolve()
+        raw_corpus_dir = (
+            (REPO_ROOT / "corpora") if args.corpus_dir is None else args.corpus_dir
         )
+        resolved_corpus_dir = Path(os.path.abspath(raw_corpus_dir))
 
     root_check = verify_root_files_and_fetch_manifest(REPO_ROOT, use_live, resolved_corpus_dir)
     results = [
@@ -635,13 +816,12 @@ def main(argv: list[str] | None = None) -> int:
     study_files_verified = sum(int(r.get("files_verified", 0)) for r in results)
     root_files_verified = int(root_check["root_files_verified"])
     all_passed = bool(root_check["passed"] and all(r["passed"] for r in results))
+    live_studies = [r for r in results if r.get("supports_live_corpus_recount") is True]
     arabic_live_recounted = bool(
         use_live
-        and all(
-            r["live_corpus_recounted"]
-            for r in results
-            if not r["recomputes_from_scratch_offline"]
-        )
+        and all_passed
+        and len(live_studies) > 0
+        and all(r.get("live_corpus_recounted") is True for r in live_studies)
     )
     execution_mode = (
         "live_corpus_recount_plus_standalone"
@@ -718,5 +898,26 @@ def main(argv: list[str] | None = None) -> int:
     return 0 if all_passed else 1
 
 
+def run_cli(argv: list[str] | None = None) -> int:
+    try:
+        rc = main(argv)
+        sys.stdout.flush()
+        return rc
+    except BrokenPipeError:
+        devnull = os.open(os.devnull, os.O_WRONLY)
+        try:
+            os.dup2(devnull, 1)
+        finally:
+            os.close(devnull)
+        return 2
+    except (OSError, MemoryError) as exc:
+        try:
+            sys.stderr.write(f"BAYT_AL_HIKMA_RUNTIME_ERROR: {exc}\n")
+            sys.stderr.flush()
+        except OSError:
+            pass
+        return 2
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(run_cli())
