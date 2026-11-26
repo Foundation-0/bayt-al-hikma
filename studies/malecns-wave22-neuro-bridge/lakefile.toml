@@ -1,0 +1,6 @@
+name = "malecns_neuro_bridge"
+version = "0.1.0"
+defaultTargets = ["MaleCNSNeuroBridge"]
+
+[[lean_lib]]
+name = "MaleCNSNeuroBridge"
