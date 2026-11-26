@@ -5,8 +5,9 @@ Portable Zero-Dependency Verifier for Foundation-0/bayt-al-hikma.
 Supports two explicitly distinguished modes:
 
 1. Offline mode (default):
-   - Verifies exact SHA-256 parity on all 46/46 pinned repository files
-     (fetch_corpora.py, PREREGISTERED_HYPOTHESES.md, and all 44 study files).
+   - Verifies exact SHA-256 parity on all 47/47 pinned repository files
+     (fetch_corpora.py, PREREGISTERED_HYPOTHESES.md, test_verify_all_standalone.py,
+     and all 44 study files).
    - Verifies fetch_corpora.py --manifest-json parses strictly zero-float
      (9 pinned primary corpora) and matches its pinned digest.
    - Recomputes every mathematical claim in polymath-lineage/,
@@ -46,10 +47,13 @@ REPO_ROOT = Path(__file__).resolve().parent
 
 ROOT_FILES_EXPECTED_SHA256: dict[str, str] = {
     "PREREGISTERED_HYPOTHESES.md": (
-        "7ac83a49d63e56c0e8381ecdd12640344df877d03c67ae4e808824895e16be14"
+        "8513d403963041c6996818218f4d6f389bd92fd2c048f1fc4b99119c7f2087b7"
     ),
     "fetch_corpora.py": (
         "606353db2207ea75ad20d7b5f5b1f608242f617cae81ce8d434c5172d59677e0"
+    ),
+    "test_verify_all_standalone.py": (
+        "d7dd972b973cde38886261ae2ffa3a397b5010543d667568e2cd12c8a6ddc83b"
     ),
 }
 
@@ -191,15 +195,15 @@ STUDY_SPECS: tuple[dict[str, Any], ...] = (
         "recomputes_from_scratch_offline": True,
         "supports_live_corpus_recount": False,
         "expected_standalone_stdout_sha256": (
-            "d91b7fca5433970008af865572436e61f17891c7e3cbd26790370966ec0c293c"
+            "34a9cb772c623ea046d9739c10fdad8111dce10ad6b3c0c866b18263f152d3e4"
         ),
         "expected_live_stdout_sha256": None,
         "expected_file_sha256": {
             "ClassicalHeritageAtlas.lean": (
-                "afd694b95e16f1badbae8ccf72c328501be6ab9bc6101b4c3fdea2a183d8cba8"
+                "83274dde83f2aa8cc5629b4509e9ff8e755ae724bc6f5d6f00d106bec3212cab"
             ),
             "REPORT.md": (
-                "33332d22d0b1f56ac6b5813aada68bb65207d96ab1ef82b07df429d6c587670c"
+                "1acf523a922c88bf3a5b50aabd9aeaa496d82a4fdaee9b13407f6693a5dbcfcb"
             ),
             "lakefile.toml": (
                 "40cebcde95ef89e4034c818723423eaed660e6a957930e608b8586315343891b"
@@ -208,10 +212,10 @@ STUDY_SPECS: tuple[dict[str, Any], ...] = (
                 "582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a"
             ),
             "s89_heritage_atlas_certificate.json": (
-                "d91b7fca5433970008af865572436e61f17891c7e3cbd26790370966ec0c293c"
+                "34a9cb772c623ea046d9739c10fdad8111dce10ad6b3c0c866b18263f152d3e4"
             ),
             "s89_heritage_atlas_oracle.py": (
-                "777513b58524539935ee8789f01a99f71110ae8d3d29119ce589be82dc1347fb"
+                "b37f0b5218306edc65e26f3559718b715be6306ec80bc252b2b848890ef4649f"
             ),
             "test_s89_heritage_atlas_r5.py": (
                 "0f5ae4fbed0eb1d51c8d1513f5678a6ee484237dc615371f9ecc98ede40c1bc8"
@@ -239,7 +243,7 @@ STUDY_SPECS: tuple[dict[str, Any], ...] = (
                 "4ac15befb87c774d6fa114e2b864639c68c32f5e170c65e3b6af2ef472cfede3"
             ),
             "REPORT.md": (
-                "2c31524d2bafeff2cfde62b7b3a9bd8dd173faf879d5f8834d4eb86c5b19926e"
+                "4ab46f8315774158a343d37ee613689cb6bb2c400585d1d2e6bc8b2bd46c2fca"
             ),
             "lakefile.toml": (
                 "70df68cd815c757ccb7461560b9765c2f206313449a0cbe3759ab5a42501dac9"
@@ -441,6 +445,11 @@ def verify_study(
 ) -> dict[str, Any]:
     study_path = repo_root / spec["study_dir"]
     errors: list[str] = []
+    offline_scope = (
+        "recomputed_from_scratch_pure_q"
+        if spec["recomputes_from_scratch_offline"]
+        else "pinned_fixture_replay_no_corpus_read"
+    )
 
     if not study_path.is_dir():
         return {
@@ -448,6 +457,7 @@ def verify_study(
             "study_dir": spec["study_dir"],
             "passed": False,
             "files_verified": 0,
+            "offline_scope": offline_scope,
             "recomputes_from_scratch_offline": spec["recomputes_from_scratch_offline"],
             "live_corpus_recounted": False,
             "errors": [f"MISSING_STUDY_DIR: {spec['study_dir']}"],
@@ -486,6 +496,7 @@ def verify_study(
             "study_dir": spec["study_dir"],
             "passed": False,
             "files_verified": files_verified,
+            "offline_scope": offline_scope,
             "recomputes_from_scratch_offline": spec["recomputes_from_scratch_offline"],
             "live_corpus_recounted": False,
             "errors": errors,
@@ -569,11 +580,6 @@ def verify_study(
     if test_proc.returncode != 0:
         errors.append(f"R5_TEST_NONZERO_EXIT: rc={test_proc.returncode}")
 
-    offline_scope = (
-        "recomputed_from_scratch_pure_q"
-        if spec["recomputes_from_scratch_offline"]
-        else "pinned_fixture_replay_no_corpus_read"
-    )
     return {
         "audit_id": spec["audit_id"],
         "study_dir": spec["study_dir"],
@@ -697,9 +703,12 @@ def main(argv: list[str] | None = None) -> int:
             sha16 = r.get("standalone_stdout_sha256", "")[:16]
             live_part = ""
             if use_live and r.get("live_stdout_sha256") is not None:
-                live_part = f" live_sha256={r['live_stdout_sha256'][:16]} live_rc={r['live_rc']}"
+                live_part = (
+                    f" live_sha256={r.get('live_stdout_sha256', '')[:16]}"
+                    f" live_rc={r.get('live_rc')}"
+                )
             print(
-                f"  [{tag}] {r['audit_id']} ({r['study_dir']}, {r['offline_scope']}): "
+                f"  [{tag}] {r['audit_id']} ({r['study_dir']}, {r.get('offline_scope', 'unknown')}): "
                 f"files={r.get('files_verified', 0)} sha256={sha16} "
                 f"cert_rc={r.get('cert_rc')}{live_part} test_rc={r.get('test_rc')}"
             )

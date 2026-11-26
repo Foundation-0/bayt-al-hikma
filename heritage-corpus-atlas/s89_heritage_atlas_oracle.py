@@ -46,7 +46,7 @@ GIB_BYTES = 1073741824
 
 # Pinned Lean 4.36.0 companion (`ClassicalHeritageAtlas.lean`)
 LEAN_FILE_NAME = "ClassicalHeritageAtlas.lean"
-LEAN_FILE_SHA256 = "afd694b95e16f1badbae8ccf72c328501be6ab9bc6101b4c3fdea2a183d8cba8"
+LEAN_FILE_SHA256 = "83274dde83f2aa8cc5629b4509e9ff8e755ae724bc6f5d6f00d106bec3212cab"
 LEAN_THEOREMS: tuple[str, ...] = (
     "ClassicalHeritageAtlas.kn_silo_cut_edges_exact",
     "ClassicalHeritageAtlas.k10_silo_cut_five_five_ladder",

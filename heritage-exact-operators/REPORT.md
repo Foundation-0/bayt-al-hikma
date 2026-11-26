@@ -232,14 +232,14 @@ Compiled live with `leanprover/lean4:v4.36.0` (`HeritageExactOperators.lean`, `9
 
 ## 10. Frozen Track File Inventory (`7` Companion Files + `REPORT.md`)
 
-| File | Lines | Bytes | Mode | SHA-256 |
+| File | Lines (`wc -l`) | Bytes | Mode | SHA-256 |
 |---|---|---|---|---|
-| `HeritageExactOperators.lean` | `951` | `56,249` | `0o644` | `1afb85c230b01fe9821a8d7d31cfc1342786ec66a0f4d4508a7a28d973027501` |
+| `HeritageExactOperators.lean` | `950` | `56,149` | `0o644` | `4ac15befb87c774d6fa114e2b864639c68c32f5e170c65e3b6af2ef472cfede3` |
 | `lakefile.toml` | `6` | `140` | `0o644` | `70df68cd815c757ccb7461560b9765c2f206313449a0cbe3759ab5a42501dac9` |
 | `lean-toolchain` | `1` | `25` | `0o644` | `582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a` |
-| `s90_heritage_operators_certificate.json` | `1` | `17,382` | `0o600` | `9d9acb3eecabd1750684a3dd041a09b2bc7313fa7858204ee40e5d77154cfab6` |
-| `s90_heritage_operators_oracle.py` | `736` | `30,764` | `0o644` | `408a19869566ec6b25254d41c5cc5072d92f3d55ee1de8dadee31437483b7ef0` |
-| `test_s90_heritage_operators_r5.py` | `1,220` | `85,891` | `0o644` | `ed5eea09523bd753772c97923bc2800800c3d65bc8347fcfc8b74588032ad0c5` |
-| `verify_s90_heritage_operators.py` | `1,161` | `57,148` | `0o644` | `9f3a13cd2b3940bd3f72e40a58c5de739d7a9a9a161a13f8c83598ea3eff30c6` |
+| `s90_heritage_operators_certificate.json` | `0` (`1` logical) | `17,451` | `0o644` | `51430e59d32471e0cbafd3836a8d4438511a41fc89aac5594a9b9b1adcddd2bd` |
+| `s90_heritage_operators_oracle.py` | `736` | `30,804` | `0o644` | `222120eabcb2b478ca8210e0b1f1abf6e252aa83989cf3feaf26035fc6500aaf` |
+| `test_s90_heritage_operators_r5.py` | `1,232` | `86,744` | `0o644` | `a3f74718261b80a0ce57e017aa527c2a8dc59b50312ab1dadce1387e8d8df571` |
+| `verify_s90_heritage_operators.py` | `1,182` | `57,897` | `0o644` | `a1782054c798f252bbf98ddcff82c8a1ff0c674b342d97fae5d2d2fc6ffc1551` |
 
-*(Note: `REPORT.md` is the 8th file in the track directory; its own SHA-256 is recorded externally in the completion receipt.)*
+*(Note: `REPORT.md` is the 8th file in the track directory; its own SHA-256 is pinned externally in `../verify_all_standalone.py`. `s90_heritage_operators_certificate.json` is single-line compact JSON with no trailing newline: `wc -l = 0`, `1` logical line.)*

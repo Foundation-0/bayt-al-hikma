@@ -6,9 +6,9 @@
 - **Pinned Upstream Dataset:** `hozifa1/islamic-scientific-heritage` @ `4698695f7835aab044ce77733172494bbab9e33e` (`CC-BY-4.0`, `file_inventory.json` SHA-256 `43a2742e00baa4f0afb2bd6b67508d2f254ec3510e94f7c47bd3b7d289ebf8af`, `823,358` B; read-only local audit, zero dataset copies inside workspace)
 - **Pinned $K_8$ Epistemic Mesh Bridge Anchor:** `s83_epistemic_mesh_certificate.json` (file SHA-256 `74d269c5c1c35665fc835df796e6f94cdbd118ca4ce580a20310c5c969deabdb`, cert digest `f21b81d563f2c34177ca37718e3923f413ea9ca1471535cc72bd331c2d0f602e`)
 - **Certificate Digests (`s89_heritage_atlas_certificate.json`):**
-  - `file_sha256`: `d91b7fca5433970008af865572436e61f17891c7e3cbd26790370966ec0c293c`
-  - `payload_sha256`: `0e09f9f04f6936c575bd8d298db0e1336f4a06ce23f17286678f3d125dbe50d2`
-  - `certificate_sha256`: `4b0a421827acb64534f70a167c059ca28a7f2c14d46725da003139908a38a7c5`
+  - `file_sha256`: `34a9cb772c623ea046d9739c10fdad8111dce10ad6b3c0c866b18263f152d3e4`
+  - `payload_sha256`: `8c6a3735a8c9d40d97e9d83679d280b6414cfe8d2e65b3ecd7e35c2a3cb611e5`
+  - `certificate_sha256`: `07090b91ab13612ab6af343f4f4c7fe048f495efc61b841db4e6ad290ef0f15c`
 - **Max Novelty Class (Law-4 Honesty Lock):** **`N1`** (`0` `N2` claims)
 
 ---
@@ -16,12 +16,12 @@
 ## 0. Prior Art & Law-4 Novelty Separation (`N0` vs `N1`)
 
 In accordance with **Law 4 (Honesty & Non-Overclaiming)**:
-- **`N0` Prior Art (`Foundation-0/bayt-al-hikma` — `AUDIT-091-V2`, `AUDIT-092R2`, `AUDIT-094-V2`, `AUDIT-095R`):** Verified pure-$\mathbb{Q}$ transcripts of classical exact mathematical constructions (Al-Khwarizmi quadratic normal forms, Thabit ibn Qurra amicable numbers, Ibn al-Haytham reflection geometry, Umar al-Khayyam cubic/curvature trichotomy, Al-Biruni dip-angle geodesy, planar Al-Tusi couple, Banu Musa / Al-Jazari float-valve mechanisms, and Al-Kashi contractive cubic / $3\cdot 2^{28}$-gon $\pi$ enclosure), as well as the pure-$\mathbb{Q}$ quantification of Arabic-to-English root-edge translation loss (`50.91%–65.88%` 1st-order loss), are **established `N0` prior art** in `Foundation-0/bayt-al-hikma` and are credited explicitly here.
+- **`N0` Prior Art (`Foundation-0/bayt-al-hikma` — `AUDIT-091-V2`, `AUDIT-092R2`, `AUDIT-094-V2`, `AUDIT-095R`):** Verified pure-$\mathbb{Q}$ transcripts of classical exact mathematical constructions (Al-Khwarizmi quadratic normal forms, Thabit ibn Qurra amicable numbers, Ibn al-Haytham reflection geometry, Umar al-Khayyam cubic/curvature trichotomy, Al-Biruni dip-angle geodesy, planar Al-Tusi couple, Banu Musa / Al-Jazari float-valve mechanisms, and Al-Kashi contractive cubic / $3\cdot 2^{28}$-gon $\pi$ enclosure), as well as the pure-$\mathbb{Q}$ instrument-scoped quantification of Arabic-to-English root-edge translation loss (`50.91%–65.88%` 1st-order loss under the repository `en_content_stems` rules, with strict-rule Saheeh sensitivity spanning **`24.3%–64.0%`** across stemmer/length rules per issue `#8`), are **established `N0` prior art** in `Foundation-0/bayt-al-hikma` and are credited explicitly here.
 - **`N1` Contributions of Heritage Corpus Atlas:**
   1. **Cryptographically Pinned Corpus Cartography & Live Parity Audit** of `hozifa1/islamic-scientific-heritage` (`2,694` inventory files / `25,155,918,980` B; `100.0%` exact byte-for-byte parity across all `1,460` downloaded text files totaling `119,327,981` B and `10,871,572` words), uncovering **5 concrete Law-4 data-quality and metadata anomalies**.
   2. **20 Primary-Source SHA-256 Anchors** linking `10` classical exact-operator nodes (`h00..h09`, `3,423,129` B, `347,895` words) directly to verbatim classical Arabic primary texts and scholarly catalog metadata on disk.
   3. **Exact Pure-$\mathbb{Z}/\mathbb{Q}$ $K_{10}$ Interlocking Heritage Mesh & `10 × 8` Cross-Millennium Bridge (`v0..v7`):** `45` typed edges, `120` triangles, `210` tetrahedra, Sylvester $LDL^\top$ inertia `[9,0,1]`, Foster `= 9`, `45/45` strict Schur compounding, `210/210` $\mathbb{Z}_2$ Bianchi `= 0`, `5|5` silo-cut ladder `5/9 < 5/6 < 20/21`, and `80` Law-5 mappings to `v0..v7` with explicit non-commutativity walls.
-  4. **Live Pure-`Init` `Lean 4.36.0` Formal Companion (`ClassicalHeritageAtlas.lean`):** `17/17` universal (`∀`) theorems compiled kernel-clean with zero external imports, zero `Classical.choice`, and zero banned axioms.
+  4. **Live Pure-`Init` `Lean 4.36.0` Formal Companion (`ClassicalHeritageAtlas.lean`):** `17/17` public universal (`∀`) theorems (`18` total kernel-checked theorems incl. `1` private helper, plus `1` private Bool helper `def`) compiled kernel-clean and independently verified with `leanchecker --fresh` (`EC=0`), zero external imports, zero `Classical.choice`, and zero banned axioms.
 
 ---
 
@@ -76,13 +76,13 @@ All `20` primary and secondary anchor files (`3,423,129` B, `347,895` words) wer
 | `h00` | Muhammad ibn Musa al-Khwarizmi | A | `musharrafa_mursi_cairo_1939/schema_metadata.json` (`dfd032e57ae8`, `1,760` B, `123` w) | `4(3^2+10·3)+10^2 = 256 = 16^2` |
 | `h01` | Thabit ibn Qurra al-Harrani | A | `thabit_ibn_qurra_niqumakhus_arithmetic.jsonl` (`3ea3a1039816`, `282,654` B, `27,103` w) | `n=2 -> (220, 284)`; `n=3` obstruction `r_3 = 287 = 7·41` |
 | `h02` | Abu al-Rayhan al-Biruni | A | `al_biruni_amr_al_zilal.jsonl` (`16cc80fac196`, `422,156` B, `38,930` w) | `cos(θ)=9999/10000 -> R/h = 9999` (`1/θ` dip pole) |
-| `h03` | Al-Hasan ibn al-Haytham | A | `02_كتاب_المناظر.md` (`778d6d3c4162`, `1,381,038` B, `140,107` w; L178 *I'tibar*) | Specular norm invariance `(a²-b²)²+(2ab)²=(a²+b²)²` |
+| `h03` | Al-Hasan ibn al-Haytham | A | `02_كتاب_المناظر.md` (`778d6d3c4162`, `1,381,038` B, `140,107` w; L178 *I'tibar*) | 2D Householder specular reflection law: `(a²-b²)²+(2ab)²=(a²+b²)²`, ray-norm preservation, normal flip & tangent invariance |
 | `h04` | Umar al-Khayyam | A | `omar_khayyam_algebra_catalog.jsonl` (`409017c369f9`, `1,407` B, `103` w) | `x³+2x=3 -> -Δ = 275 > 0` (unique real root) |
-| `h05` | Nasir al-Din al-Tusi | B | `09_C.1.18_Taḥrīr_al-Majisṭī.md` (`9001f397f43c`, `90,814` B, `10,381` w) | Planar curl `(c+c, s-s)=(2c,0)` vs $S^2$ hippopede wall |
+| `h05` | Nasir al-Din al-Tusi | B | `09_C.1.18_Taḥrīr_al-Majisṭī.md` (`9001f397f43c`, `90,814` B, `10,381` w) | Planar 2×2 counter-rotating matrix curl annihilation `(R_+ + R_-)v = 2cv` vs explicit 4-matrix 3×3 $SO(3)$ spherical hippopede `v4y = -2 sa (Da-ca) st ct²` & `[R_z, R_y] e_3 ≠ 0` |
 | `h06` | Ghiyath al-Din Jamshid al-Kashi | B | `miftah_al_hisab/README.md` (`5e29884138ad`, `3,021` B, `229` w) | Cubic Lipschitz bound `1/37500 ≈ 0.00002667 < 1` |
 | `h07` | Kamal al-Din al-Farisi | B | `tanqih_al_manazir_catalog.jsonl` (`adc52e33fbf4`, `1,642` B, `139` w) | `n=4/3`: `cos²i_1=7/27 (0.2593)`, `cos²i_2=7/72 (0.0972)`, gap `35/216 (0.1620)` |
 | `h08` | Banu Musa + Al-Jazari + Al-Khazini | B | `al_jazari_machines_catalog.jsonl` (`2ebaa43e9a79`, `39,209` B, `3,225` w) | Hydrostatic inverse `m_1 = (10·10-145)/(10-19) = 5` |
-| `h09` | Ibn al-Nafis + Ibn Sina + Al-Razi | B | `02_شرح_تشريح_القانون.md` (`84e0a89b32a5`, `943,264` B, `100,769` w; L4287 *musmat*) | Zero-pore septal cut `w_sep = 0` -> `100%` pulmonary rerouting |
+| `h09` | Ibn al-Nafis + Ibn Sina + Al-Razi | B | `02_شرح_تشريح_القانون.md` (`84e0a89b32a5`, `943,264` B, `100,769` w; L4287 *musmat*) | 2×2 grounded-Laplacian Kirchhoff Schur complement `det(L_red) = w_s(w_1+w_2)+w_1 w_2`; zero-pore `w_s = 0` forces exact series pulmonary rerouting `w_1 w_2` vs strict conductance jump `w_1 w_2 < det(L_red)` |
 
 ---
 
@@ -112,16 +112,16 @@ Strict Law-5 enforcement (zero metaphorical smuggling; non-commuting pairs expli
 
 ## 4. Pillar 4 — Live Pure-`Init` `Lean 4.36.0` Formal Companion (`ClassicalHeritageAtlas.lean`)
 
-`ClassicalHeritageAtlas.lean` (`281` lines, SHA-256 `afd694b95e16f1badbae8ccf72c328501be6ab9bc6101b4c3fdea2a183d8cba8`) compiles cleanly with zero external imports (`Init` only), zero warnings, zero `Classical.choice`, and zero banned axioms across all **`17/17`** universal theorems:
+`ClassicalHeritageAtlas.lean` (`704` lines, SHA-256 `83274dde83f2aa8cc5629b4509e9ff8e755ae724bc6f5d6f00d106bec3212cab`) compiles cleanly with zero external imports (`Init` only), zero warnings, zero `Classical.choice`, zero banned axioms, and `leanchecker --fresh EC=0` across all **`17/17`** public universal theorems (`18` total kernel-checked theorems incl. `1` private helper `mul_pos_of_pos`, plus `1` private helper `def triParity`):
 - **Zero axioms `[]` (`3` theorems):** `k10_silo_cut_five_five_ladder`, `tetrahedral_z2_bianchi_universal`, `thabit_n3_composite_obstruction`.
-- **`[propext]` only (`2` theorems):** `foster_uniform_kn_cleared`, `haytham_reflection_norm_invariance`.
-- **`[propext, Quot.sound]` (`12` theorems):** `kn_silo_cut_edges_exact`, `schur_3node_compounding_strict`, `khwarizmi_completing_square_exact`, `thabit_amicable_product_identity`, `biruni_dip_radius_cleared_identity`, `khayyam_cubic_positive_neg_discriminant`, `tusi_planar_curl_annihilation`, `tusi_spherical_obstruction_pos`, `kashi_cubic_difference_factorization`, `farisi_rainbow_caustic_separation`, `khazini_hydrostatic_alloy_inverse`, `nafis_septal_wall_rerouting_exact`.
+- **`[propext]` only (`1` theorem):** `foster_uniform_kn_cleared`.
+- **`[propext, Quot.sound]` (`13` theorems):** `kn_silo_cut_edges_exact`, `schur_3node_compounding_strict`, `khwarizmi_completing_square_exact`, `thabit_amicable_product_identity`, `biruni_dip_radius_cleared_identity`, `haytham_reflection_norm_invariance`, `khayyam_cubic_positive_neg_discriminant`, `tusi_planar_curl_annihilation`, `tusi_spherical_obstruction_pos`, `kashi_cubic_difference_factorization`, `farisi_rainbow_caustic_separation`, `khazini_hydrostatic_alloy_inverse`, `nafis_septal_wall_rerouting_exact`.
 
 ---
 
 ## 5. Post-Last-Edit Verification Gate Receipts
 
-- **Live Lean `4.36.0` & Scratch `lake build`:** `verify_s89_heritage_atlas.py --verify-lean ClassicalHeritageAtlas.lean --json` -> **`PASS`** (`r10_findings=0, theorems_verified=17, allowed_axioms=["Quot.sound","propext"]`); scratch `lake build` -> **`4 jobs, 0 warnings, 0 stderr`**.
+- **Live Lean `4.36.0`, Scratch `lake build`, & `leanchecker --fresh`:** `verify_s89_heritage_atlas.py --verify-lean ClassicalHeritageAtlas.lean --json` -> **`PASS`** (`r10_findings=0, theorems_verified=17, allowed_axioms=["Quot.sound","propext"]`); scratch `lake build` -> **`4 jobs, 0 warnings, 0 stderr`**; `lake env leanchecker --fresh ClassicalHeritageAtlas` -> **`RC=0`**.
 - **Live Read-Only Corpus Audit:** `--verify-corpus ... --inventory ... --json` -> **`LIVE_CORPUS_VERIFIED`** (`inventory_sha256=43a2742e...`, `verified_anchors=20`, `downloaded_text_files=1460`, `downloaded_text_bytes=119327981`).
 - **3-Mode Isolated `-I` Parity + `PYTHONHASHSEED=42` + `umask 077` + CI `chmod 644` + Lean-less `env -i PATH=/usr/bin:/bin` `0`-Skip Parity:** `test_s89_heritage_atlas_r5.py` **`8/8 OK`** across all isolated execution modes with **`0` skips** even when `lean` is absent from `PATH`.
 - **Direct 4-Surface v2.1 `zone_b_fuzzer` (Zero Wrappers):** **`82/82` attack vectors (`86/86` incl. 4 baselines) `PASS`** (`CLI 25/25`, `FR1 19/19`, `FR0 19/19`, `SEC 19/19`; `byp=0, cr=0`).
@@ -133,11 +133,11 @@ Strict Law-5 enforcement (zero metaphorical smuggling; non-commuting pairs expli
 
 | File | Lines | Bytes | Mode | SHA-256 |
 | --- | ---: | ---: | :---: | --- |
-| `ClassicalHeritageAtlas.lean` | `281` | `13,645` | `0o644` | `243cb2cfd4b4aee181c481d2f6f154e304bfcd1e3d11eb399ee3a3cc2df4b437` |
+| `ClassicalHeritageAtlas.lean` | `704` | `39,002` | `0o644` | `83274dde83f2aa8cc5629b4509e9ff8e755ae724bc6f5d6f00d106bec3212cab` |
 | `lakefile.toml` | `6` | `140` | `0o644` | `40cebcde95ef89e4034c818723423eaed660e6a957930e608b8586315343891b` |
 | `lean-toolchain` | `1` | `25` | `0o644` | `582a63f8f9c5128067b688778c1051cf1464c3ca9d57b9325025c051c29b774a` |
-| `s89_heritage_atlas_oracle.py` | `1,070` | `55,794` | `0o644` | `e108bb04c7ad7c7510ab99730633561697558151269f7afa3e0d5190a156c28e` |
-| `verify_s89_heritage_atlas.py` | `1,163` | `48,466` | `0o644` | `99633cd7b3d5b6cf1f620ed07b55867e4b33c3c8d8f7234bfdf07c273efeb751` |
-| `test_s89_heritage_atlas_r5.py` | `1,150` | `61,873` | `0o644` | `a8a36981f8b15f4eac74351939fa89b4fa3bb286cf7695855c72ecd6a8795bfd` |
-| `s89_heritage_atlas_certificate.json` | `1` | `50,836` | `0o600` | `49bc7bd55be36a6cdcabbf854bc7b46c5313e8c28f36a7d9ef509134eaab8b63` |
-| `REPORT.md` | — | — | `0o644` | *(computed post-write in completion manifest)* |
+| `s89_heritage_atlas_oracle.py` | `1,070` | `55,713` | `0o644` | `b37f0b5218306edc65e26f3559718b715be6306ec80bc252b2b848890ef4649f` |
+| `verify_s89_heritage_atlas.py` | `1,355` | `55,910` | `0o644` | `e94624db16d4a528f2eb897b39fb5f28ad8b8a06056461c5710d3abd168084c3` |
+| `test_s89_heritage_atlas_r5.py` | `1,241` | `68,945` | `0o644` | `0f5ae4fbed0eb1d51c8d1513f5678a6ee484237dc615371f9ecc98ede40c1bc8` |
+| `s89_heritage_atlas_certificate.json` | `1` | `50,727` | `0o644` | `34a9cb772c623ea046d9739c10fdad8111dce10ad6b3c0c866b18263f152d3e4` |
+| `REPORT.md` | — | — | `0o644` | *(pinned in root `verify_all_standalone.py`)* |
