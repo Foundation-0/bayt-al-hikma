@@ -5,19 +5,20 @@ Portable Zero-Dependency Verifier for Foundation-0/bayt-al-hikma.
 Supports two explicitly distinguished modes:
 
 1. Offline mode (default):
-   - Verifies exact SHA-256 parity on all 47/47 pinned repository files
+   - Verifies exact SHA-256 parity on all 60/60 pinned repository files
      (fetch_corpora.py, PREREGISTERED_HYPOTHESES.md, test_verify_all_standalone.py,
-     and all 44 study files).
+     and all 57 study files, plus all 42 seminar package files via SEMINAR_MANIFEST.json).
    - Verifies fetch_corpora.py --manifest-json parses strictly zero-float
      (9 pinned primary corpora) and matches its pinned digest.
    - Recomputes every mathematical claim in polymath-lineage/,
      veins-and-branches/, heritage-corpus-atlas/, heritage-exact-operators/,
-     and raw-arabic-scientific-mesh/ from scratch under isolated `-I -B -W error`
-     and confirms byte-identical parity with their committed JSON certificates.
+     raw-arabic-scientific-mesh/, and socratic-operator-seminar/ from scratch
+     under isolated `-I -B -W error` and confirms byte-identical parity with
+     their committed JSON certificates.
    - Runs arabic-continuum/ and arabic-lexicon/ in `--standalone` mode
      (pinned-fixture invariant replay; reads NO corpus file;
      `arabic_live_corpora_recounted: false`).
-   - Runs all 7 assertion-free R5 + known-answer test suites under
+   - Runs all 8 assertion-free R5 + known-answer test suites under
      `-I -O -B -W error`.
 
 2. Live corpus recount mode (`--live` or `--corpus-dir <path>`):
@@ -36,14 +37,20 @@ Zero hardcoded absolute paths.
 from __future__ import annotations
 
 import argparse
+import errno
 import hashlib
 import json
+import os
+import stat
 import subprocess
 import sys
 from pathlib import Path
 from typing import Any
 
-REPO_ROOT = Path(__file__).resolve().parent
+REPO_ROOT = Path(os.path.abspath(__file__)).parent
+MAX_FILE_BYTES = 16 * 1024 * 1024
+MAX_JSON_DEPTH = 32
+MAX_JSON_INT_DIGITS = 1024
 
 ROOT_FILES_EXPECTED_SHA256: dict[str, str] = {
     "PREREGISTERED_HYPOTHESES.md": (
@@ -53,7 +60,7 @@ ROOT_FILES_EXPECTED_SHA256: dict[str, str] = {
         "606353db2207ea75ad20d7b5f5b1f608242f617cae81ce8d434c5172d59677e0"
     ),
     "test_verify_all_standalone.py": (
-        "d7dd972b973cde38886261ae2ffa3a397b5010543d667568e2cd12c8a6ddc83b"
+        "0a0e5eec5e64fb4d97dc4df11658c2155c856af6395d581d42f52bd68201350a"
     ),
 }
 
@@ -311,7 +318,116 @@ STUDY_SPECS: tuple[dict[str, Any], ...] = (
             ),
         },
     },
+    {
+        "audit_id": "SOCRATIC-SEMINAR",
+        "study_dir": "socratic-operator-seminar",
+        "cert_script": "verify_all_seminar.py",
+        "cert_args": ["--json"],
+        "test_script": "tests/test_verify_all_seminar_r5.py",
+        "committed_certificate_file": "certificates/seminar_unified_certificate.json",
+        "recomputes_from_scratch_offline": True,
+        "supports_live_corpus_recount": False,
+        "expected_standalone_stdout_sha256": (
+            "c7b1484b500cb10d918593097ab7a034f65be892f359ee6c8ccfad0db4447efc"
+        ),
+        "expected_live_stdout_sha256": None,
+        "expected_file_sha256": {
+            "README.md": (
+                "87c9d922a577fe8ca7e0dedfebe549fd95f4170ce797b68196298da361ba3f2a"
+            ),
+            "SEMINAR_MANIFEST.json": (
+                "f1862e224bd3c47c2c7727dd7a8e9c77e2a5a18c9eee4055927878b9025c5b45"
+            ),
+            "certificates/ablation_scorecard_certificate.json": (
+                "436ec03628a6f7ba00286c1297f4a39f36037735ca0fca0f81f16164a5f8f288"
+            ),
+            "certificates/pilot1_theorems_certificate.json": (
+                "bf1a1b7f18fdc57ea58ad1a95eae80a2e10a6035447fd38ebed7ad31a544e8d2"
+            ),
+            "certificates/seminar_harness_certificate.json": (
+                "552467381026f06c74ebb804c3fdeeee0d97cb12e615734841e454326412fa27"
+            ),
+            "certificates/seminar_unified_certificate.json": (
+                "c7b1484b500cb10d918593097ab7a034f65be892f359ee6c8ccfad0db4447efc"
+            ),
+            "lean_pilot1_theorems/s150_lean_theorems_certificate.json": (
+                "72f6d6733a454879dbb83507a0b7571992d8e227721b77dc9acd9fe11ee92fcf"
+            ),
+            "lean_pilot1_theorems/verify_s150_lean_theorems.py": (
+                "633c063f82e72a83bf3703219c427886401cd68b9b68f2c762f19797d91faf4e"
+            ),
+            "socratic_operator_seminar.py": (
+                "e4f39de6d9fbb1a16265e8622e2ccf988f96654973a9c0930ab29437185eb196"
+            ),
+            "tests/test_verify_all_seminar_r5.py": (
+                "d285b3455f01bc6228ad12624fde3669af31c573b1be04eecd203d6547e92f11"
+            ),
+            "verify_ablation_scorecard.py": (
+                "688106cdc2476e3f937eb34ff5c0995053692a3aebbd7012d14ab84cc242b237"
+            ),
+            "verify_all_seminar.py": (
+                "a164c59acbf33efe87b6e6cf8c3206b3a6373d621aecd9388b0cb081f0cc8519"
+            ),
+            "verify_pilot1_theorems.py": (
+                "d927eff59ce74b8f4b31b994354b3cb40807caec226e5b2a349a7667bc77fc85"
+            ),
+        },
+    },
 )
+
+
+def _check_no_symlink_ancestors(path: Path) -> None:
+    abs_path = path if path.is_absolute() else Path.cwd() / path
+    cur = Path(abs_path.anchor)
+    for idx, part in enumerate(abs_path.parts[1:]):
+        cur = cur / part
+        if idx >= 1 or idx == len(abs_path.parts) - 2:
+            if cur.is_symlink():
+                raise ValueError(f"SYMLINK_FORBIDDEN: {path.name}")
+
+
+def _read_regular_file_bytes(
+    path: Path,
+    missing_code: str,
+    label: str,
+    max_bytes: int = MAX_FILE_BYTES,
+) -> bytes:
+    """Refuse symlinks/ancestors, open with O_NOFOLLOW|O_NONBLOCK, verify S_ISREG & cap."""
+    try:
+        _check_no_symlink_ancestors(path)
+    except ValueError as exc:
+        raise ValueError(f"SYMLINK_FORBIDDEN: {label}") from exc
+    flags = os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK
+    try:
+        fd = os.open(path, flags)
+    except OSError as exc:
+        if exc.errno == errno.ELOOP:
+            raise ValueError(f"SYMLINK_FORBIDDEN: {label}") from exc
+        if exc.errno in (errno.ENOENT, errno.ENOTDIR):
+            raise ValueError(f"{missing_code}: {label}") from exc
+        raise ValueError(f"FILE_READ_ERROR: {label}: {exc.strerror}") from exc
+    try:
+        try:
+            st = os.fstat(fd)
+            if not stat.S_ISREG(st.st_mode):
+                raise ValueError(f"NOT_REGULAR_FILE: {label}")
+            if st.st_size > max_bytes:
+                raise ValueError(f"FILE_TOO_LARGE: {label}")
+            chunks: list[bytes] = []
+            total = 0
+            while True:
+                chunk = os.read(fd, 65536)
+                if not chunk:
+                    break
+                total += len(chunk)
+                if total > max_bytes:
+                    raise ValueError(f"FILE_TOO_LARGE: {label}")
+                chunks.append(chunk)
+            return b"".join(chunks)
+        except OSError as exc:
+            raise ValueError(f"FILE_READ_ERROR: {label}: {exc.strerror}") from exc
+    finally:
+        os.close(fd)
 
 
 def _strict_no_dups_hook(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
@@ -331,16 +447,44 @@ def _forbid_float(val: str) -> Any:
     raise ValueError(f"FLOAT_FORBIDDEN_IN_JSON: {val}")
 
 
+def _parse_bounded_int(val: str) -> int:
+    if len(val.lstrip("+-")) > MAX_JSON_INT_DIGITS:
+        raise ValueError("JSON_INT_TOO_LARGE")
+    return int(val)
+
+
+def _check_json_depth(root: Any, max_depth: int = MAX_JSON_DEPTH) -> None:
+    stack: list[tuple[Any, int]] = [(root, 0)]
+    while stack:
+        node, depth = stack.pop()
+        if depth > max_depth:
+            raise ValueError("JSON_DEPTH_EXCEEDED")
+        if isinstance(node, dict):
+            for v in node.values():
+                stack.append((v, depth + 1))
+        elif isinstance(node, list):
+            for item in node:
+                stack.append((item, depth + 1))
+
+
 def parse_strict_zero_float_json(raw_bytes: bytes) -> dict[str, Any]:
-    text = raw_bytes.decode("utf-8")
-    parsed = json.loads(
-        text,
-        object_pairs_hook=_strict_no_dups_hook,
-        parse_constant=_forbid_constant,
-        parse_float=_forbid_float,
-    )
+    try:
+        text = raw_bytes.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise ValueError(f"INVALID_UTF8_JSON: {exc}") from exc
+    try:
+        parsed = json.loads(
+            text,
+            object_pairs_hook=_strict_no_dups_hook,
+            parse_constant=_forbid_constant,
+            parse_float=_forbid_float,
+            parse_int=_parse_bounded_int,
+        )
+    except RecursionError as exc:
+        raise ValueError("JSON_DEPTH_EXCEEDED") from exc
     if not isinstance(parsed, dict):
         raise ValueError("TOP_LEVEL_JSON_MUST_BE_OBJECT")
+    _check_json_depth(parsed)
     return parsed
 
 
@@ -354,10 +498,12 @@ def verify_root_files_and_fetch_manifest(
 
     for fname, expected_sha in sorted(ROOT_FILES_EXPECTED_SHA256.items()):
         fpath = repo_root / fname
-        if not fpath.is_file():
-            errors.append(f"MISSING_ROOT_FILE: {fname}")
+        try:
+            raw = _read_regular_file_bytes(fpath, "MISSING_ROOT_FILE", fname)
+        except ValueError as exc:
+            errors.append(str(exc))
             continue
-        actual_sha = hashlib.sha256(fpath.read_bytes()).hexdigest()
+        actual_sha = hashlib.sha256(raw).hexdigest()
         if actual_sha != expected_sha:
             errors.append(
                 f"ROOT_FILE_SHA256_MISMATCH: {fname} got={actual_sha} expected={expected_sha}"
@@ -451,7 +597,8 @@ def verify_study(
         else "pinned_fixture_replay_no_corpus_read"
     )
 
-    if not study_path.is_dir():
+    if study_path.is_symlink() or not study_path.is_dir():
+        err_code = "SYMLINK_FORBIDDEN" if study_path.is_symlink() else "MISSING_STUDY_DIR"
         return {
             "audit_id": spec["audit_id"],
             "study_dir": spec["study_dir"],
@@ -460,7 +607,7 @@ def verify_study(
             "offline_scope": offline_scope,
             "recomputes_from_scratch_offline": spec["recomputes_from_scratch_offline"],
             "live_corpus_recounted": False,
-            "errors": [f"MISSING_STUDY_DIR: {spec['study_dir']}"],
+            "errors": [f"{err_code}: {spec['study_dir']}"],
         }
 
     # 1. Verify byte-identical SHA-256 on every pinned package file (and strict JSON on .json files)
@@ -469,10 +616,12 @@ def verify_study(
     committed_cert_name = spec["committed_certificate_file"]
     for fname, expected_sha in sorted(spec["expected_file_sha256"].items()):
         fpath = study_path / fname
-        if not fpath.is_file():
-            errors.append(f"MISSING_FILE: {spec['study_dir']}/{fname}")
+        label = f"{spec['study_dir']}/{fname}"
+        try:
+            raw = _read_regular_file_bytes(fpath, "MISSING_FILE", label)
+        except ValueError as exc:
+            errors.append(str(exc))
             continue
-        raw = fpath.read_bytes()
         actual_sha = hashlib.sha256(raw).hexdigest()
         if actual_sha != expected_sha:
             errors.append(
@@ -550,6 +699,7 @@ def verify_study(
                 "--corpus-dir",
                 str(corpus_dir),
             ]
+            live_err_start = len(errors)
             live_proc = subprocess.run(live_cmd, cwd=str(study_path), capture_output=True)
             live_rc = live_proc.returncode
             live_stdout_sha = hashlib.sha256(live_proc.stdout).hexdigest()
@@ -569,7 +719,7 @@ def verify_study(
                     errors.append(f"UNEXPECTED_LIVE_MODE: {live_parsed.get('mode')}")
                 if live_parsed.get("live_corpus_recounted") is not True:
                     errors.append("LIVE_MUST_REPORT_LIVE_CORPUS_RECOUNTED_TRUE")
-                else:
+                elif len(errors) == live_err_start:
                     live_corpus_recounted = True
             except ValueError as exc:
                 errors.append(f"LIVE_STRICT_JSON_ERROR: {exc}")
@@ -620,102 +770,122 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    use_live = bool(args.live or args.corpus_dir is not None)
-    resolved_corpus_dir: Path | None = None
-    if use_live:
-        resolved_corpus_dir = (
-            (REPO_ROOT / "corpora") if args.corpus_dir is None else args.corpus_dir.resolve()
+    try:
+        _check_no_symlink_ancestors(Path(__file__))
+        use_live = bool(args.live or args.corpus_dir is not None)
+        resolved_corpus_dir: Path | None = None
+        if use_live:
+            resolved_corpus_dir = (
+                (REPO_ROOT / "corpora") if args.corpus_dir is None else args.corpus_dir.resolve()
+            )
+
+        root_check = verify_root_files_and_fetch_manifest(REPO_ROOT, use_live, resolved_corpus_dir)
+        results = [
+            verify_study(spec, REPO_ROOT, use_live, resolved_corpus_dir) for spec in STUDY_SPECS
+        ]
+
+        study_files_verified = sum(int(r.get("files_verified", 0)) for r in results)
+        root_files_verified = int(root_check["root_files_verified"])
+        all_passed = bool(root_check["passed"] and all(r["passed"] for r in results))
+        arabic_live_recounted = bool(
+            use_live
+            and root_check["passed"]
+            and all(
+                r["live_corpus_recounted"]
+                for r in results
+                if not r["recomputes_from_scratch_offline"]
+            )
         )
-
-    root_check = verify_root_files_and_fetch_manifest(REPO_ROOT, use_live, resolved_corpus_dir)
-    results = [
-        verify_study(spec, REPO_ROOT, use_live, resolved_corpus_dir) for spec in STUDY_SPECS
-    ]
-
-    study_files_verified = sum(int(r.get("files_verified", 0)) for r in results)
-    root_files_verified = int(root_check["root_files_verified"])
-    all_passed = bool(root_check["passed"] and all(r["passed"] for r in results))
-    arabic_live_recounted = bool(
-        use_live
-        and all(
-            r["live_corpus_recounted"]
-            for r in results
-            if not r["recomputes_from_scratch_offline"]
-        )
-    )
-    execution_mode = (
-        "live_corpus_recount_plus_standalone"
-        if use_live
-        else "offline_standalone_and_fixture_replay"
-    )
-
-    summary = {
-        "schema": "bayt_al_hikma.verifier.v2",
-        "execution_mode": execution_mode,
-        "arabic_live_corpora_recounted": arabic_live_recounted,
-        "offline_recomputed_studies": [
-            r["study_dir"] for r in results if r["recomputes_from_scratch_offline"]
-        ],
-        "fixture_replayed_when_offline_studies": [
-            r["study_dir"] for r in results if not r["recomputes_from_scratch_offline"]
-        ],
-        "root_check": root_check,
-        "studies_checked": len(results),
-        "studies_passed": sum(1 for r in results if r["passed"]),
-        "root_files_verified": root_files_verified,
-        "study_files_verified": study_files_verified,
-        "total_files_verified": root_files_verified + study_files_verified,
-        "passed": all_passed,
-        "status": "PASS" if all_passed else "FAIL",
-        "results": results,
-    }
-
-    if args.json:
-        print(json.dumps(summary, indent=2, sort_keys=True))
-    else:
-        live_tag = "true" if arabic_live_recounted else "false"
-        extra = (
-            f", {root_check['live_corpora_verified']}/{EXPECTED_FETCH_MANIFEST_COUNT} primary corpora verified"
+        execution_mode = (
+            "live_corpus_recount_plus_standalone"
             if use_live
-            else ""
+            else "offline_standalone_and_fixture_replay"
         )
-        print(
-            f"BAYT_AL_HIKMA_CHECK: {summary['status']} "
-            f"[{execution_mode} | arabic_live_corpora_recounted={live_tag}] "
-            f"({summary['studies_passed']}/{summary['studies_checked']} studies, "
-            f"{summary['total_files_verified']} files{extra})"
-        )
-        if not use_live:
-            print(
-                "NOTE: Offline mode recomputes polymath-lineage, veins-and-branches, "
-                "heritage-corpus-atlas, heritage-exact-operators & raw-arabic-scientific-mesh "
-                "from scratch, and replays pinned fixtures (reading NO corpus text) for "
-                "arabic-continuum & arabic-lexicon."
-            )
-            print(
-                "      Run `python3 fetch_corpora.py --dest ./corpora && "
-                "python3 verify_all_standalone.py --live` for a full live recount from the 9 primary texts."
-            )
-        for err in root_check["errors"]:
-            print(f"  [FAIL] root: ERROR: {err}")
-        for r in results:
-            tag = "PASS" if r["passed"] else "FAIL"
-            sha16 = r.get("standalone_stdout_sha256", "")[:16]
-            live_part = ""
-            if use_live and r.get("live_stdout_sha256") is not None:
-                live_part = (
-                    f" live_sha256={r.get('live_stdout_sha256', '')[:16]}"
-                    f" live_rc={r.get('live_rc')}"
-                )
-            print(
-                f"  [{tag}] {r['audit_id']} ({r['study_dir']}, {r.get('offline_scope', 'unknown')}): "
-                f"files={r.get('files_verified', 0)} sha256={sha16} "
-                f"cert_rc={r.get('cert_rc')}{live_part} test_rc={r.get('test_rc')}"
-            )
-            for err in r["errors"]:
-                print(f"         ERROR: {err}")
 
-    return 0 if all_passed else 1
+        summary = {
+            "schema": "bayt_al_hikma.verifier.v2",
+            "execution_mode": execution_mode,
+            "arabic_live_corpora_recounted": arabic_live_recounted,
+            "offline_recomputed_studies": [
+                r["study_dir"] for r in results if r["recomputes_from_scratch_offline"]
+            ],
+            "fixture_replayed_when_offline_studies": [
+                r["study_dir"] for r in results if not r["recomputes_from_scratch_offline"]
+            ],
+            "root_check": root_check,
+            "studies_checked": len(results),
+            "studies_passed": sum(1 for r in results if r["passed"]),
+            "root_files_verified": root_files_verified,
+            "study_files_verified": study_files_verified,
+            "total_files_verified": root_files_verified + study_files_verified,
+            "passed": all_passed,
+            "status": "PASS" if all_passed else "FAIL",
+            "results": results,
+        }
+
+        if args.json:
+            print(json.dumps(summary, indent=2, sort_keys=True))
+        else:
+            live_tag = "true" if arabic_live_recounted else "false"
+            extra = (
+                f", {root_check['live_corpora_verified']}/{EXPECTED_FETCH_MANIFEST_COUNT} primary corpora verified"
+                if use_live
+                else ""
+            )
+            print(
+                f"BAYT_AL_HIKMA_CHECK: {summary['status']} "
+                f"[{execution_mode} | arabic_live_corpora_recounted={live_tag}] "
+                f"({summary['studies_passed']}/{summary['studies_checked']} studies, "
+                f"{summary['total_files_verified']} files{extra})"
+            )
+            if not use_live:
+                print(
+                    "NOTE: Offline mode recomputes polymath-lineage, veins-and-branches, "
+                    "heritage-corpus-atlas, heritage-exact-operators, raw-arabic-scientific-mesh & "
+                    "socratic-operator-seminar from scratch, and replays pinned fixtures (reading NO "
+                    "corpus text) for arabic-continuum & arabic-lexicon."
+                )
+                print(
+                    "      Run `python3 fetch_corpora.py --dest ./corpora && "
+                    "python3 verify_all_standalone.py --live` for a full live recount from the 9 primary texts."
+                )
+            for err in root_check["errors"]:
+                print(f"  [FAIL] root: ERROR: {err}")
+            for r in results:
+                tag = "PASS" if r["passed"] else "FAIL"
+                sha16 = r.get("standalone_stdout_sha256", "")[:16]
+                live_part = ""
+                if use_live and r.get("live_stdout_sha256") is not None:
+                    live_part = (
+                        f" live_sha256={r.get('live_stdout_sha256', '')[:16]}"
+                        f" live_rc={r.get('live_rc')}"
+                    )
+                print(
+                    f"  [{tag}] {r['audit_id']} ({r['study_dir']}, {r.get('offline_scope', 'unknown')}): "
+                    f"files={r.get('files_verified', 0)} sha256={sha16} "
+                    f"cert_rc={r.get('cert_rc')}{live_part} test_rc={r.get('test_rc')}"
+                )
+                for err in r["errors"]:
+                    print(f"         ERROR: {err}")
+
+        return 0 if all_passed else 1
+    except (OSError, UnicodeDecodeError, RecursionError) as exc:
+        err_code = "IO_ERROR"
+        if isinstance(exc, UnicodeDecodeError):
+            err_code = "BAD_UTF8"
+        elif isinstance(exc, RecursionError):
+            err_code = "JSON_DEPTH_EXCEEDED"
+        sys.stderr.write(
+            json.dumps({"error_code": err_code, "message": str(exc), "status": "FAIL"}, sort_keys=True) + "\n"
+        )
+        return 2
+    except ValueError as exc:
+        msg = str(exc)
+        err_code = msg.split(":", 1)[0].strip() if ":" in msg else "VALUE_ERROR"
+        sys.stderr.write(
+            json.dumps({"error_code": err_code, "message": msg, "status": "FAIL"}, sort_keys=True) + "\n"
+        )
+        return 2
 
 
 if __name__ == "__main__":

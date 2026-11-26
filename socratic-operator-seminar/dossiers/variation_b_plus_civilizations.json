@@ -1,0 +1,92 @@
+{
+  "chair": "aletheia",
+  "pack_sha256": "1727ee1058abbe15f8fc25818424afa3f9bc5327ab5bbf08ed8998b49d75caea",
+  "schema": "bayt-al-hikma.seminar_dossier_pack.v1",
+  "seat_count": 7,
+  "seats": [
+    {
+      "exact_operators": [
+        "8-glyph exact-operator calculus (Schur pushforward, Pullback, Holonomy, Loewner, Commutation defect, Fold sheaf, Farkas, Parity)",
+        "Sylvester-Hadamard orthogonal transforms, rank-1 collapse diagnostics, and zero-log multiplicative certificates",
+        "Cayley SU(2) rational sphere lifts, SO(d) geodesic retraction, and bounded-chatter rational hysteresis control",
+        "Gegenbauer/Mobius rational enclosures, continuum holonomy defects, and congruence vs block-reduction scope"
+      ],
+      "mandatory_extra_field": "epistemic_web_interpositions",
+      "method_laws": [
+        "Law 1: Re-enter every counterexample or surprise as a falsifiable formal test",
+        "Law 2: Steelman every counterexample into the strongest repaired conjecture before dismissal",
+        "Law 3: Pure-Z/Q or Lean 4 executable witnesses and must-fail negative controls only",
+        "Law 4: Honest novelty grading and explicit scope boundaries",
+        "Law 5: Own-terms-first translation into exact algebraic operators without language smuggling"
+      ],
+      "role": "CHAIR_METHOD_STEWARD_AND_CROSS_POLLINATOR",
+      "seat_id": "SEAT-0",
+      "signature_lens": "Constructive pure-Z/Q verification, steelman counterexample repair, and exact-operator interposition",
+      "title": "The Aletheia Scholar (Chair, Method Steward & Cross-Domain Synthesizer)"
+    },
+    {
+      "exact_operators": [
+        "Rational Cayley/stereographic",
+        "Al-Kashi chord contraction",
+        "Ibn al-Nafis Schur firewall",
+        "Al-Farabi 53-TET"
+      ],
+      "seat_id": "CIV-1",
+      "signature_lens": "Rational geometry, cubic/chord analysis, Schur conductance, acoustic ratios",
+      "title": "Islamicate Mathematical & Scientific Tradition"
+    },
+    {
+      "exact_operators": [
+        "Pingala binary/Gray bijection",
+        "Panini 14-sutra C1P compression",
+        "Madhava R1/R2/R3 remainder acceleration"
+      ],
+      "seat_id": "CIV-2",
+      "signature_lens": "Combinatorial binary ranking, C1P interval partitions, rational series tail acceleration",
+      "title": "South Asian Prosodic, Grammatical & Kerala Analytical Tradition"
+    },
+    {
+      "exact_operators": [
+        "Jiuzhang fangcheng Z-elimination",
+        "Qin Dayan non-coprime CRT",
+        "Zu Chongzhi 355/113",
+        "Dougong friction hysteresis"
+      ],
+      "seat_id": "CIV-3",
+      "signature_lens": "Fraction-free integer elimination, general non-coprime CRT, CF optimality, friction hysteresis",
+      "title": "East Asian Counting-Rod & Timber Engineering Tradition"
+    },
+    {
+      "exact_operators": [
+        "Khipu hierarchical tree-sums",
+        "Froude jump & Housner rocking",
+        "Floodplain radial-ring cut survival"
+      ],
+      "seat_id": "CIV-4",
+      "signature_lens": "Knotted-cord tree checksums, hydraulic jump & rocking dissipation, floodplain ring networks",
+      "title": "Andean & Amazonian Non-Prose Engineering Tradition"
+    },
+    {
+      "exact_operators": [
+        "Rhind 2/n vs greedy Sylvester",
+        "9-piece frustum & Seked 14/11",
+        "260/365/584 multi-clock sync"
+      ],
+      "seat_id": "CIV-5",
+      "signature_lens": "Optimal unit-fraction norms, exact frustum dissection, multi-clock calendar synchronization",
+      "title": "Ancient Egyptian & Mesoamerican Exact Arithmetic Tradition"
+    },
+    {
+      "exact_operators": [
+        "Antikythera 254/19 & 223/19",
+        "Hydraulic aqueduct Schur conductance",
+        "Chokwe Sona gcd(m,n)",
+        "GF(2) parity folding"
+      ],
+      "seat_id": "CIV-6",
+      "signature_lens": "Epicyclic rational gear trains, hydraulic Schur networks, Eulerian mirror curves & GF(2) parity",
+      "title": "Mediterranean Mechanical & Sub-Saharan Topological Tradition"
+    }
+  ],
+  "variation": "civilizations"
+}

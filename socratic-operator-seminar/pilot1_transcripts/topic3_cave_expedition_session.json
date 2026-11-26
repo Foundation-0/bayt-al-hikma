@@ -1,0 +1,728 @@
+{
+  "chair": "aletheia",
+  "counterexample_repairs": [
+    {
+      "broken_turn": "R1-SEAT-0",
+      "repaired_turn": "R2-SEAT-0"
+    },
+    {
+      "broken_turn": "R1-SEAT-0",
+      "repaired_turn": "R2-SEAT-1"
+    },
+    {
+      "broken_turn": "R1-SEAT-0",
+      "repaired_turn": "R2-SEAT-2"
+    },
+    {
+      "broken_turn": "R1-SEAT-0",
+      "repaired_turn": "R2-SEAT-3"
+    },
+    {
+      "broken_turn": "R1-SEAT-0",
+      "repaired_turn": "R2-SEAT-4"
+    },
+    {
+      "broken_turn": "R1-SEAT-0",
+      "repaired_turn": "R2-SEAT-5"
+    },
+    {
+      "broken_turn": "R1-SEAT-0",
+      "repaired_turn": "R2-SEAT-6"
+    }
+  ],
+  "cross_seat_compositions": [
+    {
+      "dst_turn": "R2-SEAT-1",
+      "src_turn": "R1-SEAT-0"
+    },
+    {
+      "dst_turn": "R2-SEAT-2",
+      "src_turn": "R1-SEAT-0"
+    },
+    {
+      "dst_turn": "R2-SEAT-3",
+      "src_turn": "R1-SEAT-0"
+    },
+    {
+      "dst_turn": "R2-SEAT-4",
+      "src_turn": "R1-SEAT-0"
+    },
+    {
+      "dst_turn": "R2-SEAT-5",
+      "src_turn": "R1-SEAT-0"
+    },
+    {
+      "dst_turn": "R2-SEAT-6",
+      "src_turn": "R1-SEAT-0"
+    },
+    {
+      "dst_turn": "R3-SEAT-0",
+      "src_turn": "R2-SEAT-3"
+    },
+    {
+      "dst_turn": "R3-SEAT-1",
+      "src_turn": "R2-SEAT-6"
+    },
+    {
+      "dst_turn": "R3-SEAT-2",
+      "src_turn": "R2-SEAT-1"
+    },
+    {
+      "dst_turn": "R3-SEAT-3",
+      "src_turn": "R2-SEAT-6"
+    },
+    {
+      "dst_turn": "R3-SEAT-4",
+      "src_turn": "R2-SEAT-3"
+    },
+    {
+      "dst_turn": "R3-SEAT-5",
+      "src_turn": "R2-SEAT-6"
+    },
+    {
+      "dst_turn": "R3-SEAT-6",
+      "src_turn": "R2-SEAT-0"
+    }
+  ],
+  "dag_edges": [
+    {
+      "dst_seat_id": "SEAT-0",
+      "dst_turn_id": "R2-SEAT-0",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "repair",
+      "src_seat_id": "SEAT-0",
+      "src_turn_id": "R1-SEAT-0",
+      "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+    },
+    {
+      "dst_seat_id": "SEAT-1",
+      "dst_turn_id": "R2-SEAT-1",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "repair",
+      "src_seat_id": "SEAT-0",
+      "src_turn_id": "R1-SEAT-0",
+      "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+    },
+    {
+      "dst_seat_id": "SEAT-2",
+      "dst_turn_id": "R2-SEAT-2",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "repair",
+      "src_seat_id": "SEAT-0",
+      "src_turn_id": "R1-SEAT-0",
+      "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+    },
+    {
+      "dst_seat_id": "SEAT-3",
+      "dst_turn_id": "R2-SEAT-3",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "repair",
+      "src_seat_id": "SEAT-0",
+      "src_turn_id": "R1-SEAT-0",
+      "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+    },
+    {
+      "dst_seat_id": "SEAT-4",
+      "dst_turn_id": "R2-SEAT-4",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "repair",
+      "src_seat_id": "SEAT-0",
+      "src_turn_id": "R1-SEAT-0",
+      "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+    },
+    {
+      "dst_seat_id": "SEAT-5",
+      "dst_turn_id": "R2-SEAT-5",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "repair",
+      "src_seat_id": "SEAT-0",
+      "src_turn_id": "R1-SEAT-0",
+      "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+    },
+    {
+      "dst_seat_id": "SEAT-6",
+      "dst_turn_id": "R2-SEAT-6",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "repair",
+      "src_seat_id": "SEAT-0",
+      "src_turn_id": "R1-SEAT-0",
+      "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+    },
+    {
+      "dst_seat_id": "SEAT-0",
+      "dst_turn_id": "R3-SEAT-0",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "repair",
+      "src_seat_id": "SEAT-3",
+      "src_turn_id": "R2-SEAT-3",
+      "src_verdict": "PASS_WITNESS"
+    },
+    {
+      "dst_seat_id": "SEAT-1",
+      "dst_turn_id": "R3-SEAT-1",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "compose",
+      "src_seat_id": "SEAT-6",
+      "src_turn_id": "R2-SEAT-6",
+      "src_verdict": "PASS_WITNESS"
+    },
+    {
+      "dst_seat_id": "SEAT-2",
+      "dst_turn_id": "R3-SEAT-2",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "compose",
+      "src_seat_id": "SEAT-1",
+      "src_turn_id": "R2-SEAT-1",
+      "src_verdict": "PASS_WITNESS"
+    },
+    {
+      "dst_seat_id": "SEAT-3",
+      "dst_turn_id": "R3-SEAT-3",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "compose",
+      "src_seat_id": "SEAT-6",
+      "src_turn_id": "R2-SEAT-6",
+      "src_verdict": "PASS_WITNESS"
+    },
+    {
+      "dst_seat_id": "SEAT-4",
+      "dst_turn_id": "R3-SEAT-4",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "compose",
+      "src_seat_id": "SEAT-3",
+      "src_turn_id": "R2-SEAT-3",
+      "src_verdict": "PASS_WITNESS"
+    },
+    {
+      "dst_seat_id": "SEAT-5",
+      "dst_turn_id": "R3-SEAT-5",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "compose",
+      "src_seat_id": "SEAT-6",
+      "src_turn_id": "R2-SEAT-6",
+      "src_verdict": "PASS_WITNESS"
+    },
+    {
+      "dst_seat_id": "SEAT-6",
+      "dst_turn_id": "R3-SEAT-6",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "compose",
+      "src_seat_id": "SEAT-0",
+      "src_turn_id": "R2-SEAT-0",
+      "src_verdict": "PASS_WITNESS"
+    }
+  ],
+  "historical_to_modern_edges": [
+    {
+      "aletheia_turn": "R3-SEAT-0",
+      "historical_turn": "R2-SEAT-3"
+    }
+  ],
+  "max_dag_depth": 3,
+  "minimal_counterexample_count": 2,
+  "modern_to_historical_edges": [
+    {
+      "aletheia_turn": "R1-SEAT-0",
+      "historical_turn": "R2-SEAT-1"
+    },
+    {
+      "aletheia_turn": "R1-SEAT-0",
+      "historical_turn": "R2-SEAT-2"
+    },
+    {
+      "aletheia_turn": "R1-SEAT-0",
+      "historical_turn": "R2-SEAT-3"
+    },
+    {
+      "aletheia_turn": "R1-SEAT-0",
+      "historical_turn": "R2-SEAT-4"
+    },
+    {
+      "aletheia_turn": "R1-SEAT-0",
+      "historical_turn": "R2-SEAT-5"
+    },
+    {
+      "aletheia_turn": "R1-SEAT-0",
+      "historical_turn": "R2-SEAT-6"
+    },
+    {
+      "aletheia_turn": "R2-SEAT-0",
+      "historical_turn": "R3-SEAT-6"
+    }
+  ],
+  "pass_witness_count": 19,
+  "s150_g2_dynamic_compounding_passed": true,
+  "s150_g5_bidirectional_pollination_passed": true,
+  "session_id": "S150-PILOT1-TOPIC3-CAVE_EXPEDITION",
+  "topic_id": "TOPIC-3-CAVE-EXPEDITION",
+  "transcript_sha256": "afff3a9cb98987772e51f30d92036b09f70b128246c4771b9848aef792df7aca",
+  "turn_count": 21,
+  "turn_records": [
+    {
+      "dag_depth": 1,
+      "interpositions_count": 6,
+      "mode": "compose",
+      "round_num": 1,
+      "seat_id": "SEAT-0",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "SEAT-1",
+      "turn_id": "R1-SEAT-0",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R1-SEAT-0-SCHURGF2",
+        "failing_case_index": 2,
+        "failure_reason": "PREDICATE_RETURNED_FALSE",
+        "minimal_counterexample": {
+          "A": [
+            [
+              2
+            ]
+          ],
+          "B": [
+            [
+              1
+            ]
+          ],
+          "D": [
+            [
+              1
+            ]
+          ],
+          "expected": false,
+          "mode": "schur_z"
+        },
+        "passed_cases": 2,
+        "status": "MINIMAL_COUNTEREXAMPLE",
+        "total_cases": 8,
+        "verdict_sha256": "2d77fdc5477893e1e57c011fde0023b7c2762509f0b03150070117e5e46fb1d6"
+      }
+    },
+    {
+      "dag_depth": 1,
+      "interpositions_count": 0,
+      "mode": "challenge",
+      "round_num": 1,
+      "seat_id": "SEAT-1",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "SEAT-2",
+      "turn_id": "R1-SEAT-1",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R1-SEAT-1-SCHUR-CONG",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "540dbaf167f08557879c44a8057296dc65d537ccf158c36591110afbfb9fa236"
+      }
+    },
+    {
+      "dag_depth": 1,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 1,
+      "seat_id": "SEAT-2",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "SEAT-1",
+      "turn_id": "R1-SEAT-2",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R1-SEAT-2-SCALAR-SHEAR",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 6,
+        "status": "PASS_WITNESS",
+        "total_cases": 6,
+        "verdict_sha256": "093c1c7aaf450a14638e4adcb69c66b98c9f8b3096ce17bc4027f0e5e666c6b0"
+      }
+    },
+    {
+      "dag_depth": 1,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 1,
+      "seat_id": "SEAT-3",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "SEAT-7",
+      "turn_id": "R1-SEAT-3",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R1-SEAT-3-SCHUR-GF2-MIRROR",
+        "failing_case_index": 6,
+        "failure_reason": "PREDICATE_RETURNED_FALSE",
+        "minimal_counterexample": {
+          "A": [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          "B": [
+            [
+              1
+            ],
+            [
+              0
+            ]
+          ],
+          "C": [
+            [
+              5
+            ]
+          ],
+          "expected_gf2": false,
+          "expected_mirror": true,
+          "expected_q": true
+        },
+        "passed_cases": 6,
+        "status": "MINIMAL_COUNTEREXAMPLE",
+        "total_cases": 8,
+        "verdict_sha256": "f374a61e107c5262a2db8302cffb60503258db85a61bd32149cd51c1856b2426"
+      }
+    },
+    {
+      "dag_depth": 1,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 1,
+      "seat_id": "SEAT-4",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "SEAT-7",
+      "turn_id": "R1-SEAT-4",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R1-SEAT-4-SCHUR-CONG",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 7,
+        "status": "PASS_WITNESS",
+        "total_cases": 7,
+        "verdict_sha256": "596f5c267e7ec835368f588f96c2054fcc0099d02af03c6fd13578ebee7ea9e6"
+      }
+    },
+    {
+      "dag_depth": 1,
+      "interpositions_count": 0,
+      "mode": "challenge",
+      "round_num": 1,
+      "seat_id": "SEAT-5",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "SEAT-3",
+      "turn_id": "R1-SEAT-5",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R1-SEAT-5-SCHUR-FOLD",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "04ac350a4cac30a0b2b58add3d037c62eae434059557734dbbc3ad833b766cd5"
+      }
+    },
+    {
+      "dag_depth": 1,
+      "interpositions_count": 0,
+      "mode": "challenge",
+      "round_num": 1,
+      "seat_id": "SEAT-6",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "SEAT-4",
+      "turn_id": "R1-SEAT-6",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R1-SEAT-6-SCHURZ",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "78909146915a929d7486496b7ebd79959ea48061f093eca34343260741446d2e"
+      }
+    },
+    {
+      "dag_depth": 2,
+      "interpositions_count": 4,
+      "mode": "repair",
+      "round_num": 2,
+      "seat_id": "SEAT-0",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "R1-SEAT-0",
+      "turn_id": "R2-SEAT-0",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R2-SEAT-0-WITTFOLD",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "a505bfd9bda8cad9159362054e30f201842092410ab042de8f122d532f80ae8f"
+      }
+    },
+    {
+      "dag_depth": 2,
+      "interpositions_count": 0,
+      "mode": "repair",
+      "round_num": 2,
+      "seat_id": "SEAT-1",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "R1-SEAT-0",
+      "turn_id": "R2-SEAT-1",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R2-SEAT-1-SCHUR-TRICHOTOMY",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "52d1696abf79f62c04fa122ca71cb61c797a6bbbef49a897d1cab68225c18678"
+      }
+    },
+    {
+      "dag_depth": 2,
+      "interpositions_count": 0,
+      "mode": "repair",
+      "round_num": 2,
+      "seat_id": "SEAT-2",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "R1-SEAT-0",
+      "turn_id": "R2-SEAT-2",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R2-SEAT-2-SCHUR-FOLD",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 9,
+        "status": "PASS_WITNESS",
+        "total_cases": 9,
+        "verdict_sha256": "161e4a6f5ba6fd849e6808647d3e74a0f7da65ecf6022007173fc9b9cc7bbf8e"
+      }
+    },
+    {
+      "dag_depth": 2,
+      "interpositions_count": 0,
+      "mode": "repair",
+      "round_num": 2,
+      "seat_id": "SEAT-3",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "R1-SEAT-0",
+      "turn_id": "R2-SEAT-3",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R2-SEAT-3-SCHUR-LIFT-FOLD",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "711adf9349f3050c12e9553b69bc7dacda8ed53340be03e7a70b2df78e5a14f6"
+      }
+    },
+    {
+      "dag_depth": 2,
+      "interpositions_count": 0,
+      "mode": "repair",
+      "round_num": 2,
+      "seat_id": "SEAT-4",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "R1-SEAT-0",
+      "turn_id": "R2-SEAT-4",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R2-SEAT-4-SCHUR-GF2-REPAIR",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "13f5f970870d3a9c755002cd56a8d34f529d8b441096b9ec6e0320c7a595e0ec"
+      }
+    },
+    {
+      "dag_depth": 2,
+      "interpositions_count": 0,
+      "mode": "repair",
+      "round_num": 2,
+      "seat_id": "SEAT-5",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "R1-SEAT-0",
+      "turn_id": "R2-SEAT-5",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R2-SEAT-5-SCHUR-REPAIR",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "30f6465ebbf33f17ff7adf2503a17af4c7bddb3eb05267e631178a6d284f1c20"
+      }
+    },
+    {
+      "dag_depth": 2,
+      "interpositions_count": 0,
+      "mode": "repair",
+      "round_num": 2,
+      "seat_id": "SEAT-6",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "R1-SEAT-0",
+      "turn_id": "R2-SEAT-6",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R2-SEAT-6-SCHUR-REPAIR",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 12,
+        "status": "PASS_WITNESS",
+        "total_cases": 12,
+        "verdict_sha256": "d84074738e37102b8bf6b797d2a95acab64b655f9c64d00fe97b116e1de46eb2"
+      }
+    },
+    {
+      "dag_depth": 3,
+      "interpositions_count": 6,
+      "mode": "repair",
+      "round_num": 3,
+      "seat_id": "SEAT-0",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "R2-SEAT-3",
+      "turn_id": "R3-SEAT-0",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R3-SEAT-0-UNIFIED-SCHUR-WITT-FOLD",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "bd0959f6eb30d65f60d1b579798c4ed8bdb6d422c74049a8864d3f1cbe9c85ec"
+      }
+    },
+    {
+      "dag_depth": 3,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 3,
+      "seat_id": "SEAT-1",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "R2-SEAT-6",
+      "turn_id": "R3-SEAT-1",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R3-SEAT-1-HASSE-WITT-COMPLETE",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "db4afa217ee8507998c344f57a89d4ad323574c1b39113161a833890af18867b"
+      }
+    },
+    {
+      "dag_depth": 3,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 3,
+      "seat_id": "SEAT-2",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "R2-SEAT-1",
+      "turn_id": "R3-SEAT-2",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R3-SEAT-2-UNIFIED-SCHUR-FOLD",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "105d1fca03957a662be989f434fab9f4102d692b426d802a5288b76198875e5a"
+      }
+    },
+    {
+      "dag_depth": 3,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 3,
+      "seat_id": "SEAT-3",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "R2-SEAT-6",
+      "turn_id": "R3-SEAT-3",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R3-SEAT-3-FOLD-TRICHOTOMY",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "7f6bd04cfe422a90e3f3373f2b9afd5e27efb977f360ea835f465bd293250d92"
+      }
+    },
+    {
+      "dag_depth": 3,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 3,
+      "seat_id": "SEAT-4",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "R2-SEAT-3",
+      "turn_id": "R3-SEAT-4",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R3-SEAT-4-SCHUR-GF2-UNIFIED",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "993ea4179cc971bdd68f799951e0b4535e41856c71cd3b8280c2f8d7d2b4f5c4"
+      }
+    },
+    {
+      "dag_depth": 3,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 3,
+      "seat_id": "SEAT-5",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "R2-SEAT-6",
+      "turn_id": "R3-SEAT-5",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R3-SEAT-5-SCHUR-WITT-FOLD",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "0ebb39241f1cfcd28e1e8183bd972898a9c0bba4fb8bdbd71c7e3c95cfd725a6"
+      }
+    },
+    {
+      "dag_depth": 3,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 3,
+      "seat_id": "SEAT-6",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "target_seat_or_turn": "R2-SEAT-0",
+      "turn_id": "R3-SEAT-6",
+      "verdict": {
+        "conjecture_id": "CONJ-T3-R3-SEAT-6-WITT-FOLD",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 9,
+        "status": "PASS_WITNESS",
+        "total_cases": 9,
+        "verdict_sha256": "2561ee40c75dcdce48368fb4288aad6129f2bb79fe64afa83c624398b0b2b9bd"
+      }
+    }
+  ],
+  "variation": "scholars"
+}

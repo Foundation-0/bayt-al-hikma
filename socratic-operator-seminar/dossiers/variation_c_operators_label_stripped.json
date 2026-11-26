@@ -1,0 +1,69 @@
+{
+  "chair": "none",
+  "pack_sha256": "c9a7b464833c88cb461d537dd6f0a79764d202f3c58f3b98ea32e1d6b33a35b0",
+  "schema": "bayt-al-hikma.seminar_dossier_pack.v1",
+  "seat_count": 6,
+  "seats": [
+    {
+      "exact_operators": [
+        "Schur complement L / B",
+        "Readable-record trace drop 81/1250",
+        "Effective parallel network conductance"
+      ],
+      "seat_id": "OP-1",
+      "signature_lens": "Boundary-reduced conductance, readable-record symmetry breaking, congruence vs block reduction",
+      "title": "Schur Complement & Block Elimination Operator"
+    },
+    {
+      "exact_operators": [
+        "Rational stereographic lift (2u,2v,r^2-1)/(r^2+1)",
+        "Order-3 BCH C3=(0,1/3,1/6,0)",
+        "Subtractive cancellation kappa_sub = x/(1-x)"
+      ],
+      "seat_id": "OP-2",
+      "signature_lens": "Zero-trig rational parametrizations of S^2/S^3, opposing-pair BCH cancellation, kappa_sub",
+      "title": "Rational Stereographic & Cayley Spherical Operator"
+    },
+    {
+      "exact_operators": [
+        "CF prefix [3,7,15,1,292] & exhaustive q<=16603",
+        "Rational tail accelerators O(1/n^7)",
+        "Minimax unit-fraction norm vs greedy"
+      ],
+      "seat_id": "OP-3",
+      "signature_lens": "Super-convergent Diophantine bounds, alternating tail rational accelerators, unit-fraction minimax",
+      "title": "Asymptotic Remainder & Continued-Fraction Optimality Operator"
+    },
+    {
+      "exact_operators": [
+        "Fraction-free Z Gaussian elimination",
+        "Non-coprime CRT lcm & 1460x phase compression",
+        "Composite 3-clock synchronization"
+      ],
+      "seat_id": "OP-4",
+      "signature_lens": "General pairwise gcd compatibility, composite multi-clock lcm locks, determinant-preserving Z elimination",
+      "title": "Non-Coprime Modular CRT & Fraction-Free Elimination Operator"
+    },
+    {
+      "exact_operators": [
+        "C1P 14-interval exact cover",
+        "Hierarchical tree-sum checksums",
+        "Bilinear friction-hysteresis bounded chatter"
+      ],
+      "seat_id": "OP-5",
+      "signature_lens": "Minimal lossless interval covers, tree-sum integrity checks, bilinear Coulomb dissipation",
+      "title": "Consecutive-Ones Partition & Passive Hysteresis Control Operator"
+    },
+    {
+      "exact_operators": [
+        "GF(2)^4 / GF(2)^8 recursive XOR parity",
+        "Torus-lattice reflection loop count == gcd(m,n)",
+        "Multi-path ring cut survival"
+      ],
+      "seat_id": "OP-6",
+      "signature_lens": "Hyper-cube XOR parity codes, single-stroke torus-knot coprimality, 2-edge-connected ring cuts",
+      "title": "GF(2) Parity Folding & Coprime Eulerian Winding Operator"
+    }
+  ],
+  "variation": "operators"
+}

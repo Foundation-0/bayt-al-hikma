@@ -10,14 +10,18 @@ Emits 0 stdout bytes on PASS across -I -B, -I -O -B, and -I -B -W error.
 from __future__ import annotations
 
 import copy
+import errno
 import hashlib
 import io
 import json
+import os
+import subprocess
 import sys
 import tempfile
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from typing import Any, Callable
+from unittest import mock
 
 _ROOT = str(Path(__file__).resolve().parent)
 if _ROOT not in sys.path:
@@ -72,6 +76,42 @@ def test_strict_json_parser() -> None:
         "non-dict root",
         "TOP_LEVEL_JSON_MUST_BE_OBJECT",
     )
+    _check_raises_val(
+        lambda: vas.parse_strict_zero_float_json(b'{"x": ' + b"9" * 4400 + b"}"),
+        "4400-digit int",
+        "JSON_INT_TOO_LARGE",
+    )
+    _check(
+        vas._parse_bounded_int("9" * vas.MAX_JSON_INT_DIGITS) == int("9" * vas.MAX_JSON_INT_DIGITS),
+        "exact MAX_JSON_INT_DIGITS failed",
+    )
+    _check_raises_val(
+        lambda: vas.parse_strict_zero_float_json(b"\xff\xfe"),
+        "bad utf8",
+        "INVALID_UTF8_JSON",
+    )
+    deep_ok: Any = 1
+    for _ in range(vas.MAX_JSON_DEPTH):
+        deep_ok = [deep_ok]
+    vas._check_json_depth(deep_ok, max_depth=vas.MAX_JSON_DEPTH)
+    vas._check_json_depth({"k": [1]})
+    _check_raises_val(
+        lambda: vas._check_json_depth(deep_ok, max_depth=vas.MAX_JSON_DEPTH - 1),
+        "json depth exceeded",
+        "JSON_DEPTH_EXCEEDED",
+    )
+    nested_bytes = (b'{"a":' * (vas.MAX_JSON_DEPTH + 2)) + b"1" + (b"}" * (vas.MAX_JSON_DEPTH + 2))
+    _check_raises_val(
+        lambda: vas.parse_strict_zero_float_json(nested_bytes),
+        "deep json object",
+        "JSON_DEPTH_EXCEEDED",
+    )
+    with mock.patch.object(vas.json, "loads", side_effect=RecursionError("deep")):
+        _check_raises_val(
+            lambda: vas.parse_strict_zero_float_json(b'{"a":1}'),
+            "recursion error",
+            "JSON_DEPTH_EXCEEDED",
+        )
 
 
 def test_failed_study_paths_and_offline_scope_regression() -> None:
@@ -146,6 +186,80 @@ def test_failed_study_paths_and_offline_scope_regression() -> None:
         rc_bad = vas.verify_root_files_and_fetch_manifest(tmp_root, False, None)
         _check(any("ROOT_FILE_SHA256_MISMATCH" in e for e in rc_bad["errors"]), "root sha mismatch tag")
 
+        # 5b. Symlink refusal on root files, study dir, and study files
+        sym_root = tmp_root / "sym_root"
+        sym_root.mkdir(parents=True, exist_ok=True)
+        for fname in vas.ROOT_FILES_EXPECTED_SHA256:
+            (sym_root / fname).symlink_to(tmp_root / fname)
+        rc_sym = vas.verify_root_files_and_fetch_manifest(sym_root, False, None)
+        _check(rc_sym["passed"] is False and any("SYMLINK_FORBIDDEN" in e for e in rc_sym["errors"]), "root symlink not rejected")
+
+        sym_study_dir = sym_root / atlas_spec["study_dir"]
+        sym_study_dir.symlink_to(sdir)
+        res_sdir = vas.verify_study(atlas_spec, sym_root, False, None)
+        _check(res_sdir["passed"] is False and any("SYMLINK_FORBIDDEN" in e for e in res_sdir["errors"]), "study dir symlink not rejected")
+
+        sym_files_root = tmp_root / "sym_files_root"
+        sf_dir = sym_files_root / atlas_spec["study_dir"]
+        sf_dir.mkdir(parents=True, exist_ok=True)
+        for fname in atlas_spec["expected_file_sha256"]:
+            (sf_dir / fname).symlink_to(sdir / fname)
+        res_sfile = vas.verify_study(atlas_spec, sym_files_root, False, None)
+        _check(res_sfile["passed"] is False and any("SYMLINK_FORBIDDEN" in e for e in res_sfile["errors"]), "study file symlink not rejected")
+
+        # 5c. Grandparent symlink, FIFO, size cap, ELOOP, & os.read OSError refusals
+        real_gp = tmp_root / "real_gp"
+        (real_gp / "sub").mkdir(parents=True, exist_ok=True)
+        (real_gp / "sub" / "f.json").write_bytes(b"{}\n")
+        gp_sym = tmp_root / "gp_sym"
+        gp_sym.symlink_to(real_gp)
+        _check_raises_val(
+            lambda: vas._read_regular_file_bytes(gp_sym / "sub" / "f.json", "MISSING", "gp"),
+            "grandparent symlink",
+            "SYMLINK_FORBIDDEN",
+        )
+        fifo_p = tmp_root / "pipe.json"
+        os.mkfifo(fifo_p)
+        _check_raises_val(
+            lambda: vas._read_regular_file_bytes(fifo_p, "MISSING", "pipe"),
+            "fifo",
+            "NOT_REGULAR_FILE",
+        )
+        big_p = tmp_root / "big.json"
+        big_p.write_bytes(b"{" + b" " * 100 + b"}")
+        _check(len(vas._read_regular_file_bytes(big_p, "MISSING", "big", max_bytes=102)) == 102, "exact max_bytes failed")
+        with mock.patch.object(vas.os, "read", side_effect=AssertionError("st_size must reject before read")):
+            _check_raises_val(
+                lambda: vas._read_regular_file_bytes(big_p, "MISSING", "big", max_bytes=64),
+                "st_size cap",
+                "FILE_TOO_LARGE",
+            )
+        fake_st = os.stat(big_p)
+        with mock.patch.object(vas.os, "fstat", return_value=type("S", (), {"st_mode": fake_st.st_mode, "st_size": 10})()):
+            _check_raises_val(
+                lambda: vas._read_regular_file_bytes(big_p, "MISSING", "big", max_bytes=64),
+                "streaming cap",
+                "FILE_TOO_LARGE",
+            )
+        with mock.patch.object(vas.os, "open", side_effect=OSError(errno.ELOOP, "loop")):
+            _check_raises_val(
+                lambda: vas._read_regular_file_bytes(big_p, "MISSING", "big"),
+                "eloop",
+                "SYMLINK_FORBIDDEN",
+            )
+        with mock.patch.object(vas.os, "open", side_effect=OSError(errno.EACCES, "denied")):
+            _check_raises_val(
+                lambda: vas._read_regular_file_bytes(big_p, "MISSING", "big"),
+                "open oserror",
+                "FILE_READ_ERROR",
+            )
+        with mock.patch.object(vas.os, "read", side_effect=OSError(errno.EIO, "io")):
+            _check_raises_val(
+                lambda: vas._read_regular_file_bytes(big_p, "MISSING", "big"),
+                "read oserror",
+                "FILE_READ_ERROR",
+            )
+
     # 6. Direct regression for main() failed-study print path (both with & without `offline_scope` key)
     orig_verify_root = vas.verify_root_files_and_fetch_manifest
     orig_verify_study = vas.verify_study
@@ -196,13 +310,81 @@ def test_failed_study_paths_and_offline_scope_regression() -> None:
         _check("[FAIL] HERITAGE-OPS (heritage-exact-operators, unknown):" in out, "missing unknown offline_scope fallback")
         _check("ERROR: FILE_SHA256_MISMATCH: planted" in out, "missing failed study error reason")
 
-        # Also test --json output on failure
+        # Also test --json output on failure + live/root-vs-study BoolOp matrix
         buf_j = io.StringIO()
         with redirect_stdout(buf_j):
             rc_j = vas.main(["--json"])
         _check(rc_j == 1, "failed main(['--json']) must exit 1")
         parsed_j = json.loads(buf_j.getvalue())
         _check(parsed_j["status"] == "FAIL" and parsed_j["passed"] is False, "json failure payload invalid")
+
+        # Root PASS + one study FAIL must fail (kills all_passed and->or)
+        vas.verify_root_files_and_fetch_manifest = lambda root, live, cdir: {
+            "passed": True,
+            "root_files_verified": 3,
+            "fetch_manifest_sha256": "0" * 64,
+            "fetch_manifest_count": 9,
+            "live_corpora_verified": 9 if live else 0,
+            "errors": [],
+        }
+        buf_rpass = io.StringIO()
+        with redirect_stdout(buf_rpass):
+            rc_rpass = vas.main(["--json"])
+        _check(rc_rpass == 1 and json.loads(buf_rpass.getvalue())["passed"] is False, "root pass + study fail must fail")
+
+        # Live flag & corpus-dir BoolOps + text live_sha256 guard
+        def _fake_study_live_ok(spec: dict[str, Any], root: Path, live: bool, cdir: Path | None) -> dict[str, Any]:
+            is_live_ar = bool(live and not spec["recomputes_from_scratch_offline"])
+            return {
+                "audit_id": spec["audit_id"],
+                "study_dir": spec["study_dir"],
+                "passed": True,
+                "files_verified": len(spec["expected_file_sha256"]),
+                "offline_scope": "recomputed_from_scratch_pure_q",
+                "recomputes_from_scratch_offline": spec["recomputes_from_scratch_offline"],
+                "standalone_stdout_sha256": "0" * 64,
+                "cert_rc": 0,
+                "live_corpus_recounted": is_live_ar,
+                "live_stdout_sha256": ("a" * 64) if not spec["recomputes_from_scratch_offline"] else None,
+                "live_rc": 0 if is_live_ar else None,
+                "test_rc": 0,
+                "errors": [],
+            }
+
+        vas.verify_study = _fake_study_live_ok
+        buf_lv_t = io.StringIO()
+        with redirect_stdout(buf_lv_t):
+            rc_lv_t = vas.main(["--live"])
+        _check(rc_lv_t == 0, "--live mocked pass failed")
+        lv_txt = buf_lv_t.getvalue()
+        _check("arabic_live_corpora_recounted=true" in lv_txt, "expected arabic_live_corpora_recounted=true")
+        _check("live_sha256=aaaaaaaaaaaaaaaa" in lv_txt, "expected live_sha256 on arabic study")
+        _check("HERITAGE-ATLAS" in lv_txt and "live_sha256=None" not in lv_txt, "unexpected None live_sha256")
+
+        buf_off_t = io.StringIO()
+        with redirect_stdout(buf_off_t):
+            rc_off_t = vas.main([])
+        _check(rc_off_t == 0 and "live_sha256=" not in buf_off_t.getvalue(), "offline output must omit live_sha256")
+
+        buf_cd = io.StringIO()
+        with redirect_stdout(buf_cd):
+            rc_cd = vas.main(["--corpus-dir", ".", "--json"])
+        _check(rc_cd == 0 and json.loads(buf_cd.getvalue())["arabic_live_corpora_recounted"] is True, "--corpus-dir live failed")
+
+        # Root FAIL + studies live PASS must keep arabic_live_corpora_recounted == False
+        vas.verify_root_files_and_fetch_manifest = lambda root, live, cdir: {
+            "passed": False,
+            "root_files_verified": 0,
+            "fetch_manifest_sha256": "",
+            "fetch_manifest_count": 0,
+            "live_corpora_verified": 0,
+            "errors": ["ROOT_FAIL"],
+        }
+        buf_rf = io.StringIO()
+        with redirect_stdout(buf_rf):
+            rc_rf = vas.main(["--live", "--json"])
+        rf_obj = json.loads(buf_rf.getvalue())
+        _check(rc_rf == 1 and rf_obj["arabic_live_corpora_recounted"] is False, "root fail must force arabic_live_corpora_recounted=False")
     finally:
         vas.verify_root_files_and_fetch_manifest = orig_verify_root
         vas.verify_study = orig_verify_study
@@ -340,8 +522,10 @@ def test_mocked_subprocess_guards_full_coverage() -> None:
 
                 return _run
 
-            # Clean live pass (kills boundary_cmp inversions across M028, M030, M033, M037, M039, M043, M047)
+            # Clean offline & live passes (kills boundary_cmp inversions & live-and-supports BoolOp)
             vas.subprocess.run = _mk_runner()  # type: ignore[assignment]
+            r_off_ok = vas.verify_study(base_spec, tmp_root, False, None)
+            _check(r_off_ok["passed"] is True and r_off_ok["live_corpus_recounted"] is False, f"clean mock offline failed: {r_off_ok}")
             r_ok = vas.verify_study(base_spec, tmp_root, True, corpus_dir)
             _check(r_ok["passed"] is True and r_ok["live_corpus_recounted"] is True, f"clean mock live failed: {r_ok}")
 
@@ -396,12 +580,13 @@ def test_mocked_subprocess_guards_full_coverage() -> None:
             r = vas.verify_study(base_spec, tmp_root, True, corpus_dir)
             _check(any("LIVE_CERTIFIER_NONZERO_EXIT" in e for e in r["errors"]), "M039-M040 missed")
 
-            # M041 & M042: live sha mismatch & live bytes != committed
+            # M041 & M042: live sha mismatch & live bytes != committed MUST keep live_corpus_recounted == False
             alt_lv = b'{"mode":"live_corpus_recount","live_corpus_recounted":true} \n'
             vas.subprocess.run = _mk_runner(lv_out=alt_lv)  # type: ignore[assignment]
             r = vas.verify_study(base_spec, tmp_root, True, corpus_dir)
             _check(any("LIVE_SHA256_MISMATCH" in e for e in r["errors"]), "M041 missed")
             _check(any("LIVE_STDOUT_MISMATCH_VS_COMMITTED_CERTIFICATE" in e for e in r["errors"]), "M042 missed")
+            _check(r["live_corpus_recounted"] is False, "live_corpus_recounted must stay False when SHA/diff fails")
 
             # M042 isolated (expected_live_stdout_sha256 matches alt_lv, committed differs)
             spec_m42 = copy.deepcopy(base_spec)
@@ -453,6 +638,61 @@ def test_live_root_files_pass() -> None:
     _check(root_res["passed"] is True and root_res["errors"] == [], f"root files failed: {root_res}")
     _check(root_res["root_files_verified"] == len(vas.ROOT_FILES_EXPECTED_SHA256), "root file count mismatch")
     _check(root_res["fetch_manifest_count"] == vas.EXPECTED_FETCH_MANIFEST_COUNT, "manifest count mismatch")
+    _check(len(vas.STUDY_SPECS) == 8, "STUDY_SPECS length must equal 8")
+    _check(any(s["audit_id"] == "SOCRATIC-SEMINAR" for s in vas.STUDY_SPECS), "SOCRATIC-SEMINAR missing from STUDY_SPECS")
+    _check(not vas.REPO_ROOT.is_symlink(), "REPO_ROOT must not be a symlink")
+    _check(vas.REPO_ROOT == Path(os.path.abspath(vas.__file__)).parent, "REPO_ROOT must match abspath parent")
+
+
+def test_entrypoint_symlink_and_fatal_error_wrapper() -> None:
+    """Verify M-3: symlinked Path(__file__) and top-level fatal exceptions exit RC=2 with JSON."""
+    script_path = Path(os.path.abspath(vas.__file__))
+    with tempfile.TemporaryDirectory() as td:
+        tmp = Path(td)
+        sym_script = tmp / "sym_standalone.py"
+        sym_script.symlink_to(script_path)
+        for cli_args in (["--json"], []):
+            proc = subprocess.run(
+                [sys.executable, "-I", "-B", str(sym_script), *cli_args],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            _check(proc.returncode == 2, f"symlinked invocation {cli_args} must exit 2, got {proc.returncode}")
+            _check(proc.stdout == "", f"symlinked invocation {cli_args} must emit empty stdout")
+            _check("Traceback" not in proc.stderr, "symlinked invocation emitted raw traceback")
+            err_obj = json.loads(proc.stderr)
+            _check(err_obj["status"] == "FAIL", f"bad symlink error status: {err_obj}")
+            _check(err_obj["error_code"] == "SYMLINK_FORBIDDEN", f"bad symlink error_code: {err_obj}")
+
+        sym_dir = tmp / "sym_repo_dir"
+        sym_dir.symlink_to(script_path.parent)
+        proc_dir = subprocess.run(
+            [sys.executable, "-I", "-B", str(sym_dir / "verify_all_standalone.py"), "--json"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        _check(proc_dir.returncode == 2, "symlinked parent invocation must exit 2")
+        _check("Traceback" not in proc_dir.stderr, "symlinked parent emitted raw traceback")
+        _check(json.loads(proc_dir.stderr)["error_code"] == "SYMLINK_FORBIDDEN", "symlinked parent bad error_code")
+
+    for exc, expected_code in (
+        (OSError("disk offline"), "IO_ERROR"),
+        (UnicodeDecodeError("utf-8", b"\xff", 0, 1, "bad"), "BAD_UTF8"),
+        (RecursionError("deep"), "JSON_DEPTH_EXCEEDED"),
+        (ValueError("CUSTOM_ERR: detail"), "CUSTOM_ERR"),
+        (ValueError("plain detail"), "VALUE_ERROR"),
+    ):
+        err_buf = io.StringIO()
+        with mock.patch.object(vas, "verify_root_files_and_fetch_manifest", side_effect=exc):
+            with redirect_stderr(err_buf):
+                rc = vas.main(["--json"])
+        _check(rc == 2, f"expected RC=2 for {type(exc).__name__}, got {rc}")
+        _check("Traceback" not in err_buf.getvalue(), f"unexpected traceback for {type(exc).__name__}")
+        err_json = json.loads(err_buf.getvalue())
+        _check(err_json["status"] == "FAIL", f"bad status for {type(exc).__name__}: {err_json}")
+        _check(err_json["error_code"] == expected_code, f"expected {expected_code}, got {err_json}")
 
 
 def main() -> int:
@@ -460,6 +700,7 @@ def main() -> int:
     test_failed_study_paths_and_offline_scope_regression()
     test_mocked_subprocess_guards_full_coverage()
     test_live_root_files_pass()
+    test_entrypoint_symlink_and_fatal_error_wrapper()
     return 0
 
 

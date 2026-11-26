@@ -1,0 +1,24 @@
+{
+  "dossier_sha256": "c6656478023bc2118a87c1dd2641541cc40c819fb96b9021728bd705065ed811",
+  "schema": "bayt-al-hikma.seat0_aletheia_scholar.v1",
+  "seat": {
+    "exact_operators": [
+      "8-glyph exact-operator calculus (Schur pushforward, Pullback, Holonomy, Loewner, Commutation defect, Fold sheaf, Farkas, Parity)",
+      "Sylvester-Hadamard orthogonal transforms, rank-1 collapse diagnostics, and zero-log multiplicative certificates",
+      "Cayley SU(2) rational sphere lifts, SO(d) geodesic retraction, and bounded-chatter rational hysteresis control",
+      "Gegenbauer/Mobius rational enclosures, continuum holonomy defects, and congruence vs block-reduction scope"
+    ],
+    "mandatory_extra_field": "epistemic_web_interpositions",
+    "method_laws": [
+      "Law 1: Re-enter every counterexample or surprise as a falsifiable formal test",
+      "Law 2: Steelman every counterexample into the strongest repaired conjecture before dismissal",
+      "Law 3: Pure-Z/Q or Lean 4 executable witnesses and must-fail negative controls only",
+      "Law 4: Honest novelty grading and explicit scope boundaries",
+      "Law 5: Own-terms-first translation into exact algebraic operators without language smuggling"
+    ],
+    "role": "CHAIR_METHOD_STEWARD_AND_CROSS_POLLINATOR",
+    "seat_id": "SEAT-0",
+    "signature_lens": "Constructive pure-Z/Q verification, steelman counterexample repair, and exact-operator interposition",
+    "title": "The Aletheia Scholar (Chair, Method Steward & Cross-Domain Synthesizer)"
+  }
+}

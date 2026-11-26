@@ -4,15 +4,16 @@
 
 > **Scope, Execution Honesty & Law-4 `N0` Default**
 >
-> This repository contains **7 pure-$\mathbb{Q}$ Python 3 stdlib research packages** (`0` IEEE-754 floats on trust paths, `0` bare `assert`s) and **`55` headline (`58` public / `62` total kernel-checked `theorem` declarations incl. `4` private helper theorems, plus `2` helper `def`s) pure-`Init` `Lean 4.36.0` formalized theorems** across three research groups:
+> This repository contains **8 pure-$\mathbb{Q}$ Python 3 stdlib research packages** (`0` IEEE-754 floats on trust paths, `0` bare `assert`s) and **`91` headline (`94` public / `121` total kernel-checked `theorem` declarations incl. `27` private helper theorems, plus `96` helper `def`s) pure-`Init` `Lean 4.36.0` formalized theorems** across four research groups:
 > 1. **Classical Arabic Corpus Studies (`arabic-continuum/`, `AUDIT-091-V2` · `arabic-lexicon/`, `AUDIT-094-V2`):** Exact rational root-pattern cohesion, ring-vs-*inclusio* adjudication, *wazn* agency/reciprocity tables, native context topology, and two-translator (`en.sahih`, `en.pickthall`) lexical-edge loss across `9` SHA-256-pinned primary texts (Leeds Quranic Arabic Corpus v0.4, Tanzil Uthmani + 2 translations, and 5 OpenITI prose/poetry controls).
 >    - **Full live recount from the 9 primary texts** is reproduced via [`fetch_corpora.py`](fetch_corpora.py) + `verify_all_standalone.py --live` (`mode: "live_corpus_recount"`, `live_corpus_recounted: true`, $B = 250$ deterministic multi-shuffle nulls + exact Holm-Bonferroni correction).
 >    - **Offline default (`--standalone`)** reads **no corpus file**; it replays oracle invariants and exact rational calculations on pinned fixtures (`mode: "standalone_fixture_replay"`, `live_corpus_recounted: false`).
 >    - **Retrospective vs. Pre-Registered Disclosure:** See [`PREREGISTERED_HYPOTHESES.md`](PREREGISTERED_HYPOTHESES.md) for the complete ledger of all `9` retrospective exploratory patterns inspected (including explicit falsifications and retractions), root-list selection rules, the scope of the feature-label naming filter (`enforce_zero_numerology_policy`), and the locked future confirmatory protocol.
 > 2. **Bayt al-Ḥikma Polymath Lineage, Tributary Veins & Downstream Branches (`polymath-lineage/`, `AUDIT-092R2` · `veins-and-branches/`, `AUDIT-095R`):** Self-contained offline pure-$\mathbb{Q}$ arithmetic verifications of classical mathematical constructions across **`23` cited scholars** (`c. 287 BCE – 1543 CE`) and fail-closed **encoding-consistency checks** (`encoding_consistency_only = True`) over active-voice cited lineage tables. Both certifiers recompute every theorem from scratch offline with Python 3 stdlib only and reproduce their committed JSON certificates byte-for-byte.
 > 3. **Classical Heritage Atlas, Exact-Operator Lean 4.36.0 Suite & Raw-Arabic Scientific Mesh (`heritage-corpus-atlas/`, `HERITAGE-ATLAS` · `heritage-exact-operators/`, `HERITAGE-OPS` · `raw-arabic-scientific-mesh/`, `ARABIC-MESH`):** Three self-contained pure-$\mathbb{Q}$ Python stdlib + pure-`Init` `Lean 4.36.0` packages (`17 + 20 + 18 = 55` headline public theorems; `58` public theorems incl. `3` `Nat` power helpers in Mesh; `62` total kernel-checked `theorem` declarations incl. `1 + 3` private helper theorems in Atlas/Operators, plus `2` helper `def`s; `0` `sorry`, `0` `Classical.choice`, `0` `native_decide`/`bv_decide`, `0` raw upstream dataset bloat — exact SHA-256 provenance anchors only). All three recompute their committed JSON certificates byte-for-byte offline with Python 3 stdlib only (hashing and static-gating their on-disk `.lean` sources during `--standalone`), and support cold live `Lean 4.36.0` kernel replay when `lean` is installed.
+> 4. **Trans-Historical Socratic Operator Seminar, 5-Arm Ablation & Lean 4.36.0 Synthesis (`socratic-operator-seminar/`, `SOCRATIC-SEMINAR`):** Four-pillar pure-$\mathbb{Z}/\mathbb{Q}$ + pure-`Init` `Lean 4.36.0` package combining an AST-guarded isolated executable seminar harness (`4` variations, `SEAT-0` Chair), `3`-topic / `63`-turn Pilot-1 synthesis certification, `5`-arm / `105`-turn matched-budget variation ablation scorecard, and **`36` public (`59` total incl. `23` private helper theorems, plus `94` helper `def`s) pure-`Init` `Lean 4.36.0` formalized theorems** across `4` modules (`IntPoly`, `Topic1FrickeCayley`, `Topic2ValveKhipu`, `Topic3SchurWittFold`; `leanchecker --fresh EC=0`, `0` `sorry`, `0` `Classical.choice`, `0` `native_decide`/`bv_decide`), unified under `verify_all_seminar.py` (`42` manifest-pinned files).
 >
-> **Novelty Scope (`N0` Prior Art vs. `N1` Formalization / Synthesis):** All historical treatises, classical Semitic philology, and classical mathematical theorems are prior art (`N0`). The four initial studies (`AUDIT-091-V2`, `AUDIT-094-V2`, `AUDIT-092R2`, `AUDIT-095R`) carry novelty tag **`N0`**. The three captured Lean `4.36.0` + pure-$\mathbb{Q}$ heritage packages (`heritage-corpus-atlas/`, `heritage-exact-operators/`, `raw-arabic-scientific-mesh/`) carry honest ceiling **`N1`** (`0` `N2` claims) strictly for their unified cryptographic provenance audit, pure-`Init` Lean `4.36.0` formalizations, and raw-Arabic higher-order mesh synthesis, while crediting all classical treatises and prior `bayt-al-hikma` studies as `N0`. No hardware energy or power claims are made anywhere in this repository.
+> **Novelty Scope (`N0` Prior Art vs. `N1` Formalization / Synthesis):** All historical treatises, classical Semitic philology, and classical mathematical theorems are prior art (`N0`). The four initial studies (`AUDIT-091-V2`, `AUDIT-094-V2`, `AUDIT-092R2`, `AUDIT-095R`) carry novelty tag **`N0`**. The three captured Lean `4.36.0` + pure-$\mathbb{Q}$ heritage packages (`heritage-corpus-atlas/`, `heritage-exact-operators/`, `raw-arabic-scientific-mesh/`) and [`socratic-operator-seminar/`](socratic-operator-seminar/README.md) (`SOCRATIC-SEMINAR`) carry honest ceiling **`N1`** (`0` `N2` claims) strictly for their unified cryptographic provenance audits, executable seminar/ablation synthesis harness, pure-`Init` Lean `4.36.0` formalizations, and raw-Arabic higher-order mesh synthesis, while crediting all classical treatises and prior `bayt-al-hikma` studies as `N0`. No hardware energy or power claims are made anywhere in this repository.
 
 ---
 
@@ -64,15 +65,28 @@ bayt-al-hikma/
 │   ├── test_s90_heritage_operators_r5.py            # Assertion-free R5 & semantic-forgery suite
 │   ├── s90_heritage_operators_certificate.json      # Canonical JSON certificate (file 51430e59..., inner f2a74b44...)
 │   └── REPORT.md                                    # Full Heritage Exact Operators five-engine report
-└── raw-arabic-scientific-mesh/                      # ARABIC-MESH (N1 synthesis / N0 prior art, 18 headline / 21 public/total Lean 4.36.0 thms)
-    ├── RawArabicHigherOrderMesh.lean                # 18 headline (21 total + 1 def) pure-Init theorems (0 sorry, 0 Classical.choice)
-    ├── s92_raw_arabic_anchor.json                   # SHA-256 provenance anchor over 1,500,610 Arabic tokens (12 treatises)
-    ├── s92_raw_arabic_capture.py                    # Reproducible raw-Arabic primary treatise extractor
-    ├── s92_raw_arabic_mesh_oracle.py                # Pure-Q higher-order mesh oracle (91.76% cross-discipline loss)
-    ├── verify_s92_raw_arabic_mesh.py                # Fail-closed verifier (--standalone, --check, --verify-lean)
-    ├── test_s92_raw_arabic_mesh_r5.py               # Assertion-free R5 & semantic-forgery suite
-    ├── s92_raw_arabic_mesh_certificate.json         # Canonical JSON certificate (file 687ef580..., inner 38e0a829...)
-    └── REPORT.md                                    # Full Raw-Arabic Scientific Mesh report
+├── raw-arabic-scientific-mesh/                      # ARABIC-MESH (N1 synthesis / N0 prior art, 18 headline / 21 public/total Lean 4.36.0 thms)
+│   ├── RawArabicHigherOrderMesh.lean                # 18 headline (21 total + 1 def) pure-Init theorems (0 sorry, 0 Classical.choice)
+│   ├── s92_raw_arabic_anchor.json                   # SHA-256 provenance anchor over 1,500,610 Arabic tokens (12 treatises)
+│   ├── s92_raw_arabic_capture.py                    # Reproducible raw-Arabic primary treatise extractor
+│   ├── s92_raw_arabic_mesh_oracle.py                # Pure-Q higher-order mesh oracle (91.76% cross-discipline loss)
+│   ├── verify_s92_raw_arabic_mesh.py                # Fail-closed verifier (--standalone, --check, --verify-lean)
+│   ├── test_s92_raw_arabic_mesh_r5.py               # Assertion-free R5 & semantic-forgery suite
+│   ├── s92_raw_arabic_mesh_certificate.json         # Canonical JSON certificate (file 687ef580..., inner 38e0a829...)
+│   └── REPORT.md                                    # Full Raw-Arabic Scientific Mesh report
+└── socratic-operator-seminar/                       # SOCRATIC-SEMINAR (N1 synthesis / formalization / N0 prior art, 36 public / 59 total Lean 4.36.0 thms)
+    ├── README.md                                    # Seminar architecture, 5-arm ablation scorecard & SHA-256 manifest
+    ├── SEMINAR_MANIFEST.json                        # Acyclic SHA-256 manifest pinning all 42 Layer-1 seminar files
+    ├── socratic_operator_seminar.py                 # AST-guarded pure-Z/Q executable Socratic seminar harness & isolated referee
+    ├── verify_pilot1_theorems.py                    # Pilot-1 3-topic / 63-turn synthesis & T1-T3 pure-Q verifier
+    ├── verify_ablation_scorecard.py                 # 5-arm / 105-turn matched-budget variation ablation scorecard verifier
+    ├── verify_all_seminar.py                        # Unified 4-pillar fail-closed seminar runner (--json, --live-lean)
+    ├── certificates/                                # Canonical seminar, Pilot-1, ablation & unified certificates (c7b1484b... / 9e7d08c5...)
+    ├── dossiers/                                    # Deterministic offline SEAT-0, 4-variation packs & Pilot-1 prompts
+    ├── pilot1_transcripts/                          # Sanitized 63-turn Pilot-1 sessions & turns (3 topics)
+    ├── ablation_transcripts/                        # Sanitized 105-turn 5-arm ablation logs + neutral provenance_map.json
+    ├── lean_pilot1_theorems/                        # S150Pilot1Theorems pure-Init Lean 4.36.0 package (36 public / 59 total thms) & verify_s150_lean_theorems.py
+    └── tests/                                       # 4 assertion-free R5 adversarial & mutation test suites (plus Lean R5 suite)
 ```
 
 ---
@@ -93,15 +107,15 @@ python3 -I -B -W error fetch_corpora.py --manifest-json
 # 2. Download & SHA-256-verify all 9 primary texts into ./corpora (once):
 python3 -I -B -W error fetch_corpora.py --dest ./corpora
 
-# 3. Full live verification across all 7 studies (recounts Arabic texts live + recomputes 5 offline pure-Q studies):
+# 3. Full live verification across all 8 studies (recounts Arabic texts live + recomputes 6 offline pure-Q studies):
 python3 -I -B -W error verify_all_standalone.py --live --corpus-dir ./corpora
 ```
 
 **What `PASS` means in `--live` mode (`arabic_live_corpora_recounted: true`):**
 - `fetch_corpora.py --verify-only` confirmed all `9/9` primary texts on disk match their pinned upstream byte sizes and SHA-256 digests.
 - Both `arabic-continuum/arabic_continuum_audit.py` and `arabic-lexicon/arabic_lexicon_audit.py` read the `9` texts from disk, recomputed every count, every $B = 250$ multi-shuffle null, Holm-Bonferroni adjustment, and 4-stratum distance control from scratch, and matched their committed JSON certificates **byte-for-byte**.
-- All five offline pure-$\mathbb{Q}$ studies (`polymath-lineage/`, `veins-and-branches/`, `heritage-corpus-atlas/`, `heritage-exact-operators/`, `raw-arabic-scientific-mesh/`) recomputed every mathematical theorem from scratch and matched their committed JSON certificates **byte-for-byte**.
-- All `7/7` R5 + known-answer test suites exited `0` under `-I -O -B -W error`, and all `47/47` pinned files matched their SHA-256 digests.
+- All six offline pure-$\mathbb{Q}$ studies (`polymath-lineage/`, `veins-and-branches/`, `heritage-corpus-atlas/`, `heritage-exact-operators/`, `raw-arabic-scientific-mesh/`, `socratic-operator-seminar/`) recomputed every mathematical theorem from scratch and matched their committed JSON certificates **byte-for-byte**.
+- All `8/8` R5 + known-answer test suites exited `0` under `-I -O -B -W error`, and all `60/60` root-pinned repository files matched their SHA-256 digests (plus `42/42` seminar package files pinned via `socratic-operator-seminar/SEMINAR_MANIFEST.json`).
 
 ### Path B — Offline Zero-Network Check (Python 3 Stdlib Only)
 
@@ -119,10 +133,10 @@ python3 -I -B -W error verify_all_standalone.py --json
 ```
 
 **What `PASS` means in offline mode (`arabic_live_corpora_recounted: false`):**
-- All five offline pure-$\mathbb{Q}$ studies (`polymath-lineage/`, `veins-and-branches/`, `heritage-corpus-atlas/`, `heritage-exact-operators/`, `raw-arabic-scientific-mesh/`) recomputed every mathematical verification from scratch and matched their committed JSON certificates **byte-for-byte**. Each of the three Lean-backed studies also hashed and ran its offline static R10+/R12 Lean source gate directly on its on-disk `.lean` file during `--standalone` (without invoking the `lean` compiler).
+- All six offline pure-$\mathbb{Q}$ studies (`polymath-lineage/`, `veins-and-branches/`, `heritage-corpus-atlas/`, `heritage-exact-operators/`, `raw-arabic-scientific-mesh/`, `socratic-operator-seminar/`) recomputed every mathematical verification from scratch and matched their committed JSON certificates **byte-for-byte**. Each of the four Lean-backed studies also hashed and ran its offline static Lean source gate directly on its on-disk `.lean` files during `--standalone` (without invoking the `lean` compiler).
 - `arabic-continuum/` and `arabic-lexicon/` ran `--standalone` (**reading NO corpus file**), replaying oracle invariants and exact rational calculations on their pinned verbatim fixtures (`mode: "standalone_fixture_replay"`).
-- All `7/7` R5 / threshold-pinning / known-answer test suites exited `0`, and all `47/47` pinned files matched their SHA-256 digests.
-- **Offline `PASS` MUST NOT be interpreted as a live recount from the 9 primary Arabic texts or as a live Lean compiler check.** Use Path A (`--live`) for a live recount, and run the live `Lean 4.36.0` commands below to replay all `55` headline (`58` public / `62` total) formal proofs against the Lean kernel.
+- All `8/8` R5 / threshold-pinning / known-answer test suites exited `0`, and all `60/60` root-pinned files matched their SHA-256 digests (plus `42/42` seminar package files via `SEMINAR_MANIFEST.json`).
+- **Offline `PASS` MUST NOT be interpreted as a live recount from the 9 primary Arabic texts or as a live Lean compiler check.** Use Path A (`--live`) for a live recount, and run the live `Lean 4.36.0` commands below to replay all `91` headline (`94` public / `121` total) formal proofs against the Lean kernel.
 
 ### Individual Package Commands
 
@@ -149,6 +163,10 @@ python3 -I -O -B -W error arabic-lexicon/test_arabic_lexicon_r5.py
 (cd heritage-corpus-atlas && python3 -I -B -W error verify_s89_heritage_atlas.py --standalone && python3 -I -B -W error verify_s89_heritage_atlas.py --verify-lean ClassicalHeritageAtlas.lean --json)
 (cd heritage-exact-operators && python3 -I -B -W error verify_s90_heritage_operators.py --standalone && python3 -I -B -W error verify_s90_heritage_operators.py --check s90_heritage_operators_certificate.json --json)
 (cd raw-arabic-scientific-mesh && python3 -I -B -W error verify_s92_raw_arabic_mesh.py --standalone && python3 -I -B -W error verify_s92_raw_arabic_mesh.py --verify-lean)
+
+# Socratic Operator Seminar, 5-Arm Ablation & Lean 4.36.0 Pilot-1 Suite (36 public / 59 total theorems):
+(cd socratic-operator-seminar && python3 -I -B -W error verify_all_seminar.py --json && python3 -I -B -W error verify_all_seminar.py --live-lean --json)
+(cd socratic-operator-seminar && python3 -I -O -B -W error tests/test_socratic_operator_seminar_r5.py && python3 -I -O -B -W error tests/test_pilot1_theorems_r5.py && python3 -I -O -B -W error tests/test_ablation_scorecard_r5.py && python3 -I -O -B -W error tests/test_verify_all_seminar_r5.py && (cd lean_pilot1_theorems && python3 -I -O -B -W error test_verify_s150_lean_theorems_r5.py))
 ```
 
 ---
@@ -164,13 +182,14 @@ python3 -I -O -B -W error arabic-lexicon/test_arabic_lexicon_r5.py
 | [`heritage-corpus-atlas/`](heritage-corpus-atlas/REPORT.md) | `HERITAGE-ATLAS` · **`N1`** *(formalization)* / **`N0`** *(prior art)* | Self-contained offline pure-$\mathbb{Q}$ recompute + static Lean gate; live `--verify-lean` (`17`/`18` thms) | `34a9cb77...` / `07090b91...` | **`17` public headline (`18` total + `1` private `def`) pure-`Init` Lean `4.36.0` theorems** (`ClassicalHeritageAtlas.lean`, `0` `sorry`, `0` `Classical.choice`, `leanchecker --fresh EC=0`) + pure-$\mathbb{Q}$ heritage corpus atlas and SHA-256 provenance manifest across classical Arabic scientific treatises (zero raw upstream text bloat committed). |
 | [`heritage-exact-operators/`](heritage-exact-operators/REPORT.md) | `HERITAGE-OPS` · **`N1`** *(formalization)* / **`N0`** *(prior art)* | Self-contained offline pure-$\mathbb{Q}$ recompute + static Lean gate; live `--check` (`20`/`23` thms) | `51430e59...` / `f2a74b44...` | **`20` public headline (`23` total incl. `3` private helpers) pure-`Init` Lean `4.36.0` theorems** (`HeritageExactOperators.lean`, `0` `sorry`, `0` `Classical.choice`, `leanchecker --fresh EC=0`) + five pure-$\mathbb{Q}$ classical operator engines (Ṭūsī couple, al-Kāshī cubic chords, Khayyām curvature cubics, Ibn al-Haytham/al-Fārisī/al-Bīrūnī optics & geodesy, Thābit/al-Khāzinī/Ibn al-Nafīs). |
 | [`raw-arabic-scientific-mesh/`](raw-arabic-scientific-mesh/REPORT.md) | `ARABIC-MESH` · **`N1`** *(synthesis)* / **`N0`** *(prior art)* | Self-contained offline pure-$\mathbb{Q}$ recompute + static Lean gate; live `--verify-lean` (`18`/`21` thms) | `687ef580...` / `38e0a829...` | **`18` headline (`21` public/total + `1` `def`) pure-`Init` Lean `4.36.0` theorems** (`RawArabicHigherOrderMesh.lean`, `0` `sorry`, `0` `Classical.choice`, `leanchecker --fresh EC=0`) + exact pure-$\mathbb{Q}$ higher-order mesh certificate over **`1,500,610` Arabic tokens across `12` classical scientific treatises** (`91.76%` cross-discipline loss, SHA-256-anchored in `s92_raw_arabic_anchor.json` without raw upstream corpus bloat). |
+| [`socratic-operator-seminar/`](socratic-operator-seminar/README.md) | `SOCRATIC-SEMINAR` · **`N1`** *(synthesis / formalization)* / **`N0`** *(prior art)* | Self-contained offline pure-$\mathbb{Z}/\mathbb{Q}$ recompute + static Lean gate; live `--live-lean` (`36`/`59` thms) | `c7b1484b...` / `9e7d08c5...` | Four-pillar seminar package: AST-guarded pure-$\mathbb{Z}/\mathbb{Q}$ executable seminar harness (`4` variations, `SEAT-0` Chair), `3`-topic / `63`-turn Pilot-1 synthesis verifier (`T1` Fricke-Cayley, `T2` CRT-Stride-Valve-Checksum, `T3` Schur-Witt-Fold), `5`-arm / `105`-turn matched-budget variation ablation scorecard (`Arm_A_plus` sole structural winner `1/5`, `Arm_C_plus` label-strip parity `21/21`, neutral route-covariate disclosure), and **`36` public (`59` total + `94` `def`s) pure-`Init` Lean `4.36.0` theorems** (`S150Pilot1Theorems`, `0` `sorry`, `0` `Classical.choice`, `leanchecker --fresh EC=0`) across `42` manifest-pinned files. |
 
 ---
 
 ## 4. Verification Provenance, External Tooling & Seat Separation
 
 1. **Directly Reproducible From This Repository (Python 3 Stdlib Only):**
-   - Everything in §2 (`fetch_corpora.py`, `verify_all_standalone.py`, all `4` certifier scripts, and all `4` R5 + threshold-pinning + known-answer test suites) runs with Python 3 stdlib only.
+   - Everything in §2 (`fetch_corpora.py`, `verify_all_standalone.py`, `test_verify_all_standalone.py`, all `8` study verifiers/certifiers, and all `8` R5 + threshold-pinning + known-answer test suites plus the `4` seminar pillar R5 suites) runs with Python 3 stdlib only.
 2. **External `aletheia v2.0.0` Tooling Receipts (Not Bundled Here):**
    - `audit-check` and AST mutation harnesses come from the external repository [`Foundation-0/aletheia`](https://github.com/Foundation-0/aletheia) (`v2.0.0`, currently on open PR [`Foundation-0/aletheia#1`](https://github.com/Foundation-0/aletheia/pull/1), not merged to `main` and not vendored in this repository).
    - External mutation receipts reported across the `4` studies + `fetch_corpora.py` (`392/392` R5 AST mutants killed + `83/83` AST `BoolOp(And)` conjunct deletions killed on the Arabic modules) require running that external tool against this tree; they are reported as external verification receipts rather than stdlib-reproducible claims.

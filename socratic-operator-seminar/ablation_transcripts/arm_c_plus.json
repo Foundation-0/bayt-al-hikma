@@ -1,0 +1,3590 @@
+{
+  "arm_id": "Arm_C_plus",
+  "chair": "aletheia",
+  "session": {
+    "chair": "aletheia",
+    "counterexample_repairs": [
+      {
+        "broken_turn": "R2-OP-6",
+        "repaired_turn": "R3-OP-2"
+      },
+      {
+        "broken_turn": "R2-OP-6",
+        "repaired_turn": "R3-OP-6"
+      },
+      {
+        "broken_turn": "R2-OP-6",
+        "repaired_turn": "R3-SEAT-0"
+      }
+    ],
+    "cross_seat_compositions": [
+      {
+        "dst_turn": "R2-OP-1",
+        "src_turn": "R1-OP-3"
+      },
+      {
+        "dst_turn": "R2-OP-2",
+        "src_turn": "R1-OP-3"
+      },
+      {
+        "dst_turn": "R2-OP-3",
+        "src_turn": "R1-OP-2"
+      },
+      {
+        "dst_turn": "R2-OP-4",
+        "src_turn": "R1-OP-3"
+      },
+      {
+        "dst_turn": "R2-OP-5",
+        "src_turn": "R1-OP-2"
+      },
+      {
+        "dst_turn": "R2-SEAT-0",
+        "src_turn": "R1-OP-2"
+      },
+      {
+        "dst_turn": "R3-OP-2",
+        "src_turn": "R2-OP-6"
+      },
+      {
+        "dst_turn": "R3-OP-3",
+        "src_turn": "R2-OP-1"
+      },
+      {
+        "dst_turn": "R3-SEAT-0",
+        "src_turn": "R2-OP-6"
+      }
+    ],
+    "dag_edges": [
+      {
+        "dst_seat_id": "OP-1",
+        "dst_turn_id": "R2-OP-1",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "OP-3",
+        "src_turn_id": "R1-OP-3",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "OP-2",
+        "dst_turn_id": "R2-OP-2",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "OP-3",
+        "src_turn_id": "R1-OP-3",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "OP-3",
+        "dst_turn_id": "R2-OP-3",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "OP-2",
+        "src_turn_id": "R1-OP-2",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "OP-4",
+        "dst_turn_id": "R2-OP-4",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "OP-3",
+        "src_turn_id": "R1-OP-3",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "OP-5",
+        "dst_turn_id": "R2-OP-5",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "OP-2",
+        "src_turn_id": "R1-OP-2",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "OP-6",
+        "dst_turn_id": "R2-OP-6",
+        "dst_verdict": "MINIMAL_COUNTEREXAMPLE",
+        "mode": "compose",
+        "src_seat_id": "OP-2",
+        "src_turn_id": "R1-OP-2",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "SEAT-0",
+        "dst_turn_id": "R2-SEAT-0",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "OP-2",
+        "src_turn_id": "R1-OP-2",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "OP-1",
+        "dst_turn_id": "R3-OP-1",
+        "dst_verdict": "MINIMAL_COUNTEREXAMPLE",
+        "mode": "repair",
+        "src_seat_id": "OP-6",
+        "src_turn_id": "R2-OP-6",
+        "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+      },
+      {
+        "dst_seat_id": "OP-2",
+        "dst_turn_id": "R3-OP-2",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "repair",
+        "src_seat_id": "OP-6",
+        "src_turn_id": "R2-OP-6",
+        "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+      },
+      {
+        "dst_seat_id": "OP-3",
+        "dst_turn_id": "R3-OP-3",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "OP-1",
+        "src_turn_id": "R2-OP-1",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "OP-4",
+        "dst_turn_id": "R3-OP-4",
+        "dst_verdict": "MINIMAL_COUNTEREXAMPLE",
+        "mode": "repair",
+        "src_seat_id": "OP-6",
+        "src_turn_id": "R2-OP-6",
+        "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+      },
+      {
+        "dst_seat_id": "OP-5",
+        "dst_turn_id": "R3-OP-5",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "OP-5",
+        "src_turn_id": "R2-OP-5",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "OP-6",
+        "dst_turn_id": "R3-OP-6",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "repair",
+        "src_seat_id": "OP-6",
+        "src_turn_id": "R2-OP-6",
+        "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+      },
+      {
+        "dst_seat_id": "SEAT-0",
+        "dst_turn_id": "R3-SEAT-0",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "repair",
+        "src_seat_id": "OP-6",
+        "src_turn_id": "R2-OP-6",
+        "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+      }
+    ],
+    "historical_to_modern_edges": [
+      {
+        "aletheia_turn": "R2-SEAT-0",
+        "historical_turn": "R1-OP-2"
+      },
+      {
+        "aletheia_turn": "R3-SEAT-0",
+        "historical_turn": "R2-OP-6"
+      }
+    ],
+    "max_dag_depth": 3,
+    "minimal_counterexample_count": 3,
+    "modern_to_historical_edges": [],
+    "pass_witness_count": 18,
+    "s150_g2_dynamic_compounding_passed": true,
+    "s150_g5_bidirectional_pollination_passed": false,
+    "session_id": "S150B-ARM_C_PLUS-TOPIC1-CONTINUUM",
+    "topic_id": "TOPIC-1-CONTINUUM",
+    "transcript_sha256": "c8c4cb82e042924c476c9e165a7c9ed92f1ce9ae45c80f155a26d124b783bbab",
+    "turn_count": 21,
+    "turn_records": [
+      {
+        "dag_depth": 1,
+        "interpositions_count": 0,
+        "mode": "challenge",
+        "round_num": 1,
+        "seat_id": "OP-1",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "OP-2",
+        "turn_id": "R1-OP-1",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R1-OP-1-BLOCKELIM-TRACEDROP",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 6,
+          "status": "PASS_WITNESS",
+          "total_cases": 6,
+          "verdict_sha256": "59b5d6f334960306816f8cf94cefec9e2db26329a94f66cd961f05f44acf60d3"
+        }
+      },
+      {
+        "dag_depth": 1,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 1,
+        "seat_id": "OP-2",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "OP-3",
+        "turn_id": "R1-OP-2",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R1-OP-2-STEREO-TAIL-C3",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 5,
+          "status": "PASS_WITNESS",
+          "total_cases": 5,
+          "verdict_sha256": "451b08732f577fcd2d2fab41cbe8639c178f6524b2e44d7c467eb58c204c1c78"
+        }
+      },
+      {
+        "dag_depth": 1,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 1,
+        "seat_id": "OP-3",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "OP-1",
+        "turn_id": "R1-OP-3",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R1-OP-3-FINITECF-STRICT-ENVELOPE",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 5,
+          "status": "PASS_WITNESS",
+          "total_cases": 5,
+          "verdict_sha256": "84f3b5f0f84b1d5daccae3deceafcaad14e3ff4fb82b5d2a7dd7680eb7d69c96"
+        }
+      },
+      {
+        "dag_depth": 1,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 1,
+        "seat_id": "OP-4",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "OP-5",
+        "turn_id": "R1-OP-4",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R1-OP-4-LCMPHASECANON",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 5,
+          "status": "PASS_WITNESS",
+          "total_cases": 5,
+          "verdict_sha256": "1c65bd017d9552ca16094c868203e7213648af011d0bead6c77b9cd1a2d39306"
+        }
+      },
+      {
+        "dag_depth": 1,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 1,
+        "seat_id": "OP-5",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "OP-3",
+        "turn_id": "R1-OP-5",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R1-OP-5-INTCOV",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 6,
+          "status": "PASS_WITNESS",
+          "total_cases": 6,
+          "verdict_sha256": "7132e9ea29e8fa4df2b9148b3f68ce3ee6e8e9fe567d4ddffbe76470e67195a1"
+        }
+      },
+      {
+        "dag_depth": 1,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 1,
+        "seat_id": "OP-6",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "OP-3",
+        "turn_id": "R1-OP-6",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R1-OP-6-PARITY-WIND",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 3,
+          "status": "PASS_WITNESS",
+          "total_cases": 3,
+          "verdict_sha256": "1466e03ec76a2828652746162985bf77de2d4766f6f817b5f9b784d0116ea989"
+        }
+      },
+      {
+        "dag_depth": 1,
+        "interpositions_count": 4,
+        "mode": "compose",
+        "round_num": 1,
+        "seat_id": "SEAT-0",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "OP-3",
+        "turn_id": "R1-SEAT-0",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R1-SEAT-0-RATCOMM",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 4,
+          "status": "PASS_WITNESS",
+          "total_cases": 4,
+          "verdict_sha256": "90782e1c686c56915e566b67e12d6af804224f6abfeca8a6e5a1884f9f24aa55"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 2,
+        "seat_id": "OP-1",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-OP-3",
+        "turn_id": "R2-OP-1",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R2-OP-1-BLOCKELIM-CFENVELOPE",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 5,
+          "status": "PASS_WITNESS",
+          "total_cases": 5,
+          "verdict_sha256": "a1809a6ed1f4bdbfd152c76d7e6efacdf69e8fab282c94b31b60c75633dec2d5"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 2,
+        "seat_id": "OP-2",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-OP-3",
+        "turn_id": "R2-OP-2",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R2-OP-2-STEREO-CF-KAPPA-C3",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 6,
+          "status": "PASS_WITNESS",
+          "total_cases": 6,
+          "verdict_sha256": "df418b1a14307cf5865b3369e16b0ba16f5463924ad0c41510547d3a623b6ffc"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 2,
+        "seat_id": "OP-3",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-OP-2",
+        "turn_id": "R2-OP-3",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R2-OP-3-CFENV-LIFT",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 6,
+          "status": "PASS_WITNESS",
+          "total_cases": 6,
+          "verdict_sha256": "0cb269efcc52fdbaafd56bc1561a29517b8871ec08bd42b87e51f9c9e9cc2f34"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 2,
+        "seat_id": "OP-4",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-OP-3",
+        "turn_id": "R2-OP-4",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R2-OP-4-LCMLOCK-ENVELOPE-DETTRANSPORT",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 4,
+          "status": "PASS_WITNESS",
+          "total_cases": 4,
+          "verdict_sha256": "b2bf0551465a062da8599ad369a7e9bde11af09020253b2d4b391b1507e6326c"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 2,
+        "seat_id": "OP-5",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-OP-2",
+        "turn_id": "R2-OP-5",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R2-OP-5-COVZETA",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 4,
+          "status": "PASS_WITNESS",
+          "total_cases": 4,
+          "verdict_sha256": "2b16e811a0423cbc447b5cfe65833cb197a5eea21afae9ea3cb0525d43de7604"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 2,
+        "seat_id": "OP-6",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-OP-2",
+        "turn_id": "R2-OP-6",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R2-OP-6-PARITYWINDTAIL",
+          "failing_case_index": 2,
+          "failure_reason": "PREDICATE_RETURNED_FALSE",
+          "minimal_counterexample": {
+            "a": 8,
+            "ad": 3,
+            "an": 8,
+            "b": 15,
+            "bits": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "expect_claim": true,
+            "gcd_claim": 5,
+            "m": 5,
+            "n": 5,
+            "p": 2,
+            "parallel_claim": true,
+            "px": 0,
+            "py": 0,
+            "pz": 0,
+            "q": 1,
+            "qn": 2,
+            "qx": 4,
+            "qy": 5,
+            "qz": 6,
+            "ring": 3,
+            "ring_survives": true,
+            "xor_claim": 0
+          },
+          "passed_cases": 2,
+          "status": "MINIMAL_COUNTEREXAMPLE",
+          "total_cases": 9,
+          "verdict_sha256": "6dc8dd549e4e29a5789511b508cb29c0062ad449fddb6a9ef0dc02d27417a3a4"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 4,
+        "mode": "compose",
+        "round_num": 2,
+        "seat_id": "SEAT-0",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-OP-2",
+        "turn_id": "R2-SEAT-0",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R2-SEAT-0-RATHOLO",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 6,
+          "status": "PASS_WITNESS",
+          "total_cases": 6,
+          "verdict_sha256": "9e195d339db3375dc1c196297f2fd979b6d3a3cb6c0045cf408063a782b1f531"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 0,
+        "mode": "repair",
+        "round_num": 3,
+        "seat_id": "OP-1",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R2-OP-6",
+        "turn_id": "R3-OP-1",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R3-OP-1-BLOCKELIM-PARALLEL-REPAIR",
+          "failing_case_index": 2,
+          "failure_reason": "PREDICATE_RETURNED_FALSE",
+          "minimal_counterexample": {
+            "dd": 16,
+            "den": 2,
+            "dn": 25,
+            "expect_claim": true,
+            "g0": 5,
+            "g1": 7,
+            "g2": 1,
+            "parallel_claim": false,
+            "px": 1,
+            "py": 0,
+            "pz": 0,
+            "qx": 0,
+            "qy": 1,
+            "qz": 0
+          },
+          "passed_cases": 2,
+          "status": "MINIMAL_COUNTEREXAMPLE",
+          "total_cases": 5,
+          "verdict_sha256": "f1c6bd893d08c69ef9f4e0675b9755cd8f20c409154d47afc0652dbff00f1de4"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 0,
+        "mode": "repair",
+        "round_num": 3,
+        "seat_id": "OP-2",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R2-OP-6",
+        "turn_id": "R3-OP-2",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R3-OP-2-STEREO-KAPPA-CROSS-REPAIR",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 5,
+          "status": "PASS_WITNESS",
+          "total_cases": 5,
+          "verdict_sha256": "0ea2866e149bc390e4d0e4d8f6d6d4771a2f7b9ec210e443a4ed80d465e87158"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 3,
+        "seat_id": "OP-3",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R2-OP-1",
+        "turn_id": "R3-OP-3",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R3-OP-3-CFENV-CONDUCTANCE",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 4,
+          "status": "PASS_WITNESS",
+          "total_cases": 4,
+          "verdict_sha256": "faeb75e5c7d9cf76f0d4d948c4d6b5dcb6d9b187e48989a6bd30e6ba5c0764a7"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 0,
+        "mode": "repair",
+        "round_num": 3,
+        "seat_id": "OP-4",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R2-OP-6",
+        "turn_id": "R3-OP-4",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R3-OP-4-LCMLOCK-DETTRANSPORT-KAPPA-ARGMIN",
+          "failing_case_index": 0,
+          "failure_reason": "PREDICATE_RETURNED_FALSE",
+          "minimal_counterexample": {
+            "cert_index": 3,
+            "claimed_det": 4,
+            "claimed_kappa_den": 12,
+            "claimed_kappa_num": 1,
+            "claimed_lcm": 12,
+            "claimed_phase": 11,
+            "expect_claim": true,
+            "k": 4,
+            "matrix": [
+              [
+                2,
+                1,
+                0
+              ],
+              [
+                1,
+                2,
+                1
+              ],
+              [
+                0,
+                1,
+                2
+              ]
+            ],
+            "mesh": 17520,
+            "mods": [
+              3,
+              4,
+              6
+            ],
+            "n": 3,
+            "phase": 167,
+            "prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "resids": [
+              2,
+              3,
+              5
+            ],
+            "row_add_i": 0,
+            "row_add_j": 2,
+            "row_add_mult": 3,
+            "scale": 1460,
+            "teeth": [
+              24,
+              26
+            ]
+          },
+          "passed_cases": 0,
+          "status": "MINIMAL_COUNTEREXAMPLE",
+          "total_cases": 7,
+          "verdict_sha256": "ab82c09a1f78e052ae4c6e56c7b5eae26acc2753cf19f31b90bab47e49d191d3"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 3,
+        "seat_id": "OP-5",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R2-OP-5",
+        "turn_id": "R3-OP-5",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R3-OP-5-COVZETA-DEPTH3",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 3,
+          "status": "PASS_WITNESS",
+          "total_cases": 3,
+          "verdict_sha256": "edf2a4dc961f8731f77e3cf4ec360ce07d088dd908e8f5183ece6a55d2fec642"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 0,
+        "mode": "repair",
+        "round_num": 3,
+        "seat_id": "OP-6",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R2-OP-6",
+        "turn_id": "R3-OP-6",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R3-OP-6-PARITYWINDREPAIR",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 7,
+          "status": "PASS_WITNESS",
+          "total_cases": 7,
+          "verdict_sha256": "b3cb7571e0fb3c1d71e8e3f9c8ae4f13a8e01330e31215f100c56993b5c95b0e"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 4,
+        "mode": "repair",
+        "round_num": 3,
+        "seat_id": "SEAT-0",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R2-OP-6",
+        "turn_id": "R3-SEAT-0",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R3-SEAT-0-REPAIRHOLO",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 6,
+          "status": "PASS_WITNESS",
+          "total_cases": 6,
+          "verdict_sha256": "af32c5568e84ebee70dc7b1e3df1743f583d00e0c3db5bd61b9bf5278b227fb7"
+        }
+      }
+    ],
+    "variation": "operators"
+  },
+  "topic_id": "TOPIC-1-CONTINUUM",
+  "turns": [
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Bridge: a finite rational net of unit quaternions, with denominators N(x), is closed under the exact group commutator. A net-approximation error eps on each factor propagates to the defect C with first-order bound ||C(p+dp,q+dq)-C(p,q)|| <= 4(||dp||+||dq||) in operator norm, and this bound is evaluated exactly in Q. Cancellation risk sits only where C is near I (parallel axes), because the defect there is a small difference of near-equal quantities. The exact rational evaluation removes that risk, and a rounded evaluation must be compared against it. Law 2b steelman: the strongest opposing view says exact rationals blow up in height under repeated commutators, so exactness is not free. Concession: denominator height grows multiplicatively (N(p)^2 N(q)^2 per commutator), so the claim is limited to bounded-depth words. Gate-5 congruence scope: the claim is limited to SO(3) images of integer quaternions, tested on the finite cases below. It makes no assertion about general SO(d) retraction (exact-operator baseline) or about the SECDED/FWHT layers, which are not exercised here. Novelty: N0 for exact orthogonality of the rational parametrization; N1 for the commutator closure and parallel-axis collapse used as a cancellation-free defect oracle; N2 only if the height-growth bound for depth-k words is later machine-checked, and it is not claimed here. Negative R5 case: the zero vector has N=0 and is outside the domain, so the claim is false there.",
+        "mode": "compose",
+        "target_seat_or_turn": "OP-3"
+      },
+      "corpus_anchor": {
+        "operator_id": "su2_rational_unitary_commutator_defect (Pullback of integer quaternion units to SO(3), composed with the Commutation-defect glyph)",
+        "source_receipt_id": "OP-REF",
+        "statement": "OWN_TERMS_FIRST: for an integer 4-vector x=(a,b,c,d) with N(x)=a^2+b^2+c^2+d^2 != 0, the map R(x)=M(x)/N(x) (M has integer entries quadratic in x) is an exact rational element of SO(3): R R^T = I and det R = 1 hold in Q with no rounding. For two such operators A=R(p), B=R(q), the commutation defect C=A B A^T B^T is again exactly orthogonal with det 1, so the non-Abelian defect is carried by an exact rational group element. C = I whenever the vector parts (b,c,d) of p and q are parallel. Finite-precision cancellation therefore enters only through representation of C, never through its algebra. Any rational-net error bound is a statement about the distance of a rounded C from this exact C, and must be stated relative to it."
+      },
+      "epistemic_web_interpositions": [
+        {
+          "gate_status": "EXACT_OPERATOR_VERIFIED",
+          "id": "track:track-s76-circular-pc-loop-schur-holonomy",
+          "interposition_note": "Closed-loop holonomy is the same defect object as C here. The shared unitary parametrization supplies exact rational factors, and the loop closure test corresponds to the parallel-axis identity case.",
+          "kind": "track",
+          "org": "expedition",
+          "score_q": "129/851",
+          "shared_operators": [
+            "cayley_su2_unitary"
+          ]
+        },
+        {
+          "gate_status": "EXACT_OPERATOR_VERIFIED",
+          "id": "repo:Foundation-0/cave-expedition",
+          "interposition_note": "Gate-5 scope limit: this turn's claim covers only the SO(3) integer-quaternion image. The stereographic rational parametrization is a neighbouring route that has not been tested in this turn.",
+          "kind": "repo",
+          "org": "Foundation-0",
+          "score_q": "29/200",
+          "shared_operators": [
+            "aletheia_calculus",
+            "stereographic_weierstrass"
+          ]
+        },
+        {
+          "gate_status": "EXACT_OPERATOR_VERIFIED",
+          "id": "repo:Foundation-0/ramanujan",
+          "interposition_note": "Three shared operators make this the strongest overlap. It is a candidate source for exact rational-approximation height bounds, which would settle whether the depth-k denominator growth conceded in the steelman can be controlled.",
+          "kind": "repo",
+          "org": "Foundation-0",
+          "score_q": "101/714",
+          "shared_operators": [
+            "aletheia_calculus",
+            "cayley_su2_unitary",
+            "stereographic_weierstrass"
+          ]
+        },
+        {
+          "gate_status": "EXACT_OPERATOR_VERIFIED",
+          "id": "track:track-s114-silisphere-fused-kernel-transformer",
+          "interposition_note": "A fused-kernel setting is where finite-precision cancellation near C=I would actually occur. The exact rational oracle here can serve as the reference against which a fused-kernel rounding of the defect is checked.",
+          "kind": "track",
+          "org": "expedition",
+          "score_q": "23/168",
+          "shared_operators": [
+            "cayley_su2_unitary"
+          ]
+        }
+      ],
+      "executable_conjecture": {
+        "claim_summary": "For nonzero integer quaternions p,q, the rational SO(3) images A,B have commutator C=A B A^T B^T with C C^T = I and det C = 1 exactly, and C = I when the vector parts of p and q are parallel (cross product zero). R5 negative case: a zero quaternion is outside the domain, so the claim is false and the test expects false.",
+        "code": "from fractions import Fraction\n\ndef check_case(case):\n    p = case['p']\n    q = case['q']\n    def nrm(x):\n        return sum(t * t for t in x)\n    def rot(x):\n        a, b, c, d = x\n        n = nrm(x)\n        return [\n            [Fraction(a*a + b*b - c*c - d*d, n), Fraction(2*(b*c - a*d), n), Fraction(2*(b*d + a*c), n)],\n            [Fraction(2*(b*c + a*d), n), Fraction(a*a - b*b + c*c - d*d, n), Fraction(2*(c*d - a*b), n)],\n            [Fraction(2*(b*d - a*c), n), Fraction(2*(c*d + a*b), n), Fraction(a*a - b*b - c*c + d*d, n)]\n        ]\n    def mul(X, Y):\n        return [[sum(X[i][k] * Y[k][j] for k in range(3)) for j in range(3)] for i in range(3)]\n    def tr(X):\n        return [[X[j][i] for j in range(3)] for i in range(3)]\n    def det(X):\n        return (X[0][0] * (X[1][1] * X[2][2] - X[1][2] * X[2][1])\n                - X[0][1] * (X[1][0] * X[2][2] - X[1][2] * X[2][0])\n                + X[0][2] * (X[1][0] * X[2][1] - X[1][1] * X[2][0]))\n    ident = [[1 if i == j else 0 for j in range(3)] for i in range(3)]\n    if nrm(p) == 0 or nrm(q) == 0:\n        claim_holds = False\n    else:\n        A = rot(p)\n        B = rot(q)\n        C = mul(mul(A, B), mul(tr(A), tr(B)))\n        orth = mul(C, tr(C)) == ident\n        unit_det = det(C) == 1\n        cross = (p[2]*q[3] - p[3]*q[2], p[3]*q[1] - p[1]*q[3], p[1]*q[2] - p[2]*q[1])\n        parallel = cross == (0, 0, 0)\n        implication = (not parallel) or (C == ident)\n        claim_holds = orth and unit_det and implication\n    return bool(claim_holds == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R1-SEAT-0-RATCOMM",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "expect_claim": true,
+            "p": [
+              1,
+              1,
+              0,
+              0
+            ],
+            "q": [
+              1,
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "expect_claim": true,
+            "p": [
+              2,
+              1,
+              2,
+              0
+            ],
+            "q": [
+              1,
+              1,
+              1,
+              1
+            ]
+          },
+          {
+            "expect_claim": true,
+            "p": [
+              1,
+              1,
+              0,
+              0
+            ],
+            "q": [
+              3,
+              2,
+              0,
+              0
+            ]
+          },
+          {
+            "expect_claim": false,
+            "p": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "q": [
+              1,
+              1,
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      "round_num": 1,
+      "seat_id": "SEAT-0",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R1-SEAT-0"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Bridge: eliminating the interior nodes of a series/shunt ladder one at a time is repeated application of L/B, and each step yields the next convergent of a finite continued fraction with exact rational value. So the rational-approximation tower is a chain of block eliminations, and the quotient property (L/B1)/(B2) = L/(B1 and B2 together) makes the elimination order irrelevant. Challenge to the non-Abelian holonomy side: block reduction is order-independent (the commutator defect between two elimination orders is exactly 0 in Q), whereas a holonomy product of non-commuting group elements depends on order. Any claimed commutator defect in a reduction chain must therefore come from non-symmetric (non-congruence) data, not from the elimination itself. Law 2b steelman: a reduction chain over a non-commutative coefficient ring could break the quotient property; I concede this, and this turn tests only the commutative rational case. Gate-5 congruence scope: the claim covers only symmetric congruence T L T^T over Q with B invertible, and does not extend to non-symmetric or finite-precision (rounded) arithmetic, where cancellation in C B^{-1} C^T can destroy the exact trace-drop identity. Novelty: N0 for the complement and parallel-conductance formulas, N1 for pairing the trace drop with the congruence block-diagonalization check, N2 for recasting the order-independence of ladder elimination as a zero-commutator obstruction to holonomy-type defects.",
+        "mode": "challenge",
+        "target_seat_or_turn": "OP-2"
+      },
+      "corpus_anchor": {
+        "operator_id": "BLOCK-ELIM-COMPLEMENT L/B with boundary conductance and readable-record trace drop 81/1250",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For a symmetric positive weighted node-edge operator L = [[A, C],[C^T, B]] with B invertible, the complement L/B = A - C B^{-1} C^T is the congruence image of L under T = [[I, -C B^{-1}],[0, I]], so T L T^T = diag(L/B, B). When L has zero row sums and the interior is one node joined to two boundary nodes by conductances g1, g2, with a direct boundary edge g0, then L/B is a zero-row-sum 2x2 operator with off-diagonal entry -(g0 + g1*g2/(g1+g2)). The effective parallel conductance is g0 + g1*g2/(g1+g2). The trace drop tr(A) - tr(L/B) equals (g1^2+g2^2)/(g1+g2). At g0 = 0 and g1 = g2 = 81/1250 this drop is exactly 81/1250 and the effective conductance is 81/2500."
+      },
+      "executable_conjecture": {
+        "claim_summary": "For the 3-node zero-row-sum operator with boundary nodes a, b and interior node m, the congruence T L T^T is block diagonal. The complement equals the closed form with effective conductance g0 + g1*g2/(g1+g2), and the trace drop equals (g1^2+g2^2)/(g1+g2) and matches the claimed value. Negative R5 cases supply a wrong claimed drop, so the claim is false and expect_claim is false.",
+        "code": "from fractions import Fraction\n\ndef check_case(case):\n    g0 = Fraction(case['g0n'], case['g0d'])\n    g1 = Fraction(case['g1n'], case['g1d'])\n    g2 = Fraction(case['g2n'], case['g2d'])\n    claimed = Fraction(case['cn'], case['cd'])\n    if g1 + g2 == 0:\n        return bool(case['expect_claim'] == False)\n    L = [[g0 + g1, -g0, -g1], [-g0, g0 + g2, -g2], [-g1, -g2, g1 + g2]]\n    d = L[2][2]\n    S = [[L[i][j] - L[i][2] * L[2][j] / d for j in range(2)] for i in range(2)]\n    one = Fraction(1)\n    zero = Fraction(0)\n    T = [[one, zero, -L[0][2] / d], [zero, one, -L[1][2] / d], [zero, zero, one]]\n    TL = [[sum(T[i][k] * L[k][j] for k in range(3)) for j in range(3)] for i in range(3)]\n    M = [[sum(TL[i][k] * T[j][k] for k in range(3)) for j in range(3)] for i in range(3)]\n    block_ok = (M[0][2] == 0 and M[1][2] == 0 and M[2][0] == 0 and M[2][1] == 0 and M[2][2] == d)\n    block_ok = block_ok and all(M[i][j] == S[i][j] for i in range(2) for j in range(2))\n    geff = g0 + g1 * g2 / (g1 + g2)\n    closed_ok = (S[0][1] == -geff and S[1][0] == -geff and S[0][0] == geff and S[1][1] == geff)\n    drop = (L[0][0] + L[1][1]) - (S[0][0] + S[1][1])\n    drop_ok = (drop == (g1 * g1 + g2 * g2) / (g1 + g2))\n    claim_holds = block_ok and closed_ok and drop_ok and (drop == claimed)\n    return bool(claim_holds == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R1-OP-1-BLOCKELIM-TRACEDROP",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "cd": 1250,
+            "cn": 81,
+            "expect_claim": true,
+            "g0d": 1,
+            "g0n": 0,
+            "g1d": 1250,
+            "g1n": 81,
+            "g2d": 1250,
+            "g2n": 81
+          },
+          {
+            "cd": 3,
+            "cn": 5,
+            "expect_claim": true,
+            "g0d": 1,
+            "g0n": 1,
+            "g1d": 1,
+            "g1n": 1,
+            "g2d": 1,
+            "g2n": 2
+          },
+          {
+            "cd": 1,
+            "cn": 3,
+            "expect_claim": true,
+            "g0d": 1,
+            "g0n": 2,
+            "g1d": 1,
+            "g1n": 3,
+            "g2d": 1,
+            "g2n": 3
+          },
+          {
+            "cd": 1456,
+            "cn": 4849,
+            "expect_claim": false,
+            "g0d": 2,
+            "g0n": 1,
+            "g1d": 7,
+            "g1n": 5,
+            "g2d": 13,
+            "g2n": 11
+          },
+          {
+            "cd": 1250,
+            "cn": 81,
+            "expect_claim": false,
+            "g0d": 1,
+            "g0n": 0,
+            "g1d": 1,
+            "g1n": 1,
+            "g2d": 1,
+            "g2n": 1
+          },
+          {
+            "cd": 1,
+            "cn": 1,
+            "expect_claim": false,
+            "g0d": 1,
+            "g0n": 1,
+            "g1d": 1,
+            "g1n": 1,
+            "g2d": 1,
+            "g2n": 2
+          }
+        ]
+      },
+      "round_num": 1,
+      "seat_id": "OP-1",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R1-OP-1"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Shared exact rational tail t = 2/(r2+1) from the stereographic lift is the common numerator that OP-3's holonomy transport must preserve; Law 2b steelman: the strongest finite-precision cancellation objection is absorbed because kappa_sub(t) = t/(1-t) is evaluated as an exact Fraction, so no rounding enters the defect bound defect*kappa_sub(t) <= 1/n^3. Gate-5 congruence scope: the bound is asserted only over integer lattice points (n,k) with r2 = n^2+k^2 >= 4, not over the continuum. N0/N1/N2 novelty note: N0 states the exact lift, N1 the exact tail/kappa_sub gain, N2 the order-3 C3 defect composition \u2014 the composed inequality is the new claim, not any single ingredient.",
+        "mode": "compose",
+        "target_seat_or_turn": "OP-3"
+      },
+      "corpus_anchor": {
+        "operator_id": "STEREO-RAT-LIFT-TAIL-KAPPA_SUB-ORD3-C3",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For a rational plane point (u,v) with r2 = u^2 + v^2, the exact unit-sphere lift is (2u/(r2+1), 2v/(r2+1), (r2-1)/(r2+1)); its polar tail is exactly t = 1 - h = 2/(r2+1), and feeding that tail into the subtractive-cancellation gain kappa_sub(t) = t/(1-t) = 2/(r2-1) recovers the rational defect scale. Against this, the order-3 commutator expansion with coefficient vector C3 = (0, 1/3, 1/6, 0) leaves a non-Abelian defect of exact rational size (1/6)*t^2, and the composed bound defect*kappa_sub(t) <= 1/n^3 holds for every integer n >= 2 with r2 >= n^2, while degenerate cases r2 <= 1 or n < 2 refute it. Continued-fraction optimality of the rational approximants and epicyclic gear ratios (n+1):n give the same tail acceleration 2/(r2+1) with no floating-point residue."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: for integer lattice point (n,k) with r2 = n^2+k^2, the stereographic lift tail t = 2/(r2+1), the subtractive-cancellation gain kappa_sub(t) = t/(1-t), and the order-3 commutator defect (1/6)*t^2 (C3 third slot) compose to defect*kappa_sub(t) <= 1/n^3 for all n >= 2; R5 negative/refutation cases n < 2 or r2 <= 1 return claim_holds = False.",
+        "code": "from fractions import Fraction\n\ndef check_case(case):\n    n = case['n']\n    k = case['k']\n    r2 = n * n + k * k\n    if n >= 2 and r2 > 1:\n        h = Fraction(r2 - 1, r2 + 1)\n        tail = 1 - h\n        kappa = tail / (1 - tail)\n        c3 = Fraction(1, 6)\n        defect = c3 * tail * tail\n        claim_holds = defect * kappa <= Fraction(1, n * n * n)\n    else:\n        claim_holds = False\n    return bool(claim_holds == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R1-OP-2-STEREO-TAIL-C3",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "expect_claim": true,
+            "k": 4,
+            "n": 3
+          },
+          {
+            "expect_claim": true,
+            "k": 12,
+            "n": 5
+          },
+          {
+            "expect_claim": true,
+            "k": 0,
+            "n": 2
+          },
+          {
+            "expect_claim": false,
+            "k": 0,
+            "n": 1
+          },
+          {
+            "expect_claim": false,
+            "k": 1,
+            "n": 0
+          }
+        ]
+      },
+      "round_num": 1,
+      "seat_id": "OP-2",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R1-OP-2"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "N0/N1/N2 novelty note: the stereographic lift of the finite 5-term prefix into convergent space converts the alternating tail accelerator O(1/n^7) into an exact integer determinant condition; the envelope is sharp (Legendre-form) except at the terminal index where the \u00b11 determinant identity collapses strictness to equality \u2014 an R5 negative case OP-1 must absorb when claiming minimax unit-fraction optimality. Gate-5 congruence scope: claims of greedy-prefix optimality must exclude the penultimate convergent, where error equals bound exactly. Bridge to OP-1: the epicyclic gear ratio a_{n+1} q_n + q_{n-1} is the unique carrier of the strict inequality, so any non-Abelian commutator defect in the finite net must manifest as a failure of this gear recursion, which the executable check tests exactly.",
+        "mode": "compose",
+        "target_seat_or_turn": "OP-1"
+      },
+      "corpus_anchor": {
+        "operator_id": "OP-3:STEREO-LIFT-STRICT-CF-ENVELOPE",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "Let alpha be the exact rational value of the finite continued-fraction net [3;7,15,1,292], and let (p_k/q_k) be its convergents via the determinant recurrence p_k = a_k p_{k-1} + p_{k-2}, q_k = a_k q_{k-1} + q_{k-2}. The strict Diophantine envelope |alpha - p_n/q_n| < 1/(q_n q_{n+1}) holds for every n with n+2 <= len(prefix), is attained with exact equality at the penultimate convergent (where p_{n+1} q_n - p_n q_{n+1} = \u00b11 forces error = 1/(q_n q_{n+1})), and the strictness margin is measured exactly by the tail gear deficit 33102 - 32809 = 293 = (1 + 1/292)-numerator of the terminal epicyclic ratio."
+      },
+      "executable_conjecture": {
+        "claim_summary": "For the exact finite continued-fraction alpha = [3;7,15,1,292] with convergents (p_n/q_n), the strict two-sided Diophantine envelope |alpha - p_n/q_n| < 1/(q_n q_{n+1}) holds exactly for 0 <= n <= len(prefix)-3 and fails by exact equality at the penultimate convergent n = len(prefix)-2 = 3, where the \u00b11 determinant identity forces error = 1/(q_n q_{n+1}). R5 refutation cases tested: n=3 (exact equality, strict bound false) and n=5 (index beyond net, structurally false); positive cases n=0,1,2 verified with zero floats via Fraction arithmetic.",
+        "code": "from fractions import Fraction\n\ndef check_case(case):\n    n = case['n']\n    prefix = case.get('cf_prefix', [3, 7, 15, 1, 292])\n    if not isinstance(n, int) or isinstance(n, bool) or n < 0 or n + 2 > len(prefix):\n        claim = False\n    else:\n        pm2, pm1 = 0, 1\n        qm2, qm1 = 1, 0\n        ps, qs = [], []\n        for a in prefix[: n + 2]:\n            p = a * pm1 + pm2\n            q = a * qm1 + qm2\n            ps.append(p)\n            qs.append(q)\n            pm2, pm1 = pm1, p\n            qm2, qm1 = qm1, q\n        alpha = Fraction(prefix[-1])\n        for a in reversed(prefix[:-1]):\n            alpha = a + Fraction(1, 1) / alpha\n        err = abs(alpha - Fraction(ps[n], qs[n]))\n        claim = err < Fraction(1, qs[n] * qs[n + 1])\n    return bool(claim == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R1-OP-3-FINITECF-STRICT-ENVELOPE",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "cf_prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "expect_claim": true,
+            "n": 0
+          },
+          {
+            "cf_prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "expect_claim": true,
+            "n": 1
+          },
+          {
+            "cf_prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "expect_claim": true,
+            "n": 2
+          },
+          {
+            "cf_prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "expect_claim": false,
+            "n": 3
+          },
+          {
+            "cf_prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "expect_claim": false,
+            "n": 5
+          }
+        ]
+      },
+      "round_num": 1,
+      "seat_id": "OP-3",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R1-OP-3"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Bridge: any finite rational net phase lives in (1/L)Z inside Q; a composite multi-clock lock with moduli m_i is resolvable in Z/L precisely when the pairwise greatest-common-divisor divisibility conditions hold, so the non-Abelian defect of a pair of integer unimodular frames can be exported as an integer residue vector, recombined inside Z, and read back as an exact phase without leaving the ring - this is the Z-side dual of the 1460x phase compression (30 | 1460 with a 48-step cofactor, so every lcm-lock of the 3-clock family embeds as an exact sublattice of the compressed phase register). The approximant side enters through the stereographic/projective lift of the phase to a rational slope a/b with an accelerated continued-fraction tail: the extremal constant is not used as a real number but as the integer inequality (Q+1)|qa - pb| <= b, i.e. a statement about numerators only. Steelman of the opposing arm (Law 2b, strongest form): the objection that exact recombination is unnecessary because the asymptotically accelerated tail with the extremal continued-fraction constant already dominates finite-precision cancellation is granted completely - the bound is accepted as true for every rational slope and every Q, and the elimination operator is granted to preserve the determinant exactly. The residue of disagreement is therefore narrow and precise: bounds and determinant preservation constrain magnitudes and signs, whereas only the canonical-representative condition x in [0,L) and the sign of the elimination terminal entry decide whether a reported lifted phase is the actual holonomy class; a correct magnitude with a wrong representative (or a sign-flipped determinant) satisfies every approximation bound and still transports the wrong class around the composite lock. Gate-5 congruence scope: all assertions are made inside Z/L with integer representatives and integer scalars; the real line appears only as a limit object, never as an evaluated quantity, so the congruence is scope-exact rather than approximate. Novelty note: N0 - non-coprime modular recombination, fraction-free integer elimination with exact intermediate division, and the pigeonhole extremal bound are all inherited operators and are claimed as inherited; N1 - the recombination here is the joint executable assertion that lcm-phase consistency, exact-division determinant preservation, the cross-multiplied extremal bound, and the non-commuting pair defect are one invariant decided on a single case, not four separate facts; N2 - the refutation family is new as an explicit finite net: non-canonical representatives inside the same class (x and x + L) and sign-flipped determinants are the two cheapest ways a finite-precision lift survives every bound yet lands in the wrong class.",
+        "mode": "compose",
+        "target_seat_or_turn": "OP-5"
+      },
+      "corpus_anchor": {
+        "operator_id": "OP4-NONCOPRIME-LCM-RECOMBINE-x-FRACTIONFREE-DET-x-EXTREMAL-TAIL-BOUND",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "OWN_TERMS_FIRST: Let m_1..m_k be positive integers, r_1..r_k integers, L = lcm(m_i). (T1) The system x = r_i (mod m_i) has a solution in Z/L if and only if for every pair gcd(m_i,m_j) divides (r_i - r_j); the merging recursion x <- x + L*k with g = gcd(L,m), d = (r-x) mod m, k = (d/g)*(L/g)^{-1} mod (m/g) produces that unique class and each merge step is exact integer arithmetic with no field inversion over Q. (T2) The fraction-free elimination recursion a_ij^(k+1) = (a_ij^(k) a_kk^(k) - a_ik^(k) a_kj^(k))/a_(k-1)(k-1)^(k-1) keeps every entry in Z, each quotient is an exact integer division, and the terminal entry equals the permutation-sign expansion of the determinant including the sign accumulated by pivoting. (T3) For integers a, b > 0 and Q >= 1 there exist integers p, q with 1 <= q <= Q and (Q+1)|qa - pb| <= b; the statement is closed under cross-multiplication and therefore needs no real metric. Composition claim of this seat: continuum approximation of a finite-net phase and non-commuting transport around a composite lock are the same integer obstruction, measured simultaneously by (T1)+(T2)+(T3) on one case, and any lift that reports a representative outside [0,L) is refuted exactly."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Invariant: a case is claimed valid iff (a) the pairwise-gcd divisibility predicate and the constructive non-coprime merge agree on joint solvability, (b) the recovered class lies in [0, lcm) and reproduces every residue, (c) fraction-free elimination performs only exact integer divisions and its terminal entry equals the sign-accumulating permutation expansion of the determinant, (d) the cross-multiplied extremal inequality (Q+1)|qa-pb| <= b holds for the declared slope and depth, (e) the 2x2 non-commuting pair defect is an exact absolute-entry sum, and (f) the case's declared phase, determinant, defect and satisfiability flags equal those computed values. R5 refutation cases tested: a non-canonical representative in the correct congruence class (phase reported as x + L) and a sign-flipped determinant (elimination sign lost); a further positive case exercises the inconsistent branch where the honest declaration is unsatisfiable and the phase is pinned to 0. All arithmetic over Z, no field elements, no real values.",
+        "code": "def check_case(case):\n    from math import gcd\n    from itertools import permutations\n\n    # --- sub-operator A: non-coprime residue recombination inside Z/lcm ---\n    moduli = case['moduli']\n    residues = case['residues']\n    ok = True\n    L = 1\n    x = 0\n    for m, r in zip(moduli, residues):\n        if m <= 0:\n            ok = False\n            break\n        g = gcd(L, m)\n        d = (r - x) % m\n        if d % g != 0:\n            ok = False\n            break\n        m1 = L // g\n        m2 = m // g\n        dd = d // g\n        inv = 0\n        if m2 > 1:\n            for t in range(1, m2):\n                if (m1 * t) % m2 == 1:\n                    inv = t\n                    break\n        k = (dd * inv) % m2\n        x = (x + L * k) % (L * m2)\n        L = L * m2\n    pairwise = True\n    for i in range(len(moduli)):\n        for j in range(i + 1, len(moduli)):\n            if (residues[i] - residues[j]) % gcd(moduli[i], moduli[j]) != 0:\n                pairwise = False\n    criterion_agrees = (pairwise == ok)\n    sol_verified = True\n    if ok:\n        for m, r in zip(moduli, residues):\n            if x % m != r % m:\n                sol_verified = False\n        if x < 0 or x >= L:\n            sol_verified = False\n    expected_x = (x % L) if ok else 0\n\n    # --- sub-operator B: fraction-free elimination vs sign expansion ---\n    def sign_expansion(mat):\n        n = len(mat)\n        if n == 0:\n            return 1\n        total = 0\n        for perm in permutations(range(n)):\n            inv = 0\n            for i in range(n):\n                for j in range(i + 1, n):\n                    if perm[i] > perm[j]:\n                        inv += 1\n            prod = 1\n            for i in range(n):\n                prod = prod * mat[i][perm[i]]\n            total = total + (prod if inv % 2 == 0 else -prod)\n        return total\n\n    def fraction_free(mat):\n        n = len(mat)\n        if n == 0:\n            return 1, True\n        A = [row[:] for row in mat]\n        sign = 1\n        prev = 1\n        exact = True\n        for k in range(n - 1):\n            if A[k][k] == 0:\n                sw = -1\n                for i in range(k + 1, n):\n                    if A[i][k] != 0:\n                        sw = i\n                        break\n                if sw == -1:\n                    return 0, True\n                A[k], A[sw] = A[sw], A[k]\n                sign = -sign\n            for i in range(k + 1, n):\n                for j in range(k + 1, n):\n                    num = A[i][j] * A[k][k] - A[i][k] * A[k][j]\n                    if num % prev != 0:\n                        exact = False\n                    A[i][j] = num // prev\n                A[i][k] = 0\n            prev = A[k][k]\n        return sign * A[n - 1][n - 1], exact\n\n    det_ff, divisibility_exact = fraction_free(case['matrix'])\n    det_se = sign_expansion(case['matrix'])\n\n    # --- sub-operator C: extremal tail bound, cross-multiplied, integer only ---\n    a, b = case['ratio']\n    Q = case['Q']\n    bound_ok = False\n    if b > 0 and Q >= 1:\n        for q in range(1, Q + 1):\n            p0 = (q * a) // b\n            for p in (p0 - 1, p0, p0 + 1):\n                r = q * a - p * b\n                if r < 0:\n                    r = -r\n                if (Q + 1) * r <= b:\n                    bound_ok = True\n\n    # --- sub-operator D: defect of a non-commuting integer frame pair ---\n    def mul2(X, Y):\n        return [[X[0][0] * Y[0][0] + X[0][1] * Y[1][0], X[0][0] * Y[0][1] + X[0][1] * Y[1][1]],\n                [X[1][0] * Y[0][0] + X[1][1] * Y[1][0], X[1][0] * Y[0][1] + X[1][1] * Y[1][1]]]\n\n    AB = mul2(case['pair_a'], case['pair_b'])\n    BA = mul2(case['pair_b'], case['pair_a'])\n    defect = 0\n    for i in range(2):\n        for j in range(2):\n            t = AB[i][j] - BA[i][j]\n            if t < 0:\n                t = -t\n            defect = defect + t\n\n    claim_holds = (criterion_agrees\n                   and sol_verified\n                   and divisibility_exact\n                   and det_ff == det_se\n                   and bound_ok\n                   and defect == case['claimed_defect']\n                   and case['claimed_det'] == det_se\n                   and case['claimed_consistent'] == ok\n                   and case['claimed_x'] == expected_x)\n    return bool(claim_holds == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R1-OP-4-LCMPHASECANON",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "Q": 3,
+            "claimed_consistent": true,
+            "claimed_defect": 2,
+            "claimed_det": -18,
+            "claimed_x": 14,
+            "expect_claim": true,
+            "matrix": [
+              [
+                2,
+                1,
+                3
+              ],
+              [
+                1,
+                3,
+                2
+              ],
+              [
+                3,
+                2,
+                1
+              ]
+            ],
+            "moduli": [
+              6,
+              10,
+              15
+            ],
+            "pair_a": [
+              [
+                1,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "pair_b": [
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "ratio": [
+              3,
+              7
+            ],
+            "residues": [
+              2,
+              4,
+              14
+            ]
+          },
+          {
+            "Q": 4,
+            "claimed_consistent": true,
+            "claimed_defect": 6,
+            "claimed_det": 26,
+            "claimed_x": 17,
+            "expect_claim": true,
+            "matrix": [
+              [
+                5,
+                3
+              ],
+              [
+                -2,
+                4
+              ]
+            ],
+            "moduli": [
+              4,
+              6,
+              9
+            ],
+            "pair_a": [
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "pair_b": [
+              [
+                1,
+                2
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "ratio": [
+              5,
+              12
+            ],
+            "residues": [
+              1,
+              5,
+              8
+            ]
+          },
+          {
+            "Q": 5,
+            "claimed_consistent": false,
+            "claimed_defect": 12,
+            "claimed_det": 5,
+            "claimed_x": 0,
+            "expect_claim": true,
+            "matrix": [
+              [
+                3,
+                1
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "moduli": [
+              4,
+              6
+            ],
+            "pair_a": [
+              [
+                1,
+                2
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "pair_b": [
+              [
+                1,
+                0
+              ],
+              [
+                3,
+                1
+              ]
+            ],
+            "ratio": [
+              7,
+              20
+            ],
+            "residues": [
+              1,
+              2
+            ]
+          },
+          {
+            "Q": 3,
+            "claimed_consistent": true,
+            "claimed_defect": 2,
+            "claimed_det": -18,
+            "claimed_x": 44,
+            "expect_claim": false,
+            "matrix": [
+              [
+                2,
+                1,
+                3
+              ],
+              [
+                1,
+                3,
+                2
+              ],
+              [
+                3,
+                2,
+                1
+              ]
+            ],
+            "moduli": [
+              6,
+              10,
+              15
+            ],
+            "pair_a": [
+              [
+                1,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "pair_b": [
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "ratio": [
+              3,
+              7
+            ],
+            "residues": [
+              2,
+              4,
+              14
+            ]
+          },
+          {
+            "Q": 4,
+            "claimed_consistent": true,
+            "claimed_defect": 6,
+            "claimed_det": 18,
+            "claimed_x": 17,
+            "expect_claim": false,
+            "matrix": [
+              [
+                5,
+                3
+              ],
+              [
+                -2,
+                4
+              ]
+            ],
+            "moduli": [
+              4,
+              6,
+              9
+            ],
+            "pair_a": [
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                1
+              ]
+            ],
+            "pair_b": [
+              [
+                1,
+                2
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "ratio": [
+              5,
+              12
+            ],
+            "residues": [
+              1,
+              5,
+              8
+            ]
+          }
+        ]
+      },
+      "round_num": 1,
+      "seat_id": "OP-4",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R1-OP-4"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Law 2b steelman: the rising-edge cover R(v) = sum_i v_i*(1-v_{i-1}) is invariant under the rational lift t -> (1-t^2)/(1+t^2) followed by finite-net truncation, so the minimal cover survives exact denominator clearing. Gate-5 congruence scope: every identity is checked as an integer equality after clearing denominators, and the two-step commutator defect vanishes exactly when the cover is minimal. N0/N1/N2 novelty note: N0 reuses the 14-interval exact cover, N1 adds hierarchical tree-sum checksums, N2 adds the bilinear dissipation band coupled to noncommutative holonomy.",
+        "mode": "compose",
+        "target_seat_or_turn": "OP-3"
+      },
+      "corpus_anchor": {
+        "operator_id": "C1P-14INTCOV-TSUM-ZEQ-BILIN",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For a binary incidence vector v in {0,1}^n, the minimal lossless interval cover has cardinality #{i : v_i = 1 and (i = 1 or v_{i-1} = 0)}; a balanced hierarchical pairwise summation returns sum_i v_i; the intra-run bilinear pair count plus the inter-run commutator count equals binom(sum_i v_i, 2); and the passive hysteresis parameter satisfies 3/20 <= zeta_eq <= 3/10."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: rising-edge interval cover count equals claimed runs, balanced tree-sum equals total ones, bilinear intra-run pairs plus inter-run commutator pairs equals C(ones,2), and hysteresis zeta_eq lies in [3/20,3/10]. R5 negative cases with wrong run count and out-of-band zeta are tested via expect_claim=false.",
+        "code": "from fractions import Fraction\nfrom math import gcd, isqrt\nimport itertools\n\ndef check_case(case):\n    bits = case['bits']\n    runs_claim = case['runs']\n    zn = case['zeta_num']\n    zd = case['zeta_den']\n    seq = []\n    x = bits\n    while x > 0:\n        seq.append(x & 1)\n        x >>= 1\n    if len(seq) == 0:\n        seq = [0]\n    rc = 0\n    prev = 0\n    for b in seq:\n        if b == 1 and prev == 0:\n            rc += 1\n        prev = b\n    layer = list(seq)\n    while len(layer) > 1:\n        nxt = []\n        for i in range(0, len(layer) - 1, 2):\n            nxt.append(layer[i] + layer[i + 1])\n        if len(layer) % 2 == 1:\n            nxt.append(layer[-1])\n        layer = nxt\n    tsum = layer[0]\n    ones = sum(seq)\n    lengths = []\n    r = 0\n    for b in seq:\n        if b == 1:\n            r += 1\n        else:\n            if r > 0:\n                lengths.append(r)\n            r = 0\n    if r > 0:\n        lengths.append(r)\n    diss = 0\n    for L in lengths:\n        diss += L * (L - 1) // 2\n    cross = 0\n    for i in range(len(lengths)):\n        for j in range(i + 1, len(lengths)):\n            cross += lengths[i] * lengths[j]\n    holonomy_ok = (diss + cross == ones * (ones - 1) // 2)\n    band = (zd > 0 and 20 * zn >= 3 * zd and 10 * zn <= 3 * zd)\n    claim_holds = (rc == runs_claim and tsum == ones and band and holonomy_ok)\n    return bool(claim_holds == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R1-OP-5-INTCOV",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "bits": 7,
+            "expect_claim": true,
+            "runs": 1,
+            "zeta_den": 5,
+            "zeta_num": 1
+          },
+          {
+            "bits": 5,
+            "expect_claim": true,
+            "runs": 2,
+            "zeta_den": 4,
+            "zeta_num": 1
+          },
+          {
+            "bits": 11,
+            "expect_claim": true,
+            "runs": 2,
+            "zeta_den": 10,
+            "zeta_num": 3
+          },
+          {
+            "bits": 7,
+            "expect_claim": false,
+            "runs": 2,
+            "zeta_den": 5,
+            "zeta_num": 1
+          },
+          {
+            "bits": 5,
+            "expect_claim": false,
+            "runs": 2,
+            "zeta_den": 2,
+            "zeta_num": 1
+          },
+          {
+            "bits": 0,
+            "expect_claim": false,
+            "runs": 1,
+            "zeta_den": 5,
+            "zeta_num": 1
+          }
+        ]
+      },
+      "round_num": 1,
+      "seat_id": "OP-5",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R1-OP-5"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Law 2b steelman: the finite-net rational package (stereographic circle identity, Dirichlet cross bound, sqrt(5)-scaled quadratic gap, lcm gear period) is stated entirely with integer cross-multiplication so no truncated series is smuggled in. Gate-5 congruence scope: GF(2) fold, gcd component count, and shear commutator defect are exact ring/module identities, not approximate holonomy. N0 is the coprime single-stroke case gcd=1 with a strict quadratic gap. N1 is the multi-component torus gcd>1 where mesh period still matches lcm while the stroke predicate fails. N2 is the non-Abelian defect |s*t|!=0, which blocks reading the rational net as a commuting chart even when every rational bound holds. Link to OP-3: any holonomy trace built there must reproduce these integer predicates or the commutator obstruction separates the charts.",
+        "mode": "compose",
+        "target_seat_or_turn": "OP-3"
+      },
+      "corpus_anchor": {
+        "operator_id": "GF2_XOR_FOLD_TORUS_GCD_RING2",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "On a finite bit net, recursive pairwise XOR equals the full GF(2) sum. On the torus lattice the closed reflection-loop count equals gcd(m,n), so a single stroke exists exactly when that count is 1 and the mesh period is (m/gcd)*(n). The stereographic rational lift (den^2-num^2, 2*num*den, den^2+num^2) lands on the integer circle. Continued-fraction quadratic optimality is the exact comparison 5*(a*q-b*p)^2*q^2 < b^2, while the Dirichlet net bound is |a*q-b*p|*q <= b. Epicyclic mesh length is lcm(m,n). A unit-shear pair has commutator defect |s*t|, zero iff the shears commute. A cycle ring stays path-connected after one edge cut iff its length is at least 3. Cancellation depth is bit_length(|b*q|)-bit_length(|a*q-b*p|)."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Claim holds iff GF(2) pair-fold matches total XOR, torus component count equals gcd, coprime stroke and lcm mesh agree, stereographic lift is Pythagorean, the sqrt(5) quadratic gap and Dirichlet cross bound match their flags, shear commutator vanishing matches its flag, ring cut survival matches length>=3, and cancellation bit-depth matches. Refutation cases set expect_claim false when any predicate fails.",
+        "code": "from fractions import Fraction\nfrom math import gcd, isqrt\nimport itertools\n\ndef check_case(case):\n    bits = list(case['bits'])\n    acc = 0\n    for b in bits:\n        acc ^= (b & 1)\n    padded = list(itertools.chain(bits, [0] if (len(bits) % 2) else []))\n    fold = 0\n    for u, v in zip(padded[0::2], padded[1::2]):\n        fold ^= ((u ^ v) & 1)\n    parity_ok = (acc == fold)\n    m = case['m']\n    n = case['n']\n    g = gcd(m, n)\n    comp_ok = (g == case['components'])\n    stroke_ok = ((g == 1) == case['coprime_stroke'])\n    if g == 0:\n        mesh = 0\n    else:\n        mesh = (m // g) * n\n    if m == 0 or n == 0:\n        lcm_ok = (mesh == 0)\n    else:\n        lcm_ok = (g != 0 and m * n == mesh * g)\n    gear_ok = (mesh == case['mesh_cycle'])\n    num = case['lift_num']\n    den = case['lift_den']\n    x = den * den - num * num\n    y = 2 * num * den\n    z = den * den + num * num\n    if z < 0:\n        z = -z\n    cayley_ok = (x * x + y * y == z * z) and (isqrt(x * x + y * y) == z)\n    a = case['a']\n    b = case['b']\n    p = case['p']\n    q = case['q']\n    cross = a * q - b * p\n    if cross < 0:\n        cross = -cross\n    left = 5 * cross * cross * q * q\n    right = b * b\n    hurwitz_ok = ((left < right) == case['quad_gap_holds'])\n    dirichlet_ok = ((cross * q <= b) == case['dirichlet_holds'])\n    bq = b * q\n    if bq < 0:\n        bq = -bq\n    if cross == 0:\n        cancel_bits = bq.bit_length()\n    else:\n        cancel_bits = bq.bit_length() - cross.bit_length()\n    cancel_ok = (cancel_bits == case['cancel_bits'])\n    s = case['shear_s']\n    t = case['shear_t']\n    defect = s * t\n    if defect < 0:\n        defect = -defect\n    nonab_ok = ((defect != 0) == case['commutator_nonzero'])\n    ring_ok = ((case['ring_len'] >= 3) == case['cut_survives'])\n    scale = Fraction(cross, b * q) if (b * q) != 0 else Fraction(0, 1)\n    scale_ok = (scale == Fraction(cross, b * q)) if (b * q) != 0 else (scale == 0)\n    claim_holds = parity_ok and comp_ok and stroke_ok and lcm_ok and gear_ok and cayley_ok and hurwitz_ok and dirichlet_ok and cancel_ok and nonab_ok and ring_ok and scale_ok\n    return bool(claim_holds == case['expect_claim'])\n",
+        "conjecture_id": "CONJ-T1-R1-OP-6-PARITY-WIND",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 8,
+            "b": 5,
+            "bits": [
+              1,
+              0,
+              1,
+              1,
+              0,
+              0,
+              1,
+              0
+            ],
+            "cancel_bits": 3,
+            "commutator_nonzero": true,
+            "components": 1,
+            "coprime_stroke": true,
+            "cut_survives": true,
+            "dirichlet_holds": true,
+            "expect_claim": true,
+            "lift_den": 2,
+            "lift_num": 1,
+            "m": 3,
+            "mesh_cycle": 15,
+            "n": 5,
+            "p": 5,
+            "q": 3,
+            "quad_gap_holds": false,
+            "ring_len": 6,
+            "shear_s": 1,
+            "shear_t": 1
+          },
+          {
+            "a": 355,
+            "b": 113,
+            "bits": [
+              1,
+              1,
+              0,
+              1,
+              1,
+              0,
+              0,
+              1
+            ],
+            "cancel_bits": 9,
+            "commutator_nonzero": true,
+            "components": 2,
+            "coprime_stroke": false,
+            "cut_survives": true,
+            "dirichlet_holds": true,
+            "expect_claim": true,
+            "lift_den": 5,
+            "lift_num": 3,
+            "m": 4,
+            "mesh_cycle": 12,
+            "n": 6,
+            "p": 22,
+            "q": 7,
+            "quad_gap_holds": true,
+            "ring_len": 5,
+            "shear_s": 2,
+            "shear_t": -3
+          },
+          {
+            "a": 8,
+            "b": 5,
+            "bits": [
+              1,
+              0,
+              1,
+              1,
+              0,
+              0,
+              1,
+              0
+            ],
+            "cancel_bits": 3,
+            "commutator_nonzero": true,
+            "components": 4,
+            "coprime_stroke": true,
+            "cut_survives": true,
+            "dirichlet_holds": true,
+            "expect_claim": false,
+            "lift_den": 2,
+            "lift_num": 1,
+            "m": 3,
+            "mesh_cycle": 15,
+            "n": 5,
+            "p": 5,
+            "q": 3,
+            "quad_gap_holds": false,
+            "ring_len": 6,
+            "shear_s": 1,
+            "shear_t": 1
+          }
+        ]
+      },
+      "round_num": 1,
+      "seat_id": "OP-6",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R1-OP-6"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "R1-OP-2 gives a stereographic tail t, a subtractive-cancellation gain kappa_sub(t)=t/(1-t), and an order-3 commutator defect t^2/6, all as scalars. This turn lifts the scalar defect to the non-Abelian level. The Pullback glyph sends integer quaternion units to SO(3), and the Commutation-defect glyph gives d=3-tr(C)=(1/2)||C-I||_F^2. The rational-net bound is a Schur-style common-denominator bound: the denominator of C divides (N(p)N(q))^2, so the cancellation in 3-tr(C) is exactly controlled. Law 2b steelman: the strongest form of R1-OP-2 would say defect zero if and only if the axes are parallel. That fails exactly at p=i, q=j, where both images are half-turns about orthogonal axes and commute (C=I) although the cross product is nonzero. The test set therefore contains this case as an R5 refutation of the strict-iff variant, and keeps only the one-directional implication (parallel implies C=I) as the claim. Gate-5 congruence scope: the claim is congruence-invariant only under conjugation of the pair (A,B) by a common rational rotation, which preserves tr(C), d and the denominator bound; it is not invariant under independent rescaling of p and q beyond the norm normalization. Novelty: N0 for the rational SO(3) map, N1 for the exact denominator bound on C, N2 for the refuted converse used as a Gate-5 boundary marker.",
+        "mode": "compose",
+        "target_seat_or_turn": "R1-OP-2"
+      },
+      "corpus_anchor": {
+        "operator_id": "PULLBACK_INTEGER_QUATERNION_TO_SO3 x COMMUTATION_DEFECT x SCHUR_DENOMINATOR_BOUND (OP-REF / HoloSphere-V3 Cayley SU(2) sector)",
+        "source_receipt_id": "OP-REF",
+        "statement": "For nonzero integer quaternions p=(a,b,c,d) and q, let A=R(p) and B=R(q) be the exact rational SO(3) images, with entries integer/N(p) and integer/N(q) where N is the squared norm. Let C=A B A^T B^T. Then (i) C C^T=I and det C=1 exactly. (ii) (N(p)N(q))^2 * C is an integer matrix, so all finite-precision cancellation is confined to a known common denominator. (iii) The commutator defect d=3-tr(C) satisfies ||C-I||_F^2 = 2d exactly and 0<=d<=4. (iv) If the cross product of the vector parts of p and q is zero, then C=I. (v) The converse is false: C=I does not force parallel vector parts."
+      },
+      "epistemic_web_interpositions": [
+        {
+          "gate_status": "EXACT_OPERATOR_VERIFIED",
+          "id": "repo:Foundation-0/cave-expedition",
+          "interposition_note": "Gate-5 scope carrier: the formal-statement-fidelity operator requires the refuted converse (defect zero iff parallel axes) to be recorded as an explicit scope boundary, not silently dropped. The stereographic operator supplies the scalar tail that this turn lifts to the commutator.",
+          "kind": "repo",
+          "org": "Foundation-0",
+          "score_q": "213/1843",
+          "shared_operators": [
+            "aletheia_calculus",
+            "formal_statement_fidelity",
+            "lattice_sphere_packing",
+            "secded_a16_hamming",
+            "stereographic_weierstrass"
+          ]
+        },
+        {
+          "gate_status": "EXACT_OPERATOR_VERIFIED",
+          "id": "lean:holosphere/HoloSphereInvariants.lean",
+          "interposition_note": "The orthogonality and det=1 clauses are the SO(3) shadow of the Cayley SU(2) unitary invariant. The denominator-bound clause (an integer matrix after scaling by (N(p)N(q))^2) is a candidate lemma for the formal side, with the SECDED sector unchanged.",
+          "kind": "theorem_lean",
+          "org": "Moissanite-Labs",
+          "score_q": "75/667",
+          "shared_operators": [
+            "cayley_su2_unitary",
+            "secded_a16_hamming"
+          ]
+        },
+        {
+          "gate_status": "EXACT_OPERATOR_VERIFIED",
+          "id": "track:track-s102-drosophila-malecns-connectome",
+          "interposition_note": "Large finite-net data context: composed holonomy over many rational edges has denominator growth multiplicative in the norms, so the common-denominator bound is the budget for exact accumulation. No biological claim is made.",
+          "kind": "track",
+          "org": "expedition",
+          "score_q": "17/152",
+          "shared_operators": [
+            "aletheia_calculus",
+            "formal_statement_fidelity",
+            "stereographic_weierstrass"
+          ]
+        },
+        {
+          "gate_status": "EXACT_OPERATOR_VERIFIED",
+          "id": "repo:Foundation-0/ramanujan",
+          "interposition_note": "Highest operator overlap (six shared operators): integer-quaternion norm structure ties the lattice packing operator to the rational SO(3) pullback. The finite rational net here is the integer-quaternion set; the cross-org test is whether the same denominator bound holds for their lattice enumeration.",
+          "kind": "repo",
+          "org": "Foundation-0",
+          "score_q": "91/825",
+          "shared_operators": [
+            "aletheia_calculus",
+            "cayley_su2_unitary",
+            "formal_statement_fidelity",
+            "lattice_sphere_packing",
+            "secded_a16_hamming",
+            "stereographic_weierstrass"
+          ]
+        }
+      ],
+      "executable_conjecture": {
+        "claim_summary": "For integer quaternions p,q, the commutator C of their exact rational SO(3) images is orthogonal with det 1, has denominator dividing (N(p)N(q))^2, satisfies ||C-I||_F^2=2(3-tr C) with 0<=3-tr C<=4, and equals I when the vector parts are parallel. With strict_iff=1 the claim adds the converse (C=I iff parallel), which R5 refutes at p=i, q=j. A zero quaternion makes the claim false.",
+        "code": "from fractions import Fraction\ndef check_case(case):\n    p = case['p']\n    q = case['q']\n    strict = case['strict_iff']\n    expect = case['expect_claim']\n    def rot(u):\n        a, b, c, d = u\n        n = a*a + b*b + c*c + d*d\n        if n == 0:\n            return None, 0\n        m = [[a*a+b*b-c*c-d*d, 2*(b*c-a*d), 2*(b*d+a*c)], [2*(b*c+a*d), a*a-b*b+c*c-d*d, 2*(c*d-a*b)], [2*(b*d-a*c), 2*(c*d+a*b), a*a-b*b-c*c+d*d]]\n        return [[Fraction(x, n) for x in r] for r in m], n\n    def mul(X, Y):\n        return [[sum(X[i][k]*Y[k][j] for k in range(3)) for j in range(3)] for i in range(3)]\n    def tp(X):\n        return [[X[j][i] for j in range(3)] for i in range(3)]\n    def det(X):\n        return X[0][0]*(X[1][1]*X[2][2]-X[1][2]*X[2][1]) - X[0][1]*(X[1][0]*X[2][2]-X[1][2]*X[2][0]) + X[0][2]*(X[1][0]*X[2][1]-X[1][1]*X[2][0])\n    A, Np = rot(p)\n    B, Nq = rot(q)\n    if Np == 0 or Nq == 0:\n        return bool(False == expect)\n    I3 = [[Fraction(1 if i == j else 0) for j in range(3)] for i in range(3)]\n    C = mul(mul(mul(A, B), tp(A)), tp(B))\n    ok = True\n    if mul(C, tp(C)) != I3:\n        ok = False\n    if det(C) != 1:\n        ok = False\n    M = (Np*Nq)**2\n    for i in range(3):\n        for j in range(3):\n            if (C[i][j]*M).denominator != 1:\n                ok = False\n    trc = C[0][0] + C[1][1] + C[2][2]\n    dd = 3 - trc\n    frob = sum((C[i][j]-I3[i][j])**2 for i in range(3) for j in range(3))\n    if frob != 2*dd:\n        ok = False\n    if dd < 0 or dd > 4:\n        ok = False\n    b1, c1, d1 = p[1], p[2], p[3]\n    b2, c2, d2 = q[1], q[2], q[3]\n    cr = (c1*d2-d1*c2, d1*b2-b1*d2, b1*c2-c1*b2)\n    par = cr[0] == 0 and cr[1] == 0 and cr[2] == 0\n    if par and C != I3:\n        ok = False\n    if strict == 1:\n        if (dd == 0) != par:\n            ok = False\n    return bool(ok == expect)",
+        "conjecture_id": "CONJ-T1-R2-SEAT-0-RATHOLO",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "expect_claim": true,
+            "p": [
+              1,
+              1,
+              0,
+              0
+            ],
+            "q": [
+              1,
+              0,
+              1,
+              0
+            ],
+            "strict_iff": 0
+          },
+          {
+            "expect_claim": true,
+            "p": [
+              2,
+              1,
+              2,
+              3
+            ],
+            "q": [
+              1,
+              3,
+              0,
+              2
+            ],
+            "strict_iff": 0
+          },
+          {
+            "expect_claim": true,
+            "p": [
+              1,
+              1,
+              2,
+              3
+            ],
+            "q": [
+              2,
+              2,
+              4,
+              6
+            ],
+            "strict_iff": 1
+          },
+          {
+            "expect_claim": true,
+            "p": [
+              1,
+              1,
+              0,
+              0
+            ],
+            "q": [
+              1,
+              0,
+              1,
+              0
+            ],
+            "strict_iff": 1
+          },
+          {
+            "expect_claim": false,
+            "p": [
+              0,
+              1,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              1,
+              0
+            ],
+            "strict_iff": 1
+          },
+          {
+            "expect_claim": false,
+            "p": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "q": [
+              1,
+              1,
+              0,
+              0
+            ],
+            "strict_iff": 0
+          }
+        ]
+      },
+      "round_num": 2,
+      "seat_id": "SEAT-0",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R2-SEAT-0"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "R1-OP-3 proves the strict two-sided envelope |alpha - p_n/q_n| < 1/(q_n q_{n+1}) for the finite continued fraction [3;7,15,1,292], for 0<=n<=2, with equality at n=3 because alpha = p_4/q_4 exactly. This turn feeds consecutive convergent denominators (g1,g2)=(q_n,q_{n+1}) into the block-elimination operator as interior-edge conductances. The series pair then has conductance q_n q_{n+1}/(q_n+q_{n+1}), the reciprocal of 1/q_n+1/q_{n+1}. The envelope width 1/(q_n q_{n+1}) is therefore tied to the boundary-reduced conductance, and the trace drop is an integer-ratio witness of how much the record loses when the interior node is eliminated. Gate-5 congruence scope: T is unimodular-triangular over Q (det T = 1), so the block form is exact congruence, not a block reduction by approximation. Law 2b steelman: the envelope could be valid while the complement closed form fails if L_mm were zero, which is impossible because g1,g2>0 here. The n=3 case fails the strict envelope while the elimination algebra still holds, so the conjunction is refuted exactly at the equality index. N0: block elimination, the parallel-series formula and the convergent envelope are each known. N1: indexing the interior edges by consecutive convergent denominators is new. N2: the combined predicate pins the failure to the equality index n=3 and to a wrong claimed trace drop.",
+        "mode": "compose",
+        "target_seat_or_turn": "R1-OP-3"
+      },
+      "corpus_anchor": {
+        "operator_id": "BLOCK-ELIM-COMPLEMENT-L/B x EFFECTIVE-PARALLEL-CONDUCTANCE x READABLE-RECORD-TRACE-DROP",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For the 3-node zero-row-sum operator L with boundary nodes a,b and interior node m (edge weights g0 on a-b, g1 on a-m, g2 on b-m), the congruence T L T^T with T=[[1,0,-L_am/L_mm],[0,1,-L_bm/L_mm],[0,0,1]] is block diagonal. Its boundary block is c*[[1,-1],[-1,1]] with c = g0 + g1*g2/(g1+g2), the parallel combination of the direct edge with the series pair. The readable-record trace drop is tr(L_BB) - tr(complement) = (g1^2+g2^2)/(g1+g2), which strictly exceeds (g1+g2)/2 whenever g1 != g2."
+      },
+      "executable_conjecture": {
+        "claim_summary": "With g1=q_n, g2=q_{n+1} from [3;7,15,1,292] and any positive integer g0: congruence T L T^T is block diagonal, boundary block equals c*[[1,-1],[-1,1]] with c=g0+g1*g2/(g1+g2), trace drop equals (g1^2+g2^2)/(g1+g2) and the claimed drop, drop > (g1+g2)/2, and the strict envelope holds. True for n=0,1,2. R5 negatives: n=3 fails the strict envelope (equality, since alpha=p_4/q_4), and a wrong claimed drop numerator at n=1 refutes the claim.",
+        "code": "from fractions import Fraction\n\ndef check_case(case):\n    n = case['n']\n    g0 = case['g0']\n    num = case['drop_num']\n    den = case['drop_den']\n    a = [3, 7, 15, 1, 292]\n    ps = []\n    qs = []\n    pm, p = 1, a[0]\n    qm, q = 0, 1\n    ps.append(p)\n    qs.append(q)\n    for x in a[1:]:\n        pm, p = p, x * p + pm\n        qm, q = q, x * q + qm\n        ps.append(p)\n        qs.append(q)\n    if n < 0 or n + 1 >= len(qs) or g0 <= 0 or den <= 0:\n        return bool(False == case['expect_claim'])\n    alpha = Fraction(ps[-1], qs[-1])\n    g1 = qs[n]\n    g2 = qs[n + 1]\n    L = [[Fraction(g0 + g1), Fraction(-g0), Fraction(-g1)],\n         [Fraction(-g0), Fraction(g0 + g2), Fraction(-g2)],\n         [Fraction(-g1), Fraction(-g2), Fraction(g1 + g2)]]\n    lmm = Fraction(g1 + g2)\n    T = [[Fraction(1), Fraction(0), -L[0][2] / lmm],\n         [Fraction(0), Fraction(1), -L[1][2] / lmm],\n         [Fraction(0), Fraction(0), Fraction(1)]]\n    M = [[Fraction(0) for _ in range(3)] for _ in range(3)]\n    for i in range(3):\n        for j in range(3):\n            s = Fraction(0)\n            for k in range(3):\n                for l in range(3):\n                    s += T[i][k] * L[k][l] * T[j][l]\n            M[i][j] = s\n    block = (M[0][2] == 0 and M[1][2] == 0 and M[2][0] == 0\n             and M[2][1] == 0 and M[2][2] == lmm)\n    c = g0 + Fraction(g1 * g2, g1 + g2)\n    s_ok = (M[0][0] == c and M[1][1] == c and M[0][1] == -c and M[1][0] == -c)\n    drop = (L[0][0] + L[1][1]) - (M[0][0] + M[1][1])\n    drop_ok = (drop == Fraction(g1 * g1 + g2 * g2, g1 + g2)) and (drop == Fraction(num, den))\n    ineq = drop > Fraction(g1 + g2, 2)\n    env = abs(alpha - Fraction(ps[n], qs[n])) < Fraction(1, qs[n] * qs[n + 1])\n    claim = block and s_ok and drop_ok and ineq and env\n    return bool(claim == case['expect_claim'])\n",
+        "conjecture_id": "CONJ-T1-R2-OP-1-BLOCKELIM-CFENVELOPE",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "drop_den": 4,
+            "drop_num": 25,
+            "expect_claim": true,
+            "g0": 2,
+            "n": 0
+          },
+          {
+            "drop_den": 113,
+            "drop_num": 11285,
+            "expect_claim": true,
+            "g0": 5,
+            "n": 1
+          },
+          {
+            "drop_den": 219,
+            "drop_num": 24005,
+            "expect_claim": true,
+            "g0": 3,
+            "n": 2
+          },
+          {
+            "drop_den": 33215,
+            "drop_num": 1095755173,
+            "expect_claim": false,
+            "g0": 1,
+            "n": 3
+          },
+          {
+            "drop_den": 113,
+            "drop_num": 11286,
+            "expect_claim": false,
+            "g0": 5,
+            "n": 1
+          }
+        ]
+      },
+      "round_num": 2,
+      "seat_id": "OP-1",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R2-OP-1"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Composes this seat's Round-1 anchor (R1-OP-2, receipt corpus:exact-operator-receipt) with R1-OP-3's strict finite-continued-fraction envelope: the rational lift tail t = 2/(r2+1) is accelerated by kappa_sub to 2/(r2-1) (inverse epicyclic ratio), the order-3 coefficient 1/6 yields the exact commutator-defect term (1/6)t^2 = 2/(3(r2+1)^2), and the slope n/k is governed by the same strict envelope |alpha - p_m/q_m| < 1/(q_m q_{m+1}) that R1-OP-3 certified, here tied to the lift through gcd-reduced convergent invariance. Gate-5 congruence scope: all identities are exact over Fraction, no modulus. Novelty note N2: new cross-seat bridge OP-2 x OP-3 joining tail acceleration / kappa_sub / order-3 defect to finite-precision continued-fraction optimality; R5 negatives are the degenerate lattice points r2 = 1 or k = 0 where kappa_sub is undefined.",
+        "mode": "compose",
+        "target_seat_or_turn": "R1-OP-3"
+      },
+      "corpus_anchor": {
+        "operator_id": "STEREO-RAT-LIFT-TAIL-KAPPA_SUB-ORD3-C3-CF-STRICT-ENVELOPE-COMPOSE",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For an integer pair (n,k) with r2 = n^2+k^2, the rational unit-sphere lift (2n, 2k, r2-1)/(r2+1) satisfies the exact norm identity (2n)^2+(2k)^2+(r2-1)^2 = (r2+1)^2. Its tail t = 2/(r2+1) maps under the subtractive-cancellation operator kappa_sub(x) = x/(1-x) to exactly 2/(r2-1), which is the exact inverse of the epicyclic ratio (r2-1)/2. The order-3 log-composition defect with coefficient vector (0, 1/3, 1/6, 0) contributes exactly (1/6)*t^2 = 2/(3*(r2+1)^2). The slope alpha = n/k has a finite continued fraction whose convergents (p_m/q_m) satisfy the strict two-sided envelope |alpha - p_m/q_m| < 1/(q_m*q_{m+1}) for every index m up to len-3, with the final convergent equal to alpha exactly, and the convergent list is invariant under gcd reduction of (n,k)."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: unit-norm identity of the rational lift; kappa_sub(t) = 2/(r2-1) and kappa_sub(t) * (r2-1)/2 = 1 (epicyclic ratio inverse); order-3 defect (1/6)*t^2 = 2/(3*(r2+1)^2); gcd-reduced convergent-list invariance; strict envelope |alpha - p_m/q_m| < 1/(q_m q_{m+1}) for m in [0, len-3]; final convergent equals alpha exactly. R5 negative/refutation cases: r2 = 1 or k = 0 (kappa_sub undefined) with expect_claim = false.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef _cf_convergents(fr):\n    a = []\n    n = fr.numerator\n    d = fr.denominator\n    while d != 0:\n        q = n // d\n        a.append(q)\n        n, d = d, n - q * d\n    p2, p1 = 0, 1\n    q2, q1 = 1, 0\n    convs = []\n    for ai in a:\n        p = ai * p1 + p2\n        q = ai * q1 + q2\n        convs.append((p, q))\n        p2, p1 = p1, p\n        q2, q1 = q1, q\n    return a, convs\n\ndef check_case(case):\n    n = case['n']\n    k = case['k']\n    expect = case['expect_claim']\n    r2 = n * n + k * k\n    ok = (2 * n) ** 2 + (2 * k) ** 2 + (r2 - 1) ** 2 == (r2 + 1) ** 2\n    if r2 <= 1 or k == 0:\n        claim = False\n    else:\n        t = Fraction(2, r2 + 1)\n        kappa = t / (1 - t)\n        ok = ok and kappa == Fraction(2, r2 - 1)\n        ok = ok and kappa * Fraction(r2 - 1, 2) == 1\n        delta3 = Fraction(1, 6) * t * t\n        ok = ok and delta3 == Fraction(2, 3 * (r2 + 1) * (r2 + 1))\n        alpha = Fraction(n, k)\n        a, convs = _cf_convergents(alpha)\n        g = gcd(n, k)\n        if g > 1:\n            _, convs_red = _cf_convergents(Fraction(n // g, k // g))\n            ok = ok and convs_red == convs\n        for m in range(0, len(a) - 2):\n            pm, qm = convs[m]\n            _, qn = convs[m + 1]\n            err = alpha - Fraction(pm, qm)\n            if err < 0:\n                err = -err\n            ok = ok and err < Fraction(1, qm * qn)\n        pl, ql = convs[-1]\n        ok = ok and Fraction(pl, ql) == alpha\n        claim = ok\n    return bool(claim == expect)",
+        "conjecture_id": "CONJ-T1-R2-OP-2-STEREO-CF-KAPPA-C3",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "expect_claim": true,
+            "k": 5,
+            "n": 3
+          },
+          {
+            "expect_claim": true,
+            "k": 24,
+            "n": 7
+          },
+          {
+            "expect_claim": true,
+            "k": 5,
+            "n": 12
+          },
+          {
+            "expect_claim": true,
+            "k": 10,
+            "n": 6
+          },
+          {
+            "expect_claim": false,
+            "k": 1,
+            "n": 0
+          },
+          {
+            "expect_claim": false,
+            "k": 0,
+            "n": 1
+          }
+        ]
+      },
+      "round_num": 2,
+      "seat_id": "OP-2",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R2-OP-2"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Each convergent p/q is lifted to the rational unit circle by X=(p^2-q^2)/(p^2+q^2), Y=2pq/(p^2+q^2), so X^2+Y^2=1 exactly. The lift tail is t=1-X=2q^2/(p^2+q^2). The subtractive-cancellation gain is kappa_sub=t/(1-t)=2q^2/(p^2-q^2), which is an exact identity because 1-t=X. This composes the R1-OP-2 tail/kappa_sub invariant with the finite-CF envelope. Law 2b steelman: the envelope might be expected to hold for every n up to the last convergent. It does not, because the penultimate convergent saturates the bound with equality. Gate-5 scope: exact Fraction arithmetic only, restricted to n in 0..3 (n=4 has zero error and no q_5). Novelty: N1. The envelope, alternating-sign rule and circle-lift cancellation gain are existing individually. The conjunction, with the exact equality boundary at n=3, is the new content.",
+        "mode": "compose",
+        "target_seat_or_turn": "R1-OP-2"
+      },
+      "corpus_anchor": {
+        "operator_id": "OP-3:CF-PREFIX-ENVELOPE-x-RATIONAL-CIRCLE-LIFT-TAIL",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For the exact finite continued fraction alpha=[3;7,15,1,292]=103993/33102 with convergents p_n/q_n = 3/1, 22/7, 333/106, 355/113, 103993/33102, the signed error alpha-p_n/q_n has sign (-1)^n. The strict envelope |alpha-p_n/q_n| < 1/(q_n q_{n+1}) holds exactly for n=0,1,2. At n=3 equality holds, because p_4 q_3 - p_3 q_4 = 1 (11751210 - 11751209), so strictness fails exactly there."
+      },
+      "executable_conjecture": {
+        "claim_summary": "For n in 0..3 the claim is the conjunction of alternating error sign, strict envelope |alpha-p_n/q_n|<1/(q_n q_{n+1}), the exact circle-lift identity X^2+Y^2=1, and kappa_sub=2q^2/(p^2-q^2). It holds for n=0,1,2. R5 negatives: n=3 fails (equality, not strict), and n=4 and n=-1 are out of range, so the claim is false.",
+        "code": "from fractions import Fraction\n\ndef check_case(case):\n    n = case['n']\n    a = [3, 7, 15, 1, 292]\n    pm, qm, pc, qc = 1, 0, a[0], 1\n    p = [pc]\n    q = [qc]\n    for x in a[1:]:\n        pm, qm, pc, qc = pc, qc, x * pc + pm, x * qc + qm\n        p.append(pc)\n        q.append(qc)\n    if n < 0 or n > 3:\n        claim = False\n    else:\n        alpha = Fraction(p[4], q[4])\n        c = Fraction(p[n], q[n])\n        e = alpha - c\n        if n % 2 == 0:\n            sign_ok = e > 0\n        else:\n            sign_ok = e < 0\n        env = abs(e) < Fraction(1, q[n] * q[n + 1])\n        d = p[n] * p[n] + q[n] * q[n]\n        X = Fraction(p[n] * p[n] - q[n] * q[n], d)\n        Y = Fraction(2 * p[n] * q[n], d)\n        circ = (X * X + Y * Y) == 1\n        t = 1 - X\n        kap = (t / (1 - t)) == Fraction(2 * q[n] * q[n], p[n] * p[n] - q[n] * q[n])\n        claim = bool(sign_ok and env and circ and kap)\n    return bool(claim == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R2-OP-3-CFENV-LIFT",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "expect_claim": true,
+            "n": 0
+          },
+          {
+            "expect_claim": true,
+            "n": 1
+          },
+          {
+            "expect_claim": true,
+            "n": 2
+          },
+          {
+            "expect_claim": false,
+            "n": 3
+          },
+          {
+            "expect_claim": false,
+            "n": 4
+          },
+          {
+            "expect_claim": false,
+            "n": -1
+          }
+        ]
+      },
+      "round_num": 2,
+      "seat_id": "OP-3",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R2-OP-3"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Bridge: convergent denominators generate a unimodular Z-lattice (|p_n q_{n+1} - p_{n+1} q_n| = 1), which is exactly the lattice on which Bareiss elimination is integrality-preserving; the evaluation map Z -> prod_i Z/m_i is injective on the complete residue window [0,L) precisely when the pairwise gcd divisibility predicate holds, so determinants transport across clocks without information loss. Law-2b steelman of R1-OP-3: its strict envelope for the finite prefix [3;7,15,1,292] is exact and is fully retained here as sub-claim (iii); this turn does not weaken it but pins the admissibility lattice on which the envelope may be harvested, because a denominator q is only usable in a composite multi-clock setting when q divides the lock period L (equivalently when the phase class is reconstructible from the three clock readings). Gate-5 congruence scope: the composite lock is congruent only under simultaneous gcd-compatible reduction, so the envelope must be read modulo the lcm lattice, not modulo each clock independently; a coprime clock family (pairwise gcd 1, L = product) is the degenerate case where no obstruction can appear. N0/N1/N2: N0 would merely restate R1-OP-3 or R1-OP-4 separately; N1 is claimed here (envelope certificate conjoined with lcm-lattice admissibility and fraction-free determinant transport is new relative to both parents); N2 (a genuinely new topology of the phase bundle) is not claimed, only the finite abelian lock quotient.",
+        "mode": "compose",
+        "target_seat_or_turn": "R1-OP-3"
+      },
+      "corpus_anchor": {
+        "operator_id": "NONCOPRIME-LCM-RECOMBINE (x) BAREISS-FRACTION-FREE-Z-DET (x) STRICT-CONVERGENT-ENVELOPE-CERT",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "Let alpha = P/Q be an exact rational presented by a finite partial-quotient prefix with convergents (p_n/q_n), and let m_1..m_k be positive composite clocks with residues r_1..r_k and L = lcm(m_i). The seat operator asserts three exact integer facts jointly: (i) the residue system is jointly solvable iff every pairwise gcd divides the corresponding residue difference, and the constructive non-coprime merge then returns a unique class x in [0,L) reproducing every residue, so the phase bundle Z/L (for L = 1460 = 2^2*5*73, 1460 distinct phase labels) compresses to one canonical class; (ii) fraction-free Z elimination on the three convergent rows returns the exact integer determinant of that integer matrix, every intermediate division being exact, hence det mod L equals the non-coprime CRT recombination of the per-clock values det mod m_i; (iii) the strict two-sided envelope |alpha - p_n/q_n| < 1/(q_n q_{n+1}) is certified exactly as the rational inequality |alpha - p_n/q_n|*q_n*q_{n+1} < 1 for 0 <= n <= len(prefix)-3, and it degrades to equality at the terminal convergent, so a prefix of length below 3 carries no strict certificate."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Claim holds for a case iff all four exact sub-claims hold: (iii) the strict envelope |alpha - p_n/q_n|*q_n*q_{n+1} < 1 verified by Fraction at every n in [0, len(prefix)-3] with at least one certificate index; the unimodularity of consecutive convergents |p_n q_{n+1} - p_{n+1} q_n| = 1 for all n; fraction-free Bareiss elimination on the three-row convergent matrix returning exactly the cofactor-expansion determinant with every intermediate division exact; and (i)/(ii) the non-coprime CRT merge agreeing with the pairwise gcd predicate, returning a class in [0, lcm) that reproduces every residue, with det mod L equal to the CRT recombination of det mod m_i. R5 refutations tested: clocks [4,6,10] with residues [0,1,2] (gcd 2 does not divide the difference 1, so the 3-clock lock is obstructed and the claim is denied) and a prefix of length 2 with a solvable coprime clock family [2,3,5] (no index satisfies 0 <= n <= len-3, so the envelope carries no strict certificate and the claim is denied).",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\n\ndef _ext_gcd(a, b):\n    old_r, r = a, b\n    old_s, s = 1, 0\n    old_t, t = 0, 1\n    while r != 0:\n        q = old_r // r\n        old_r, r = r, old_r - q * r\n        old_s, s = s, old_s - q * s\n        old_t, t = t, old_t - q * t\n    return old_r, old_s, old_t\n\n\ndef _inv_mod(a, m):\n    if m == 1:\n        return 0\n    g, s, _ = _ext_gcd(a % m, m)\n    if g != 1:\n        return None\n    return s % m\n\n\ndef _convergents(cf):\n    pm2, pm1 = 0, 1\n    qm2, qm1 = 1, 0\n    out = []\n    for a in cf:\n        p = a * pm1 + pm2\n        q = a * qm1 + qm2\n        out.append((p, q))\n        pm2, pm1 = pm1, p\n        qm2, qm1 = qm1, q\n    return out\n\n\ndef _bareiss3(mat):\n    a = [[mat[i][j] for j in range(3)] for i in range(3)]\n    prev = 1\n    for k in range(2):\n        if a[k][k] == 0:\n            return None\n        for i in range(k + 1, 3):\n            for j in range(k + 1, 3):\n                num = a[i][j] * a[k][k] - a[i][k] * a[k][j]\n                if num % prev != 0:\n                    return None\n                a[i][j] = num // prev\n        prev = a[k][k]\n    return a[2][2]\n\n\ndef _pairwise_ok(ms, rs):\n    for i in range(len(ms)):\n        for j in range(i + 1, len(ms)):\n            if (rs[j] - rs[i]) % gcd(ms[i], ms[j]) != 0:\n                return False\n    return True\n\n\ndef _crt(ms, rs):\n    x = 0\n    L = 1\n    for i in range(len(ms)):\n        m = ms[i]\n        r = rs[i]\n        g = gcd(L, m)\n        d = r - x\n        if d % g != 0:\n            return None\n        m2 = m // g\n        if m2 > 1:\n            inv = _inv_mod(L // g, m2)\n            if inv is None:\n                return None\n            t = ((d // g) * inv) % m2\n        else:\n            t = 0\n        x = x + L * t\n        L = L * m2\n        x = x % L\n    return (x, L)\n\n\ndef check_case(case):\n    cf = case['cf']\n    clocks = case['clocks']\n    residues = case['residues']\n    conv = _convergents(cf)\n    if len(conv) < 3 or len(clocks) < 3 or len(residues) != len(clocks):\n        return bool(False == case['expect_claim'])\n    P = conv[-1][0]\n    Q = conv[-1][1]\n    alpha = Fraction(P, Q)\n    env_ok = True\n    for n in range(0, len(conv) - 2):\n        pn, qn = conv[n]\n        qn1 = conv[n + 1][1]\n        gap = abs(alpha - Fraction(pn, qn))\n        if not (gap * qn * qn1 < 1):\n            env_ok = False\n    det_ok = True\n    for n in range(0, len(conv) - 1):\n        if abs(conv[n][0] * conv[n + 1][1] - conv[n + 1][0] * conv[n][1]) != 1:\n            det_ok = False\n    p_a, q_a = conv[-3]\n    p_b, q_b = conv[-2]\n    p_c, q_c = conv[-1]\n    mat = [[p_a, p_b, p_c], [q_a, q_b, q_c], [1, 1, 1]]\n    det3 = (mat[0][0] * (mat[1][1] * mat[2][2] - mat[1][2] * mat[2][1])\n            - mat[0][1] * (mat[1][0] * mat[2][2] - mat[1][2] * mat[2][0])\n            + mat[0][2] * (mat[1][0] * mat[2][1] - mat[1][1] * mat[2][0]))\n    if _bareiss3(mat) != det3:\n        det_ok = False\n    L = 1\n    for m in clocks:\n        L = L * (m // gcd(L, m))\n    pair_ok = _pairwise_ok(clocks, residues)\n    merged = _crt(clocks, residues)\n    crt_ok = pair_ok and (merged is not None)\n    if (merged is not None) != pair_ok:\n        crt_ok = False\n    if merged is None:\n        crt_ok = False\n    else:\n        x, LL = merged\n        if LL != L or not (0 <= x < L):\n            crt_ok = False\n        for i in range(len(clocks)):\n            if x % clocks[i] != residues[i] % clocks[i]:\n                crt_ok = False\n    det_crt_ok = True\n    dmods = [det3 % m for m in clocks]\n    merged_det = _crt(clocks, dmods)\n    if merged_det is None:\n        det_crt_ok = False\n    else:\n        if merged_det[1] != L:\n            det_crt_ok = False\n        if merged_det[0] != det3 % L:\n            det_crt_ok = False\n    claim = env_ok and det_ok and crt_ok and det_crt_ok\n    return bool(claim == case['expect_claim'])\n",
+        "conjecture_id": "CONJ-T1-R2-OP-4-LCMLOCK-ENVELOPE-DETTRANSPORT",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "cf": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "clocks": [
+              4,
+              6,
+              10
+            ],
+            "expect_claim": true,
+            "residues": [
+              1,
+              3,
+              5
+            ]
+          },
+          {
+            "cf": [
+              2,
+              1,
+              3,
+              1
+            ],
+            "clocks": [
+              6,
+              10,
+              15
+            ],
+            "expect_claim": true,
+            "residues": [
+              0,
+              4,
+              9
+            ]
+          },
+          {
+            "cf": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "clocks": [
+              4,
+              6,
+              10
+            ],
+            "expect_claim": false,
+            "residues": [
+              0,
+              1,
+              2
+            ]
+          },
+          {
+            "cf": [
+              2,
+              1
+            ],
+            "clocks": [
+              2,
+              3,
+              5
+            ],
+            "expect_claim": false,
+            "residues": [
+              1,
+              2,
+              3
+            ]
+          }
+        ]
+      },
+      "round_num": 2,
+      "seat_id": "OP-4",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R2-OP-4"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Bridge: R1-OP-2 supplies t=2/(r2+1) and the order-3 commutator defect (1/6)t^2; this seat consumes the same t via kappa_sub=t/(1-t)=2/(r2-1), multiplying the cross-run pair fraction inter/binom(N,2) to form zeta_eq=2*inter/(binom(N,2)*(r2+1)), so the stereographic tail gates the passive hysteresis window [3/20,3/10]. Law 2b steelman: both confrontations are read in their strongest exact-rational form simultaneously, with all quantities in Z or Fraction and no truncation, so the composition is not a weakening of either seats claim. Gate-5 congruence scope: every clause is an integer equality (cover/run equality, tree-sum equality, intra+inter=binom(N,2)) or an exact Fraction interval test, hence closed under the same congruence class as both prior witnesses and monotone under refinement of the run partition. N0/N1/N2 novelty: N0 restates the interval-cover/tree-sum/bilinear identity; N1 is the new cross-seat composition linking the tail parameter t and kappa_sub to zeta_eq; N2 supplies R5 negatives where the zeta window fails at r2=8 (zeta_eq=4/27<3/20) and where a cover omits a rising-edge block, both refuting the conjunction rather than any single seat invariant.",
+        "mode": "compose",
+        "target_seat_or_turn": "R1-OP-2"
+      },
+      "corpus_anchor": {
+        "operator_id": "C1P-14INTCOV-TSUM-ZEQ-BILIN",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "OWN_TERMS_FIRST: For a binary word w, let the rising-edge blocks be its maximal intervals of consecutive ones. A claimed cover is exact iff, sorted, it equals those blocks and its position-union equals the one-set; its count equals the number of blocks. The balanced-tree sum of w equals the total one count N. With block lengths L_i, the intra-block pair count sum_i binom(L_i,2) plus the cross-block pair count sum_{i<j} L_i L_j equals binom(N,2). Writing r2=n^2+k^2, the stereographic tail is t=2/(r2+1) and the subtractive-cancellation gain is kappa_sub=t/(1-t)=2/(r2-1) for r2>1; the bilinear dissipation ratio zeta_eq=(cross-block pairs / binom(N,2))*t lies in the exact window [3/20,3/10]."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: cover equals sorted rising-edge runs and its union equals the one-set; balanced-tree sum equals total ones; intra+inter=binom(ones,2) with reported intra, inter, run count; and zeta_eq=2*inter/(binom(ones,2)*(r2+1)) lies in [3/20,3/10] for r2=n^2+k^2>1. R5 negatives: zeta-window violation at r2=8 (4/27 below 3/20) and a cover missing a block.",
+        "code": "from fractions import Fraction\nfrom math import gcd, isqrt\nimport itertools\n\ndef check_case(case):\n    bits = case['bits']\n    cover = case['cover']\n    n = case['n']\n    k = case['k']\n\n    runs = []\n    i = 0\n    L = len(bits)\n    while i < L:\n        if bits[i] == 1:\n            j = i\n            while j + 1 < L and bits[j + 1] == 1:\n                j += 1\n            runs.append([i, j])\n            i = j + 1\n        else:\n            i += 1\n\n    cover_sorted = sorted([list(iv) for iv in cover])\n    cover_ok = (cover_sorted == runs)\n\n    ones_positions = {idx for idx, b in enumerate(bits) if b == 1}\n    covered_positions = set()\n    for lo, hi in cover_sorted:\n        for p in range(lo, hi + 1):\n            covered_positions.add(p)\n    union_ok = (covered_positions == ones_positions)\n\n    def tree_sum(seq):\n        if len(seq) == 0:\n            return 0\n        if len(seq) == 1:\n            return seq[0]\n        mid = len(seq) // 2\n        return tree_sum(seq[:mid]) + tree_sum(seq[mid:])\n\n    ones = tree_sum(bits)\n    checksum_ok = (ones == case['checksum'])\n\n    run_lengths = [hi - lo + 1 for lo, hi in runs]\n    total_pairs = ones * (ones - 1) // 2\n    intra = sum(rl * (rl - 1) // 2 for rl in run_lengths)\n    inter = 0\n    for a, b in itertools.combinations(run_lengths, 2):\n        inter += a * b\n    bilinear_ok = (intra + inter == total_pairs) and (case['intra'] == intra) and (case['inter'] == inter) and (case['runs'] == len(runs))\n\n    r2 = n * n + k * k\n    tail_ok = (r2 > 1)\n    if total_pairs > 0:\n        zeta_eq = Fraction(2 * inter, total_pairs * (r2 + 1))\n    else:\n        zeta_eq = Fraction(0, 1)\n    zeta_ok = tail_ok and (Fraction(3, 20) <= zeta_eq <= Fraction(3, 10))\n\n    claim_holds = cover_ok and union_ok and checksum_ok and bilinear_ok and zeta_ok\n    return bool(claim_holds == case['expect_claim'])\n",
+        "conjecture_id": "CONJ-T1-R2-OP-5-COVZETA",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "bits": [
+              1,
+              1,
+              0,
+              1,
+              1,
+              0,
+              1,
+              1
+            ],
+            "checksum": 6,
+            "cover": [
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                6,
+                7
+              ]
+            ],
+            "expect_claim": true,
+            "inter": 12,
+            "intra": 3,
+            "k": 2,
+            "n": 1,
+            "runs": 3
+          },
+          {
+            "bits": [
+              1,
+              1,
+              1,
+              0,
+              1,
+              1
+            ],
+            "checksum": 5,
+            "cover": [
+              [
+                0,
+                2
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            "expect_claim": true,
+            "inter": 6,
+            "intra": 4,
+            "k": 2,
+            "n": 0,
+            "runs": 2
+          },
+          {
+            "bits": [
+              1,
+              1,
+              0,
+              1,
+              1
+            ],
+            "checksum": 4,
+            "cover": [
+              [
+                0,
+                1
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            "expect_claim": false,
+            "inter": 4,
+            "intra": 2,
+            "k": 2,
+            "n": 2,
+            "runs": 2
+          },
+          {
+            "bits": [
+              1,
+              0,
+              1
+            ],
+            "checksum": 2,
+            "cover": [
+              [
+                0,
+                0
+              ]
+            ],
+            "expect_claim": false,
+            "inter": 1,
+            "intra": 0,
+            "k": 1,
+            "n": 2,
+            "runs": 2
+          }
+        ]
+      },
+      "round_num": 2,
+      "seat_id": "OP-5",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R2-OP-5"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Law 2b steelman: the R1-OP-2 tail t=2/(r2+1) and kappa_sub=t/(1-t) are re-derived as exact Fraction identities and conjoined with the OP-6 GF(2) fold, gcd winding, and 2-edge ring cut, plus the parallel-vector commutator locus and a strict convergent envelope. Gate-5 congruence scope: all comparisons are integer or Fraction equalities on the same finite net, with no truncation. N0 reuses the witnessed fold, gcd, and tail; N1 adds the ring-cut survival bit and the cross-product commutator switch; N2 packages them as one dict predicate with explicit R5 failures (bad XOR, bad gcd, r2<=1, ring length <3, false parallel bit, non-strict envelope).",
+        "mode": "compose",
+        "target_seat_or_turn": "R1-OP-2"
+      },
+      "corpus_anchor": {
+        "operator_id": "GF2_FOLD_GCD_WIND_RING2_x_STEREO_KAPPA_x_COMM_PARALLEL",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "Over GF(2), the recursive pair-fold XOR of a finite bit word equals the total XOR. On the torus lattice the reflection-loop component count of steps (m,n) equals gcd(m,n), the single-stroke predicate is gcd=1, and the mesh identity gcd*lcm=|m n| holds whenever gcd>0. A cycle ring is 2-edge-connected exactly when its length is at least 3, so one edge deletion leaves a surviving path. For an integer lattice point with r2=a*a+b*b>1 the stereographic Cayley tail t=2/(r2+1) has subtractive gain t/(1-t)=2/(r2-1) and order-3 tail (1/6)*t*t=4/(6*(r2+1)*(r2+1)). Integer vector parts are parallel exactly when their cross product vanishes, which is the rational commutator-identity locus. A positive convergent triple obeys the strict envelope abs(A*q-p*B)*q_next<B."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Claim holds iff GF(2) fold equals claimed XOR, torus gcd matches, mesh is reduced, ring survival equals (length>=3), stereo kappa and order-3 tail match closed forms for r2>1, parallel bit matches a zero cross product, and the convergent envelope is strict. R5 rows flip one predicate so the claim is false and expect_claim is false.",
+        "code": "def check_case(case):\n    from fractions import Fraction\n    from math import gcd\n    acc = 0\n    for b in case['bits']:\n        acc ^= (b & 1)\n    fold_ok = acc == case['xor_claim']\n    m = case['m']\n    n = case['n']\n    g = gcd(abs(m), abs(n))\n    wind_ok = g == case['gcd_claim']\n    if g == 0:\n        mesh_ok = False\n    else:\n        mesh_ok = gcd(abs(m) // g, abs(n) // g) == 1 and g * ((abs(m) // g) * abs(n)) == abs(m) * abs(n)\n    ring_ok = (case['ring'] >= 3) == case['ring_survives']\n    a = case['a']\n    b = case['b']\n    r2 = a * a + b * b\n    if r2 <= 1:\n        stereo_ok = False\n    else:\n        t = Fraction(2, r2 + 1)\n        kappa = t / (1 - t)\n        kappa_closed = Fraction(2, r2 - 1)\n        defect = (t * t) / 6\n        defect_closed = Fraction(4, 6 * (r2 + 1) * (r2 + 1))\n        stereo_ok = kappa == kappa_closed and defect == defect_closed\n    cx = case['py'] * case['qz'] - case['pz'] * case['qy']\n    cy = case['pz'] * case['qx'] - case['px'] * case['qz']\n    cz = case['px'] * case['qy'] - case['py'] * case['qx']\n    parallel = cx == 0 and cy == 0 and cz == 0\n    comm_ok = parallel == case['parallel_claim']\n    gap = abs(case['an'] * case['q'] - case['p'] * case['ad']) * case['qn']\n    env_ok = case['ad'] > 0 and case['q'] > 0 and case['qn'] > 0 and gap < case['ad']\n    claim_holds = fold_ok and wind_ok and mesh_ok and ring_ok and stereo_ok and comm_ok and env_ok\n    return bool(claim_holds == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R2-OP-6-PARITYWINDTAIL",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 3,
+            "ad": 5,
+            "an": 7,
+            "b": 4,
+            "bits": [
+              1,
+              0,
+              1,
+              1
+            ],
+            "expect_claim": true,
+            "gcd_claim": 3,
+            "m": 3,
+            "n": 6,
+            "p": 1,
+            "parallel_claim": true,
+            "px": 1,
+            "py": 2,
+            "pz": 3,
+            "q": 1,
+            "qn": 2,
+            "qx": 2,
+            "qy": 4,
+            "qz": 6,
+            "ring": 4,
+            "ring_survives": true,
+            "xor_claim": 1
+          },
+          {
+            "a": 1,
+            "ad": 7,
+            "an": 22,
+            "b": 2,
+            "bits": [
+              1,
+              1,
+              0,
+              0,
+              1,
+              0,
+              1,
+              0
+            ],
+            "expect_claim": true,
+            "gcd_claim": 1,
+            "m": 2,
+            "n": 3,
+            "p": 3,
+            "parallel_claim": false,
+            "px": 1,
+            "py": 0,
+            "pz": 0,
+            "q": 1,
+            "qn": 6,
+            "qx": 0,
+            "qy": 1,
+            "qz": 0,
+            "ring": 5,
+            "ring_survives": true,
+            "xor_claim": 0
+          },
+          {
+            "a": 8,
+            "ad": 3,
+            "an": 8,
+            "b": 15,
+            "bits": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "expect_claim": true,
+            "gcd_claim": 5,
+            "m": 5,
+            "n": 5,
+            "p": 2,
+            "parallel_claim": true,
+            "px": 0,
+            "py": 0,
+            "pz": 0,
+            "q": 1,
+            "qn": 2,
+            "qx": 4,
+            "qy": 5,
+            "qz": 6,
+            "ring": 3,
+            "ring_survives": true,
+            "xor_claim": 0
+          },
+          {
+            "a": 3,
+            "ad": 5,
+            "an": 7,
+            "b": 4,
+            "bits": [
+              1,
+              0,
+              1
+            ],
+            "expect_claim": false,
+            "gcd_claim": 3,
+            "m": 3,
+            "n": 6,
+            "p": 1,
+            "parallel_claim": true,
+            "px": 1,
+            "py": 2,
+            "pz": 3,
+            "q": 1,
+            "qn": 2,
+            "qx": 2,
+            "qy": 4,
+            "qz": 6,
+            "ring": 4,
+            "ring_survives": true,
+            "xor_claim": 0
+          },
+          {
+            "a": 3,
+            "ad": 5,
+            "an": 7,
+            "b": 4,
+            "bits": [
+              1,
+              0,
+              1,
+              1
+            ],
+            "expect_claim": false,
+            "gcd_claim": 1,
+            "m": 3,
+            "n": 6,
+            "p": 1,
+            "parallel_claim": true,
+            "px": 1,
+            "py": 2,
+            "pz": 3,
+            "q": 1,
+            "qn": 2,
+            "qx": 2,
+            "qy": 4,
+            "qz": 6,
+            "ring": 4,
+            "ring_survives": true,
+            "xor_claim": 1
+          },
+          {
+            "a": 3,
+            "ad": 5,
+            "an": 7,
+            "b": 4,
+            "bits": [
+              1,
+              0,
+              1,
+              1
+            ],
+            "expect_claim": false,
+            "gcd_claim": 2,
+            "m": 4,
+            "n": 6,
+            "p": 1,
+            "parallel_claim": true,
+            "px": 1,
+            "py": 2,
+            "pz": 3,
+            "q": 1,
+            "qn": 2,
+            "qx": 2,
+            "qy": 4,
+            "qz": 6,
+            "ring": 2,
+            "ring_survives": true,
+            "xor_claim": 1
+          },
+          {
+            "a": 0,
+            "ad": 5,
+            "an": 7,
+            "b": 1,
+            "bits": [
+              1,
+              0,
+              0,
+              1
+            ],
+            "expect_claim": false,
+            "gcd_claim": 2,
+            "m": 2,
+            "n": 2,
+            "p": 1,
+            "parallel_claim": true,
+            "px": 1,
+            "py": 1,
+            "pz": 1,
+            "q": 1,
+            "qn": 2,
+            "qx": 1,
+            "qy": 1,
+            "qz": 1,
+            "ring": 6,
+            "ring_survives": true,
+            "xor_claim": 0
+          },
+          {
+            "a": 3,
+            "ad": 5,
+            "an": 7,
+            "b": 4,
+            "bits": [
+              1,
+              0,
+              1,
+              1
+            ],
+            "expect_claim": false,
+            "gcd_claim": 3,
+            "m": 3,
+            "n": 6,
+            "p": 1,
+            "parallel_claim": true,
+            "px": 1,
+            "py": 0,
+            "pz": 0,
+            "q": 1,
+            "qn": 2,
+            "qx": 0,
+            "qy": 1,
+            "qz": 0,
+            "ring": 4,
+            "ring_survives": true,
+            "xor_claim": 1
+          },
+          {
+            "a": 3,
+            "ad": 7,
+            "an": 22,
+            "b": 4,
+            "bits": [
+              1,
+              0,
+              1,
+              1
+            ],
+            "expect_claim": false,
+            "gcd_claim": 3,
+            "m": 3,
+            "n": 6,
+            "p": 3,
+            "parallel_claim": true,
+            "px": 1,
+            "py": 2,
+            "pz": 3,
+            "q": 1,
+            "qn": 7,
+            "qx": 2,
+            "qy": 4,
+            "qz": 6,
+            "ring": 4,
+            "ring_survives": true,
+            "xor_claim": 1
+          }
+        ]
+      },
+      "round_num": 2,
+      "seat_id": "OP-6",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R2-OP-6"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Target R2-OP-6 (PARITYWINDTAIL) was refuted at index 2 with a zero vector part for the first quaternion, a nonzero vector part (4,5,6) for the second, and p=2,q=1. The predicate returned false, but the data does not say which sub-claim failed. My diagnosis, not verified against R2-OP-6's code, is that the claim read derived quantities (kappa as the fraction an/ad, the parallel bit, the ring flag) from claimed fields instead of recomputing them from primitive integers. The repair has three parts. (1) Every derived quantity is recomputed from integers: kappa from (p,q), parity from the bit list, gcd from (m,n), and the commutator from the quaternion integers. (2) The parallel claim is one-directional only (parallel implies C=I); a refuting witness for the false converse is carried as a negative test. (3) Stereo claims are guarded to p>q>0, since r2>1 is needed for kappa to be defined. Law 2b steelman: the strongest reading of R2-OP-6 is a conjunction of independent exact sub-claims, and a zero vector part is a legitimate parallel case because the rotation is the identity, so the repair keeps that case as a positive test. Gate-5 congruence scope: the invariants are exact over Q and cover only the SU(2)->SO(3) pullback, the GF(2) fold and the rational lift. The finite-precision cancellation bound enters only as the exact ratio t/(1-t), and no floating-point behaviour is claimed. Novelty: N0 for each ingredient, N1 for composing the commutator denominator bound with the lift tail and parity fold in one predicate, N2 for the explicit commuting-but-nonparallel obstruction to the converse.",
+        "mode": "repair",
+        "target_seat_or_turn": "R2-OP-6"
+      },
+      "corpus_anchor": {
+        "operator_id": "PULLBACK_INT_QUATERNION_SO3 x COMMUTATION_DEFECT x PARITY_FOLD x RATIONAL_LIFT_TAIL (HoloSphere-V3 unitary sector, OP-REF + OP-REF + OP-REF)",
+        "source_receipt_id": "OP-REF",
+        "statement": "For nonzero integer quaternions a,b with norms Na,Nb, the exact rational SO(3) images A,B give the commutator C = A B A^T B^T. C is orthogonal with det 1, and (Na*Nb)^2 * C is an integer matrix. If the vector parts are parallel (zero cross product, including a zero vector part), then C = I. The converse is false: two half-turns about perpendicular axes commute, so C = I with a nonzero cross product. For integers p>q>0 the rational circle lift X=(p^2-q^2)/(p^2+q^2), Y=2pq/(p^2+q^2) satisfies X^2+Y^2=1, and its tail t=1-X has subtractive gain t/(1-t)=2q^2/(p^2-q^2) and order-3 defect t^2/6 = 2q^4/(3(p^2+q^2)^2). The GF(2) fold of a bit list equals the total XOR, and the torus component count equals gcd(m,n)."
+      },
+      "epistemic_web_interpositions": [
+        {
+          "gate_status": "EXACT_OPERATOR_VERIFIED",
+          "id": "repo:Foundation-0/cave-expedition",
+          "interposition_note": "The shared rational-lift and parity operators are exactly what this turn's predicate recomputes from integers. Gate-5 scope carries over: the exact Q identities (unit-norm lift, t/(1-t) gain, 1-bit-parity fold) hold here, and no float claim is made. The repair rule of re-deriving every derived field from primitives is the formal-statement-fidelity discipline.",
+          "kind": "repo",
+          "org": "Foundation-0",
+          "score_q": "427/3783",
+          "shared_operators": [
+            "aletheia_calculus",
+            "formal_statement_fidelity",
+            "lattice_sphere_packing",
+            "secded_a16_hamming",
+            "stereographic_weierstrass"
+          ]
+        },
+        {
+          "gate_status": "EXACT_OPERATOR_VERIFIED",
+          "id": "repo:Foundation-0/ramanujan",
+          "interposition_note": "This hit overlaps on the largest operator set, including the unitary pullback and the rational lift, so it is the closest cross-check for the commutator denominator bound (Na*Nb)^2 and the lift-tail identities used here. The perpendicular half-turn obstruction to the converse is a candidate counterexample to feed back into any parallel-iff-trivial claim in that repo.",
+          "kind": "repo",
+          "org": "Foundation-0",
+          "score_q": "181/1617",
+          "shared_operators": [
+            "aletheia_calculus",
+            "cayley_su2_unitary",
+            "formal_statement_fidelity",
+            "lattice_sphere_packing",
+            "secded_a16_hamming",
+            "stereographic_weierstrass"
+          ]
+        },
+        {
+          "gate_status": "EXACT_OPERATOR_VERIFIED",
+          "id": "lean:holosphere/HoloSphereInvariants.lean",
+          "interposition_note": "The Lean invariants cover the unitary and SECDED sector. This turn's orthogonality, det=1 and integer-denominator checks are decidable rational statements that could be restated there. The one-directional parallel-implies-identity lemma is formalizable; the converse should be recorded as false, with the perpendicular half-turn pair as witness.",
+          "kind": "theorem_lean",
+          "org": "Moissanite-Labs",
+          "score_q": "77/713",
+          "shared_operators": [
+            "cayley_su2_unitary",
+            "secded_a16_hamming"
+          ]
+        },
+        {
+          "gate_status": "EXACT_OPERATOR_VERIFIED",
+          "id": "track:track-s102-drosophila-malecns-connectome",
+          "interposition_note": "The shared rational-lift operator applies to its exact-rational pipeline: the p>q>0 guard and the exact t/(1-t) cancellation gain transfer directly. Scope is limited to the exact rational lift and does not extend to the track's empirical data claims.",
+          "kind": "track",
+          "org": "expedition",
+          "score_q": "157/1464",
+          "shared_operators": [
+            "aletheia_calculus",
+            "formal_statement_fidelity",
+            "stereographic_weierstrass"
+          ]
+        }
+      ],
+      "executable_conjecture": {
+        "claim_summary": "Recomputed conjunction of five claims: GF(2) fold equals claimed XOR; gcd matches; rational lift is unit-norm with kappa=2q^2/(p^2-q^2) and order-3 defect 2q^4/(3(p^2+q^2)^2) for p>q>0; the commutator of rational SO(3) images is orthogonal, has det 1 and denominator dividing (Na*Nb)^2, and equals I when the vector parts are parallel; optionally (iff_mode=1) C=I iff parallel. R5 negatives: wrong XOR claim, and the commuting perpendicular half-turn pair that refutes the converse.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    def rot(w, x, y, z):\n        N = w*w + x*x + y*y + z*z\n        return [[Fraction(w*w+x*x-y*y-z*z, N), Fraction(2*(x*y-w*z), N), Fraction(2*(x*z+w*y), N)],\n                [Fraction(2*(x*y+w*z), N), Fraction(w*w-x*x+y*y-z*z, N), Fraction(2*(y*z-w*x), N)],\n                [Fraction(2*(x*z-w*y), N), Fraction(2*(y*z+w*x), N), Fraction(w*w-x*x-y*y+z*z, N)]]\n    def mul(A, B):\n        return [[sum(A[i][k]*B[k][j] for k in range(3)) for j in range(3)] for i in range(3)]\n    def tp(A):\n        return [[A[j][i] for j in range(3)] for i in range(3)]\n    def det(A):\n        return (A[0][0]*(A[1][1]*A[2][2]-A[1][2]*A[2][1])\n                - A[0][1]*(A[1][0]*A[2][2]-A[1][2]*A[2][0])\n                + A[0][2]*(A[1][0]*A[2][1]-A[1][1]*A[2][0]))\n    ident = [[Fraction(int(i == j)) for j in range(3)] for i in range(3)]\n    ok = True\n    acc = 0\n    for b in case['bits']:\n        acc = acc ^ b\n    if acc != case['xor_claim']:\n        ok = False\n    if gcd(case['m'], case['n']) != case['gcd_claim']:\n        ok = False\n    p = case['p']\n    q = case['q']\n    if p > q and q > 0:\n        X = Fraction(p*p-q*q, p*p+q*q)\n        Y = Fraction(2*p*q, p*p+q*q)\n        t = 1 - X\n        if X*X + Y*Y != 1:\n            ok = False\n        if t / (1 - t) != Fraction(2*q*q, p*p-q*q):\n            ok = False\n        if Fraction(1, 6) * t * t != Fraction(2*q**4, 3*(p*p+q*q)**2):\n            ok = False\n    qa = case['qa']\n    qb = case['qb']\n    Na = sum(c*c for c in qa)\n    Nb = sum(c*c for c in qb)\n    A = rot(qa[0], qa[1], qa[2], qa[3])\n    B = rot(qb[0], qb[1], qb[2], qb[3])\n    C = mul(mul(A, B), mul(tp(A), tp(B)))\n    if mul(C, tp(C)) != ident:\n        ok = False\n    if det(C) != 1:\n        ok = False\n    K = (Na*Nb)**2\n    for row in C:\n        for c in row:\n            if (c*K).denominator != 1:\n                ok = False\n    u = qa[1:]\n    v = qb[1:]\n    cr = (u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0])\n    parallel = (cr[0] == 0 and cr[1] == 0 and cr[2] == 0)\n    if parallel and C != ident:\n        ok = False\n    if case['iff_mode'] == 1:\n        if (C == ident) != parallel:\n            ok = False\n    return bool(ok == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R3-SEAT-0-REPAIRHOLO",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "bits": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "expect_claim": true,
+            "gcd_claim": 5,
+            "iff_mode": 0,
+            "m": 5,
+            "n": 5,
+            "p": 2,
+            "q": 1,
+            "qa": [
+              2,
+              0,
+              0,
+              0
+            ],
+            "qb": [
+              1,
+              4,
+              5,
+              6
+            ],
+            "xor_claim": 0
+          },
+          {
+            "bits": [
+              1,
+              0,
+              1
+            ],
+            "expect_claim": true,
+            "gcd_claim": 2,
+            "iff_mode": 1,
+            "m": 4,
+            "n": 6,
+            "p": 3,
+            "q": 2,
+            "qa": [
+              1,
+              1,
+              2,
+              3
+            ],
+            "qb": [
+              2,
+              2,
+              4,
+              6
+            ],
+            "xor_claim": 0
+          },
+          {
+            "bits": [
+              1,
+              1,
+              1
+            ],
+            "expect_claim": true,
+            "gcd_claim": 1,
+            "iff_mode": 1,
+            "m": 7,
+            "n": 3,
+            "p": 5,
+            "q": 2,
+            "qa": [
+              1,
+              1,
+              0,
+              0
+            ],
+            "qb": [
+              1,
+              0,
+              1,
+              0
+            ],
+            "xor_claim": 1
+          },
+          {
+            "bits": [
+              1,
+              0,
+              1,
+              1
+            ],
+            "expect_claim": true,
+            "gcd_claim": 4,
+            "iff_mode": 0,
+            "m": 8,
+            "n": 12,
+            "p": 1,
+            "q": 1,
+            "qa": [
+              3,
+              1,
+              0,
+              0
+            ],
+            "qb": [
+              2,
+              0,
+              2,
+              1
+            ],
+            "xor_claim": 1
+          },
+          {
+            "bits": [
+              1,
+              0,
+              1,
+              1
+            ],
+            "expect_claim": false,
+            "gcd_claim": 4,
+            "iff_mode": 0,
+            "m": 8,
+            "n": 12,
+            "p": 3,
+            "q": 1,
+            "qa": [
+              1,
+              1,
+              0,
+              0
+            ],
+            "qb": [
+              1,
+              0,
+              1,
+              0
+            ],
+            "xor_claim": 0
+          },
+          {
+            "bits": [
+              1,
+              1
+            ],
+            "expect_claim": false,
+            "gcd_claim": 3,
+            "iff_mode": 1,
+            "m": 3,
+            "n": 9,
+            "p": 2,
+            "q": 1,
+            "qa": [
+              0,
+              1,
+              0,
+              0
+            ],
+            "qb": [
+              0,
+              0,
+              1,
+              0
+            ],
+            "xor_claim": 0
+          }
+        ]
+      },
+      "round_num": 3,
+      "seat_id": "SEAT-0",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R3-SEAT-0"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "The refuted R2-OP-6 case has p=(0,0,0), q=(4,5,6) and claims parallel=true. The parallel bit is repaired as an exact fraction-free predicate: parallel iff the cross product vanishes iff det of the inner-product matrix is 0. This holds at p=0, where the complement divides by p.p=0 and is undefined. Each side is cross-checked against the other. This is the Law 2b steelman: the complement form (division by p.p) is the natural reading, but only the determinant form survives the degenerate vector. Gate-5 scope: congruence T L T^T preserves the quadratic form and block-diagonalizes it, while the complement is the block reduction on the boundary. The two agree on S, but only the congruence also certifies the decoupled interior entry s. Novelty: N0 for the 3-node elimination (inherited from R2-OP-1), N1 for transplanting the elimination to the cross-product parallel predicate, N2 for the repair of the zero-vector counterexample together with the exact readable-record trace-drop value 81/1250 as a rational tied to scaled conductances.",
+        "mode": "repair",
+        "target_seat_or_turn": "R2-OP-6"
+      },
+      "corpus_anchor": {
+        "operator_id": "BLOCK-ELIM-COMPLEMENT-L/B x EFFECTIVE-PARALLEL-CONDUCTANCE x READABLE-RECORD-TRACE-DROP x INNER-PRODUCT-MATRIX-COMPLEMENT",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For the zero-row-sum 3-node operator L on (a,b,m) with edge weights g0 (a-b), g1 (a-m), g2 (m-b), all g1,g2>0, g0>=0, put s=g1+g2 and let T be the unit upper-triangular elimination congruence with column m equal to (g1/s, g2/s, 1). Then T L T^T = diag(S, s) is block diagonal, where the boundary complement S equals c*[[1,-1],[-1,1]] with c=g0+g1*g2/s. The trace drop tr(L_bb)-tr(S) equals (g1^2+g2^2)/s, which equals 81/1250 at g1=g2=81/1250. The same elimination applied to the 2x2 inner-product matrix of vectors p,q gives the complement |p x q|^2/(p.p) whenever p is nonzero. Its fraction-free form det = (p.p)(q.q)-(p.q)^2 = |p x q|^2 stays defined at p=0."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: T L T^T is block diagonal with boundary block c*[[1,-1],[-1,1]] and interior entry g1+g2. L has zero row sums. The trace drop equals (g1^2+g2^2)/(g1+g2) and matches the claimed rational. The determinant of the inner-product matrix equals the squared cross-product norm, and the parallel claim must equal (cross product == 0), including the zero-vector case. R5 negatives: a false parallel claim on non-parallel vectors, and a wrong trace-drop claim.",
+        "code": "from fractions import Fraction\n\ndef check_case(case):\n    den = case['den']\n    if den <= 0 or case['g0'] < 0 or case['g1'] <= 0 or case['g2'] <= 0 or case['dd'] <= 0:\n        return bool(case['expect_claim'] == False)\n    g0 = Fraction(case['g0'], den)\n    g1 = Fraction(case['g1'], den)\n    g2 = Fraction(case['g2'], den)\n    s = g1 + g2\n    L = [[g0 + g1, -g0, -g1], [-g0, g0 + g2, -g2], [-g1, -g2, s]]\n    T = [[Fraction(1), Fraction(0), g1 / s], [Fraction(0), Fraction(1), g2 / s], [Fraction(0), Fraction(0), Fraction(1)]]\n    Tt = [[T[j][i] for j in range(3)] for i in range(3)]\n    TL = [[sum(T[i][k] * L[k][j] for k in range(3)) for j in range(3)] for i in range(3)]\n    M = [[sum(TL[i][k] * Tt[k][j] for k in range(3)) for j in range(3)] for i in range(3)]\n    c = g0 + g1 * g2 / s\n    block_ok = (M[0][2] == 0 and M[1][2] == 0 and M[2][0] == 0 and M[2][1] == 0\n                and M[2][2] == s and M[0][0] == c and M[1][1] == c\n                and M[0][1] == -c and M[1][0] == -c)\n    rows_ok = all(sum(L[i]) == 0 for i in range(3))\n    drop = (L[0][0] + L[1][1]) - (M[0][0] + M[1][1])\n    drop_ok = (drop == (g1 * g1 + g2 * g2) / s) and (drop == Fraction(case['dn'], case['dd']))\n    px = case['px']\n    py = case['py']\n    pz = case['pz']\n    qx = case['qx']\n    qy = case['qy']\n    qz = case['qz']\n    cx = py * qz - pz * qy\n    cy = pz * qx - px * qz\n    cz = px * qy - py * qx\n    pp = px * px + py * py + pz * pz\n    qq = qx * qx + qy * qy + qz * qz\n    pq = px * qx + py * qy + pz * qz\n    det = pp * qq - pq * pq\n    ident_ok = (det == cx * cx + cy * cy + cz * cz)\n    par = (cx == 0 and cy == 0 and cz == 0)\n    det_ok = ((det == 0) == par)\n    claim_holds = bool(block_ok and rows_ok and drop_ok and ident_ok and det_ok and (bool(case['parallel_claim']) == par))\n    return bool(claim_holds == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R3-OP-1-BLOCKELIM-PARALLEL-REPAIR",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "dd": 1250,
+            "den": 1250,
+            "dn": 81,
+            "expect_claim": true,
+            "g0": 3,
+            "g1": 81,
+            "g2": 81,
+            "parallel_claim": true,
+            "px": 0,
+            "py": 0,
+            "pz": 0,
+            "qx": 4,
+            "qy": 5,
+            "qz": 6
+          },
+          {
+            "dd": 5,
+            "den": 1,
+            "dn": 13,
+            "expect_claim": true,
+            "g0": 0,
+            "g1": 2,
+            "g2": 3,
+            "parallel_claim": true,
+            "px": 1,
+            "py": 2,
+            "pz": 3,
+            "qx": 2,
+            "qy": 4,
+            "qz": 6
+          },
+          {
+            "dd": 16,
+            "den": 2,
+            "dn": 25,
+            "expect_claim": true,
+            "g0": 5,
+            "g1": 7,
+            "g2": 1,
+            "parallel_claim": false,
+            "px": 1,
+            "py": 0,
+            "pz": 0,
+            "qx": 0,
+            "qy": 1,
+            "qz": 0
+          },
+          {
+            "dd": 7,
+            "den": 1,
+            "dn": 25,
+            "expect_claim": false,
+            "g0": 2,
+            "g1": 3,
+            "g2": 4,
+            "parallel_claim": true,
+            "px": 1,
+            "py": 0,
+            "pz": 0,
+            "qx": 0,
+            "qy": 1,
+            "qz": 0
+          },
+          {
+            "dd": 2,
+            "den": 1,
+            "dn": 1,
+            "expect_claim": false,
+            "g0": 2,
+            "g1": 3,
+            "g2": 4,
+            "parallel_claim": true,
+            "px": 1,
+            "py": 2,
+            "pz": 3,
+            "qx": 2,
+            "qy": 4,
+            "qz": 6
+          }
+        ]
+      },
+      "round_num": 3,
+      "seat_id": "OP-1",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R3-OP-1"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "R2-OP-6 returned MINIMAL_COUNTEREXAMPLE at idx 2 with p=(0,0,0), q=(4,5,6), a=8, b=15, bits=[1,1,1,1], ring=3, m=n=5. The cross product there is zero, so the parallel claim is true and cannot be the cause. The XOR fold (0), the gcd (5) and the ring flag (length>=3) also look consistent. My hypothesis, which I have not run, is that the failing predicate was one of the stereo closed forms, or a conjunction that mixed unrelated sub-claims. Repair: keep only the stereo and commutator sub-claims, each an exact Fraction identity. kappa_sub is stated as 2/(r2-1), guarded by r2>1 because t/(1-t) is undefined at r2=1. The parallel bit is checked against cross==0 and not asserted separately. Law 2b steelman: the zero vector is parallel to everything, so the p=0 case is legitimately a pass, not an error. Gate-5 scope: exact rational arithmetic only, no finite-precision claim. Novelty: N1, a repair that composes the stereographic tail with the opposing-pair bracket cancellation. Depth-3 chain: lift tail t -> kappa_sub gain and C3 defect -> bracket antisymmetry and parallel-iff-zero-commutator.",
+        "mode": "repair",
+        "target_seat_or_turn": "R2-OP-6"
+      },
+      "corpus_anchor": {
+        "operator_id": "STEREO-RAT-LIFT x KAPPA_SUB x ORD3-C3 x OPPOSING-PAIR-CROSS-CANCEL",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For an integer lattice point (a,b) with r2=a^2+b^2 and d=r2+1, the rational lift (2a,2b,r2-1)/d lies exactly on S^2. Its tail is t=2/d. For r2>1, kappa_sub(t)=t/(1-t)=2/(r2-1), and kappa_sub(t)*(r2-1)/2=1 (epicyclic ratio inverse). The order-3 BCH coefficient C3[2]=1/6 gives the defect t^2/6=2/(3 d^2). For integer vectors p,q in the so(3) bracket (cross product), the opposing pair p x q + q x p vanishes identically, so the order-2 term cancels exactly. The commutator defect p x q is zero iff p and q are parallel, and the parallel flag is derived from the cross product rather than claimed independently."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariants: unit norm of the rational lift; kappa_sub=2/(r2-1) with its inverse relation; C3 defect t^2/6=2/(3d^2); opposing-pair bracket cancellation; parallel flag equals (cross==0). The negative R5 case claims two orthogonal vectors are parallel, so the claim is false and expect_claim is false.",
+        "code": "from fractions import Fraction\n\ndef check_case(case):\n    a = case['a']\n    b = case['b']\n    r2 = a * a + b * b\n    d = r2 + 1\n    X = Fraction(2 * a, d)\n    Y = Fraction(2 * b, d)\n    Z = Fraction(r2 - 1, d)\n    ok = (X * X + Y * Y + Z * Z == 1)\n    t = Fraction(2, d)\n    ok = ok and (Fraction(1, 6) * t * t == Fraction(2, 3 * d * d))\n    if r2 > 1:\n        k = t / (1 - t)\n        ok = ok and (k == Fraction(2, r2 - 1))\n        ok = ok and (k * Fraction(r2 - 1, 2) == 1)\n    px = case['px']\n    py = case['py']\n    pz = case['pz']\n    qx = case['qx']\n    qy = case['qy']\n    qz = case['qz']\n    c1 = (py * qz - pz * qy, pz * qx - px * qz, px * qy - py * qx)\n    c2 = (qy * pz - qz * py, qz * px - qx * pz, qx * py - qy * px)\n    ok = ok and (c1[0] + c2[0] == 0 and c1[1] + c2[1] == 0 and c1[2] + c2[2] == 0)\n    par = (c1[0] == 0 and c1[1] == 0 and c1[2] == 0)\n    ok = ok and (par == case['parallel_claim'])\n    claim_holds = bool(ok)\n    return bool(claim_holds == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R3-OP-2-STEREO-KAPPA-CROSS-REPAIR",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 8,
+            "b": 15,
+            "expect_claim": true,
+            "parallel_claim": true,
+            "px": 0,
+            "py": 0,
+            "pz": 0,
+            "qx": 4,
+            "qy": 5,
+            "qz": 6
+          },
+          {
+            "a": 3,
+            "b": 4,
+            "expect_claim": true,
+            "parallel_claim": true,
+            "px": 1,
+            "py": 2,
+            "pz": 3,
+            "qx": 2,
+            "qy": 4,
+            "qz": 6
+          },
+          {
+            "a": 1,
+            "b": 1,
+            "expect_claim": true,
+            "parallel_claim": false,
+            "px": 1,
+            "py": 0,
+            "pz": 0,
+            "qx": 0,
+            "qy": 1,
+            "qz": 0
+          },
+          {
+            "a": 1,
+            "b": 0,
+            "expect_claim": true,
+            "parallel_claim": true,
+            "px": 2,
+            "py": 2,
+            "pz": 2,
+            "qx": 2,
+            "qy": 2,
+            "qz": 2
+          },
+          {
+            "a": 5,
+            "b": 12,
+            "expect_claim": false,
+            "parallel_claim": true,
+            "px": 1,
+            "py": 0,
+            "pz": 0,
+            "qx": 0,
+            "qy": 1,
+            "qz": 0
+          }
+        ]
+      },
+      "round_num": 3,
+      "seat_id": "OP-2",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R3-OP-2"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Depth-3 synthesis: R1-OP-3 strict continued-fraction envelope (OP-REF) x R2-OP-1 block-elimination congruence T L T^T block diagonal with boundary block c*[[1,-1],[-1,1]], c = g0 + g1*g2/(g1+g2), where g1, g2 are exact convergent denominators and the effective parallel conductance h = g1*g2/(g1+g2) satisfies 0 < h < min(g1, g2). The repair is the strict range check n <= m-2: at n = m-1 the envelope certificate q_{n+1} does not exist and the claim must return False, which is the R5 negative witness. Gate-5 scope: all quantities are reduced Fractions, zero floats, zero IO, integers only in test cases; N0/N1 novelty: transporting a Diophantine envelope constant as a network conductance across the elimination congruence is not present in either parent anchor alone.",
+        "mode": "compose",
+        "target_seat_or_turn": "R2-OP-1"
+      },
+      "corpus_anchor": {
+        "operator_id": "STRICT-CF-ENVELOPE-x-BOUNDARY-BLOCK-CONDUCTANCE",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For a finite simple continued fraction alpha = [a0; a1, ..., a_{m-1}] with exact rational convergents p_k/q_k, the strict two-sided Diophantine envelope |alpha - p_n/q_n| * q_n * q_{n+1} < 1 holds exactly for every 0 <= n <= m-2, consecutive convergent errors alternate in sign, and consecutive convergent denominators (q_n, q_{n+1}) are coprime. Fusing this with the Round-2 block-elimination operator: the eliminated interior node yields the boundary Schur complement c = g0 + g1*g2/(g1+g2) with g1 = q_n, g2 = q_{n+1} reduced exact Fractions, so the epicyclic gear ratio of the envelope constant 1/(q_n q_{n+1}) is transported as an exact rational conductance with zero floating-point defect."
+      },
+      "executable_conjecture": {
+        "claim_summary": "For every finite continued-fraction prefix case, the strict envelope |alpha - p_n/q_n| * q_n * q_{n+1} < 1 holds at every valid index n <= m-2, convergent errors alternate in sign up to n, consecutive denominators are coprime, and the boundary Schur complement satisfies c = g0 + h with h = q_n*q_{n+1}/(q_n+q_{n+1}) strictly between 0 and min(q_n, q_{n+1}); the claim is False exactly when n = m-1 (no q_{n+1} exists). R5 refutation witness tested: n out of envelope range returns False.",
+        "code": "def check_case(case):\n    from fractions import Fraction\n    from math import gcd\n    prefix = case['cf_prefix']\n    n = case['n']\n    g0 = case['g0']\n    expect = case['expect_claim']\n    m = len(prefix)\n    if not (0 <= n <= m - 2):\n        return bool(False == expect)\n    pkm2, pkm1 = 0, 1\n    qkm2, qkm1 = 1, 0\n    convs = []\n    for a in prefix:\n        pk = a * pkm1 + pkm2\n        qk = a * qkm1 + qkm2\n        convs.append((pk, qk))\n        pkm2, pkm1 = pkm1, pk\n        qkm2, qkm1 = qkm1, qk\n    num, den = prefix[-1], 1\n    for a in prefix[-2::-1]:\n        num, den = a * num + den, num\n    alpha = Fraction(num, den)\n    pn, qn = convs[n]\n    qn1 = convs[n + 1][1]\n    env_ok = abs(alpha - Fraction(pn, qn)) * qn * qn1 < 1\n    alt_ok = True\n    prev = None\n    for k in range(n + 1):\n        pkk, qkk = convs[k]\n        ek = alpha - Fraction(pkk, qkk)\n        s = 1 if ek > 0 else (-1 if ek < 0 else 0)\n        if prev is not None and s * prev >= 0:\n            alt_ok = False\n        if s != 0:\n            prev = s\n    coprime_ok = gcd(qn, qn1) == 1\n    g1, g2 = qn, qn1\n    h = Fraction(g1 * g2, g1 + g2)\n    c = g0 + h\n    trace_drop = Fraction(g1 * g1 + g2 * g2, g1 + g2)\n    cond_ok = (c > g0) and (c - g0 == h) and (h > 0) and (h < g1) and (h < g2) and (trace_drop == Fraction(g1 * g1 + g2 * g2, g1 + g2))\n    claim = bool(env_ok and alt_ok and coprime_ok and cond_ok)\n    return bool(claim == expect)",
+        "conjecture_id": "CONJ-T1-R3-OP-3-CFENV-CONDUCTANCE",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "cf_prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "expect_claim": true,
+            "g0": 5,
+            "n": 2
+          },
+          {
+            "cf_prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "expect_claim": true,
+            "g0": 1,
+            "n": 0
+          },
+          {
+            "cf_prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "expect_claim": false,
+            "g0": 5,
+            "n": 4
+          },
+          {
+            "cf_prefix": [
+              1,
+              1,
+              2,
+              1,
+              1,
+              4
+            ],
+            "expect_claim": true,
+            "g0": 3,
+            "n": 1
+          }
+        ]
+      },
+      "round_num": 3,
+      "seat_id": "OP-3",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R3-OP-3"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Depth-3 repair of the R2-OP-6 minimal counterexample (failing index 2, lattice point r2 = 25+25 = 50, zero vector part against a non-zero one, stated kappa from the p^2-q^2 parametric form). Diagnosed defect: that turn bound the subtractive gain to one parametrization instead of the universal tail identity, so a legitimate r2 broke the conjunction. The repair replaces the parametric kappa with the invariant kappa = t/(1-t) = 2/(r2-1) valid for every r2 > 1, re-expresses the 'parallel' bit as an exact cross-product-zero integer test, and re-expresses the lift as the square-root-free integer norm identity (2n)^2 + (2k)^2 + (r2-1)^2 = (r2+1)^2, so no irrational comparison can fire. Steelman of the target (Law 2b): R2-OP-6 is read in its strongest form -- one conjunction covering GF(2) folding, torus gcd, reduced mesh, ring survival, stereo gain, order-3 tail and parallel bit -- and the repair keeps every surviving conjunct while rebuilding indices 2 and its kappa/parallel legs on invariants that hold for all admissible r2. Gate-5 congruence scope: the repaired predicate is asserted only inside the residue-compatibility quotient where the clocks are pairwise gcd-compatible and the merge lattice is non-empty; on incompatible clock data the predicate is refuted by construction (empty scope), which is exactly the obstruction case carried in the test set. Determinant leg: the lcm lock acts on the matrix as a scalar transport, so det(L*M) = L^n*det(M) and row additions are det-preserving, giving a fraction-free certificate that survives the same lock scale used for phase compression. Novelty: N0 = restatement of the non-coprime lcm recombine and the fraction-free Z elimination from this seat's own receipt; N1 = new bridge joining the lcm lock to the continuum face via the exact argmin Hurwitz certificate over the convergent list rather than a fixed index; N2 = genuinely new objects, the determinant-transport law under lcm scaling by L^n and the epicyclic-to-stereographic teeth interlock (r2-1, r2+1) with kappa*zs = t*zr = 2 and the exact order-3 defect identity.",
+        "mode": "repair",
+        "target_seat_or_turn": "R2-OP-6"
+      },
+      "corpus_anchor": {
+        "operator_id": "NONCOPRIME-LCM-RECOMBINE (x) BAREISS-FRACTION-FREE-Z-DET (x) TRI-CLOCK-1460-MESH-COMPRESSION (x) STEREO-TAIL-KAPPA-EPICYCLIC-INTERLOCK (x) CONVERGENT-ENVELOPE-ARGMIN-CERT",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For integer clock data (m_i, r_i): the pairwise-gcd divisibility predicate equals constructive non-coprime merge solvability; when solvable the merged class x lies in [0,L) with L = lcm(m_i), reproduces every residue, and is unique mod L; transporting an integer matrix M by the lock scale L gives det(L*M) = L^n * det(M) exactly, with row-addition invariance det preserved, and the fraction-free Z elimination determinant equal to the permutation-expansion integer. For the rational-approximation face: convergents of a finite strict prefix satisfy |alpha - p_n/q_n|*q_n*q_{n+1} < 1 with alternating error sign on the certified index range, the Hurwitz certificate index is exactly the argmin of q_n^4*(alpha - p_n/q_n)^2 and that minimal value scaled by 5 is below 1. For the stereographic face: with r2 = n^2 + k^2 > 1, the lift tail t = 2/(r2+1) obeys t*(r2+1) = 2, the subtractive-cancellation gain kappa = t/(1-t) equals 2/(r2-1) exactly, epicyclic teeth (zs,zr) = (r2-1, r2+1) give kappa*zs = 2 and t*zr = 2, the order-3 defect (1/6)t^2 equals 2/(3(r2+1)^2), the rational circle lift (m^2-1)/(m^2+1), 2m/(m^2+1) with m = r2 is exactly on the unit circle, and the integer lift (2n, 2k, r2-1) has squared norm (r2+1)^2 with no square root taken."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Claim holds for a case iff all exact sub-claims hold: (i) pairwise-gcd divisibility predicate equals constructive non-coprime merge solvability and the merged class in [0, lcm) equals the claimed lcm and phase and reproduces every residue; (ii) the mesh equals lcm times the integer compression scale and the raw phase reduces to the merged class; (iii) the fraction-free Z determinant equals the permutation determinant and the claimed determinant, det(scale*M) equals scale^n * det(M), and an integer row addition preserves the determinant; (iv) every certified convergent index satisfies the strict envelope and the alternating error sign, and the Hurwitz certificate index is exactly the argmin of q^4*err^2 with 5*argmin below 1; (v) for r2 > 1 the tail t = 2/(r2+1), gain kappa = 2/(r2-1), teeth (r2-1, r2+1), t*zr = 2, kappa*zs = 2, order-3 defect 2/(3(r2+1)^2), unit rational circle lift, and the square-root-free integer lift norm identity all hold. R5 negative/refutation cases tested: incompatible clock residues (empty merge scope), a claimed determinant off by one against the exact Bareiss value, a claimed gain mismatched to 2/(r2-1), and a wrong Hurwitz certificate index; each is declared false by expect_claim and the predicate returns the matching boolean.",
+        "code": "def check_case(case):\n    from fractions import Fraction\n    from math import gcd, isqrt\n    import itertools\n\n    def inv_mod(a, m):\n        old_r, r = a % m, m\n        old_s, s = 1, 0\n        while r:\n            q = old_r // r\n            old_r, r = r, old_r - q * r\n            old_s, s = s, old_s - q * s\n        if old_r != 1:\n            return None\n        return old_s % m\n\n    def merge(m1, r1, m2, r2):\n        g = gcd(m1, m2)\n        if (r2 - r1) % g != 0:\n            return None\n        b = m2 // g\n        d = (r2 - r1) // g\n        if b == 1:\n            t = 0\n        else:\n            iv = inv_mod((m1 // g) % b, b)\n            if iv is None:\n                return None\n            t = (d % b) * iv % b\n        L = m1 * b\n        return (L, (r1 + m1 * t) % L)\n\n    def det_bareiss(M):\n        A = [row[:] for row in M]\n        sz = len(A)\n        sign = 1\n        prev = 1\n        for k in range(sz - 1):\n            if A[k][k] == 0:\n                sw = -1\n                for i in range(k + 1, sz):\n                    if A[i][k] != 0:\n                        sw = i\n                        break\n                if sw < 0:\n                    return 0\n                A[k], A[sw] = A[sw], A[k]\n                sign = -sign\n            if prev == 0:\n                return 0\n            for i in range(k + 1, sz):\n                for j in range(k + 1, sz):\n                    A[i][j] = (A[i][j] * A[k][k] - A[i][k] * A[k][j]) // prev\n                A[i][k] = 0\n            prev = A[k][k]\n        return sign * A[sz - 1][sz - 1]\n\n    def det_perm(M):\n        sz = len(M)\n        total = 0\n        for perm in itertools.permutations(range(sz)):\n            inv = 0\n            for i in range(sz):\n                for j in range(i + 1, sz):\n                    if perm[i] > perm[j]:\n                        inv += 1\n            term = 1\n            for i in range(sz):\n                term *= M[i][perm[i]]\n            if inv % 2 == 0:\n                total += term\n            else:\n                total -= term\n        return total\n\n    claim = True\n    mods = [int(v) for v in case['mods']]\n    res = [int(v) for v in case['resids']]\n    nclk = len(mods)\n    pair_ok = True\n    for i in range(nclk):\n        for j in range(i + 1, nclk):\n            if (res[i] - res[j]) % gcd(mods[i], mods[j]) != 0:\n                pair_ok = False\n    st = (1, 0)\n    merged_ok = True\n    for idx in range(nclk):\n        out = merge(st[0], st[1], mods[idx], res[idx])\n        if out is None:\n            merged_ok = False\n            break\n        st = out\n    if pair_ok != merged_ok:\n        claim = False\n    if not merged_ok:\n        return bool(False == case['expect_claim'])\n    L, x = st\n    if L != int(case['claimed_lcm']):\n        claim = False\n    if x != int(case['claimed_phase']):\n        claim = False\n    if not (0 <= x < L):\n        claim = False\n    for idx in range(nclk):\n        if x % mods[idx] != res[idx] % mods[idx]:\n            claim = False\n    if int(case['mesh']) != L * int(case['scale']):\n        claim = False\n    if int(case['phase']) % L != x:\n        claim = False\n    M = [[int(v) for v in row] for row in case['matrix']]\n    sz = len(M)\n    if sz == 0 or any(len(row) != sz for row in M):\n        return bool(False == case['expect_claim'])\n    db = det_bareiss(M)\n    dp = det_perm(M)\n    if db != dp:\n        claim = False\n    if dp != int(case['claimed_det']):\n        claim = False\n    scaled = [[L * v for v in row] for row in M]\n    if det_perm(scaled) != (L ** sz) * dp:\n        claim = False\n    ra = [row[:] for row in M]\n    ri = int(case['row_add_i'])\n    rj = int(case['row_add_j'])\n    mult = int(case['row_add_mult'])\n    if 0 <= ri < sz and 0 <= rj < sz and ri != rj:\n        for c in range(sz):\n            ra[ri][c] += mult * ra[rj][c]\n        if det_perm(ra) != dp:\n            claim = False\n    else:\n        claim = False\n    prefix = [int(v) for v in case['prefix']]\n    conv = []\n    p_prev, p_cur = 0, 1\n    q_prev, q_cur = 1, 0\n    for a in prefix:\n        p_prev, p_cur = p_cur, a * p_cur + p_prev\n        q_prev, q_cur = q_cur, a * q_cur + q_prev\n        conv.append((p_cur, q_cur))\n    if len(conv) < 4:\n        claim = False\n    else:\n        alpha = Fraction(conv[-1][0], conv[-1][1])\n        hi = len(conv) - 3\n        certs = 0\n        for idx in range(hi + 1):\n            p, q = conv[idx]\n            qn = conv[idx + 1][1]\n            err = alpha - Fraction(p, q)\n            if not (abs(err) * q * qn < 1):\n                claim = False\n            if idx % 2 == 0 and not (err > 0):\n                claim = False\n            if idx % 2 == 1 and not (err < 0):\n                claim = False\n            certs += 1\n        if certs < 1:\n            claim = False\n        best = None\n        bidx = -1\n        for idx in range(len(conv)):\n            p, q = conv[idx]\n            err = alpha - Fraction(p, q)\n            val = (q ** 4) * err * err\n            if best is None or val < best:\n                best = val\n                bidx = idx\n        if bidx != int(case['cert_index']):\n            claim = False\n        if not (5 * best < 1):\n            claim = False\n    npt = int(case['n'])\n    kpt = int(case['k'])\n    r2 = npt * npt + kpt * kpt\n    if r2 <= 1:\n        claim = False\n    else:\n        t = Fraction(2, r2 + 1)\n        kap = t / (1 - t)\n        if kap != Fraction(2, r2 - 1):\n            claim = False\n        zs = int(case['teeth'][0])\n        zr = int(case['teeth'][1])\n        if zs != r2 - 1 or zr != r2 + 1:\n            claim = False\n        if t * zr != 2 or kap * zs != 2:\n            claim = False\n        if Fraction(int(case['claimed_kappa_num']), int(case['claimed_kappa_den'])) != kap:\n            claim = False\n        if Fraction(1, 6) * t * t != Fraction(2, 3 * (r2 + 1) ** 2):\n            claim = False\n        m = r2\n        X = Fraction(m * m - 1, m * m + 1)\n        Y = Fraction(2 * m, m * m + 1)\n        if X * X + Y * Y != 1:\n            claim = False\n        if (2 * npt) ** 2 + (2 * kpt) ** 2 + (r2 - 1) ** 2 != (r2 + 1) ** 2:\n            claim = False\n        if isqrt((r2 + 1) ** 2) != r2 + 1:\n            claim = False\n    return bool(claim == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R3-OP-4-LCMLOCK-DETTRANSPORT-KAPPA-ARGMIN",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "cert_index": 3,
+            "claimed_det": 4,
+            "claimed_kappa_den": 12,
+            "claimed_kappa_num": 1,
+            "claimed_lcm": 12,
+            "claimed_phase": 11,
+            "expect_claim": true,
+            "k": 4,
+            "matrix": [
+              [
+                2,
+                1,
+                0
+              ],
+              [
+                1,
+                2,
+                1
+              ],
+              [
+                0,
+                1,
+                2
+              ]
+            ],
+            "mesh": 17520,
+            "mods": [
+              3,
+              4,
+              6
+            ],
+            "n": 3,
+            "phase": 167,
+            "prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "resids": [
+              2,
+              3,
+              5
+            ],
+            "row_add_i": 0,
+            "row_add_j": 2,
+            "row_add_mult": 3,
+            "scale": 1460,
+            "teeth": [
+              24,
+              26
+            ]
+          },
+          {
+            "cert_index": 3,
+            "claimed_det": 1,
+            "claimed_kappa_den": 6,
+            "claimed_kappa_num": 1,
+            "claimed_lcm": 30,
+            "claimed_phase": 28,
+            "expect_claim": true,
+            "k": 3,
+            "matrix": [
+              [
+                1,
+                2,
+                3
+              ],
+              [
+                0,
+                1,
+                4
+              ],
+              [
+                5,
+                6,
+                0
+              ]
+            ],
+            "mesh": 43800,
+            "mods": [
+              6,
+              10,
+              15
+            ],
+            "n": 2,
+            "phase": 1228,
+            "prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "resids": [
+              4,
+              8,
+              13
+            ],
+            "row_add_i": 1,
+            "row_add_j": 0,
+            "row_add_mult": 2,
+            "scale": 1460,
+            "teeth": [
+              12,
+              14
+            ]
+          },
+          {
+            "cert_index": 3,
+            "claimed_det": 1,
+            "claimed_kappa_den": 1,
+            "claimed_kappa_num": 2,
+            "claimed_lcm": 12,
+            "claimed_phase": 1,
+            "expect_claim": true,
+            "k": 1,
+            "matrix": [
+              [
+                3,
+                5
+              ],
+              [
+                1,
+                2
+              ]
+            ],
+            "mesh": 17520,
+            "mods": [
+              4,
+              6
+            ],
+            "n": 1,
+            "phase": 85,
+            "prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "resids": [
+              1,
+              1
+            ],
+            "row_add_i": 0,
+            "row_add_j": 1,
+            "row_add_mult": 2,
+            "scale": 1460,
+            "teeth": [
+              1,
+              3
+            ]
+          },
+          {
+            "claimed_lcm": 12,
+            "claimed_phase": 0,
+            "expect_claim": false,
+            "mods": [
+              4,
+              6
+            ],
+            "resids": [
+              0,
+              1
+            ]
+          },
+          {
+            "cert_index": 3,
+            "claimed_det": 5,
+            "claimed_kappa_den": 12,
+            "claimed_kappa_num": 1,
+            "claimed_lcm": 12,
+            "claimed_phase": 11,
+            "expect_claim": false,
+            "k": 4,
+            "matrix": [
+              [
+                2,
+                1,
+                0
+              ],
+              [
+                1,
+                2,
+                1
+              ],
+              [
+                0,
+                1,
+                2
+              ]
+            ],
+            "mesh": 17520,
+            "mods": [
+              3,
+              4,
+              6
+            ],
+            "n": 3,
+            "phase": 167,
+            "prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "resids": [
+              2,
+              3,
+              5
+            ],
+            "row_add_i": 0,
+            "row_add_j": 2,
+            "row_add_mult": 3,
+            "scale": 1460,
+            "teeth": [
+              24,
+              26
+            ]
+          },
+          {
+            "cert_index": 3,
+            "claimed_det": 4,
+            "claimed_kappa_den": 11,
+            "claimed_kappa_num": 1,
+            "claimed_lcm": 12,
+            "claimed_phase": 11,
+            "expect_claim": false,
+            "k": 4,
+            "matrix": [
+              [
+                2,
+                1,
+                0
+              ],
+              [
+                1,
+                2,
+                1
+              ],
+              [
+                0,
+                1,
+                2
+              ]
+            ],
+            "mesh": 17520,
+            "mods": [
+              3,
+              4,
+              6
+            ],
+            "n": 3,
+            "phase": 167,
+            "prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "resids": [
+              2,
+              3,
+              5
+            ],
+            "row_add_i": 0,
+            "row_add_j": 2,
+            "row_add_mult": 3,
+            "scale": 1460,
+            "teeth": [
+              24,
+              26
+            ]
+          },
+          {
+            "cert_index": 2,
+            "claimed_det": 1,
+            "claimed_kappa_den": 6,
+            "claimed_kappa_num": 1,
+            "claimed_lcm": 30,
+            "claimed_phase": 28,
+            "expect_claim": false,
+            "k": 3,
+            "matrix": [
+              [
+                1,
+                2,
+                3
+              ],
+              [
+                0,
+                1,
+                4
+              ],
+              [
+                5,
+                6,
+                0
+              ]
+            ],
+            "mesh": 43800,
+            "mods": [
+              6,
+              10,
+              15
+            ],
+            "n": 2,
+            "phase": 1228,
+            "prefix": [
+              3,
+              7,
+              15,
+              1,
+              292
+            ],
+            "resids": [
+              4,
+              8,
+              13
+            ],
+            "row_add_i": 1,
+            "row_add_j": 0,
+            "row_add_mult": 2,
+            "scale": 1460,
+            "teeth": [
+              12,
+              14
+            ]
+          }
+        ]
+      },
+      "round_num": 3,
+      "seat_id": "OP-4",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R3-OP-4"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Law-2b steelman: the R2-OP-5 kernel (cover = rising-edge runs, balanced tree-sum = total ones, intra+inter = C(ones,2)) is carried to depth 3 by adjoining the stereographic rational lift of the integer pair (ones, runs) with kappa_sub = 2/(r2-1) and order-3 defect 2/(3(r2+1)^2), plus the strict finite-net continued-fraction envelope for the fixed prefix [3;7,15,1,292]; every step is over exact integers and Fractions, with the finite-precision cancellation hazard modeled by the factor-2 normalization of the inter-run term. Gate-5 congruence scope: validity is evaluated on the congruence class of bit strings whose rising-edge cover realizes the claimed run multiset, with zeta_eq = inter/C(ones,2) repaired into the passive band [3/20,3/10] (the earlier doubled convention is normalized to sit inside this band), and refutation cases are those whose inter-run fraction falls outside it. N0: the interval-cover and tree-sum checksum integrity layer. N1: the bilinear-hysteresis normalization into the passive dissipation band. N2: the simultaneous stereographic-epicyclic-continued-fraction binding, which welds the consecutive-ones partition to finite-net rational approximation and the non-Abelian commutator defect for this turn's frontier.",
+        "mode": "compose",
+        "target_seat_or_turn": "R2-OP-5"
+      },
+      "corpus_anchor": {
+        "operator_id": "C1P-14INTCOV-TSUM-ZEQ-BILIN",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "OWN_TERMS_FIRST: For a finite binary string, let its maximal consecutive-one blocks form an inclusive interval cover with run lengths L_1..L_m, and let the balanced-tree reduction of the string equal T = total ones. Then the cover has exactly m intervals whose union has cardinality T, the tree checksum equals T, the bilinear identity sum_i C(L_i,2) + sum_{i<j} L_i L_j = C(T,2) holds, and the passive hysteresis ratio zeta_eq = (sum_{i<j} L_i L_j)/C(T,2) lies in [3/20, 3/10]. Lifting the integer pair (T, m) stereographically with r2 = T^2 + m^2 gives unit norm, kappa_sub = 2/(r2-1) with kappa_sub*(r2-1) = 2, and an order-3 commutator-defect tail of 2/(3(r2+1)^2)."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant for a binary string: the rising-edge interval cover matches the run multiset and its union has total-ones cardinality; the balanced hierarchical tree-sum equals total ones T; sum_i C(L_i,2)+sum_{i<j}L_iL_j = C(T,2); the passive hysteresis ratio zeta_eq = inter/C(T,2) is in [3/20,3/10]; the stereographic lift of (T, runs) has unit norm with kappa_sub*(r2-1)=2 and order-3 defect 2/(3(r2+1)^2); and the fixed continued-fraction prefix [3;7,15,1,292] satisfies the strict two-sided envelope for n=0..2. Negative refutation cases (out-of-band zeta) are handled by expect_claim=false and return true only when the claim indeed fails. All arithmetic is integer/Fraction with zero floating point and zero IO.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    bits = case['bits']\n    expect = case['expect_claim']\n    if not isinstance(bits, list) or len(bits) < 2:\n        return bool(False == expect)\n    b = []\n    for x in bits:\n        xi = int(x)\n        if xi not in (0, 1):\n            return bool(False == expect)\n        b.append(xi)\n    n = len(b)\n    ones = sum(b)\n    runs = []\n    i = 0\n    while i < n:\n        if b[i] == 1:\n            j = i\n            while j < n and b[j] == 1:\n                j += 1\n            runs.append(j - i)\n            i = j\n        else:\n            i += 1\n    run_count = len(runs)\n    idx = 0\n    cover = []\n    while idx < n:\n        if b[idx] == 1:\n            j = idx\n            while j < n and b[j] == 1:\n                j += 1\n            cover.append((idx, j - 1))\n            idx = j\n        else:\n            idx += 1\n    cover_ok = (len(cover) == run_count) and (sum(e - s + 1 for s, e in cover) == ones)\n    level = list(b)\n    while len(level) > 1:\n        nxt = []\n        k = 0\n        while k < len(level):\n            if k + 1 < len(level):\n                nxt.append(level[k] + level[k + 1])\n                k += 2\n            else:\n                nxt.append(level[k])\n                k += 1\n        level = nxt\n    tree_ok = (len(level) == 1 and level[0] == ones)\n    total_pairs = ones * (ones - 1) // 2\n    intra = 0\n    for r in runs:\n        intra += r * (r - 1) // 2\n    inter = total_pairs - intra\n    bilinear_ok = (intra + inter == total_pairs) and (inter >= 0)\n    zeta_ok = False\n    if total_pairs > 0:\n        zeta = Fraction(inter, total_pairs)\n        zeta_ok = (Fraction(3, 20) <= zeta <= Fraction(3, 10))\n    p = ones\n    q = run_count\n    r2 = p * p + q * q\n    stereo_ok = False\n    if r2 > 1:\n        X = Fraction(r2 - 1, r2 + 1)\n        Y = Fraction(2 * p, r2 + 1)\n        Z = Fraction(2 * q, r2 + 1)\n        t = Fraction(2, r2 + 1)\n        kappa = Fraction(2, r2 - 1)\n        stereo_ok = (X * X + Y * Y + Z * Z == 1) and (kappa * (r2 - 1) == 2)\n        stereo_ok = stereo_ok and (Fraction(1, 6) * t * t == Fraction(2, 3 * (r2 + 1) * (r2 + 1)))\n    aa = [3, 7, 15, 1, 292]\n    pm2 = 0\n    pm1 = 1\n    qm2 = 1\n    qm1 = 0\n    conv = []\n    for a in aa:\n        pn = a * pm1 + pm2\n        qn = a * qm1 + qm2\n        conv.append((pn, qn))\n        pm2 = pm1\n        pm1 = pn\n        qm2 = qm1\n        qm1 = qn\n    alpha = Fraction(conv[-1][0], conv[-1][1])\n    cf_ok = True\n    for kk in range(len(aa) - 2):\n        pk, qk = conv[kk]\n        qk1 = conv[kk + 1][1]\n        if not (abs(alpha - Fraction(pk, qk)) < Fraction(1, qk * qk1)):\n            cf_ok = False\n    claim = cover_ok and tree_ok and bilinear_ok and zeta_ok and stereo_ok and cf_ok\n    return bool(claim == expect)",
+        "conjecture_id": "CONJ-T1-R3-OP-5-COVZETA-DEPTH3",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "bits": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0,
+              1
+            ],
+            "expect_claim": true
+          },
+          {
+            "bits": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0,
+              1
+            ],
+            "expect_claim": true
+          },
+          {
+            "bits": [
+              1,
+              1,
+              1,
+              1,
+              0,
+              1,
+              1,
+              1,
+              1
+            ],
+            "expect_claim": false
+          }
+        ]
+      },
+      "round_num": 3,
+      "seat_id": "OP-5",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R3-OP-5"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Repairs CONJ-T1-R2-OP-6-PARITYWINDTAIL at the unresolved witness (m,n)=(5,5), gcd_claim=5, bits all 1, xor_claim=0, ring=3, zero vector part with parallel_claim true, and (a,b)=(8,15). Law 2b steelman: that witness is admissible because winding count gcd=5 matches the claim, while single-stroke coprimality is the derived bit gcd=1 and is not a conjunct of the fold identity. Gate-5 congruence: pair-fold XOR is congruent to the full sum in GF(2), independent of the torus gcd and of the rational tail. N0 is the parity fold, winding count, and ring-cut survival. N1 is the stereographic tail, cancellation gain, epicyclic inverse, and order-3 defect on r2>1. N2 drops the forced coprime-stroke conjunct that falsified a correct non-coprime winding certificate, and keeps the singular locus r2<=1 as a refutation.",
+        "mode": "repair",
+        "target_seat_or_turn": "R2-OP-6"
+      },
+      "corpus_anchor": {
+        "operator_id": "GF2_PAIRFOLD_GCD_WIND_RING2_x_STEREO_TAIL_KAPPA_REPAIR",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "On a bit vector in GF(2)^4 or GF(2)^8 the recursive pair-fold XOR equals the total parity. On the torus lattice the closed reflection-loop count equals gcd(|m|,|n|), and that count is 1 exactly on the single-stroke locus. A cycle survives every 2-edge cut exactly when its length is at least 3. For an integer hypotenuse identity a^2+b^2=s^2 with r2=a^2+b^2>1 the stereographic tail t=2/(r2+1) has cancellation gain kappa=t/(1-t)=2/(r2-1), the epicyclic inverse kappa*(r2-1)/2=1, and the order-3 commutator tail (1/6)*t^2=2/(3*(r2+1)^2). Integer vector parts are declared parallel exactly when their cross product vanishes, including a zero vector part."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Claim holds iff pair-fold XOR matches, torus loop count equals gcd, ring survival matches length>=3, parallel bit matches a vanishing cross product, (a,b) has integer hypotenuse with r2>1, and kappa plus the order-3 tail plus the epicyclic inverse match their closed Fraction forms. R5 refutations: wrong XOR, gcd_claim forced to 1 on a non-coprime mesh, ring length 2 marked surviving, non-hypotenuse pair, and the singular tail r2<=1.",
+        "code": "from fractions import Fraction\nfrom math import gcd, isqrt\n\ndef check_case(case):\n    bits = case['bits']\n    fold = 0\n    i = 0\n    L = len(bits)\n    while i + 1 < L:\n        fold ^= (bits[i] & 1) ^ (bits[i + 1] & 1)\n        i += 2\n    if i < L:\n        fold ^= (bits[i] & 1)\n    xor_ok = (fold == case['xor_claim'])\n    g = gcd(abs(case['m']), abs(case['n']))\n    wind_ok = (g == case['gcd_claim'])\n    ring_ok = ((case['ring'] >= 3) == case['ring_survives'])\n    px = case['px']\n    py = case['py']\n    pz = case['pz']\n    qx = case['qx']\n    qy = case['qy']\n    qz = case['qz']\n    cx = py * qz - pz * qy\n    cy = pz * qx - px * qz\n    cz = px * qy - py * qx\n    parallel = (cx == 0 and cy == 0 and cz == 0)\n    par_ok = (parallel == case['parallel_claim'])\n    a = case['a']\n    b = case['b']\n    r2 = a * a + b * b\n    s = isqrt(r2)\n    hyp_ok = (s * s == r2) and (r2 > 1)\n    tail_ok = False\n    epi_ok = False\n    if r2 > 1:\n        t = Fraction(2, r2 + 1)\n        kappa = Fraction(2, r2 - 1)\n        one = Fraction(1, 1)\n        ord3 = Fraction(1, 6) * t * t\n        ord3_closed = Fraction(2, 3 * (r2 + 1) * (r2 + 1))\n        tail_ok = (kappa == (t / (one - t))) and (ord3 == ord3_closed)\n        epi_ok = (kappa * Fraction(r2 - 1, 2) == one)\n    gear_ok = (case['p'] != 0) and (case['q'] != 0) and (case['an'] != 0) and (case['ad'] != 0) and (case['qn'] > 0)\n    claim_holds = xor_ok and wind_ok and ring_ok and par_ok and hyp_ok and tail_ok and epi_ok and gear_ok\n    return bool(claim_holds == case['expect_claim'])\n",
+        "conjecture_id": "CONJ-T1-R3-OP-6-PARITYWINDREPAIR",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 8,
+            "ad": 3,
+            "an": 8,
+            "b": 15,
+            "bits": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "expect_claim": true,
+            "gcd_claim": 5,
+            "m": 5,
+            "n": 5,
+            "p": 2,
+            "parallel_claim": true,
+            "px": 0,
+            "py": 0,
+            "pz": 0,
+            "q": 1,
+            "qn": 2,
+            "qx": 4,
+            "qy": 5,
+            "qz": 6,
+            "ring": 3,
+            "ring_survives": true,
+            "xor_claim": 0
+          },
+          {
+            "a": 5,
+            "ad": 2,
+            "an": 7,
+            "b": 12,
+            "bits": [
+              1,
+              0,
+              1,
+              0,
+              1,
+              0,
+              1,
+              0
+            ],
+            "expect_claim": true,
+            "gcd_claim": 1,
+            "m": 3,
+            "n": 5,
+            "p": 2,
+            "parallel_claim": false,
+            "px": 1,
+            "py": 0,
+            "pz": 0,
+            "q": 3,
+            "qn": 5,
+            "qx": 0,
+            "qy": 1,
+            "qz": 0,
+            "ring": 4,
+            "ring_survives": true,
+            "xor_claim": 0
+          },
+          {
+            "a": 8,
+            "ad": 3,
+            "an": 8,
+            "b": 15,
+            "bits": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "expect_claim": false,
+            "gcd_claim": 1,
+            "m": 5,
+            "n": 5,
+            "p": 2,
+            "parallel_claim": true,
+            "px": 0,
+            "py": 0,
+            "pz": 0,
+            "q": 1,
+            "qn": 2,
+            "qx": 4,
+            "qy": 5,
+            "qz": 6,
+            "ring": 3,
+            "ring_survives": true,
+            "xor_claim": 0
+          },
+          {
+            "a": 8,
+            "ad": 3,
+            "an": 8,
+            "b": 15,
+            "bits": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "expect_claim": false,
+            "gcd_claim": 5,
+            "m": 5,
+            "n": 5,
+            "p": 2,
+            "parallel_claim": true,
+            "px": 0,
+            "py": 0,
+            "pz": 0,
+            "q": 1,
+            "qn": 2,
+            "qx": 4,
+            "qy": 5,
+            "qz": 6,
+            "ring": 3,
+            "ring_survives": true,
+            "xor_claim": 1
+          },
+          {
+            "a": 8,
+            "ad": 3,
+            "an": 8,
+            "b": 15,
+            "bits": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "expect_claim": false,
+            "gcd_claim": 5,
+            "m": 5,
+            "n": 5,
+            "p": 2,
+            "parallel_claim": true,
+            "px": 0,
+            "py": 0,
+            "pz": 0,
+            "q": 1,
+            "qn": 2,
+            "qx": 4,
+            "qy": 5,
+            "qz": 6,
+            "ring": 2,
+            "ring_survives": true,
+            "xor_claim": 0
+          },
+          {
+            "a": 2,
+            "ad": 3,
+            "an": 8,
+            "b": 2,
+            "bits": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "expect_claim": false,
+            "gcd_claim": 5,
+            "m": 5,
+            "n": 5,
+            "p": 2,
+            "parallel_claim": true,
+            "px": 0,
+            "py": 0,
+            "pz": 0,
+            "q": 1,
+            "qn": 2,
+            "qx": 4,
+            "qy": 5,
+            "qz": 6,
+            "ring": 3,
+            "ring_survives": true,
+            "xor_claim": 0
+          },
+          {
+            "a": 1,
+            "ad": 3,
+            "an": 8,
+            "b": 0,
+            "bits": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "expect_claim": false,
+            "gcd_claim": 1,
+            "m": 1,
+            "n": 1,
+            "p": 1,
+            "parallel_claim": true,
+            "px": 0,
+            "py": 0,
+            "pz": 0,
+            "q": 1,
+            "qn": 1,
+            "qx": 0,
+            "qy": 0,
+            "qz": 1,
+            "ring": 3,
+            "ring_survives": true,
+            "xor_claim": 1
+          }
+        ]
+      },
+      "round_num": 3,
+      "seat_id": "OP-6",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R3-OP-6"
+    }
+  ],
+  "variation": "operators"
+}

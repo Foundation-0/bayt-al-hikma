@@ -1,0 +1,135 @@
+{
+  "bundle_sha256": "cb2a97218d019f4d378acdaa308555717bf7d135f0a03590e10d305583a74084",
+  "chair": "aletheia",
+  "prompt_count": 21,
+  "prompts": [
+    {
+      "prompt_text": "Seat: SEAT-0 -- The Aletheia Scholar (Chair, Method Steward & Cross-Domain Synthesizer). Lens: Constructive pure-Z/Q verification, steelman counterexample repair, and exact-operator interposition. Topic (TOPIC-1-CONTINUUM -> Foundation-0/continuum): Finite-Net Rational Approximation vs. Non-Abelian Holonomy. Compose exact rational approximation bounds (stereographic Cayley lift, asymptotic tail acceleration, Hurwitz continued-fraction optimality, and epicyclic gear ratios) against finite-precision cancellation and non-Abelian commutator defects. Propose a pure-Z/Q testable identity or obstruction. Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier. Include mandatory field epistemic_web_interpositions from exact-operator interposition.",
+      "seat_id": "SEAT-0",
+      "target_frontier": "Foundation-0/continuum",
+      "topic_id": "TOPIC-1-CONTINUUM"
+    },
+    {
+      "prompt_text": "Seat: SEAT-1 -- Abu Rayhan al-Biruni (973-1048). Lens: Exact rational spherical projection, conditioning/cancellation audits, empirical-to-exact bridges. Topic (TOPIC-1-CONTINUUM -> Foundation-0/continuum): Finite-Net Rational Approximation vs. Non-Abelian Holonomy. Compose exact rational approximation bounds (stereographic Cayley lift, asymptotic tail acceleration, Hurwitz continued-fraction optimality, and epicyclic gear ratios) against finite-precision cancellation and non-Abelian commutator defects. Propose a pure-Z/Q testable identity or obstruction. Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-1",
+      "target_frontier": "Foundation-0/continuum",
+      "topic_id": "TOPIC-1-CONTINUUM"
+    },
+    {
+      "prompt_text": "Seat: SEAT-2 -- Madhava of Sangamagrama (c. 1340-1425). Lens: Asymptotic rational tail-acceleration and alternating-series enclosures. Topic (TOPIC-1-CONTINUUM -> Foundation-0/continuum): Finite-Net Rational Approximation vs. Non-Abelian Holonomy. Compose exact rational approximation bounds (stereographic Cayley lift, asymptotic tail acceleration, Hurwitz continued-fraction optimality, and epicyclic gear ratios) against finite-precision cancellation and non-Abelian commutator defects. Propose a pure-Z/Q testable identity or obstruction. Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-2",
+      "target_frontier": "Foundation-0/continuum",
+      "topic_id": "TOPIC-1-CONTINUUM"
+    },
+    {
+      "prompt_text": "Seat: SEAT-3 -- Panini (c. 5th c. BCE) & Pingala Prosodic Lens. Lens: Minimal sufficient partitions (C1P), generative compression, binary/Gray bijections. Topic (TOPIC-1-CONTINUUM -> Foundation-0/continuum): Finite-Net Rational Approximation vs. Non-Abelian Holonomy. Compose exact rational approximation bounds (stereographic Cayley lift, asymptotic tail acceleration, Hurwitz continued-fraction optimality, and epicyclic gear ratios) against finite-precision cancellation and non-Abelian commutator defects. Propose a pure-Z/Q testable identity or obstruction. Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-3",
+      "target_frontier": "Foundation-0/continuum",
+      "topic_id": "TOPIC-1-CONTINUUM"
+    },
+    {
+      "prompt_text": "Seat: SEAT-4 -- Qin Jiushao (1202-1261), Zu Chongzhi & Jiuzhang. Lens: Non-coprime modular arithmetic, fraction-free linear algebra, Hurwitz CF, passive hysteresis. Topic (TOPIC-1-CONTINUUM -> Foundation-0/continuum): Finite-Net Rational Approximation vs. Non-Abelian Holonomy. Compose exact rational approximation bounds (stereographic Cayley lift, asymptotic tail acceleration, Hurwitz continued-fraction optimality, and epicyclic gear ratios) against finite-precision cancellation and non-Abelian commutator defects. Propose a pure-Z/Q testable identity or obstruction. Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-4",
+      "target_frontier": "Foundation-0/continuum",
+      "topic_id": "TOPIC-1-CONTINUUM"
+    },
+    {
+      "prompt_text": "Seat: SEAT-5 -- Master Khipukamayuq & Chokwe Sona Geometer. Lens: Non-prose topological tree-checksums, chirality parity, Eulerian winding, GF(2) codes. Topic (TOPIC-1-CONTINUUM -> Foundation-0/continuum): Finite-Net Rational Approximation vs. Non-Abelian Holonomy. Compose exact rational approximation bounds (stereographic Cayley lift, asymptotic tail acceleration, Hurwitz continued-fraction optimality, and epicyclic gear ratios) against finite-precision cancellation and non-Abelian commutator defects. Propose a pure-Z/Q testable identity or obstruction. Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-5",
+      "target_frontier": "Foundation-0/continuum",
+      "topic_id": "TOPIC-1-CONTINUUM"
+    },
+    {
+      "prompt_text": "Seat: SEAT-6 -- Ibn al-Nafis, Al-Jazari & Antikythera Master Mechanic. Lens: Schur complement conductance elimination, mechanical phase-locking, bounded-dissipation control. Topic (TOPIC-1-CONTINUUM -> Foundation-0/continuum): Finite-Net Rational Approximation vs. Non-Abelian Holonomy. Compose exact rational approximation bounds (stereographic Cayley lift, asymptotic tail acceleration, Hurwitz continued-fraction optimality, and epicyclic gear ratios) against finite-precision cancellation and non-Abelian commutator defects. Propose a pure-Z/Q testable identity or obstruction. Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-6",
+      "target_frontier": "Foundation-0/continuum",
+      "topic_id": "TOPIC-1-CONTINUUM"
+    },
+    {
+      "prompt_text": "Seat: SEAT-0 -- The Aletheia Scholar (Chair, Method Steward & Cross-Domain Synthesizer). Lens: Constructive pure-Z/Q verification, steelman counterexample repair, and exact-operator interposition. Topic (TOPIC-2-ALETHEION -> Foundation-0/aletheion): Zero-Overhead Self-Checking Non-Prose Telemetry & Bounded-Chatter Control. Compose minimal contiguous-interval compression, hierarchical tree-checksums, coprime single-cycle traversal topology, and passive friction-hysteresis / float-valve damping into a pure-Z/Q verifiable telemetry or bounded-chatter control invariant (zero energy claims). Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier. Include mandatory field epistemic_web_interpositions from exact-operator interposition.",
+      "seat_id": "SEAT-0",
+      "target_frontier": "Foundation-0/aletheion",
+      "topic_id": "TOPIC-2-ALETHEION"
+    },
+    {
+      "prompt_text": "Seat: SEAT-1 -- Abu Rayhan al-Biruni (973-1048). Lens: Exact rational spherical projection, conditioning/cancellation audits, empirical-to-exact bridges. Topic (TOPIC-2-ALETHEION -> Foundation-0/aletheion): Zero-Overhead Self-Checking Non-Prose Telemetry & Bounded-Chatter Control. Compose minimal contiguous-interval compression, hierarchical tree-checksums, coprime single-cycle traversal topology, and passive friction-hysteresis / float-valve damping into a pure-Z/Q verifiable telemetry or bounded-chatter control invariant (zero energy claims). Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-1",
+      "target_frontier": "Foundation-0/aletheion",
+      "topic_id": "TOPIC-2-ALETHEION"
+    },
+    {
+      "prompt_text": "Seat: SEAT-2 -- Madhava of Sangamagrama (c. 1340-1425). Lens: Asymptotic rational tail-acceleration and alternating-series enclosures. Topic (TOPIC-2-ALETHEION -> Foundation-0/aletheion): Zero-Overhead Self-Checking Non-Prose Telemetry & Bounded-Chatter Control. Compose minimal contiguous-interval compression, hierarchical tree-checksums, coprime single-cycle traversal topology, and passive friction-hysteresis / float-valve damping into a pure-Z/Q verifiable telemetry or bounded-chatter control invariant (zero energy claims). Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-2",
+      "target_frontier": "Foundation-0/aletheion",
+      "topic_id": "TOPIC-2-ALETHEION"
+    },
+    {
+      "prompt_text": "Seat: SEAT-3 -- Panini (c. 5th c. BCE) & Pingala Prosodic Lens. Lens: Minimal sufficient partitions (C1P), generative compression, binary/Gray bijections. Topic (TOPIC-2-ALETHEION -> Foundation-0/aletheion): Zero-Overhead Self-Checking Non-Prose Telemetry & Bounded-Chatter Control. Compose minimal contiguous-interval compression, hierarchical tree-checksums, coprime single-cycle traversal topology, and passive friction-hysteresis / float-valve damping into a pure-Z/Q verifiable telemetry or bounded-chatter control invariant (zero energy claims). Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-3",
+      "target_frontier": "Foundation-0/aletheion",
+      "topic_id": "TOPIC-2-ALETHEION"
+    },
+    {
+      "prompt_text": "Seat: SEAT-4 -- Qin Jiushao (1202-1261), Zu Chongzhi & Jiuzhang. Lens: Non-coprime modular arithmetic, fraction-free linear algebra, Hurwitz CF, passive hysteresis. Topic (TOPIC-2-ALETHEION -> Foundation-0/aletheion): Zero-Overhead Self-Checking Non-Prose Telemetry & Bounded-Chatter Control. Compose minimal contiguous-interval compression, hierarchical tree-checksums, coprime single-cycle traversal topology, and passive friction-hysteresis / float-valve damping into a pure-Z/Q verifiable telemetry or bounded-chatter control invariant (zero energy claims). Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-4",
+      "target_frontier": "Foundation-0/aletheion",
+      "topic_id": "TOPIC-2-ALETHEION"
+    },
+    {
+      "prompt_text": "Seat: SEAT-5 -- Master Khipukamayuq & Chokwe Sona Geometer. Lens: Non-prose topological tree-checksums, chirality parity, Eulerian winding, GF(2) codes. Topic (TOPIC-2-ALETHEION -> Foundation-0/aletheion): Zero-Overhead Self-Checking Non-Prose Telemetry & Bounded-Chatter Control. Compose minimal contiguous-interval compression, hierarchical tree-checksums, coprime single-cycle traversal topology, and passive friction-hysteresis / float-valve damping into a pure-Z/Q verifiable telemetry or bounded-chatter control invariant (zero energy claims). Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-5",
+      "target_frontier": "Foundation-0/aletheion",
+      "topic_id": "TOPIC-2-ALETHEION"
+    },
+    {
+      "prompt_text": "Seat: SEAT-6 -- Ibn al-Nafis, Al-Jazari & Antikythera Master Mechanic. Lens: Schur complement conductance elimination, mechanical phase-locking, bounded-dissipation control. Topic (TOPIC-2-ALETHEION -> Foundation-0/aletheion): Zero-Overhead Self-Checking Non-Prose Telemetry & Bounded-Chatter Control. Compose minimal contiguous-interval compression, hierarchical tree-checksums, coprime single-cycle traversal topology, and passive friction-hysteresis / float-valve damping into a pure-Z/Q verifiable telemetry or bounded-chatter control invariant (zero energy claims). Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-6",
+      "target_frontier": "Foundation-0/aletheion",
+      "topic_id": "TOPIC-2-ALETHEION"
+    },
+    {
+      "prompt_text": "Seat: SEAT-0 -- The Aletheia Scholar (Chair, Method Steward & Cross-Domain Synthesizer). Lens: Constructive pure-Z/Q verification, steelman counterexample repair, and exact-operator interposition. Topic (TOPIC-3-CAVE-EXPEDITION -> Foundation-0/cave-expedition): Schur Elimination Congruence vs. Block Reduction & GF(2)/Eulerian Generalizations. Determine exact algebraic conditions under which Schur complement elimination induces exact congruence versus block reduction alone, and test how GF(2) parity folding and Eulerian mirror curves generalize Loewner/fold-sheaf obstructions in pure Z/Q. Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier. Include mandatory field epistemic_web_interpositions from exact-operator interposition.",
+      "seat_id": "SEAT-0",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "topic_id": "TOPIC-3-CAVE-EXPEDITION"
+    },
+    {
+      "prompt_text": "Seat: SEAT-1 -- Abu Rayhan al-Biruni (973-1048). Lens: Exact rational spherical projection, conditioning/cancellation audits, empirical-to-exact bridges. Topic (TOPIC-3-CAVE-EXPEDITION -> Foundation-0/cave-expedition): Schur Elimination Congruence vs. Block Reduction & GF(2)/Eulerian Generalizations. Determine exact algebraic conditions under which Schur complement elimination induces exact congruence versus block reduction alone, and test how GF(2) parity folding and Eulerian mirror curves generalize Loewner/fold-sheaf obstructions in pure Z/Q. Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-1",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "topic_id": "TOPIC-3-CAVE-EXPEDITION"
+    },
+    {
+      "prompt_text": "Seat: SEAT-2 -- Madhava of Sangamagrama (c. 1340-1425). Lens: Asymptotic rational tail-acceleration and alternating-series enclosures. Topic (TOPIC-3-CAVE-EXPEDITION -> Foundation-0/cave-expedition): Schur Elimination Congruence vs. Block Reduction & GF(2)/Eulerian Generalizations. Determine exact algebraic conditions under which Schur complement elimination induces exact congruence versus block reduction alone, and test how GF(2) parity folding and Eulerian mirror curves generalize Loewner/fold-sheaf obstructions in pure Z/Q. Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-2",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "topic_id": "TOPIC-3-CAVE-EXPEDITION"
+    },
+    {
+      "prompt_text": "Seat: SEAT-3 -- Panini (c. 5th c. BCE) & Pingala Prosodic Lens. Lens: Minimal sufficient partitions (C1P), generative compression, binary/Gray bijections. Topic (TOPIC-3-CAVE-EXPEDITION -> Foundation-0/cave-expedition): Schur Elimination Congruence vs. Block Reduction & GF(2)/Eulerian Generalizations. Determine exact algebraic conditions under which Schur complement elimination induces exact congruence versus block reduction alone, and test how GF(2) parity folding and Eulerian mirror curves generalize Loewner/fold-sheaf obstructions in pure Z/Q. Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-3",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "topic_id": "TOPIC-3-CAVE-EXPEDITION"
+    },
+    {
+      "prompt_text": "Seat: SEAT-4 -- Qin Jiushao (1202-1261), Zu Chongzhi & Jiuzhang. Lens: Non-coprime modular arithmetic, fraction-free linear algebra, Hurwitz CF, passive hysteresis. Topic (TOPIC-3-CAVE-EXPEDITION -> Foundation-0/cave-expedition): Schur Elimination Congruence vs. Block Reduction & GF(2)/Eulerian Generalizations. Determine exact algebraic conditions under which Schur complement elimination induces exact congruence versus block reduction alone, and test how GF(2) parity folding and Eulerian mirror curves generalize Loewner/fold-sheaf obstructions in pure Z/Q. Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-4",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "topic_id": "TOPIC-3-CAVE-EXPEDITION"
+    },
+    {
+      "prompt_text": "Seat: SEAT-5 -- Master Khipukamayuq & Chokwe Sona Geometer. Lens: Non-prose topological tree-checksums, chirality parity, Eulerian winding, GF(2) codes. Topic (TOPIC-3-CAVE-EXPEDITION -> Foundation-0/cave-expedition): Schur Elimination Congruence vs. Block Reduction & GF(2)/Eulerian Generalizations. Determine exact algebraic conditions under which Schur complement elimination induces exact congruence versus block reduction alone, and test how GF(2) parity folding and Eulerian mirror curves generalize Loewner/fold-sheaf obstructions in pure Z/Q. Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-5",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "topic_id": "TOPIC-3-CAVE-EXPEDITION"
+    },
+    {
+      "prompt_text": "Seat: SEAT-6 -- Ibn al-Nafis, Al-Jazari & Antikythera Master Mechanic. Lens: Schur complement conductance elimination, mechanical phase-locking, bounded-dissipation control. Topic (TOPIC-3-CAVE-EXPEDITION -> Foundation-0/cave-expedition): Schur Elimination Congruence vs. Block Reduction & GF(2)/Eulerian Generalizations. Determine exact algebraic conditions under which Schur complement elimination induces exact congruence versus block reduction alone, and test how GF(2) parity folding and Eulerian mirror curves generalize Loewner/fold-sheaf obstructions in pure Z/Q. Respond ONLY as a JSON object with mandatory fields corpus_anchor, composition_or_challenge, executable_conjecture (pure int/Fraction def check_case(case): -> bool, zero floats, zero IO), and target_frontier.",
+      "seat_id": "SEAT-6",
+      "target_frontier": "Foundation-0/cave-expedition",
+      "topic_id": "TOPIC-3-CAVE-EXPEDITION"
+    }
+  ],
+  "topic_count": 3,
+  "variation": "scholars"
+}

@@ -1,0 +1,740 @@
+{
+  "chair": "aletheia",
+  "counterexample_repairs": [
+    {
+      "broken_turn": "R1-SEAT-3",
+      "repaired_turn": "R2-SEAT-0"
+    },
+    {
+      "broken_turn": "R1-SEAT-1",
+      "repaired_turn": "R2-SEAT-1"
+    },
+    {
+      "broken_turn": "R1-SEAT-3",
+      "repaired_turn": "R2-SEAT-3"
+    },
+    {
+      "broken_turn": "R1-SEAT-4",
+      "repaired_turn": "R2-SEAT-4"
+    },
+    {
+      "broken_turn": "R1-SEAT-6",
+      "repaired_turn": "R2-SEAT-6"
+    }
+  ],
+  "cross_seat_compositions": [
+    {
+      "dst_turn": "R2-SEAT-0",
+      "src_turn": "R1-SEAT-3"
+    },
+    {
+      "dst_turn": "R2-SEAT-2",
+      "src_turn": "R1-SEAT-0"
+    },
+    {
+      "dst_turn": "R2-SEAT-5",
+      "src_turn": "R1-SEAT-0"
+    },
+    {
+      "dst_turn": "R3-SEAT-0",
+      "src_turn": "R2-SEAT-1"
+    },
+    {
+      "dst_turn": "R3-SEAT-1",
+      "src_turn": "R2-SEAT-4"
+    },
+    {
+      "dst_turn": "R3-SEAT-2",
+      "src_turn": "R2-SEAT-0"
+    },
+    {
+      "dst_turn": "R3-SEAT-4",
+      "src_turn": "R2-SEAT-1"
+    },
+    {
+      "dst_turn": "R3-SEAT-5",
+      "src_turn": "R2-SEAT-1"
+    },
+    {
+      "dst_turn": "R3-SEAT-6",
+      "src_turn": "R2-SEAT-3"
+    }
+  ],
+  "dag_edges": [
+    {
+      "dst_seat_id": "SEAT-0",
+      "dst_turn_id": "R2-SEAT-0",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "repair",
+      "src_seat_id": "SEAT-3",
+      "src_turn_id": "R1-SEAT-3",
+      "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+    },
+    {
+      "dst_seat_id": "SEAT-1",
+      "dst_turn_id": "R2-SEAT-1",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "repair",
+      "src_seat_id": "SEAT-1",
+      "src_turn_id": "R1-SEAT-1",
+      "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+    },
+    {
+      "dst_seat_id": "SEAT-2",
+      "dst_turn_id": "R2-SEAT-2",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "compose",
+      "src_seat_id": "SEAT-0",
+      "src_turn_id": "R1-SEAT-0",
+      "src_verdict": "PASS_WITNESS"
+    },
+    {
+      "dst_seat_id": "SEAT-3",
+      "dst_turn_id": "R2-SEAT-3",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "repair",
+      "src_seat_id": "SEAT-3",
+      "src_turn_id": "R1-SEAT-3",
+      "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+    },
+    {
+      "dst_seat_id": "SEAT-4",
+      "dst_turn_id": "R2-SEAT-4",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "repair",
+      "src_seat_id": "SEAT-4",
+      "src_turn_id": "R1-SEAT-4",
+      "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+    },
+    {
+      "dst_seat_id": "SEAT-5",
+      "dst_turn_id": "R2-SEAT-5",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "compose",
+      "src_seat_id": "SEAT-0",
+      "src_turn_id": "R1-SEAT-0",
+      "src_verdict": "PASS_WITNESS"
+    },
+    {
+      "dst_seat_id": "SEAT-6",
+      "dst_turn_id": "R2-SEAT-6",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "repair",
+      "src_seat_id": "SEAT-6",
+      "src_turn_id": "R1-SEAT-6",
+      "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+    },
+    {
+      "dst_seat_id": "SEAT-0",
+      "dst_turn_id": "R3-SEAT-0",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "compose",
+      "src_seat_id": "SEAT-1",
+      "src_turn_id": "R2-SEAT-1",
+      "src_verdict": "PASS_WITNESS"
+    },
+    {
+      "dst_seat_id": "SEAT-1",
+      "dst_turn_id": "R3-SEAT-1",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "compose",
+      "src_seat_id": "SEAT-4",
+      "src_turn_id": "R2-SEAT-4",
+      "src_verdict": "PASS_WITNESS"
+    },
+    {
+      "dst_seat_id": "SEAT-2",
+      "dst_turn_id": "R3-SEAT-2",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "compose",
+      "src_seat_id": "SEAT-0",
+      "src_turn_id": "R2-SEAT-0",
+      "src_verdict": "PASS_WITNESS"
+    },
+    {
+      "dst_seat_id": "SEAT-3",
+      "dst_turn_id": "R3-SEAT-3",
+      "dst_verdict": "MINIMAL_COUNTEREXAMPLE",
+      "mode": "compose",
+      "src_seat_id": "SEAT-0",
+      "src_turn_id": "R2-SEAT-0",
+      "src_verdict": "PASS_WITNESS"
+    },
+    {
+      "dst_seat_id": "SEAT-4",
+      "dst_turn_id": "R3-SEAT-4",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "compose",
+      "src_seat_id": "SEAT-1",
+      "src_turn_id": "R2-SEAT-1",
+      "src_verdict": "PASS_WITNESS"
+    },
+    {
+      "dst_seat_id": "SEAT-5",
+      "dst_turn_id": "R3-SEAT-5",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "compose",
+      "src_seat_id": "SEAT-1",
+      "src_turn_id": "R2-SEAT-1",
+      "src_verdict": "PASS_WITNESS"
+    },
+    {
+      "dst_seat_id": "SEAT-6",
+      "dst_turn_id": "R3-SEAT-6",
+      "dst_verdict": "PASS_WITNESS",
+      "mode": "compose",
+      "src_seat_id": "SEAT-3",
+      "src_turn_id": "R2-SEAT-3",
+      "src_verdict": "PASS_WITNESS"
+    }
+  ],
+  "historical_to_modern_edges": [
+    {
+      "aletheia_turn": "R2-SEAT-0",
+      "historical_turn": "R1-SEAT-3"
+    },
+    {
+      "aletheia_turn": "R3-SEAT-0",
+      "historical_turn": "R2-SEAT-1"
+    }
+  ],
+  "max_dag_depth": 3,
+  "minimal_counterexample_count": 5,
+  "modern_to_historical_edges": [
+    {
+      "aletheia_turn": "R1-SEAT-0",
+      "historical_turn": "R2-SEAT-2"
+    },
+    {
+      "aletheia_turn": "R1-SEAT-0",
+      "historical_turn": "R2-SEAT-5"
+    },
+    {
+      "aletheia_turn": "R2-SEAT-0",
+      "historical_turn": "R3-SEAT-2"
+    }
+  ],
+  "pass_witness_count": 16,
+  "s150_g2_dynamic_compounding_passed": true,
+  "s150_g5_bidirectional_pollination_passed": true,
+  "session_id": "S150-PILOT1-TOPIC1-CONTINUUM",
+  "topic_id": "TOPIC-1-CONTINUUM",
+  "transcript_sha256": "33895402c91b5328404f46788d37e5fab2db4a251df7069f48cd071a5effcfd9",
+  "turn_count": 21,
+  "turn_records": [
+    {
+      "dag_depth": 1,
+      "interpositions_count": 5,
+      "mode": "compose",
+      "round_num": 1,
+      "seat_id": "SEAT-0",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "SEAT-4",
+      "turn_id": "R1-SEAT-0",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R1-SEAT-0-HURWITZ-CAYLEY-HOLONOMY",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 6,
+        "status": "PASS_WITNESS",
+        "total_cases": 6,
+        "verdict_sha256": "62343ff3e71228c24354c39125d9a0a56d946d71753e12c0b09d5082d026987b"
+      }
+    },
+    {
+      "dag_depth": 1,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 1,
+      "seat_id": "SEAT-1",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "SEAT-4",
+      "turn_id": "R1-SEAT-1",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R1-SEAT-1-COMM-GAP",
+        "failing_case_index": 5,
+        "failure_reason": "PREDICATE_RETURNED_FALSE",
+        "minimal_counterexample": {
+          "P": [
+            1,
+            2,
+            2,
+            0
+          ],
+          "Q": [
+            2,
+            1,
+            0,
+            2
+          ],
+          "kappa_den": 1,
+          "kappa_num": 1,
+          "label": "false_audit_claim_rejected"
+        },
+        "passed_cases": 5,
+        "status": "MINIMAL_COUNTEREXAMPLE",
+        "total_cases": 8,
+        "verdict_sha256": "3e0aa73162f74afb47a4621b1e6a66051076e18a5edca4f97f33b0165d567d04"
+      }
+    },
+    {
+      "dag_depth": 1,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 1,
+      "seat_id": "SEAT-2",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "SEAT-4",
+      "turn_id": "R1-SEAT-2",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R1-SEAT-2-CAYLEY-COMMUTATOR",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 4,
+        "status": "PASS_WITNESS",
+        "total_cases": 4,
+        "verdict_sha256": "0fdd6fe31fe6fa1b48982fc2491eae461b9a0131d21965c1812018b453d5d413"
+      }
+    },
+    {
+      "dag_depth": 1,
+      "interpositions_count": 0,
+      "mode": "challenge",
+      "round_num": 1,
+      "seat_id": "SEAT-3",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "SEAT-6",
+      "turn_id": "R1-SEAT-3",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R1-SEAT-3-PINGALAFRICKE",
+        "failing_case_index": 0,
+        "failure_reason": "PREDICATE_RETURNED_FALSE",
+        "minimal_counterexample": {
+          "den": 3,
+          "lam": 5,
+          "num": 5,
+          "teeth": [
+            5,
+            3
+          ]
+        },
+        "passed_cases": 0,
+        "status": "MINIMAL_COUNTEREXAMPLE",
+        "total_cases": 8,
+        "verdict_sha256": "a9e2c09549528c822a63f37e2121e78d5b5e027f2f671406f0365ef8118d666e"
+      }
+    },
+    {
+      "dag_depth": 1,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 1,
+      "seat_id": "SEAT-4",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "SEAT-2",
+      "turn_id": "R1-SEAT-4",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R1-SEAT-4-CRT-LCM",
+        "failing_case_index": 2,
+        "failure_reason": "PREDICATE_RETURNED_FALSE",
+        "minimal_counterexample": {
+          "compression": 2,
+          "lcm": 18980,
+          "moduli": [
+            260,
+            365
+          ],
+          "name": "non_coprime_inconsistent_residue_obstruction",
+          "residues": [
+            0,
+            1
+          ]
+        },
+        "passed_cases": 2,
+        "status": "MINIMAL_COUNTEREXAMPLE",
+        "total_cases": 4,
+        "verdict_sha256": "eb960936c42b96851615ee530fe4ad073b61df5f42d2bae04f9f5f84264cb184"
+      }
+    },
+    {
+      "dag_depth": 1,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 1,
+      "seat_id": "SEAT-5",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "SEAT-1",
+      "turn_id": "R1-SEAT-5",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R1-SEAT-5-INTEGER-HOLONOMY-GAP",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 4,
+        "status": "PASS_WITNESS",
+        "total_cases": 4,
+        "verdict_sha256": "e52d549800261edaf0426bc71370af8e23356f3e05bb24e47ccf88d721aeb95b"
+      }
+    },
+    {
+      "dag_depth": 1,
+      "interpositions_count": 0,
+      "mode": "obstruct",
+      "round_num": 1,
+      "seat_id": "SEAT-6",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "SEAT-4",
+      "turn_id": "R1-SEAT-6",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R1-SEAT-6-SCHUR-HOLONOMY",
+        "failing_case_index": 1,
+        "failure_reason": "PREDICATE_RETURNED_FALSE",
+        "minimal_counterexample": {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            5
+          ],
+          "det_after": [
+            688,
+            15625
+          ],
+          "det_before": [
+            34,
+            625
+          ],
+          "l1_after": [
+            9,
+            25
+          ],
+          "p": 254,
+          "q": 19,
+          "r": 223,
+          "s": 19,
+          "tooth": 53
+        },
+        "passed_cases": 1,
+        "status": "MINIMAL_COUNTEREXAMPLE",
+        "total_cases": 6,
+        "verdict_sha256": "ca62aae92ef3965d782aade62837c250fe018c5a0901f52e9c0a646218ce2c42"
+      }
+    },
+    {
+      "dag_depth": 2,
+      "interpositions_count": 5,
+      "mode": "repair",
+      "round_num": 2,
+      "seat_id": "SEAT-0",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "R1-SEAT-3",
+      "turn_id": "R2-SEAT-0",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R2-SEAT-0-GL2-FRICKE-REPAIR",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "0ac548057f04298ecb693d2403f4540f26f9efea097022cdd60ad7650af1ce56"
+      }
+    },
+    {
+      "dag_depth": 2,
+      "interpositions_count": 0,
+      "mode": "repair",
+      "round_num": 2,
+      "seat_id": "SEAT-1",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "R1-SEAT-1",
+      "turn_id": "R2-SEAT-1",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R2-SEAT-1-HURWITZ-PARITY-GAP",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "ea6b5fafd056c97792916113688470f0aecd1f60bd83b04a7a4d866d0f334bc1"
+      }
+    },
+    {
+      "dag_depth": 2,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 2,
+      "seat_id": "SEAT-2",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "R1-SEAT-0",
+      "turn_id": "R2-SEAT-2",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R2-SEAT-2-CF-SPIN-ADJOINT",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 6,
+        "status": "PASS_WITNESS",
+        "total_cases": 6,
+        "verdict_sha256": "2cba5c628cffc55befe891c2fd436daffaaedad0a9c010727a2d957812701d04"
+      }
+    },
+    {
+      "dag_depth": 2,
+      "interpositions_count": 0,
+      "mode": "repair",
+      "round_num": 2,
+      "seat_id": "SEAT-3",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "R1-SEAT-3",
+      "turn_id": "R2-SEAT-3",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R2-SEAT-3-GL2-FRICKE-SECTOR",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "cc880d7f53de0ecdde06f3d63a1f080f8e4806143244ad9c576f41153d8ee777"
+      }
+    },
+    {
+      "dag_depth": 2,
+      "interpositions_count": 0,
+      "mode": "repair",
+      "round_num": 2,
+      "seat_id": "SEAT-4",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "R1-SEAT-4",
+      "turn_id": "R2-SEAT-4",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R2-SEAT-4-CRTLCM-EXPECTED-REPAIR",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 7,
+        "status": "PASS_WITNESS",
+        "total_cases": 7,
+        "verdict_sha256": "545ca8dce992540d01a26ea6972a78259fa32af9e8e6521fe731b9ee8700a016"
+      }
+    },
+    {
+      "dag_depth": 2,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 2,
+      "seat_id": "SEAT-5",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "R1-SEAT-0",
+      "turn_id": "R2-SEAT-5",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R2-SEAT-5-SONA-HURWITZ-PARITY",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 7,
+        "status": "PASS_WITNESS",
+        "total_cases": 7,
+        "verdict_sha256": "cc3add8dac9ef8f15d948f26dcda47b53889a79d13d959a12a140e8752e2c8ae"
+      }
+    },
+    {
+      "dag_depth": 2,
+      "interpositions_count": 0,
+      "mode": "repair",
+      "round_num": 2,
+      "seat_id": "SEAT-6",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "R1-SEAT-6",
+      "turn_id": "R2-SEAT-6",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R2-SEAT-6-SCHUR-DETLOCK",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "a5c43b9b01ef572af591141a4befa9b9fd3d6379e38516f7ff63c70bfdd540e7"
+      }
+    },
+    {
+      "dag_depth": 3,
+      "interpositions_count": 5,
+      "mode": "compose",
+      "round_num": 3,
+      "seat_id": "SEAT-0",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "R2-SEAT-1",
+      "turn_id": "R3-SEAT-0",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R3-SEAT-0-FRICKE-SIGNATURE-UNIFIED",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "ff16ac7ef44e3d6f62249abf71fc53165da8fb20e5c8c88c7f91d486c6889680"
+      }
+    },
+    {
+      "dag_depth": 3,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 3,
+      "seat_id": "SEAT-1",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "R2-SEAT-4",
+      "turn_id": "R3-SEAT-1",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R3-SEAT-1-CRT-PARITY-GAP",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "d0f64e08a0ae4c72d424f1d41ad98e0927eaf368d7285af0796fe708137a7ecb"
+      }
+    },
+    {
+      "dag_depth": 3,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 3,
+      "seat_id": "SEAT-2",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "R2-SEAT-0",
+      "turn_id": "R3-SEAT-2",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R3-SEAT-2-CF-FRICKE-PARITY",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 6,
+        "status": "PASS_WITNESS",
+        "total_cases": 6,
+        "verdict_sha256": "758d7d8a35a9a947e542e68a0458a2565c269256a17d9dc035897cbaf9aeb5a2"
+      }
+    },
+    {
+      "dag_depth": 3,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 3,
+      "seat_id": "SEAT-3",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "R2-SEAT-0",
+      "turn_id": "R3-SEAT-3",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R3-SEAT-3-GL2-SU2-SHEET-BRIDGE",
+        "failing_case_index": 4,
+        "failure_reason": "PREDICATE_RETURNED_FALSE",
+        "minimal_counterexample": {
+          "cf": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            2
+          ],
+          "claim": "untwisted_sl2",
+          "expected": true,
+          "name": "21/13 = [1,1,1,1,1,2], s = +1: classical Fricke trace exact on the SL_2 sheet",
+          "offset": [
+            5,
+            7
+          ],
+          "witness": "W = [[21,8],[13,5]], det = +1, t = 26, z = 699, tr C = 17427 = x^2+y^2+z^2-xyz-2"
+        },
+        "passed_cases": 4,
+        "status": "MINIMAL_COUNTEREXAMPLE",
+        "total_cases": 8,
+        "verdict_sha256": "f796a85e42207d9532550e9e6173a5731f0eb07c4e07985367595db4c5d57563"
+      }
+    },
+    {
+      "dag_depth": 3,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 3,
+      "seat_id": "SEAT-4",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "R2-SEAT-1",
+      "turn_id": "R3-SEAT-4",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R3-SEAT-4-HURWITZ-CRT-PARITY",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 8,
+        "status": "PASS_WITNESS",
+        "total_cases": 8,
+        "verdict_sha256": "d843cc041f728fef9cc621836531ebfaafe467f3527533c5689c2b9484f83b2a"
+      }
+    },
+    {
+      "dag_depth": 3,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 3,
+      "seat_id": "SEAT-5",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "R2-SEAT-1",
+      "turn_id": "R3-SEAT-5",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R3-SEAT-5-SONA-MOD4-D",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 5,
+        "status": "PASS_WITNESS",
+        "total_cases": 5,
+        "verdict_sha256": "4ecd3ffcdee6c83804fd9d6a7bc42abae9d23857414f3e51b2da9b6bf536f54f"
+      }
+    },
+    {
+      "dag_depth": 3,
+      "interpositions_count": 0,
+      "mode": "compose",
+      "round_num": 3,
+      "seat_id": "SEAT-6",
+      "target_frontier": "Foundation-0/continuum",
+      "target_seat_or_turn": "R2-SEAT-3",
+      "turn_id": "R3-SEAT-6",
+      "verdict": {
+        "conjecture_id": "CONJ-T1-R3-SEAT-6-SCHUR-FRICKE-LOCK",
+        "failing_case_index": null,
+        "failure_reason": null,
+        "minimal_counterexample": null,
+        "passed_cases": 5,
+        "status": "PASS_WITNESS",
+        "total_cases": 5,
+        "verdict_sha256": "0a381b962183663ff328bee9d0530543f081cf7df09c18906b2aa76bb258081b"
+      }
+    }
+  ],
+  "variation": "scholars"
+}

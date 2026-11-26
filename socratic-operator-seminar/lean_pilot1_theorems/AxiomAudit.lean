@@ -1,0 +1,45 @@
+import S150Pilot1Theorems
+
+-- IntPoly (6)
+#print axioms S150Pilot1Theorems.evalPoly_norm
+#print axioms S150Pilot1Theorems.poly_eq_of_norm_eq
+#print axioms S150Pilot1Theorems.int_sq_nonneg
+#print axioms S150Pilot1Theorems.int_sq_eq_zero_iff
+#print axioms S150Pilot1Theorems.sum_two_sq_eq_zero_iff
+#print axioms S150Pilot1Theorems.nonneg_mul_nonneg
+
+-- Topic 1: Fricke-Cayley Discriminant Unification (11)
+#print axioms S150Pilot1Theorems.t1_fricke_homogeneity_16
+#print axioms S150Pilot1Theorems.t1_fricke_definite_commutator_exact
+#print axioms S150Pilot1Theorems.t1_hurwitz_group_commutator_trace
+#print axioms S150Pilot1Theorems.t1_so3_frobenius_commutator_exact
+#print axioms S150Pilot1Theorems.t1_so3_parity_transfer_mod16
+#print axioms S150Pilot1Theorems.t1_hurwitz_witnesses_and_spin_kernel
+#print axioms S150Pilot1Theorems.t1_fricke_split_transpose_factorization
+#print axioms S150Pilot1Theorems.t1_fricke_split_nonpos
+#print axioms S150Pilot1Theorems.t1_fricke_split_vanishes_iff_symmetric
+#print axioms S150Pilot1Theorems.t1_fricke_split_group_commutator_and_overshoot
+#print axioms S150Pilot1Theorems.t1_split_cf_witnesses_exact
+
+-- Topic 2: CRTVALVESEAL Bounded-Chatter TV & Tree Checksum (9)
+#print axioms S150Pilot1Theorems.t2_valve_bounded_chatter_tv_universal
+#print axioms S150Pilot1Theorems.t2_valve_zero_chatter_when_tv_lt_band
+#print axioms S150Pilot1Theorems.t2_valve_strict_deadband_zero_flips
+#print axioms S150Pilot1Theorems.t2_valve_flips_le_hi_plus_lo_hits
+#print axioms S150Pilot1Theorems.t2_khipu_tree_sum_conservation
+#print axioms S150Pilot1Theorems.t2_khipu_single_cord_tamper_detected
+#print axioms S150Pilot1Theorems.t2_chiral_checksum_detects_single_and_swap
+#print axioms S150Pilot1Theorems.t2_crt_two_moduli_necessity
+#print axioms S150Pilot1Theorems.t2_seminar_crt_valve_seal_witnesses
+
+-- Topic 3: Unified Schur-Witt-Fold Criterion (10)
+#print axioms S150Pilot1Theorems.t3_schur_fraction_free_congruence_2x2
+#print axioms S150Pilot1Theorems.t3_schur_fraction_free_congruence_3x3
+#print axioms S150Pilot1Theorems.t3_glz_canonical_shear_iff_divides
+#print axioms S150Pilot1Theorems.t3_glz_schur_integral_converse_counterexample
+#print axioms S150Pilot1Theorems.t3_two_mul_sq_ne_sq
+#print axioms S150Pilot1Theorems.t3_block_drop_1x1_iff_square_class
+#print axioms S150Pilot1Theorems.t3_block_drop_obstruction_2111_and_witness_3334
+#print axioms S150Pilot1Theorems.t3_gf2_inv_2x2_iff_det_odd
+#print axioms S150Pilot1Theorems.t3_gf2_schur_preserves_even_diagonal
+#print axioms S150Pilot1Theorems.t3_mirror_billiard_2_3_refutes_single_shear

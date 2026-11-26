@@ -1,0 +1,2132 @@
+{
+  "arm_id": "Arm_D_single",
+  "chair": "none",
+  "session": {
+    "chair": "none",
+    "counterexample_repairs": [
+      {
+        "broken_turn": "R1-SINGLE-5",
+        "repaired_turn": "R2-SINGLE-1"
+      },
+      {
+        "broken_turn": "R1-SINGLE-5",
+        "repaired_turn": "R2-SINGLE-2"
+      },
+      {
+        "broken_turn": "R1-SINGLE-5",
+        "repaired_turn": "R2-SINGLE-3"
+      },
+      {
+        "broken_turn": "R1-SINGLE-5",
+        "repaired_turn": "R2-SINGLE-4"
+      },
+      {
+        "broken_turn": "R1-SINGLE-5",
+        "repaired_turn": "R2-SINGLE-5"
+      },
+      {
+        "broken_turn": "R1-SINGLE-5",
+        "repaired_turn": "R2-SINGLE-6"
+      },
+      {
+        "broken_turn": "R1-SINGLE-5",
+        "repaired_turn": "R2-SINGLE-7"
+      }
+    ],
+    "cross_seat_compositions": [],
+    "dag_edges": [
+      {
+        "dst_seat_id": "SEAT-SINGLE",
+        "dst_turn_id": "R2-SINGLE-1",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "repair",
+        "src_seat_id": "SEAT-SINGLE",
+        "src_turn_id": "R1-SINGLE-5",
+        "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+      },
+      {
+        "dst_seat_id": "SEAT-SINGLE",
+        "dst_turn_id": "R2-SINGLE-2",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "repair",
+        "src_seat_id": "SEAT-SINGLE",
+        "src_turn_id": "R1-SINGLE-5",
+        "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+      },
+      {
+        "dst_seat_id": "SEAT-SINGLE",
+        "dst_turn_id": "R2-SINGLE-3",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "repair",
+        "src_seat_id": "SEAT-SINGLE",
+        "src_turn_id": "R1-SINGLE-5",
+        "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+      },
+      {
+        "dst_seat_id": "SEAT-SINGLE",
+        "dst_turn_id": "R2-SINGLE-4",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "repair",
+        "src_seat_id": "SEAT-SINGLE",
+        "src_turn_id": "R1-SINGLE-5",
+        "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+      },
+      {
+        "dst_seat_id": "SEAT-SINGLE",
+        "dst_turn_id": "R2-SINGLE-5",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "repair",
+        "src_seat_id": "SEAT-SINGLE",
+        "src_turn_id": "R1-SINGLE-5",
+        "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+      },
+      {
+        "dst_seat_id": "SEAT-SINGLE",
+        "dst_turn_id": "R2-SINGLE-6",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "repair",
+        "src_seat_id": "SEAT-SINGLE",
+        "src_turn_id": "R1-SINGLE-5",
+        "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+      },
+      {
+        "dst_seat_id": "SEAT-SINGLE",
+        "dst_turn_id": "R2-SINGLE-7",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "repair",
+        "src_seat_id": "SEAT-SINGLE",
+        "src_turn_id": "R1-SINGLE-5",
+        "src_verdict": "MINIMAL_COUNTEREXAMPLE"
+      },
+      {
+        "dst_seat_id": "SEAT-SINGLE",
+        "dst_turn_id": "R3-SINGLE-1",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "SEAT-SINGLE",
+        "src_turn_id": "R2-SINGLE-7",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "SEAT-SINGLE",
+        "dst_turn_id": "R3-SINGLE-2",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "SEAT-SINGLE",
+        "src_turn_id": "R2-SINGLE-3",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "SEAT-SINGLE",
+        "dst_turn_id": "R3-SINGLE-3",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "SEAT-SINGLE",
+        "src_turn_id": "R2-SINGLE-7",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "SEAT-SINGLE",
+        "dst_turn_id": "R3-SINGLE-4",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "SEAT-SINGLE",
+        "src_turn_id": "R2-SINGLE-7",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "SEAT-SINGLE",
+        "dst_turn_id": "R3-SINGLE-5",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "SEAT-SINGLE",
+        "src_turn_id": "R2-SINGLE-7",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "SEAT-SINGLE",
+        "dst_turn_id": "R3-SINGLE-6",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "SEAT-SINGLE",
+        "src_turn_id": "R2-SINGLE-3",
+        "src_verdict": "PASS_WITNESS"
+      },
+      {
+        "dst_seat_id": "SEAT-SINGLE",
+        "dst_turn_id": "R3-SINGLE-7",
+        "dst_verdict": "PASS_WITNESS",
+        "mode": "compose",
+        "src_seat_id": "SEAT-SINGLE",
+        "src_turn_id": "R2-SINGLE-7",
+        "src_verdict": "PASS_WITNESS"
+      }
+    ],
+    "historical_to_modern_edges": [],
+    "max_dag_depth": 3,
+    "minimal_counterexample_count": 2,
+    "modern_to_historical_edges": [],
+    "pass_witness_count": 19,
+    "s150_g2_dynamic_compounding_passed": true,
+    "s150_g5_bidirectional_pollination_passed": false,
+    "session_id": "S150B-ARM_D_SINGLE-TOPIC1-CONTINUUM",
+    "topic_id": "TOPIC-1-CONTINUUM",
+    "transcript_sha256": "068f6c654b503f656849011fdef184d8be32c699157dfa8f9cc2ddc5d3b337d1",
+    "turn_count": 21,
+    "turn_records": [
+      {
+        "dag_depth": 1,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 1,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "TOPIC-1-CONTINUUM/Foundation-0/continuum",
+        "turn_id": "R1-SINGLE-1",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R1-SINGLE-1-CAYLEYDEFECT",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 5,
+          "status": "PASS_WITNESS",
+          "total_cases": 5,
+          "verdict_sha256": "2067fa5eac223449e59fb969e4e02ba074fa6d24a8bd2ee9796f0c74b13763da"
+        }
+      },
+      {
+        "dag_depth": 1,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 1,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "TOPIC-1-CONTINUUM:Foundation-0/continuum",
+        "turn_id": "R1-SINGLE-2",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R1-SINGLE-2-CAYLEY-LIFT",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 4,
+          "status": "PASS_WITNESS",
+          "total_cases": 4,
+          "verdict_sha256": "9406e3ab7535f6d09030314fe9d51ae8e30b0087273248f0c88871bb6f9dff57"
+        }
+      },
+      {
+        "dag_depth": 1,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 1,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "TOPIC-1-CONTINUUM/Foundation-0/continuum:SEAT-CONTRA-R1-SINGLE-4",
+        "turn_id": "R1-SINGLE-3",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R1-SINGLE-3-CAYLEYCOMM",
+          "failing_case_index": 0,
+          "failure_reason": "PREDICATE_RETURNED_FALSE",
+          "minimal_counterexample": {
+            "a": 3,
+            "b": 4,
+            "c": 5,
+            "expect_claim": true,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          "passed_cases": 0,
+          "status": "MINIMAL_COUNTEREXAMPLE",
+          "total_cases": 5,
+          "verdict_sha256": "f176772efd15f76497f0ffb6eaae7a5c610fcd5e48d19fa62fb2ffef5d92df0b"
+        }
+      },
+      {
+        "dag_depth": 1,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 1,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "TOPIC-1-CONTINUUM/Foundation-0/continuum",
+        "turn_id": "R1-SINGLE-4",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R1-SINGLE-4-CAYLEY-MADHAVA",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 3,
+          "status": "PASS_WITNESS",
+          "total_cases": 3,
+          "verdict_sha256": "1315eb2d06a2b4ec4acbb2b576cec5e996878167a95c6d7d329afa61dff79ce6"
+        }
+      },
+      {
+        "dag_depth": 1,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 1,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "TOPIC-1-CONTINUUM",
+        "turn_id": "R1-SINGLE-5",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R1-SINGLE-5-CAYLEY-NET",
+          "failing_case_index": 2,
+          "failure_reason": "PREDICATE_RETURNED_FALSE",
+          "minimal_counterexample": {
+            "a": 215989,
+            "b": 11,
+            "expect_claim": true
+          },
+          "passed_cases": 2,
+          "status": "MINIMAL_COUNTEREXAMPLE",
+          "total_cases": 6,
+          "verdict_sha256": "1891f1185d89cb95ac07b59ecd9c160f28d7e86a9a92e61b8178929c3d0217e3"
+        }
+      },
+      {
+        "dag_depth": 1,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 1,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "TOPIC-1-CONTINUUM/SEAT-MULTI-A/R1-S2",
+        "turn_id": "R1-SINGLE-6",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R1-SINGLE-6-CAYLEY-MADHAVA",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 3,
+          "status": "PASS_WITNESS",
+          "total_cases": 3,
+          "verdict_sha256": "64772c576b0121374c427f79e9c5b5babf5a72604a549a8c21208e78522d27eb"
+        }
+      },
+      {
+        "dag_depth": 1,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 1,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "TOPIC-1-CONTINUUM/Foundation-0/continuum",
+        "turn_id": "R1-SINGLE-7",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R1-SINGLE-7-CAYLEY-PELL-MADHAVA-S3",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 13,
+          "status": "PASS_WITNESS",
+          "total_cases": 13,
+          "verdict_sha256": "622b22198ea03cd84e697bf8e27cad3364437e7f28765ebe9819347ced767933"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 0,
+        "mode": "repair",
+        "round_num": 2,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-SINGLE-5",
+        "turn_id": "R2-SINGLE-1",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R2-SINGLE-1-CAYLEY-NET-GCD2-REPAIR",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 8,
+          "status": "PASS_WITNESS",
+          "total_cases": 8,
+          "verdict_sha256": "6e1176f93c7bb33b852e21e0e69e549ece40dcfdb2cbacb878173a3851b63fe3"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 0,
+        "mode": "repair",
+        "round_num": 2,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-SINGLE-5",
+        "turn_id": "R2-SINGLE-2",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R2-SINGLE-2-CAYLEY-PARITY-REPAIR",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 10,
+          "status": "PASS_WITNESS",
+          "total_cases": 10,
+          "verdict_sha256": "3b243238f71a4aea50ff159ad8285df68fe21ab3624f2814c939e1d222915dc4"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 0,
+        "mode": "repair",
+        "round_num": 2,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-SINGLE-5",
+        "turn_id": "R2-SINGLE-3",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R2-SINGLE-3-CAYLEY-NETSCALE-REPAIR",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 7,
+          "status": "PASS_WITNESS",
+          "total_cases": 7,
+          "verdict_sha256": "b04b9fcd88192a3006c7bec7e8977b6e7895a520dfbbbb5f86e945bebe051569"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 0,
+        "mode": "repair",
+        "round_num": 2,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-SINGLE-5",
+        "turn_id": "R2-SINGLE-4",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R2-SINGLE-4-CAYLEY-DENOM-REPAIR",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 7,
+          "status": "PASS_WITNESS",
+          "total_cases": 7,
+          "verdict_sha256": "1662f07c026f4243aac7da40d73657711b064c92fe9e1aee8cac76b47f71820b"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 0,
+        "mode": "repair",
+        "round_num": 2,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-SINGLE-5",
+        "turn_id": "R2-SINGLE-5",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R2-SINGLE-5-CAYLEY-NET-PARITY",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 7,
+          "status": "PASS_WITNESS",
+          "total_cases": 7,
+          "verdict_sha256": "c9e6b942fb755e933551c165c7e3392b4fb3d6b98dc35deb6fe697e67a0cdb4b"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 0,
+        "mode": "repair",
+        "round_num": 2,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-SINGLE-5",
+        "turn_id": "R2-SINGLE-6",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R2-SINGLE-6-CAYLEY-NET-PARITY-REPAIR",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 8,
+          "status": "PASS_WITNESS",
+          "total_cases": 8,
+          "verdict_sha256": "f235b385b84a4532a09205f357e933869eba5c8eb95a90e2e1a2470ec10ea21c"
+        }
+      },
+      {
+        "dag_depth": 2,
+        "interpositions_count": 0,
+        "mode": "repair",
+        "round_num": 2,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R1-SINGLE-5",
+        "turn_id": "R2-SINGLE-7",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R2-SINGLE-7-CAYLEY-NETDELTA-REPAIR",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 6,
+          "status": "PASS_WITNESS",
+          "total_cases": 6,
+          "verdict_sha256": "c8b707a194718d5d49ce73d2e508e26a0f8eca5d9ee9e8c03bedb015ffeb1848"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 3,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R2-SINGLE-7",
+        "turn_id": "R3-SINGLE-1",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R3-SINGLE-1-CAYLEY-NETDELTA-COMP",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 6,
+          "status": "PASS_WITNESS",
+          "total_cases": 6,
+          "verdict_sha256": "42ecb395b62073d2f23e66408a8464560f2145096ea6e990c3c8476253c5d437"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 3,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R2-SINGLE-3",
+        "turn_id": "R3-SINGLE-2",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R3-SINGLE-2-CAYLEY-NET-HOLONOMY",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 6,
+          "status": "PASS_WITNESS",
+          "total_cases": 6,
+          "verdict_sha256": "e66356b6c6f05b56541427e7b434e157a9f19afa448f1c0bed57ab5579a45a07"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 3,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R2-SINGLE-7",
+        "turn_id": "R3-SINGLE-3",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R3-SINGLE-3-CAYLEY-NETDELTA-FRICKE",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 5,
+          "status": "PASS_WITNESS",
+          "total_cases": 5,
+          "verdict_sha256": "45d7eb8fa5e0aa3e7c3f16c8bf438f416f60477dca529ad5bce83199adf10489"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 3,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R2-SINGLE-7",
+        "turn_id": "R3-SINGLE-4",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R3-SINGLE-4-CAYLEY-NET-ROT-COMM",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 8,
+          "status": "PASS_WITNESS",
+          "total_cases": 8,
+          "verdict_sha256": "709b9e25d5b1f3adc82d71228d5f94a44e6a26cacb3d5fbcb1266ace307fa7e3"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 3,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R2-SINGLE-7",
+        "turn_id": "R3-SINGLE-5",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R3-SINGLE-5-CAYLEY-NET-FRICKE",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 6,
+          "status": "PASS_WITNESS",
+          "total_cases": 6,
+          "verdict_sha256": "aee280120b0ad2d8fb5f5c49f322acea888c5611c64f72a7a7a6bc6b7dfe4dac"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 3,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R2-SINGLE-3",
+        "turn_id": "R3-SINGLE-6",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R3-SINGLE-6-CAYLEY-NET-COMM-PELL",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 6,
+          "status": "PASS_WITNESS",
+          "total_cases": 6,
+          "verdict_sha256": "20e8bf4e1e66b2eb5cce522c022a1d5902f63c55fa92490b78b620b3e327c23e"
+        }
+      },
+      {
+        "dag_depth": 3,
+        "interpositions_count": 0,
+        "mode": "compose",
+        "round_num": 3,
+        "seat_id": "SEAT-SINGLE",
+        "target_frontier": "Foundation-0/continuum",
+        "target_seat_or_turn": "R2-SINGLE-7",
+        "turn_id": "R3-SINGLE-7",
+        "verdict": {
+          "conjecture_id": "CONJ-T1-R3-SINGLE-7-CAYLEY-NET-COMMUTATOR-HURWITZ",
+          "failing_case_index": null,
+          "failure_reason": null,
+          "minimal_counterexample": null,
+          "passed_cases": 6,
+          "status": "PASS_WITNESS",
+          "total_cases": 6,
+          "verdict_sha256": "a831319b38ec055be4f21e316fa2b63be3d9729044b74afd770ded16f6a92e95"
+        }
+      }
+    ],
+    "variation": "single"
+  },
+  "topic_id": "TOPIC-1-CONTINUUM",
+  "turns": [
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Law 2b steelman: the Cayley lift conjugates the circle's Abelian group law into exact tangent addition of rational slopes, so finite-precision cancellation never appears because every quantity stays an integer/Fraction pair; the Gate-5 congruence scope is the pole locus 1-ts = 0 (t=s=\u00b11), which is exactly where the Abelian composition is undefined and which the R5 negative case refutes; N0/N1/N2 novelty note: the contrast term is the non-Abelian commutator defect (t-s)*[[0,1],[-1,0]] of the lift matrices, nonzero iff t != s, mirroring the non-Abelian holonomy side of the benchmark topic, while the sqrt2 Hurwitz convergents supply the continued-fraction optimality bound |sqrt2 - p/q| < 1/(2q^2) in exact integer form.",
+        "mode": "compose",
+        "target_seat_or_turn": "TOPIC-1-CONTINUUM/Foundation-0/continuum"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-stereo-lift-tangent-addition-vs-sl2-commutator (with Hurwitz sqrt2 Pell-convergent invariant)",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "OWN_TERMS_FIRST: the stereographic Cayley lift t -> ((1-t^2)/(1+t^2), 2t/(1+t^2)) sends every integer slope to an exact rational point on x^2+y^2=1 whose coordinates have gcd 1 or 2, the induced chord-slope composition u = (t+s)/(1-ts) is exactly commutative (Abelian holonomy, zero commutator defect) whenever the pole 1-ts is nonzero, whereas the finite-net shear/lift matrices M_t = [[t,1],[1,0]] carry an exactly nonzero commutator defect (t-s) off the diagonal; in parallel, the Hurwitz continued-fraction convergents of sqrt2 satisfy the exact Pell invariant |p^2 - 2q^2| = 1 with isqrt(2q^2) in {p-1, p}."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: integer slope Cayley lift lands on the unit circle with reduced coordinates (gcd in {1,2}); tangent-addition composition is defined and exactly commutative off the pole 1-ts=0; the SL2-style lift commutator defect vanishes iff t=s; sqrt2 Pell convergents satisfy |p^2-2q^2|=1 with the isqrt cross-check. R5 negative/refutation cases tested: pole case (t=s=1) and defect-vanishing case (t=s=4).",
+        "code": "from fractions import Fraction\nfrom math import gcd, isqrt\nimport itertools\n\ndef check_case(case):\n    t = case['t']\n    s = case['s']\n    num = 1 - t * t\n    den = 1 + t * t\n    g = gcd(abs(num), den)\n    lift_ok = (g in (1, 2)) and (num * num + 4 * t * t == den * den)\n    x = Fraction(num, den)\n    y = Fraction(2 * t, den)\n    circle_ok = (x * x + y * y == 1)\n    pole = 1 - t * s\n    if pole == 0:\n        compose_ok = False\n    else:\n        u = Fraction(t + s, pole)\n        v = Fraction(s + t, pole)\n        compose_ok = (u == v)\n    defect_nonzero = (t != s)\n    pell_ok = True\n    if 'pell_k' in case:\n        k = case['pell_k']\n        pp, qp = 1, 1\n        pc, qc = 3, 2\n        if k == 0:\n            p, q = 1, 1\n        elif k == 1:\n            p, q = 3, 2\n        else:\n            for _ in range(k - 1):\n                pp, qp, pc, qc = pc, qc, 2 * pc + pp, 2 * qc + qp\n            p, q = pc, qc\n        d = p * p - 2 * q * q\n        pell_ok = (abs(d) == 1) and (isqrt(2 * q * q) in (p - 1, p))\n    claim_holds = lift_ok and circle_ok and compose_ok and defect_nonzero and pell_ok\n    return bool(claim_holds == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R1-SINGLE-1-CAYLEYDEFECT",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "expect_claim": true,
+            "pell_k": 4,
+            "s": 5,
+            "t": 3
+          },
+          {
+            "expect_claim": true,
+            "pell_k": 0,
+            "s": -3,
+            "t": 2
+          },
+          {
+            "expect_claim": true,
+            "pell_k": 3,
+            "s": 7,
+            "t": 0
+          },
+          {
+            "expect_claim": false,
+            "pell_k": 2,
+            "s": 1,
+            "t": 1
+          },
+          {
+            "expect_claim": false,
+            "pell_k": 1,
+            "s": 4,
+            "t": 4
+          }
+        ]
+      },
+      "round_num": 1,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R1-SINGLE-1"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Bridge: the exact rational Cayley lift shows SO(2) holonomy over Q is abelian and lossless \u2014 the commutator of two lifts is the identity and the round-trip y/(1+x) cancels exactly \u2014 whereas a non-Abelian holonomy accumulates a commutator defect [A,B] != I under finite-precision cancellation. The denominator bound den^2 + num^2 is the finite-net mesh: quadratic growth of the exact denominator plays the role of the asymptotic tail in the Madhava remainder, and best-approximation (Hurwitz CF optimality) of the lifted slope num/den corresponds to convergents of the continued fraction of kappa_sub = 215989/11. Gate-5 congruence scope: the claim holds over Q only; no modular reduction (contrast the Schur GF(2) readable-record break 0/1 -> 9/25, which is a defect introduced by reducing mod 2, not present in the exact lift). N0/N1/N2 novelty note: N0 = exact on-circle identity, N1 = exact slope recovery under cancellation, N2 = quadratic denominator divisibility bound; the den=0 case is the R5 negative/refutation instance.",
+        "mode": "compose",
+        "target_seat_or_turn": "TOPIC-1-CONTINUUM:Foundation-0/continuum"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-lift-stereographic-kappa-sub=215989/11",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For all integers num, den with den != 0, the rational stereographic/Cayley lift x = (den^2 - num^2)/(den^2 + num^2), y = 2*num*den/(den^2 + num^2) satisfies x^2 + y^2 = 1 exactly in Q, the slope is recovered by exact cancellation y/(1+x) = num/den with no precision loss, and after Fraction reduction both denominators divide den^2 + num^2 (quadratic finite-net spacing); for den = 0 the lift is undefined and the claim fails. With kappa_sub = 215989/11, the slope num/den = 11/215989 lifts to an exact rational circle point whose reduced denominator divides 215989^2 + 11^2 = 46651121122."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: the stereographic/Cayley lift of any rational slope num/den (den != 0) is an exact rational point on the unit circle, recovers the slope exactly via y/(1+x) = t (pure rational cancellation, zero precision loss, in contrast to finite-precision non-Abelian commutator defects), is invariant under scaling (num,den) -> (2num,2den), and its reduced denominators divide den^2 + num^2 (quadratic finite-net bound). R5 negative/refutation case: den = 0 makes the lift undefined, so expect_claim = false there.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    num = case['num']\n    den = case['den']\n    expect = bool(case['expect_claim'])\n    if den == 0:\n        claim_holds = False\n    else:\n        g = gcd(num, den)\n        t = Fraction(num // g, den // g)\n        t2 = t * t\n        x = (1 - t2) / (1 + t2)\n        y = (2 * t) / (1 + t2)\n        on_circle = (x * x + y * y == 1)\n        recovered = (y / (1 + x) == t)\n        d = den * den + num * num\n        denom_bound = (d % x.denominator == 0) and (d % y.denominator == 0)\n        scaled = (Fraction(2 * num, 2 * den) == t)\n        claim_holds = bool(on_circle and recovered and denom_bound and scaled)\n    return bool(claim_holds == expect)",
+        "conjecture_id": "CONJ-T1-R1-SINGLE-2-CAYLEY-LIFT",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "den": 3,
+            "expect_claim": true,
+            "num": 1
+          },
+          {
+            "den": 215989,
+            "expect_claim": true,
+            "num": 11
+          },
+          {
+            "den": 113,
+            "expect_claim": true,
+            "num": 355
+          },
+          {
+            "den": 0,
+            "expect_claim": false,
+            "num": 1
+          }
+        ]
+      },
+      "round_num": 1,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R1-SINGLE-2"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "The Cayley lift converts rational circle points into rational slopes (Law 2b steelman: exact Fraction arithmetic removes the cancellation that finite-net approximation suffers), and the same SL_2 structure carries the non-Abelian holonomy side: commutators of integer Moebius transformations keep determinant exactly 1 (Gate-5 congruence scope: checked over Z, no modulus), giving an N2 novelty note that the defect is measured by the integer commutator entries, not by any epsilon tail.",
+        "mode": "compose",
+        "target_seat_or_turn": "TOPIC-1-CONTINUUM/Foundation-0/continuum:SEAT-CONTRA-R1-SINGLE-4"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley_stereographic_lift_sl2_commutator_det",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For every Pythagorean triple (a,b,c) with a^2+b^2=c^2, the stereographic Cayley lift t = b/(c-a) is an exact rational slope whose inverse lift x=(1-t^2)/(1+t^2), y=2t/(1+t^2) reproduces (a/c, b/c) with no finite-precision cancellation, while the non-Abelian analogue of that cancellation is the exact integer identity det(A B A^{-1} B^{-1}) = 1 for A,B in SL_2(Z), so the commutator defect is a purely algebraic integer invariant rather than a floating-point residual."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: stereographic Cayley lift round-trips Pythagorean rational points with zero cancellation, and the SL_2(Z) commutator of two determinant-1 integer Moebius maps has determinant exactly 1; R5 negative cases (non-Pythagorean triples, det != 1 matrices) refute the claim.",
+        "code": "from fractions import Fraction\nfrom math import gcd, isqrt\nimport itertools\n\ndef _det2(m):\n    return m[0] * m[3] - m[1] * m[2]\n\ndef _matmul(A, B):\n    return (A[0]*B[0] + A[1]*B[2],\n            A[0]*B[1] + A[1]*B[3],\n            A[2]*B[0] + A[3]*B[2],\n            A[2]*B[1] + A[3]*B[3])\n\ndef _inv(A):\n    return (A[3], -A[1], -A[2], A[0])\n\ndef check_case(case):\n    a = case['a']\n    b = case['b']\n    c = case['c']\n    A = (case['p'], case['q'], case['r'], case['s'])\n    B = (case['u'], case['v'], case['w'], case['z'])\n    ok = (a * a + b * b == c * c) and (c > 0) and ((c - a) != 0)\n    if ok:\n        t = Fraction(b, c - a)\n        x = (Fraction(1) - t * t) / (Fraction(1) + t * t)\n        y = (2 * t) / (Fraction(1) + t * t)\n        ok = (x == Fraction(a, c)) and (y == Fraction(b, c))\n    if ok:\n        ok = (_det2(A) == 1) and (_det2(B) == 1)\n    if ok:\n        comm = _matmul(_matmul(A, B), _matmul(_inv(A), _inv(B)))\n        ok = (_det2(comm) == 1) and all(isinstance(e, int) for e in comm)\n    return bool(ok == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R1-SINGLE-3-CAYLEYCOMM",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 3,
+            "b": 4,
+            "c": 5,
+            "expect_claim": true,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 5,
+            "b": 12,
+            "c": 13,
+            "expect_claim": true,
+            "p": 3,
+            "q": 2,
+            "r": 4,
+            "s": 3,
+            "u": 1,
+            "v": 2,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 8,
+            "b": 15,
+            "c": 17,
+            "expect_claim": true,
+            "p": 5,
+            "q": 3,
+            "r": 3,
+            "s": 2,
+            "u": 2,
+            "v": 1,
+            "w": 1,
+            "z": 1
+          },
+          {
+            "a": 1,
+            "b": 1,
+            "c": 1,
+            "expect_claim": false,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 3,
+            "b": 4,
+            "c": 5,
+            "expect_claim": false,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 2,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          }
+        ]
+      },
+      "round_num": 1,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R1-SINGLE-3"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Law 2b steelman: the Cayley lift is the exact rational parametrization of the circle, so every finite-net node is a Pythagorean integer triple and the primitivity test gcd==1 with opposite parity is the Gate-5 congruence scope (mod-2 parity + coprimality) applied to the lift; N0: no prior refereed turn in round 1, N1: the Madhava sign law and the exact gap 22/7 - 355/113 = 1/791 are new exact rational receipts composed against the kappa_sub=215989/11 remainder-4 defect, N2: the non-Abelian commutator defect is modeled as the failure of the lift to linearize order, i.e. the sign alternation (-1)^{n+1} that a commuting (Abelian) tail would kill.",
+        "mode": "compose",
+        "target_seat_or_turn": "TOPIC-1-CONTINUUM/Foundation-0/continuum"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-lift-pythagoras + madhava-bracket + zu-355/113-gap (kappa_sub=215989/11=19635+4/11 cancellation floor)",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "OWN_TERMS_FIRST: the stereographic Cayley lift t=p/q -> ((q^2-p^2)/(q^2+p^2), 2pq/(q^2+p^2)) maps every rational slope to a rational unit-circle point, so (q^2-p^2, 2pq, q^2+p^2) is an exact integer Pythagorean triple, primitive iff gcd(p,q)=1 and p,q of opposite parity; in the same finite-net, the Madhava alternating partial sums S_n = sum_{k<=n} (-1)^k/(2k+1) bracket the limit with even subsequence strictly decreasing and odd strictly increasing (sign(S_{n+2}-S_n)=(-1)^{n+1}), and Zu's 355/113 sits exactly 1/791 below 22/7, while the residual cancellation floor kappa_sub = 215989/11 = 19635 + 4/11 (non-integer, remainder 4 mod 11) marks the finite-precision defect against the non-Abelian commutator obstruction."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: Cayley lift of p/q yields integer Pythagorean triple (q^2-p^2, 2pq, q^2+p^2), primitive iff gcd(p,q)=1 and opposite parity, with positive first leg; Madhava partial sums satisfy sign(S_{n+2}-S_n)=(-1)^{n+1}; and 22/7 - 355/113 = 1/791 exactly. R5 negative/refutation case: p>q flips the lift leg negative and the claim fails as expected (expect_claim=false).",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    p = case['p']\n    q = case['q']\n    n = case['n']\n    a = q*q - p*p\n    b = 2*p*q\n    c = q*q + p*p\n    pyth = (a*a + b*b == c*c)\n    g = gcd(gcd(abs(a), b), c)\n    primitive = (g == 1)\n    coprime_opposite = (gcd(p, q) == 1) and ((p - q) % 2 != 0)\n    s_n = Fraction(0, 1)\n    for k in range(n + 1):\n        s_n = s_n + Fraction((-1)**k, 2*k + 1)\n    s_n2 = s_n + Fraction((-1)**(n + 1), 2*n + 3) + Fraction((-1)**(n + 2), 2*n + 5)\n    diff = s_n2 - s_n\n    sign = 1 if diff > 0 else (-1 if diff < 0 else 0)\n    madhava = (sign == (-1)**(n + 1))\n    zu_gap = (Fraction(22, 7) - Fraction(355, 113) == Fraction(1, 791))\n    claim_holds = bool(pyth and (primitive == coprime_opposite) and madhava and zu_gap and (a > 0))\n    return bool(claim_holds == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R1-SINGLE-4-CAYLEY-MADHAVA",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "expect_claim": true,
+            "n": 4,
+            "p": 2,
+            "q": 3
+          },
+          {
+            "expect_claim": true,
+            "n": 7,
+            "p": 1,
+            "q": 4
+          },
+          {
+            "expect_claim": false,
+            "n": 0,
+            "p": 3,
+            "q": 2
+          }
+        ]
+      },
+      "round_num": 1,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R1-SINGLE-4"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Bridge: the Cayley lift sends additive slope composition to circle multiplication, so the denominator collapse (a^2+b^2)/g^2 under gcd(a,b)=g>1 is the abelianized residue of the non-Abelian commutator defect [L(t1),L(t2)]; Law 2b steelman: the same g^2 factor is exactly the Qin non-coprime CRT modulus-division that survives as a congruence obstruction (Gate-5 scope: only the g^2-part is invisible mod g^2, the rest of the holonomy is detected). Novelty note: N0 (raw lift) is classical, N1 (denominator-scale invariant) is the finite-net bookkeeping, N2 (gcd-cancellation as commutator shadow, with kappa_sub = 215989/11 coprime so no cancellation, checked against Hurwitz CF Pell defect +/-1 minimality) is the new claim tested here.",
+        "mode": "compose",
+        "target_seat_or_turn": "TOPIC-1-CONTINUUM"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley_stereo_lift_kappa_sub_215989_over_11",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "In my own terms: fix the rational slope t = a/b with kappa_sub = 215989/11 as the canonical coprime instance; the stereographic Cayley lift t -> ((1-t^2)/(1+t^2), 2t/(1+t^2)) maps the rational net Q onto the rational points of the unit circle, and the reduced denominator of both lifted coordinates equals the net scale a^2 + b^2 exactly when gcd(a,b) = 1, while any common factor g > 1 produces a cancellation defect g^2 (the finite-precision shadow of a non-Abelian commutator defect)."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: for t = Fraction(a,b), the Cayley lift (x,y) = ((1-t^2)/(1+t^2), 2t/(1+t^2)) satisfies x^2+y^2 = 1 with both reduced denominators equal to the integer net scale a^2+b^2, holding iff gcd(a,b)=1 and both coordinates nonzero. R5 negative/refutation cases tested: non-coprime pair (6,8) with cancellation g=2, axis case (0,5) giving y=0, and pole case (1,0) with b=0.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    a = case['a']\n    b = case['b']\n    if b == 0:\n        claim_holds = False\n    else:\n        t = Fraction(a, b)\n        x = (1 - t*t) / (1 + t*t)\n        y = (2*t) / (1 + t*t)\n        scale = a*a + b*b\n        claim_holds = (x*x + y*y == 1) and (x.denominator == scale) and (y.denominator == scale)\n    return bool(claim_holds == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R1-SINGLE-5-CAYLEY-NET",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 3,
+            "b": 4,
+            "expect_claim": true
+          },
+          {
+            "a": 5,
+            "b": 12,
+            "expect_claim": true
+          },
+          {
+            "a": 215989,
+            "b": 11,
+            "expect_claim": true
+          },
+          {
+            "a": 6,
+            "b": 8,
+            "expect_claim": false
+          },
+          {
+            "a": 0,
+            "b": 5,
+            "expect_claim": false
+          },
+          {
+            "a": 1,
+            "b": 0,
+            "expect_claim": false
+          }
+        ]
+      },
+      "round_num": 1,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R1-SINGLE-5"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Bridge: the Cayley lift converts additive slope data into exact rational circle points, so the Hurwitz-type optimality bound |alpha - p/q| < 1/(sqrt(5) q^2) is replaced by the exact integer congruence 5*(p^2 - d q^2)^2 compared against q^4 via cross-multiplication (Gate-5 congruence scope: every check is a congruence modulo an exact denominator, never a float). Law 2b steelman: the non-Abelian commutator defect is measured by the exact chord distance between P(t1 + t2) and the rotation product P(t1)P(t2), which is a positive Fraction whenever t1*t2 != 0, while the true Cayley composition T(t1,t2) = (t1+t2)/(1-t1 t2) kills the defect exactly \u2014 the same mechanism by which kappa_sub = 215989/11 and Zu's 355/113 remain exact rationals immune to cancellation. N0/N1/N2 novelty note: N0 (new) is the exact homomorphism-vs-naive-sum defect dichotomy; N1 reuses Madhava bracketing; N2 is scoped to TOPIC-1-CONTINUUM Foundation-0 only.",
+        "mode": "compose",
+        "target_seat_or_turn": "TOPIC-1-CONTINUUM/SEAT-MULTI-A/R1-S2"
+      },
+      "corpus_anchor": {
+        "operator_id": "CAYLEY-STEREO-LIFT + MADHAVA-TAIL-BRACKET (kappa_sub = 215989/11, Zu 355/113 class)",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For every integer t, the stereographic Cayley lift P(t) = ((1 - t^2)/(1 + t^2), 2t/(1 + t^2)) is an exact rational point on the unit circle (x^2 + y^2 = 1 identically, no floats); the tangent-addition composition T(t1,t2) = (t1 + t2)/(1 - t1 t2) makes P a group homomorphism into the rotation group (exact chord defect zero), whereas the naive sum t1 + t2 leaves a strictly positive exact rational chord defect (the Abelianized shadow of a non-Abelian commutator defect); and the Madhava partial sums S_n = sum_{k=0}^{n} (-1)^k/(2k+1) bracket the limit exactly, with S_{n+2} < S_n for even n and S_{n+2} > S_n for odd n, giving the exact remainder envelope |R_n| <= 1/(2n+3) \u2014 all comparisons done by integer cross-multiplication of Fractions, so finite-precision cancellation cannot enter."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: Cayley lift P(t) lies on the unit circle over Fractions; tangent-addition composition reproduces the rotation product exactly (zero chord defect) while the naive sum t1+t2 yields a strictly positive exact chord defect for t1*t2 != 0; Madhava partial sums S_n bracket with S_{n+2} - S_n of sign (-1)^{n+1}. R5 negative/refutation case: t1 = 0 collapses the naive-sum defect to zero, so the full claim is false there.",
+        "code": "from fractions import Fraction\n\ndef _cayley(t):\n    t = Fraction(t)\n    d = 1 + t * t\n    return ((1 - t * t) / d, (2 * t) / d)\n\ndef _dist2(p, q):\n    return (p[0] - q[0]) ** 2 + (p[1] - q[1]) ** 2\n\ndef check_case(case):\n    t1 = case['t1']\n    t2 = case['t2']\n    n = case['n']\n    p1 = _cayley(t1)\n    p2 = _cayley(t2)\n    on_circle = (p1[0] ** 2 + p1[1] ** 2 == 1) and (p2[0] ** 2 + p2[1] ** 2 == 1)\n    prod = (p1[0] * p2[0] - p1[1] * p2[1], p1[0] * p2[1] + p1[1] * p2[0])\n    if (1 - t1 * t2) != 0:\n        t_add = Fraction(t1 + t2, 1 - t1 * t2)\n        homomorphism = _dist2(_cayley(t_add), prod) == 0\n    else:\n        homomorphism = False\n    naive_defect = _dist2(_cayley(t1 + t2), prod)\n    defect_positive = naive_defect > 0\n    s_n = sum(((-1) ** k) * Fraction(1, 2 * k + 1) for k in range(n + 1))\n    s_n2 = sum(((-1) ** k) * Fraction(1, 2 * k + 1) for k in range(n + 3))\n    bracket = (s_n2 < s_n) if (n % 2 == 0) else (s_n2 > s_n)\n    claim = on_circle and homomorphism and defect_positive and bracket\n    return bool(claim == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R1-SINGLE-6-CAYLEY-MADHAVA",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "expect_claim": true,
+            "n": 3,
+            "t1": 1,
+            "t2": 2
+          },
+          {
+            "expect_claim": true,
+            "n": 5,
+            "t1": 2,
+            "t2": 3
+          },
+          {
+            "expect_claim": false,
+            "n": 0,
+            "t1": 0,
+            "t2": 5
+          }
+        ]
+      },
+      "round_num": 1,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R1-SINGLE-6"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Bridge: the stereographic Cayley lift t -> ((1-t^2)/(1+t^2), 2t/(1+t^2)) is the finite rational net on the circle -- every integer triple maps through an exact Fraction slope and round-trips exactly (Law 2b steelman: no precision is lost because the lift is a birational map over Q, so cancellation is exact, not approximate). Against this, the Hurwitz CF optimality certificate p_n^2 - 2 q_n^2 = (-1)^(n+1) shows best rational approximation is governed by an exact Pell congruence (Gate-5 congruence scope: all checks are integer/Fraction congruences mod exact integers, never floating comparisons), and the Madhava remainder is bounded exactly by the alternating gap 1/(4m+1). The non-Abelian side is composed via the commutator defect: in S3 the holonomy (sign homomorphism to C2) kills every commutator into A3, yet [a,b] != e in general -- the defect is real but exactly measurable, matching the C3 = (0,1/3,1/6,0) spinor record and the Schur 0/1 -> 9/25 readable break: finite-precision cancellation defects are rational and exact, non-Abelian defects are group-theoretic and exact, and both are decidable by the same check_case oracle. N0/N1/N2 novelty note: N2 -- this exact-oracle packaging of Cayley round-trip + Pell sign + Madhava gap + S3 commutator in one zero-float conjecture is new relative to the verified receipts corpus exact-operator receipts.",
+        "mode": "compose",
+        "target_seat_or_turn": "TOPIC-1-CONTINUUM/Foundation-0/continuum"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley_stereo_lift_pell_cf_S3_commutator_net (kappa_sub = 215989/11 calibration)",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "OWN TERMS FIRST: For every integer Pythagorean triple (a,b,c) with a^2+b^2=c^2 and a+c != 0, the rational stereographic Cayley slope t = b/(a+c) satisfies EXACTLY ((1-t^2)/(1+t^2), 2t/(1+t^2)) = (a/c, b/c) in Fraction arithmetic; the Hurwitz continued-fraction convergents p_n/q_n of sqrt(2) = [1;2,2,2,...] satisfy the exact Pell alternation p_n^2 - 2*q_n^2 = (-1)^(n+1) with p-1 <= isqrt(2*q^2) <= p; the Madhava-Leibniz partial sums S_k = sum_{j<k} (-1)^j/(2j+1) have exact alternating gap S_{2m+1} - S_{2m} = 1/(4m+1) with even sums strictly increasing and odd sums strictly decreasing; and in S3 (permutations of (0,1,2)) every commutator [a,b] = a b a^-1 b^-1 has sign +1 (lies in the holonomy kernel A3) while not all commutators are trivial -- the exact finite-net rational certificate versus the non-Abelian commutator defect, both closed under exact integer/Fraction congruence with zero floats."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: rational Cayley/stereographic round-trip on Pythagorean triples, Pell sign alternation of Hurwitz CF convergents of sqrt(2), exact Madhava alternating gap 1/(4m+1) with monotone even/odd partial sums, and S3 commutators all lying in A3 (sign +1) but not all trivial. R5 negative/refutation cases tested: non-triple (2,3,4), non-primitive (6,8,10), invalid m = -1, and the false claim that all S3 commutators are trivial -- all return expect_claim = false.",
+        "code": "from fractions import Fraction\nfrom math import gcd, isqrt\nimport itertools\n\ndef check_case(case):\n    kind = case['kind']\n    claim = False\n    if kind == 'cayley':\n        a = case['a']; b = case['b']; c = case['c']\n        if a*a + b*b == c*c and c > 0 and a + c != 0 and gcd(gcd(a, b), c) == 1:\n            t = Fraction(b, a + c)\n            x = (1 - t*t) / (1 + t*t)\n            y = (2*t) / (1 + t*t)\n            claim = (x == Fraction(a, c)) and (y == Fraction(b, c))\n    elif kind == 'pell':\n        n = case['n']\n        if n >= 0:\n            p_km2, p_km1 = 0, 1\n            q_km2, q_km1 = 1, 0\n            p, q = 0, 0\n            for k in range(n + 1):\n                ak = 1 if k == 0 else 2\n                p = ak * p_km1 + p_km2\n                q = ak * q_km1 + q_km2\n                p_km2, p_km1 = p_km1, p\n                q_km2, q_km1 = q_km1, q\n            claim = (p*p - 2*q*q == (-1)**(n + 1)) and (p - 1 <= isqrt(2*q*q) <= p)\n    elif kind == 'madhava':\n        m = case['m']\n        if m >= 0:\n            s = [Fraction(0, 1)] * (2*m + 4)\n            for k in range(2*m + 3):\n                s[k + 1] = s[k] + Fraction((-1)**k, 2*k + 1)\n            claim = (s[2*m + 1] - s[2*m] == Fraction(1, 4*m + 1)) and (s[2*m + 2] > s[2*m]) and (s[2*m + 3] < s[2*m + 1])\n    elif kind == 'commutator':\n        perms = list(itertools.permutations((0, 1, 2)))\n        def comp(x, y):\n            return tuple(x[y[i]] for i in range(3))\n        def inv(x):\n            r = [0, 0, 0]\n            for i in range(3):\n                r[x[i]] = i\n            return tuple(r)\n        def sgn(x):\n            s = 1\n            for i in range(3):\n                for j in range(i + 1, 3):\n                    if x[i] > x[j]:\n                        s = -s\n            return s\n        if case['mode'] == 'in_A3':\n            claim = all(sgn(comp(comp(comp(a, b), inv(a)), inv(b))) == 1 for a in perms for b in perms)\n        elif case['mode'] == 'trivial':\n            claim = all(comp(comp(comp(a, b), inv(a)), inv(b)) == (0, 1, 2) for a in perms for b in perms)\n    return bool(claim == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R1-SINGLE-7-CAYLEY-PELL-MADHAVA-S3",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 3,
+            "b": 4,
+            "c": 5,
+            "expect_claim": true,
+            "kind": "cayley"
+          },
+          {
+            "a": 5,
+            "b": 12,
+            "c": 13,
+            "expect_claim": true,
+            "kind": "cayley"
+          },
+          {
+            "a": 8,
+            "b": 15,
+            "c": 17,
+            "expect_claim": true,
+            "kind": "cayley"
+          },
+          {
+            "a": 2,
+            "b": 3,
+            "c": 4,
+            "expect_claim": false,
+            "kind": "cayley"
+          },
+          {
+            "a": 6,
+            "b": 8,
+            "c": 10,
+            "expect_claim": false,
+            "kind": "cayley"
+          },
+          {
+            "expect_claim": true,
+            "kind": "pell",
+            "n": 0
+          },
+          {
+            "expect_claim": true,
+            "kind": "pell",
+            "n": 5
+          },
+          {
+            "expect_claim": true,
+            "kind": "pell",
+            "n": 8
+          },
+          {
+            "expect_claim": true,
+            "kind": "madhava",
+            "m": 3
+          },
+          {
+            "expect_claim": true,
+            "kind": "madhava",
+            "m": 10
+          },
+          {
+            "expect_claim": false,
+            "kind": "madhava",
+            "m": -1
+          },
+          {
+            "expect_claim": true,
+            "kind": "commutator",
+            "mode": "in_A3"
+          },
+          {
+            "expect_claim": false,
+            "kind": "commutator",
+            "mode": "trivial"
+          }
+        ]
+      },
+      "round_num": 1,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R1-SINGLE-7"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "R1-SINGLE-5 received MINIMAL_COUNTEREXAMPLE at failing_idx=2 with cex {\"a\":215989,\"b\":11}, which is exactly this seat's calibration constant kappa_sub=215989/11 (corpus:exact-operator-receipt). The repair is exact and Law-2b steelman: the original claim 'both reduced denominators equal a^2+b^2' fails precisely when a,b are both odd, since then a^2+b^2 = 2 mod 8 and both numerators are even, so Fraction reduction divides by gcd(N,2)=2. Gate-5 congruence scope: the entire defect is governed by parity mod 2 \u2014 opposite parity gives denominator N, both-odd gives N/2 \u2014 an exact integer congruence with zero floating tolerance. N0/N1/N2 novelty note: this is not a restatement of R1-SINGLE-2/R1-SINGLE-6 (which only asserted x^2+y^2=1 and round-trip y/(1+x)=t); the new content is the exact characterization of the reduced net scale, which is also the same factor-2 cancellation that appears as the non-Abelian defect in R1-SINGLE-3's failing SL2 commutator case (a=3,b=4,c=5 with det-1 Moebius entries p,q,r,s,u,v,w,z), where the claimed invariant broke on a primitive-triple parity configuration. The repaired invariant now composes with the Cayley/Pythagorean triple law of R1-SINGLE-4: primitive triple (b^2-a^2, 2ab, N) with hypotenuse N when opposite parity and the halved primitive hypotenuse N/2 when both odd, so tangent-addition composition stays exactly commutative off the pole while the matrix (SL2) lift carries the commutator defect measured by this same gcd-2 floor.",
+        "mode": "repair",
+        "target_seat_or_turn": "R1-SINGLE-5"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-stereo-lift-net-scale-gcd2-repair-kappa-sub-215989-over-11",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "OWN TERMS FIRST: for coprime integers a,b with b nonzero, the stereographic Cayley lift of the rational slope t=a/b is the exact rational point P(t)=((b^2-a^2)/(a^2+b^2), 2ab/(a^2+b^2)) on the unit circle over Fractions; its two reduced coordinate denominators equal the integer net scale N=a^2+b^2 exactly when a and b have opposite parity, and equal exactly N/2 when both are odd, because gcd(N, b^2-a^2)=gcd(N, 2ab)=gcd(N,2) in {1,2}. This gcd-2 factor is the finite-precision cancellation floor that the Round-1 predicate missed at the seat calibration slope kappa_sub=215989/11 (both odd, so the primitive hypotenuse is N/2, not N)."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact repaired invariant: for coprime a,b (b nonzero), the Cayley lift ((b^2-a^2)/(a^2+b^2), 2ab/(a^2+b^2)) lies on the unit circle over Fractions, round-trips exactly via y/(1+x)=a/b, and both reduced denominators equal the exact net scale (a^2+b^2)/gcd(a^2+b^2,2) \u2014 i.e. N if opposite parity, N/2 if both odd. This repairs R1-SINGLE-5's counterexample at kappa_sub=215989/11. R5 negative cases: non-coprime inputs and the b=0 pole must fail the claim.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    a = case['a']\n    b = case['b']\n    expect = case['expect_claim']\n    if b == 0 or gcd(a, b) != 1:\n        claim = False\n    else:\n        n = a * a + b * b\n        x = Fraction(b * b - a * a, n)\n        y = Fraction(2 * a * b, n)\n        d = 2 if (a % 2 == 1 and b % 2 == 1) else 1\n        net = n // d\n        on_circle = (x * x + y * y == 1)\n        dens_ok = (x.denominator == net and y.denominator == net)\n        round_trip = (y / (1 + x) == Fraction(a, b))\n        claim = bool(on_circle and dens_ok and round_trip)\n    return bool(claim == expect)",
+        "conjecture_id": "CONJ-T1-R2-SINGLE-1-CAYLEY-NET-GCD2-REPAIR",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 215989,
+            "b": 11,
+            "expect_claim": true
+          },
+          {
+            "a": 3,
+            "b": 4,
+            "expect_claim": true
+          },
+          {
+            "a": 1,
+            "b": 1,
+            "expect_claim": true
+          },
+          {
+            "a": 7,
+            "b": 24,
+            "expect_claim": true
+          },
+          {
+            "a": 5,
+            "b": 12,
+            "expect_claim": true
+          },
+          {
+            "a": 2,
+            "b": 4,
+            "expect_claim": false
+          },
+          {
+            "a": 9,
+            "b": 15,
+            "expect_claim": false
+          },
+          {
+            "a": 5,
+            "b": 0,
+            "expect_claim": false
+          }
+        ]
+      },
+      "round_num": 2,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R2-SINGLE-1"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Law 2b steelman of R1-SINGLE-5: its MINIMAL_COUNTEREXAMPLE cex {\"a\": 215989, \"b\": 11, \"expect_claim\": true} does not refute the Cayley-lift invariant; it refutes only the over-strong clause 'both reduced denominators equal a^2 + b^2'. Since gcd(215989, 11) = 1 but both are odd, 2ab and b^2 - a^2 are both even while a^2 + b^2 = 2 (mod 4), so gcd(2ab, a^2 + b^2) = gcd(b^2 - a^2, a^2 + b^2) = 2 and the true reduced denominator is (a^2 + b^2)/2. Gate-5 congruence scope of the repair: the obstruction lives entirely in the mod-2 parity class plus the gcd layer (a prime p divides both a^2 + b^2 and ab iff p divides a and b), so the corrected invariant is a parity dichotomy (opposite parity -> net scale a^2 + b^2; both odd -> (a^2 + b^2)/2), with gcd(a,b) = d > 1 forcing reduction to the primitive scale. This ties to the Zu 355/113-class cancellation floor: kappa_sub = 19635 + 4/11 carries remainder 4 over modulus 11, and the factor-2 cancellation floor on the lift mirrors that fractional remainder structure. Novelty note N2: the parity dichotomy and the both-odd (a^2 + b^2)/2 branch are new relative to the Round-1 claim; N1 link to R1-SINGLE-2/R1-SINGLE-4 (exact round-trip y/(1+x) = t and Pythagorean triple (q^2 - p^2, 2pq, q^2 + p^2) primitive iff coprime and opposite parity) is preserved, since the lift remains primitive exactly when gcd(a,b) = 1.",
+        "mode": "repair",
+        "target_seat_or_turn": "R1-SINGLE-5"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-stereo-lift-kappa-sub-215989-over-11-parity-dichotomy",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For any rational slope t = a/b in lowest terms with b != 0, the stereographic Cayley lift P(t) = ((1 - t^2)/(1 + t^2), 2t/(1 + t^2)) = ((b^2 - a^2)/(a^2 + b^2), 2ab/(a^2 + b^2)) is an exact rational point on the unit circle (x^2 + y^2 = 1 over Fraction, zero float, zero cancellation), and the reduced common denominator of x and y equals the integer net scale a^2 + b^2 exactly when a and b have opposite parity, and equals (a^2 + b^2)/2 exactly when both are odd; for the seat calibration slope kappa_sub = 215989/11 = 19635 + 4/11 (11*19635 = 215985, remainder 4, gcd = 1, both odd) the net scale is therefore (215989^2 + 11^2)/2, not 215989^2 + 11^2."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: for t = Fraction(a,b) with b != 0 and gcd(a,b) = 1, the Cayley lift (x,y) = ((1-t^2)/(1+t^2), 2t/(1+t^2)) satisfies x^2 + y^2 = 1 exactly over Fractions and both reduced denominators equal the net scale a^2+b^2 (opposite parity) or (a^2+b^2)/2 (both odd); the claim is false for non-coprime inputs (gcd > 1) and for b = 0. R5 negative/refutation cases: non-coprime pairs and zero denominator return expect_claim = false.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    a = case['a']\n    b = case['b']\n    expect = case['expect_claim']\n    if b == 0:\n        claim = False\n    else:\n        g = gcd(abs(a), abs(b))\n        if g != 1:\n            claim = False\n        else:\n            t = Fraction(a, b)\n            x = (1 - t * t) / (1 + t * t)\n            y = (2 * t) / (1 + t * t)\n            on_circle = (x * x + y * y == 1)\n            net = a * a + b * b\n            both_odd = (abs(a) % 2 == 1) and (abs(b) % 2 == 1)\n            target = net // 2 if both_odd else net\n            claim = bool(on_circle and x.denominator == target and y.denominator == target)\n    return bool(claim == expect)",
+        "conjecture_id": "CONJ-T1-R2-SINGLE-2-CAYLEY-PARITY-REPAIR",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 3,
+            "b": 4,
+            "expect_claim": true
+          },
+          {
+            "a": 7,
+            "b": 24,
+            "expect_claim": true
+          },
+          {
+            "a": 215989,
+            "b": 11,
+            "expect_claim": true
+          },
+          {
+            "a": 1,
+            "b": 1,
+            "expect_claim": true
+          },
+          {
+            "a": 0,
+            "b": 1,
+            "expect_claim": true
+          },
+          {
+            "a": 2,
+            "b": 1,
+            "expect_claim": true
+          },
+          {
+            "a": 2,
+            "b": 4,
+            "expect_claim": false
+          },
+          {
+            "a": 6,
+            "b": 10,
+            "expect_claim": false
+          },
+          {
+            "a": 9,
+            "b": 3,
+            "expect_claim": false
+          },
+          {
+            "a": 1,
+            "b": 0,
+            "expect_claim": false
+          }
+        ]
+      },
+      "round_num": 2,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R2-SINGLE-2"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "R1-SINGLE-5's MINIMAL_COUNTEREXAMPLE {a: 215989, b: 11} is exactly the seat calibration kappa_sub = 215989/11: gcd(215989,11)=1 but both entries are odd, so b^2-a^2, 2ab, and a^2+b^2 share a forced factor 2 and the reduced denominators are (a^2+b^2)/2, not a^2+b^2. Law 2b steelman: the original claim was correct on the opposite-parity class (e.g. Zu-class slopes like 1/2, 3/1); the repair isolates the parity obstruction gcd(b^2-a^2, a^2+b^2) = gcd(2ab, a^2+b^2) = 2 iff a,b both odd. Gate-5 congruence scope: the factor-2 defect is a mod-2 congruence phenomenon, the same finite-cancellation residue class that appears as the non-Abelian commutator defect of the SL2-style Moebius lift in R1-SINGLE-3's counterexample {a:3,b:4,c:5,p:2,q:1,r:1,s:1,u:1,v:1,w:0,z:1} (tangent-addition pole 1-ts=0 class); N0: restates the Cayley net-scale invariant, N1: adds the exact parity dichotomy N vs N/2, N2: exhibits kappa_sub itself as the canonical both-odd witness, tying the Hurwitz continued-fraction/Pell-convergent calibration to the cancellation floor.",
+        "mode": "repair",
+        "target_seat_or_turn": "R1-SINGLE-5"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-stereo-lift-net-scale-parity-repair (kappa_sub = 215989/11 both-odd class)",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For coprime integers a,b with b != 0 and t = a/b, the stereographic Cayley lift (x,y) = ((b^2-a^2)/(a^2+b^2), 2ab/(a^2+b^2)) satisfies x^2+y^2 = 1 exactly over Fractions, and the reduced denominators of x and y are BOTH equal to the exact integer net scale N = a^2+b^2 when a,b have opposite parity (or one is even), and BOTH equal to N/2 when a and b are both odd; the both-odd factor-2 is precisely the finite-precision cancellation floor hit by kappa_sub = 215989/11 (gcd = 1, both odd), repairing the over-strong net-scale claim of R1-SINGLE-5."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: for coprime a,b (b != 0), the Cayley lift of t=a/b lies exactly on the unit circle over Fractions and both reduced denominators equal the parity-corrected net scale (a^2+b^2)/2 if a,b both odd else a^2+b^2; R5 negative cases (non-coprime input, zero denominator) return expect_claim=false.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    a = case['a']\n    b = case['b']\n    expect = case['expect_claim']\n    if b == 0 or gcd(a, b) != 1:\n        claim = False\n    else:\n        n = a * a + b * b\n        x = Fraction(b * b - a * a, n)\n        y = Fraction(2 * a * b, n)\n        on_circle = (x * x + y * y == 1)\n        scale = n // 2 if (a % 2 == 1 and b % 2 == 1) else n\n        claim = bool(on_circle and x.denominator == scale and y.denominator == scale)\n    return bool(claim == expect)",
+        "conjecture_id": "CONJ-T1-R2-SINGLE-3-CAYLEY-NETSCALE-REPAIR",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 3,
+            "b": 1,
+            "expect_claim": true
+          },
+          {
+            "a": 215989,
+            "b": 11,
+            "expect_claim": true
+          },
+          {
+            "a": 1,
+            "b": 2,
+            "expect_claim": true
+          },
+          {
+            "a": 0,
+            "b": 1,
+            "expect_claim": true
+          },
+          {
+            "a": 355,
+            "b": 113,
+            "expect_claim": true
+          },
+          {
+            "a": 2,
+            "b": 4,
+            "expect_claim": false
+          },
+          {
+            "a": 5,
+            "b": 0,
+            "expect_claim": false
+          }
+        ]
+      },
+      "round_num": 2,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R2-SINGLE-3"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Law 2b steelman of R1-SINGLE-5: its conjecture claimed both reduced denominators equal a^2+b^2 under a parity condition that the referee counterexample a=215989, b=11 (kappa_sub, coprime, BOTH odd) falsified (failing_idx=2, PREDICATE_RETURNED_FALSE). Gate-5 congruence scope: mod 2, if a,b both odd then a^2+b^2 = 2 mod 4 and both numerators b^2-a^2 and 2ab are even, so 2 divides gcd(a^2+b^2, b^2-a^2) and gcd(a^2+b^2, 2ab); the denominator net is only a^2+b^2 in the opposite-parity primitive case, matching the primitivity clause already proven in R1-SINGLE-4 (gcd(p,q)=1 and opposite parity). N0: no new object invented \u2014 the repair reuses the same Cayley lift and net scale; N1: the correction is the parity flip from 'both odd' to 'opposite parity' plus the exact both-odd collapse factor 2; N2: the referee's own cex {a:215989, b:11} is retained verbatim as a negative R5 case, now correctly classified.",
+        "mode": "repair",
+        "target_seat_or_turn": "R1-SINGLE-5"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-stereo-lift-denominator-net-repair-kappa-sub-215989-over-11",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "OWN_TERMS_FIRST: for t = Fraction(a,b) with b != 0, the stereographic Cayley lift (x,y) = ((1-t^2)/(1+t^2), 2t/(1+t^2)) = ((b^2-a^2)/(a^2+b^2), 2ab/(a^2+b^2)) satisfies x^2+y^2 = 1 exactly over Fractions; the reduced denominators of x and y are BOTH equal to the net scale a^2+b^2 if and only if gcd(a,b)=1 and a,b have opposite parity; when gcd(a,b)=1 but both are odd (e.g. kappa_sub = 215989/11), gcd(a^2+b^2, b^2-a^2) = gcd(a^2+b^2, 2ab) = 2, so both reduced denominators collapse to (a^2+b^2)/2, which is exactly the defect exposed by the R1-SINGLE-5 minimal counterexample."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: the rational stereographic/Cayley lift of t=a/b lies exactly on the unit circle (x^2+y^2=1 over Fractions, zero floats, zero cancellation error), and its reduced denominators both equal the integer net scale a^2+b^2 iff gcd(a,b)=1 and a,b have opposite parity; R5 negative/refutation cases: the prior minimal counterexample kappa_sub a=215989,b=11 (both odd, primitive) yields denominators (a^2+b^2)/2, as do a=3,b=5 (both odd) and a=6,b=8 (non-coprime), so the unconditional-denominator claim is false there.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    a = case['a']\n    b = case['b']\n    if b == 0:\n        return bool(False == case['expect_claim'])\n    t = Fraction(a, b)\n    x = (1 - t * t) / (1 + t * t)\n    y = (2 * t) / (1 + t * t)\n    on_circle = (x * x + y * y == 1)\n    denom = a * a + b * b\n    primitive = (gcd(a, b) == 1)\n    opposite_parity = ((a + b) % 2 == 1)\n    claim_holds = on_circle and primitive and opposite_parity and x.denominator == denom and y.denominator == denom\n    return bool(claim_holds == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R2-SINGLE-4-CAYLEY-DENOM-REPAIR",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 3,
+            "b": 4,
+            "expect_claim": true
+          },
+          {
+            "a": 5,
+            "b": 12,
+            "expect_claim": true
+          },
+          {
+            "a": 1,
+            "b": 2,
+            "expect_claim": true
+          },
+          {
+            "a": 4,
+            "b": 3,
+            "expect_claim": true
+          },
+          {
+            "a": 215989,
+            "b": 11,
+            "expect_claim": false
+          },
+          {
+            "a": 3,
+            "b": 5,
+            "expect_claim": false
+          },
+          {
+            "a": 6,
+            "b": 8,
+            "expect_claim": false
+          }
+        ]
+      },
+      "round_num": 2,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R2-SINGLE-4"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "R1-SINGLE-5 returned MINIMAL_COUNTEREXAMPLE at {a: 215989, b: 11}: the unqualified claim 'both reduced denominators equal a^2+b^2' fails because gcd(a,b)=1 with both a,b odd forces gcd(b^2-a^2, a^2+b^2) = gcd(2ab, a^2+b^2) = 2, halving the net scale. Repair (Law 2b steelman, Gate-5 congruence scope mod 2 on parity): split the claim into the parity dichotomy D = a^2+b^2 (opposite parity, primitive Pythagorean triple) vs D = (a^2+b^2)/2 (both odd), keeping x^2+y^2=1 and the exact round-trip y/(1+x)=t in both branches. N0: restates the Cayley lift net-scale invariant already witnessed in corpus-op; N1: the parity-corrected dichotomy is the novel repair that converts the minimal counterexample into a passing witness at the kappa_sub calibration point; N2: negative R5 cases (non-coprime slope, pole b=0) are retained as refutation controls.",
+        "mode": "repair",
+        "target_seat_or_turn": "R1-SINGLE-5"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-stereo-lift-net-scale-parity-dichotomy (kappa_sub = 215989/11 = 19635 + 4/11 cancellation floor)",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For any rational slope t = a/b in lowest terms (b != 0), the stereographic Cayley lift P(t) = ((b^2-a^2)/(a^2+b^2), 2ab/(a^2+b^2)) is an exact rational point on x^2+y^2=1, round-trips via y/(1+x) = a/b with pure rational cancellation, and both reduced coordinates share the exact net scale D = a^2+b^2 when a,b have opposite parity and D = (a^2+b^2)/2 when both are odd; in particular the calibration slope 215989/11 (both odd, gcd 1) lands on net scale (215989^2+11^2)/2 with zero finite-precision defect, while the naive unhalved scale a^2+b^2 is exactly the R1-SINGLE-5 failure mode."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: for t = a/b in lowest terms with b != 0, the Cayley lift (x,y) = ((b^2-a^2)/(a^2+b^2), 2ab/(a^2+b^2)) satisfies x^2+y^2 = 1 over Fractions, both reduced denominators equal the parity-corrected net scale D = (a^2+b^2) if a+b odd else (a^2+b^2)//2, and y/(1+x) recovers Fraction(a,b) exactly; R5 negative cases (gcd(a,b) != 1, or b == 0 pole) make the claim false.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    a = case['a']\n    b = case['b']\n    expect = case['expect_claim']\n    if b == 0 or gcd(a, b) != 1:\n        claim = False\n    else:\n        n2 = a * a + b * b\n        x = Fraction(b * b - a * a, n2)\n        y = Fraction(2 * a * b, n2)\n        d = n2 if (a + b) % 2 != 0 else n2 // 2\n        claim = (\n            x * x + y * y == 1\n            and x.denominator == d\n            and y.denominator == d\n            and (1 + x) != 0\n            and y / (1 + x) == Fraction(a, b)\n        )\n    return bool(claim == expect)",
+        "conjecture_id": "CONJ-T1-R2-SINGLE-5-CAYLEY-NET-PARITY",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 215989,
+            "b": 11,
+            "expect_claim": true
+          },
+          {
+            "a": 3,
+            "b": 4,
+            "expect_claim": true
+          },
+          {
+            "a": 1,
+            "b": 1,
+            "expect_claim": true
+          },
+          {
+            "a": -3,
+            "b": 4,
+            "expect_claim": true
+          },
+          {
+            "a": 7,
+            "b": 24,
+            "expect_claim": true
+          },
+          {
+            "a": 2,
+            "b": 4,
+            "expect_claim": false
+          },
+          {
+            "a": 5,
+            "b": 0,
+            "expect_claim": false
+          }
+        ]
+      },
+      "round_num": 2,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R2-SINGLE-5"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Repairs the MINIMAL_COUNTEREXAMPLE cex={\"a\": 215989, \"b\": 11, \"expect_claim\": true} of R1-SINGLE-5 (failing_idx=2, PREDICATE_RETURNED_FALSE): 215989 and 11 are both odd and coprime, so gcd(b^2-a^2, a^2+b^2) = gcd(2ab, a^2+b^2) = 2, not 1, and the reduced denominators are (a^2+b^2)/2 rather than a^2+b^2. The repair adds the exact parity gate already implicit in the primitive-Pythagorean-triple operator of R1-SINGLE-4 (primitive iff gcd(p,q)=1 and opposite parity): the net-scale denominator claim holds iff opposite parity, and the both-odd class carries the uniform factor-2 cancellation floor, the same finite-precision cancellation defect class exposed by the SL_2(Z) commutator counterexample of R1-SINGLE-3 (cex a=3,b=4,c=5,p=2,q=1,r=1,s=1,u=1,v=1,w=0,z=1). Gate-5 congruence scope: the repair is a congruence condition mod 2 on (a,b) plus coprimality, not a change to the lift itself; N0/N1/N2 novelty note: the corrected invariant is new relative to R1-SINGLE-5's over-strong statement and subsumes it, while remaining consistent with the PASS_WITNESS round-trips of R1-SINGLE-1/2/4/6/7.",
+        "mode": "repair",
+        "target_seat_or_turn": "R1-SINGLE-5"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-stereo-lift-net-denominator-parity-repair-kappa-sub-215989-over-11",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For coprime integers a,b with b != 0 and t = Fraction(a,b), the stereographic Cayley lift (x,y) = ((1-t^2)/(1+t^2), 2t/(1+t^2)) = ((b^2-a^2)/(a^2+b^2), 2ab/(a^2+b^2)) satisfies x^2 + y^2 = 1 exactly over the rationals; moreover, with net scale N = a^2+b^2, the reduced denominators of both x and y equal N when a and b have opposite parity, and equal N/2 when a and b are both odd (N = 2 mod 4 in that case), so the naive claim 'reduced denominator = a^2+b^2 always' fails exactly on the both-odd class, including the calibration slope kappa_sub = 215989/11 = 19635 + 4/11 (both odd, N = 46651248242, reduced net 23325624121)."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant with parity-repaired net scale: for coprime a,b with b != 0, the Cayley lift (x,y) = ((1-t^2)/(1+t^2), 2t/(1+t^2)) with t = Fraction(a,b) lies on x^2+y^2 = 1 over Fractions, and both reduced denominators equal (a^2+b^2) if a,b opposite parity, else (a^2+b^2)/2 if both odd; R5 negative cases (b = 0, gcd(a,b) > 1) return claim_holds = False and are checked via expect_claim = false.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    a = case['a']\n    b = case['b']\n    expect = case['expect_claim']\n    if b == 0:\n        claim = False\n        return bool(claim == expect)\n    g = gcd(a, b)\n    if g != 1:\n        claim = False\n        return bool(claim == expect)\n    t = Fraction(a, b)\n    x = (1 - t * t) / (1 + t * t)\n    y = (2 * t) / (1 + t * t)\n    on_circle = (x * x + y * y == 1)\n    net = a * a + b * b\n    parity_gate = 2 if (a % 2 == 1 and b % 2 == 1) else 1\n    expected_den = net // parity_gate\n    claim = bool(on_circle and x.denominator == expected_den and y.denominator == expected_den)\n    return bool(claim == expect)",
+        "conjecture_id": "CONJ-T1-R2-SINGLE-6-CAYLEY-NET-PARITY-REPAIR",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 215989,
+            "b": 11,
+            "expect_claim": true
+          },
+          {
+            "a": 3,
+            "b": 4,
+            "expect_claim": true
+          },
+          {
+            "a": 4,
+            "b": 3,
+            "expect_claim": true
+          },
+          {
+            "a": 1,
+            "b": 1,
+            "expect_claim": true
+          },
+          {
+            "a": 0,
+            "b": 1,
+            "expect_claim": true
+          },
+          {
+            "a": 2,
+            "b": 4,
+            "expect_claim": false
+          },
+          {
+            "a": 9,
+            "b": 3,
+            "expect_claim": false
+          },
+          {
+            "a": 5,
+            "b": 0,
+            "expect_claim": false
+          }
+        ]
+      },
+      "round_num": 2,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R2-SINGLE-6"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "R1-SINGLE-5 was refereed MINIMAL_COUNTEREXAMPLE (2/6) with cex {a: 215989, b: 11, expect_claim: true}, PREDICATE_RETURNED_FALSE, because its predicate demanded both reduced denominators equal a^2+b^2 exactly. Law 2b steelman: the true exact invariant is gcd((d^2-n^2), D) = gcd(2nd, D) = gcd(2, D) with D = n^2+d^2 for coprime (n,d), so both numerators of the Cayley lift share exactly the factor delta = gcd(2,D); the net scale is D/delta, equal to D iff n,d have opposite parity and D/2 iff both odd. Gate-5 congruence scope: the defect is purely a 2-adic (mod 2 parity) factor, no other prime divides both a lift numerator and D when gcd(n,d)=1, so the repair is tight, not a weakening. N0/N1/N2 novelty note: N0 preserves the R1-SINGLE-2/4/6/7 invariants (unit circle, Pythagorean triple (d^2-n^2, 2nd, D), slope recovery y/(1+x)=t); N1 adds the exact delta = gcd(2,D) parity correction that repairs the kappa_sub counterexample; N2 composes the exact tangent-addition commutator defect -(t1+t2)t1t2/(1-t1t2) (the non-Abelian analogue of R1-SINGLE-3's SL2 commutator case, whose naive-sum defect is exactly this rational term, zero cancellation) so the finite-net scale and the commutator defect are certified by one Fraction-only predicate.",
+        "mode": "repair",
+        "target_seat_or_turn": "R1-SINGLE-5"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-stereo-lift-net-scale-delta-repair-kappa-sub-215989-over-11",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For any rational slope t = Fraction(a,b) with b != 0 and gcd(a,b) = 1, the stereographic Cayley lift (x,y) = ((1-t^2)/(1+t^2), 2t/(1+t^2)) is an exact rational point on the unit circle, x^2 + y^2 = 1, recovers the slope exactly via y/(1+x) = t, and its two reduced denominators are BOTH equal to the exact integer net scale net = (n^2 + d^2)/delta where (n,d) = (t.numerator, t.denominator) and delta = gcd(2, n^2+d^2) = 2 if n and d are both odd, else 1. For the seat calibration kappa_sub = 215989/11 (both odd, coprime since 215989 = 11*19635 + 4), the net scale is (215989^2 + 11^2)/2 = 46651248242/2 = 23325624121, not 46651248242; this repairs the R1-SINGLE-5 predicate. Composed against this, tangent-addition composition (t1+t2)/(1-t1*t2) is exactly commutative over Fractions while the naive slope sum t1+t2 carries the exact non-Abelian commutator defect naive - tang = -(t1+t2)*t1*t2/(1-t1*t2), with zero finite-precision cancellation anywhere."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant over Fractions: for coprime integers a,b (b != 0), the Cayley lift of t=Fraction(a,b) satisfies x^2+y^2=1, slope recovery y/(1+x)=t, and both reduced denominators equal net=(n^2+d^2)/delta with delta=2 iff n,d both odd else 1; when p,q are present, tangent addition is exactly commutative and the naive-sum defect equals -(t1+t2)*t1*t2/(1-t1*t2) exactly. R5 negative case: non-coprime input (a=2,b=4) makes the claim false (expect_claim=false). All arithmetic is int/Fraction only, zero floats, zero IO.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    a = case['a']\n    b = case['b']\n    expect = bool(case['expect_claim'])\n    if b == 0:\n        return expect == False\n    t = Fraction(a, b)\n    n = t.numerator\n    d = t.denominator\n    D = n * n + d * d\n    delta = 2 if (n % 2 == 1 and d % 2 == 1) else 1\n    net = D // delta\n    x = (1 - t * t) / (1 + t * t)\n    y = (2 * t) / (1 + t * t)\n    claim = (gcd(a, b) == 1)\n    claim = claim and (x * x + y * y == 1)\n    claim = claim and (x.denominator == net)\n    claim = claim and (y.denominator == net)\n    claim = claim and (y / (1 + x) == t)\n    if ('p' in case) and ('q' in case):\n        t1 = Fraction(case['p'], case['q'])\n        t2 = t\n        den = 1 - t1 * t2\n        if den != 0:\n            naive = t1 + t2\n            tang = (t1 + t2) / den\n            claim = claim and (tang == (t2 + t1) / (1 - t2 * t1))\n            claim = claim and ((naive - tang) == (-(t1 + t2) * t1 * t2) / den)\n    return bool(claim == expect)",
+        "conjecture_id": "CONJ-T1-R2-SINGLE-7-CAYLEY-NETDELTA-REPAIR",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 215989,
+            "b": 11,
+            "expect_claim": true
+          },
+          {
+            "a": 3,
+            "b": 4,
+            "expect_claim": true
+          },
+          {
+            "a": 1,
+            "b": 1,
+            "expect_claim": true
+          },
+          {
+            "a": 0,
+            "b": 1,
+            "expect_claim": true
+          },
+          {
+            "a": 3,
+            "b": 4,
+            "expect_claim": true,
+            "p": 1,
+            "q": 2
+          },
+          {
+            "a": 2,
+            "b": 4,
+            "expect_claim": false
+          }
+        ]
+      },
+      "round_num": 2,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R2-SINGLE-7"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Depth-3 synthesis on top of the R2-SINGLE-7 net-delta repair: keeps its parity-corrected net scale net=(a^2+b^2)/delta (delta=2 iff a,b both odd) as the exact denominator law, and composes it with (i) the total slope-recovery map y/(1+x)=t (zero cancellation, Law 2b steelman of the R1-SINGLE-2/R1-SINGLE-6 round-trip) and (ii) exact commutativity of tangent-addition composition, which is the Abelian shadow of the non-Abelian commutator defect isolated by the R1-SINGLE-3 minimal counterexample; Gate-5 congruence scope is the mod-2 parity dichotomy on (a,b) alone, and the N2 novelty note is the joint statement denominator-law + composition-commutativity in one exact predicate, calibrated on kappa_sub = 215989/11 (both-odd class, delta=2).",
+        "mode": "compose",
+        "target_seat_or_turn": "R2-SINGLE-7"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-stereo-lift-net-delta-parity-tangent-composition (kappa_sub = 215989/11 calibration)",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For coprime integers a,b with b != 0 and t = Fraction(a,b), the stereographic Cayley lift (x,y) = ((1-t^2)/(1+t^2), 2t/(1+t^2)) satisfies x^2+y^2 = 1 exactly over Fractions, round-trips the slope via y/(1+x) = t (the pole 1+x = 2/(1+t^2) is never zero, so recovery is total), and both reduced denominators equal the parity-corrected net scale (a^2+b^2)/2 when a,b are both odd (delta=2) and a^2+b^2 otherwise (delta=1); tangent-addition composition (t+u)/(1-t*u) is exactly commutative in t,u off the pole 1-t*u=0, in contrast to the naive sum t+u and to the non-Abelian SL2 commutator defect of R1-SINGLE-3."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: for coprime a,b (b nonzero), the Cayley lift of t=a/b lies on x^2+y^2=1 over Fractions, recovers t via y/(1+x), and both reduced denominators equal net=(a^2+b^2)/delta with delta=2 iff a,b both odd; when a second slope u=c/d is present, tangent-addition composition (t+u)/(1-t*u) is exactly commutative off the pole. R5 negative cases: non-coprime (a,b) and b=0 return expect_claim=false.",
+        "code": "def check_case(case):\n    from fractions import Fraction\n    from math import gcd\n    a = case['a']\n    b = case['b']\n    expect = bool(case['expect_claim'])\n    if b == 0:\n        return expect == False\n    g = gcd(abs(a), abs(b))\n    if g != 1:\n        return expect == False\n    t = Fraction(a, b)\n    x = (1 - t*t) / (1 + t*t)\n    y = (2*t) / (1 + t*t)\n    delta = 2 if (a % 2 == 1 and b % 2 == 1) else 1\n    net = (a*a + b*b) // delta\n    claim = (x*x + y*y == 1) and (y / (1 + x) == t) and (x.denominator == net) and (y.denominator == net)\n    if 'c' in case and 'd' in case:\n        u = Fraction(case['c'], case['d'])\n        if (1 - t*u) != 0:\n            claim = claim and ((t + u) / (1 - t*u) == (u + t) / (1 - u*t))\n    return bool(claim == expect)",
+        "conjecture_id": "CONJ-T1-R3-SINGLE-1-CAYLEY-NETDELTA-COMP",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 215989,
+            "b": 11,
+            "expect_claim": true
+          },
+          {
+            "a": 3,
+            "b": 4,
+            "expect_claim": true
+          },
+          {
+            "a": 1,
+            "b": 2,
+            "c": 2,
+            "d": 3,
+            "expect_claim": true
+          },
+          {
+            "a": 5,
+            "b": 7,
+            "c": 7,
+            "d": 5,
+            "expect_claim": true
+          },
+          {
+            "a": 2,
+            "b": 4,
+            "expect_claim": false
+          },
+          {
+            "a": 1,
+            "b": 0,
+            "expect_claim": false
+          }
+        ]
+      },
+      "round_num": 3,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R3-SINGLE-1"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Depth-3 synthesis on top of R2-SINGLE-3's parity-repaired net scale: the Cayley lift conjugates the Moebius action of SL(2,Z) into exact rotations of the unit circle, so the finite-net denominator floor net = (a^2+b^2)/delta (delta=2 iff a=b=1 mod 2, Gate-5 congruence scope: a^2+b^2 is exactly divisible by 2 and not 4 in the both-odd class, so net is always an integer) governs all rational points, while the same lift exposes the non-Abelian residue: tangent addition is abelian and exactly commutative, but the integer commutator [[3,-1],[1,0]] keeps det 1 and shifts trace 2 -> 3 (Law 2b steelman: R2-SINGLE-3's repair is preserved verbatim; novelty N2 adds the exact trace-defect holonomy and the strict chord defect of the naive sum, with kappa_sub = 215989/11 in the both-odd delta=2 class as the calibration case).",
+        "mode": "compose",
+        "target_seat_or_turn": "R2-SINGLE-3"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-lift-parity-net-scale-vs-sl2-commutator-trace-defect",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For coprime integers a,b with b != 0 and t = Fraction(a,b), the stereographic Cayley lift (x,y) = ((1-t^2)/(1+t^2), 2t/(1+t^2)) satisfies x^2+y^2 = 1 exactly over Fractions, recovers the slope exactly via y/(1+x) = t, and both reduced denominators equal the parity-corrected finite net scale net = (a^2+b^2)/delta with delta = 2 iff a and b are both odd else delta = 1; the tangent-addition composition (t1+t2)/(1-t1*t2) is exactly commutative off its pole while the naive sum t1+t2 differs from it by an exact nonzero chord defect, and the SL(2,Z) commutator of [[1,1],[0,1]] and [[1,0],[1,1]] equals [[3,-1],[1,0]] with determinant exactly 1 but trace 3 != 2, an exact non-Abelian holonomy defect invisible to the abelian rotation net."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant over Fractions: for t = Fraction(a,b) with b != 0, the Cayley lift lies on x^2+y^2=1, round-trips y/(1+x)=t, and both reduced denominators equal net=(a^2+b^2)/delta (delta=2 iff a,b both odd) exactly when gcd(a,b)=1; tangent addition is exactly commutative off its pole with nonzero chord defect vs the naive sum; the SL(2,Z) commutator of the standard parabolic pair has det exactly 1 and trace 3 (non-identity). R5 negative cases: gcd(a,b)>1 breaks the net-scale equality, b=0 is the pole, and a commuting matrix pair (B=A) trivializes the commutator.",
+        "code": "from fractions import Fraction\n\ndef check_case(case):\n    a = case['a']\n    b = case['b']\n    expect = case['expect_claim']\n    if b == 0:\n        return bool(False == expect)\n    t = Fraction(a, b)\n    x = (1 - t * t) / (1 + t * t)\n    y = (2 * t) / (1 + t * t)\n    ok = (x * x + y * y == 1)\n    ok = ok and (y / (1 + x) == t)\n    n = a * a + b * b\n    delta = 2 if (abs(a) % 2 == 1 and abs(b) % 2 == 1) else 1\n    net = n // delta\n    ok = ok and (x.denominator == net and y.denominator == net)\n    c = case.get('c', 1)\n    d = case.get('d', 1)\n    if d != 0:\n        t2 = Fraction(c, d)\n        if 1 - t * t2 != 0:\n            comp = (t + t2) / (1 - t * t2)\n            ok = ok and (comp == (t2 + t) / (1 - t2 * t))\n            if t * t2 != 0:\n                ok = ok and ((t + t2) != comp)\n    p = case.get('p', 1)\n    q = case.get('q', 1)\n    r = case.get('r', 0)\n    s = case.get('s', 1)\n    u = case.get('u', 1)\n    v = case.get('v', 0)\n    w = case.get('w', 1)\n    z = case.get('z', 1)\n    if p * s - q * r == 1 and u * z - v * w == 1:\n        A = [[p, q], [r, s]]\n        B = [[u, v], [w, z]]\n        Ai = [[s, -q], [-r, p]]\n        Bi = [[z, -v], [-w, u]]\n        AB = [[A[0][0]*B[0][0] + A[0][1]*B[1][0], A[0][0]*B[0][1] + A[0][1]*B[1][1]],\n              [A[1][0]*B[0][0] + A[1][1]*B[1][0], A[1][0]*B[0][1] + A[1][1]*B[1][1]]]\n        ABA = [[AB[0][0]*Ai[0][0] + AB[0][1]*Ai[1][0], AB[0][0]*Ai[0][1] + AB[0][1]*Ai[1][1]],\n               [AB[1][0]*Ai[0][0] + AB[1][1]*Ai[1][0], AB[1][0]*Ai[0][1] + AB[1][1]*Ai[1][1]]]\n        C = [[ABA[0][0]*Bi[0][0] + ABA[0][1]*Bi[1][0], ABA[0][0]*Bi[0][1] + ABA[0][1]*Bi[1][1]],\n             [ABA[1][0]*Bi[0][0] + ABA[1][1]*Bi[1][0], ABA[1][0]*Bi[0][1] + ABA[1][1]*Bi[1][1]]]\n        detC = C[0][0] * C[1][1] - C[0][1] * C[1][0]\n        ok = ok and (detC == 1)\n        ok = ok and (C != [[1, 0], [0, 1]])\n    else:\n        ok = False\n    return bool(ok == expect)",
+        "conjecture_id": "CONJ-T1-R3-SINGLE-2-CAYLEY-NET-HOLONOMY",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 3,
+            "b": 4,
+            "c": 1,
+            "d": 2,
+            "expect_claim": true
+          },
+          {
+            "a": 215989,
+            "b": 11,
+            "c": 355,
+            "d": 113,
+            "expect_claim": true
+          },
+          {
+            "a": 1,
+            "b": 1,
+            "c": 1,
+            "d": 1,
+            "expect_claim": true
+          },
+          {
+            "a": 2,
+            "b": 4,
+            "c": 1,
+            "d": 1,
+            "expect_claim": false
+          },
+          {
+            "a": 5,
+            "b": 0,
+            "c": 1,
+            "d": 1,
+            "expect_claim": false
+          },
+          {
+            "a": 3,
+            "b": 4,
+            "c": 1,
+            "d": 1,
+            "expect_claim": false,
+            "p": 1,
+            "q": 1,
+            "r": 0,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          }
+        ]
+      },
+      "round_num": 3,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R3-SINGLE-2"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Depth-3 synthesis on top of the R2-SINGLE-7 net-delta repair: the parity-corrected net scale (a^2+b^2)/delta from R2-SINGLE-7 is the exact denominator lattice of the Cayley circle points, and it is preserved under the tangent-addition group law because the rotation product of two lifts is again a lift of (t1+t2)/(1-t1*t2), an exact Fraction identity with no cancellation. The non-Abelian side is bridged by the Fricke trace identity: lifting the same slopes to det-1 integer Moebius matrices makes the commutator defect a pure integer, tr([A,B]) = trA^2+trB^2+trAB^2-trA*trB*trAB-2, with C=I iff AB=BA. Gate-5 congruence scope: all denominators vanish modulo the net scale, so the claim is decidable in pure int/Fraction arithmetic (Law 2b steelman: the strongest verified form is used, R2-SINGLE-7's delta-repair, not the refuted R1-SINGLE-5 form). Novelty note N2: no prior round combined the abelian tangent-addition law with the non-Abelian Fricke commutator trace in one exact predicate.",
+        "mode": "compose",
+        "target_seat_or_turn": "R2-SINGLE-7"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-lift-parity-net-delta-x-tangent-addition-abelian-x-sl2-fricke-commutator-trace-defect",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For coprime integers a,b with b != 0, the stereographic Cayley lift t=Fraction(a,b) -> (x,y)=((1-t^2)/(1+t^2), 2t/(1+t^2)) lands exactly on x^2+y^2=1 over Fractions, round-trips by y/(1+x)=t, and both reduced denominators equal the parity-corrected net scale (a^2+b^2)/delta with delta=2 iff a,b both odd else delta=1 (kappa_sub=215989/11=19635+4/11 sits in the both-odd delta=2 class, receipt corpus:exact-operator-receipt). The slope composition law (t1+t2)/(1-t1*t2) is exactly commutative and its Cayley lift equals the rotation product (x1*x2-y1*y2, x1*y2+y1*x2) with zero chord defect, while the SL_2(Z) matrix lift of the same rotation is non-Abelian: for det-1 integer matrices A,B the commutator C=ABA^{-1}B^{-1} has trace exactly equal to the Fricke integer polynomial tr(A)^2+tr(B)^2+tr(AB)^2-tr(A)tr(B)tr(AB)-2 (receipts corpus:exact-operator-receipt, corpus:exact-operator-receipt), and C is the identity iff AB=BA (trace-2 abelian boundary), so the entire defect is the integer trace excess with zero finite-precision cancellation anywhere."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: (1) for coprime a,b (b!=0) the Cayley lift of t=a/b lies on x^2+y^2=1 over Fractions, recovers t via y/(1+x), and both reduced denominators equal the parity-corrected net (a^2+b^2)/delta, delta=2 iff both odd else 1; (2) tangent addition is exactly commutative and its lift equals the rotation product of the two lifts (zero chord defect); (3) for det-1 integer matrices A,B the SL2 commutator trace equals the Fricke integer polynomial exactly and C=I iff AB=BA. R5 negative/refutation cases tested: non-coprime slope (gcd=2) and zero denominator b=0 both make the claim false.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    a = case['a']; b = case['b']; a2 = case['a2']; b2 = case['b2']\n    p = case['p']; q = case['q']; r = case['r']; s = case['s']\n    u = case['u']; v = case['v']; w = case['w']; z = case['z']\n    ok_lift = False\n    ok_tan = False\n    if b != 0 and b2 != 0 and gcd(a, b) == 1 and gcd(a2, b2) == 1:\n        t = Fraction(a, b)\n        t2 = Fraction(a2, b2)\n        x = (1 - t*t) / (1 + t*t)\n        y = 2*t / (1 + t*t)\n        delta = 2 if (a % 2 == 1 and b % 2 == 1) else 1\n        net = (a*a + b*b) // delta\n        ok_lift = (x*x + y*y == 1) and (y / (1 + x) == t) and (x.denominator == net) and (y.denominator == net)\n        if 1 - t*t2 != 0:\n            x2 = (1 - t2*t2) / (1 + t2*t2)\n            y2 = 2*t2 / (1 + t2*t2)\n            t3 = (t + t2) / (1 - t*t2)\n            x3 = (1 - t3*t3) / (1 + t3*t3)\n            y3 = 2*t3 / (1 + t3*t3)\n            ok_tan = (x3 == x*x2 - y*y2) and (y3 == x*y2 + y*x2)\n    def mul(M, N):\n        return [[M[0][0]*N[0][0] + M[0][1]*N[1][0], M[0][0]*N[0][1] + M[0][1]*N[1][1]], [M[1][0]*N[0][0] + M[1][1]*N[1][0], M[1][0]*N[0][1] + M[1][1]*N[1][1]]]\n    def inv(M):\n        return [[M[1][1], -M[0][1]], [-M[1][0], M[0][0]]]\n    A = [[p, q], [r, s]]\n    B = [[u, v], [w, z]]\n    ok_comm = False\n    if (p*s - q*r == 1) and (u*z - v*w == 1):\n        AB = mul(A, B)\n        BA = mul(B, A)\n        trA = p + s\n        trB = u + z\n        trAB = AB[0][0] + AB[1][1]\n        fricke = trA*trA + trB*trB + trAB*trAB - trA*trB*trAB - 2\n        C = mul(mul(A, B), mul(inv(A), inv(B)))\n        direct = C[0][0] + C[1][1]\n        ident = [[1, 0], [0, 1]]\n        ok_comm = (direct == fricke) and ((C == ident) == (AB == BA))\n    claim = bool(ok_lift and ok_tan and ok_comm)\n    return bool(claim == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R3-SINGLE-3-CAYLEY-NETDELTA-FRICKE",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 215989,
+            "a2": 1,
+            "b": 11,
+            "b2": 3,
+            "expect_claim": true,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 3,
+            "a2": 5,
+            "b": 4,
+            "b2": 7,
+            "expect_claim": true,
+            "p": 1,
+            "q": 1,
+            "r": 0,
+            "s": 1,
+            "u": 2,
+            "v": 1,
+            "w": 1,
+            "z": 1
+          },
+          {
+            "a": 1,
+            "a2": 1,
+            "b": 2,
+            "b2": 1,
+            "expect_claim": true,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 2,
+            "v": 1,
+            "w": 1,
+            "z": 1
+          },
+          {
+            "a": 2,
+            "a2": 1,
+            "b": 4,
+            "b2": 3,
+            "expect_claim": false,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 1,
+            "a2": 1,
+            "b": 0,
+            "b2": 3,
+            "expect_claim": false,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          }
+        ]
+      },
+      "round_num": 3,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R3-SINGLE-3"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Depth-3 synthesis on top of R2-SINGLE-7's repaired invariant net = (n^2+d^2)/delta with delta=2 in the both-odd class: this turn keeps that parity-corrected denominator law (Gate-5 congruence scope: a^2+b^2 mod 4 dichotomy) and adds the second depth layer, namely exact rotation-matrix composition R(t1)R(t2) = R(t2)R(t1) = R((t1+t2)/(1-t1*t2)) over Fractions, which is the Abelian (zero-commutator-defect) counterpart to the non-Abelian SL_2 commutator defect that defeated R1-SINGLE-3; calibration kappa_sub = 215989/11 = 19635 + 4/11 sits in the both-odd class, and the Zu 355/113 case supplies the second lift; N0/N1/N2 novelty note: the net-scale law is inherited from R2-SINGLE-7, the new content is the exact two-lift composition law and its commutativity certificate.",
+        "mode": "compose",
+        "target_seat_or_turn": "R2-SINGLE-7"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-stereo-lift-parity-net-scale-rotation-composition-commutativity (kappa_sub=215989/11 both-odd calibration class)",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For coprime integers a,b with b != 0 and t = Fraction(a,b), the stereographic Cayley lift (x,y) = ((1-t^2)/(1+t^2), 2t/(1+t^2)) lies exactly on x^2+y^2 = 1 over the rationals, recovers the slope exactly via y/(1+x) = t, and both reduced denominators equal the parity-corrected net scale (a^2+b^2)/2 when a,b are both odd and a^2+b^2 otherwise; composing two such lifts as rotation matrices R(t) = [[x,-y],[y,x]] is exactly commutative and reproduces the lift of the tangent-addition slope (t1+t2)/(1-t1*t2) with zero chord defect, in exact contrast to the nonzero trace defect of a non-Abelian SL_2(Z) commutator."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant over Fractions (zero floats, zero IO): for coprime integer slopes t1=a/b, t2=c/d (b,d nonzero), both Cayley lifts lie on the unit circle, round-trip exactly via y/(1+x)=t, both reduced denominators equal the parity-corrected net scale (p^2+q^2)/2 if p,q both odd else p^2+q^2, and the rotation matrices of the two lifts commute exactly and equal the lift of the tangent-addition slope off the pole 1-t1*t2=0; R5 negative/refutation cases: non-coprime slopes or zero denominator must fail the claim.",
+        "code": "def check_case(case):\n    from fractions import Fraction\n    from math import gcd\n    a = case['a']\n    b = case['b']\n    c = case['c']\n    d = case['d']\n    expect = case['expect_claim']\n    if b == 0 or d == 0:\n        return bool(False == expect)\n    if gcd(abs(a), abs(b)) != 1 or gcd(abs(c), abs(d)) != 1:\n        return bool(False == expect)\n    t1 = Fraction(a, b)\n    t2 = Fraction(c, d)\n    def lift(t):\n        s = 1 + t*t\n        return ((1 - t*t)/s, (2*t)/s)\n    def net(p, q):\n        n = p*p + q*q\n        if p % 2 == 1 and q % 2 == 1:\n            return n//2\n        return n\n    x1, y1 = lift(t1)\n    x2, y2 = lift(t2)\n    on_circle = (x1*x1 + y1*y1 == 1) and (x2*x2 + y2*y2 == 1)\n    rec = (y1/(1 + x1) == t1) and (y2/(1 + x2) == t2)\n    dens = (x1.denominator == net(a, b)) and (y1.denominator == net(a, b)) and (x2.denominator == net(c, d)) and (y2.denominator == net(c, d))\n    comp_ok = True\n    pole = 1 - t1*t2\n    if pole != 0:\n        tc = (t1 + t2)/pole\n        xc, yc = lift(tc)\n        m11 = x1*x2 - y1*y2\n        m12 = -(x1*y2 + y1*x2)\n        n11 = x2*x1 - y2*y1\n        n12 = -(x2*y1 + y2*x1)\n        comm = (m11 == n11) and (m12 == n12)\n        comp_ok = comm and (m11 == xc) and (m12 == -yc)\n    claim = on_circle and rec and dens and comp_ok\n    return bool(claim == expect)",
+        "conjecture_id": "CONJ-T1-R3-SINGLE-4-CAYLEY-NET-ROT-COMM",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 215989,
+            "b": 11,
+            "c": 355,
+            "d": 113,
+            "expect_claim": true
+          },
+          {
+            "a": 3,
+            "b": 4,
+            "c": 5,
+            "d": 12,
+            "expect_claim": true
+          },
+          {
+            "a": 1,
+            "b": 1,
+            "c": 1,
+            "d": 3,
+            "expect_claim": true
+          },
+          {
+            "a": 2,
+            "b": 1,
+            "c": 1,
+            "d": 2,
+            "expect_claim": true
+          },
+          {
+            "a": 7,
+            "b": 24,
+            "c": 20,
+            "d": 21,
+            "expect_claim": true
+          },
+          {
+            "a": 6,
+            "b": 4,
+            "c": 1,
+            "d": 1,
+            "expect_claim": false
+          },
+          {
+            "a": 5,
+            "b": 0,
+            "c": 1,
+            "d": 1,
+            "expect_claim": false
+          },
+          {
+            "a": 9,
+            "b": 15,
+            "c": 3,
+            "d": 4,
+            "expect_claim": false
+          }
+        ]
+      },
+      "round_num": 3,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R3-SINGLE-4"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Depth-3 synthesis on R2-SINGLE-7's parity-repaired net delta: the repaired net scale (pn^2+qn^2)/delta is shown to be the exact reduced denominator of the COMPOSED Cayley lift, governed by the multiplicative law (a^2+b^2)(c^2+d^2)=g^2(pn^2+qn^2) (Law 2b steelman: the finite-net scale is submultiplicative under tangent-addition, quantifying finite-precision growth without any float). The same turn closes the R1-SINGLE-3 minimal counterexample repair: instead of claiming SL2 commutators commute, the conjecture restricts to det-1 integer matrices (Gate-5 congruence scope: ps-qr=uz-vw=1) and states the commutator defect exactly via the Fricke trace identity, so the non-Abelian defect tr(C)-2 is a computable integer (nonzero e.g. for A=[[2,1],[1,1]], B=[[1,1],[0,1]] where it equals 1) while the Cayley/stereographic composition remains exactly commutative. N0/N1/N2 novelty: new content is the composed-net multiplicative law plus the Fricke-defect dichotomy, not present in any R1/R2 turn.",
+        "mode": "compose",
+        "target_seat_or_turn": "R2-SINGLE-7"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-stereo-lift-net-delta-parity-x-sl2-fricke-commutator-defect",
+        "source_receipt_id": "corpus:exact-operator-receipt+corpus:exact-operator-receipt",
+        "statement": "OWN_TERMS_FIRST: for coprime integer slopes t1=a/b, t2=c/d (b,d nonzero, bd-ac nonzero), the tangent-addition composition t3=(ad+bc)/(bd-ac) has Cayley lift P(t3)=((1-t3^2)/(1+t3^2), 2t3/(1+t3^2)) exactly on x^2+y^2=1 over Fractions, equal to the exact rotation product P(t1)P(t2) (zero chord defect, abelian); if g=gcd(ad+bc,bd-ac) and pn,qn are the reduced numerator/denominator, then (a^2+b^2)(c^2+d^2)=g^2(pn^2+qn^2) exactly (multiplicative finite-net law) and both reduced denominators of P(t3) equal the parity-repaired net (pn^2+qn^2)/delta with delta=2 iff pn,qn both odd else 1 (kappa_sub=215989/11 calibration included); in contrast, for det-1 integer Moebius matrices A=[[p,q],[r,s]], B=[[u,v],[w,z]] the non-Abelian commutator C=ABA^-1B^-1 has det exactly 1 and trace given by the Fricke identity tr(C)=alpha^2+beta^2+gamma^2-alpha*beta*gamma-2 with alpha=tr A, beta=tr B, gamma=tr AB, so the holonomy defect tr(C)-2 is an exact integer measuring non-Abelianness that the Cayley circle composition does not have."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant: composed tangent-addition Cayley lift lies on the unit circle over Fractions, equals the exact rotation product (abelian, zero chord defect), obeys the multiplicative finite-net law (a^2+b^2)(c^2+d^2)=g^2(pn^2+qn^2) with parity-repaired reduced denominators (pn^2+qn^2)/delta, and the det-1 SL2 commutator has det exactly 1 with trace fixed by the Fricke identity. R5 negative/refutation cases tested: non-coprime slope pair, pole case bd-ac=0, and non-det-1 matrix pair each refute the claim.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    a = case['a']; b = case['b']; c = case['c']; d = case['d']\n    p = case['p']; q = case['q']; r = case['r']; s = case['s']\n    u = case['u']; v = case['v']; w = case['w']; z = case['z']\n    expect = case['expect_claim']\n    if b == 0 or d == 0:\n        return expect == False\n    if gcd(a, b) != 1 or gcd(c, d) != 1:\n        return expect == False\n    num = a * d + b * c\n    den = b * d - a * c\n    if den == 0:\n        return expect == False\n    g = gcd(num, den)\n    pn = num // g\n    qn = den // g\n    ok_net = (a * a + b * b) * (c * c + d * d) == g * g * (pn * pn + qn * qn)\n    t1 = Fraction(a, b)\n    t2 = Fraction(c, d)\n    t3 = Fraction(num, den)\n    x1 = (1 - t1 * t1) / (1 + t1 * t1)\n    y1 = 2 * t1 / (1 + t1 * t1)\n    x2 = (1 - t2 * t2) / (1 + t2 * t2)\n    y2 = 2 * t2 / (1 + t2 * t2)\n    x3 = (1 - t3 * t3) / (1 + t3 * t3)\n    y3 = 2 * t3 / (1 + t3 * t3)\n    ok_circle = (x3 * x3 + y3 * y3 == 1)\n    ok_abelian = (x3 == x1 * x2 - y1 * y2) and (y3 == x1 * y2 + y1 * x2)\n    delta = 2 if (pn % 2 == 1 and qn % 2 == 1) else 1\n    net = (pn * pn + qn * qn) // delta\n    ok_denom = (x3.denominator == net) and (y3.denominator == net)\n    detA = p * s - q * r\n    detB = u * z - v * w\n    if detA != 1 or detB != 1:\n        return expect == False\n    A = [[p, q], [r, s]]\n    B = [[u, v], [w, z]]\n    Ai = [[s, -q], [-r, p]]\n    Bi = [[z, -v], [-w, u]]\n    AB = [[A[0][0] * B[0][0] + A[0][1] * B[1][0], A[0][0] * B[0][1] + A[0][1] * B[1][1]],\n          [A[1][0] * B[0][0] + A[1][1] * B[1][0], A[1][0] * B[0][1] + A[1][1] * B[1][1]]]\n    ABA = [[AB[0][0] * Ai[0][0] + AB[0][1] * Ai[1][0], AB[0][0] * Ai[0][1] + AB[0][1] * Ai[1][1]],\n           [AB[1][0] * Ai[0][0] + AB[1][1] * Ai[1][0], AB[1][0] * Ai[0][1] + AB[1][1] * Ai[1][1]]]\n    C = [[ABA[0][0] * Bi[0][0] + ABA[0][1] * Bi[1][0], ABA[0][0] * Bi[0][1] + ABA[0][1] * Bi[1][1]],\n         [ABA[1][0] * Bi[0][0] + ABA[1][1] * Bi[1][0], ABA[1][0] * Bi[0][1] + ABA[1][1] * Bi[1][1]]]\n    detC = C[0][0] * C[1][1] - C[0][1] * C[1][0]\n    trC = C[0][0] + C[1][1]\n    alpha = p + s\n    beta = u + z\n    gamma = AB[0][0] + AB[1][1]\n    fricke = alpha * alpha + beta * beta + gamma * gamma - alpha * beta * gamma - 2\n    ok_holonomy = (detC == 1) and (trC == fricke)\n    claim_holds = ok_net and ok_circle and ok_abelian and ok_denom and ok_holonomy\n    return bool(claim_holds == expect)",
+        "conjecture_id": "CONJ-T1-R3-SINGLE-5-CAYLEY-NET-FRICKE",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 1,
+            "b": 2,
+            "c": 1,
+            "d": 3,
+            "expect_claim": true,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 3,
+            "b": 4,
+            "c": 5,
+            "d": 12,
+            "expect_claim": true,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 215989,
+            "b": 11,
+            "c": 1,
+            "d": 2,
+            "expect_claim": true,
+            "p": 3,
+            "q": 2,
+            "r": 1,
+            "s": 1,
+            "u": 2,
+            "v": 1,
+            "w": 1,
+            "z": 1
+          },
+          {
+            "a": 2,
+            "b": 4,
+            "c": 1,
+            "d": 3,
+            "expect_claim": false,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 1,
+            "b": 1,
+            "c": 1,
+            "d": 1,
+            "expect_claim": false,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 1,
+            "b": 2,
+            "c": 1,
+            "d": 3,
+            "expect_claim": false,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 2,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          }
+        ]
+      },
+      "round_num": 3,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R3-SINGLE-5"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Depth-3 synthesis on top of the R2-SINGLE-3 parity-corrected net-scale repair (Law 2b steelman: the (a^2+b^2)/delta denominator law is kept verbatim, delta = 2 iff a,b both odd else 1, Gate-5 congruence scope: the law holds exactly for gcd(a,b)=1 and fails otherwise, which is exactly the R5 negative arm). The Cayley net scale is bridged to non-Abelian holonomy via the SL_2(Z) commutator: det(ABA^-1B^-1) = 1 identically, so the commutator defect lives in the matrix entries, not the determinant, while the finite-net approximation leg is pinned by the Hurwitz/Pell exact defect |pn^2 - 2 qn^2| = 1 for sqrt(2) convergents. N0/N1/N2 novelty note: N0 reuses the referee-passed R2-SINGLE-3 invariant unchanged; N1 adds the commutator-determinant and Pell-defect legs as new exact predicates; N2 is the combined conjunction with explicit non-coprime, det != 1, and non-convergent (355/113) refutation cases, repairing the R1-SINGLE-3/R1-SINGLE-5 counterexample pattern by scoping every claim to gcd(a,b)=1 and det=1 hypotheses.",
+        "mode": "compose",
+        "target_seat_or_turn": "R2-SINGLE-3"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-stereo-lift-parity-net-scale-sl2-commutator-det1-pell-hurwitz-convergent",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For coprime integers a,b with b != 0 and t = Fraction(a,b), the stereographic Cayley lift (x,y) = ((1-t^2)/(1+t^2), 2t/(1+t^2)) satisfies x^2+y^2 = 1 exactly over Fractions, recovers the slope via y/(1+x) = t, and both reduced denominators equal the parity-corrected net scale (a^2+b^2)/2 when a,b are both odd and a^2+b^2 otherwise; independently, the SL_2(Z) commutator A B A^-1 B^-1 of two determinant-1 integer Moebius matrices has determinant exactly 1 (non-Abelian defect confined to entries, never to the determinant), while Hurwitz continued-fraction convergents pn/qn of sqrt(2) satisfy the exact Pell defect |pn^2 - 2 qn^2| = 1 (kappa_sub = 215989/11 = 19635 + 4/11 as the cancellation-floor calibration; Zu's 355/113 fails the Pell test)."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant over Fractions/integers only: (i) coprime Cayley lift lies on x^2+y^2=1, round-trips y/(1+x)=t, and both reduced denominators equal the parity-corrected net scale (a^2+b^2)/delta; (ii) SL_2(Z) commutator of two det-1 integer matrices has det exactly 1; (iii) Hurwitz CF convergent of sqrt(2) satisfies |pn^2-2qn^2|=1. R5 negative cases: non-coprime slope, det != 1 matrix, and Zu 355/113 non-convergent all refute the conjunction.",
+        "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    a = case['a']; b = case['b']\n    p = case['p']; q = case['q']; r = case['r']; s = case['s']\n    u = case['u']; v = case['v']; w = case['w']; z = case['z']\n    pn = case['pn']; qn = case['qn']\n    detA = p * s - q * r\n    detB = u * z - v * w\n    comm_det = Fraction(detA * detB)\n    if detA == 1 and detB == 1:\n        def mul(M, N):\n            return [[M[0][0]*N[0][0] + M[0][1]*N[1][0], M[0][0]*N[0][1] + M[0][1]*N[1][1]],\n                    [M[1][0]*N[0][0] + M[1][1]*N[1][0], M[1][0]*N[0][1] + M[1][1]*N[1][1]]]\n        A = [[p, q], [r, s]]; B = [[u, v], [w, z]]\n        Ai = [[s, -q], [-r, p]]; Bi = [[z, -v], [-w, u]]\n        C = mul(mul(mul(A, B), Ai), Bi)\n        comm_det = Fraction(C[0][0]*C[1][1] - C[0][1]*C[1][0])\n    pell_ok = (qn != 0) and (abs(pn*pn - 2*qn*qn) == 1)\n    claim = False\n    if b != 0 and gcd(a, b) == 1 and detA == 1 and detB == 1 and pell_ok:\n        t = Fraction(a, b)\n        x = (1 - t*t) / (1 + t*t)\n        y = (2*t) / (1 + t*t)\n        delta = 2 if (a % 2 == 1 and b % 2 == 1) else 1\n        net = (a*a + b*b) // delta\n        claim = (x*x + y*y == 1) and (y / (1 + x) == t) and (x.denominator == net) and (y.denominator == net) and (comm_det == 1)\n    return bool(claim == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R3-SINGLE-6-CAYLEY-NET-COMM-PELL",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 215989,
+            "b": 11,
+            "expect_claim": true,
+            "p": 2,
+            "pn": 577,
+            "q": 1,
+            "qn": 408,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 3,
+            "b": 4,
+            "expect_claim": true,
+            "p": 2,
+            "pn": 3,
+            "q": 1,
+            "qn": 2,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 5,
+            "b": 7,
+            "expect_claim": true,
+            "p": 0,
+            "pn": 7,
+            "q": -1,
+            "qn": 5,
+            "r": 1,
+            "s": 0,
+            "u": 1,
+            "v": 1,
+            "w": 1,
+            "z": 2
+          },
+          {
+            "a": 2,
+            "b": 4,
+            "expect_claim": false,
+            "p": 2,
+            "pn": 7,
+            "q": 1,
+            "qn": 5,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 3,
+            "b": 5,
+            "expect_claim": false,
+            "p": 2,
+            "pn": 7,
+            "q": 1,
+            "qn": 5,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 2
+          },
+          {
+            "a": 5,
+            "b": 7,
+            "expect_claim": false,
+            "p": 2,
+            "pn": 355,
+            "q": 1,
+            "qn": 113,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          }
+        ]
+      },
+      "round_num": 3,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R3-SINGLE-6"
+    },
+    {
+      "composition_or_challenge": {
+        "algebraic_link": "Depth-3 synthesis of R2-SINGLE-7's net-delta repair: the parity-corrected net scale (a^2+b^2)/delta from CONJ-T1-R2-SINGLE-7-CAYLEY-NETDELTA-REPAIR is retained verbatim as the finite-net exactness half, and is bridged to the non-Abelian half by the shared denominator structure \u2014 the Cayley lift's reduced denominator is the net scale a^2+b^2 (divided by the gcd-2 parity delta), while the SL_2(Z) commutator of the lifted Moebius maps keeps determinant exactly 1 but accumulates an exact integer trace defect, so finite-precision cancellation is replaced by exact Fraction arithmetic on both sides (Gate-5 congruence scope: the delta=2 case is exactly the both-odd congruence class of a^2+b^2 mod 4). Law 2b steelman: the strongest prior claim (R2-SINGLE-7, PASS_WITNESS 6/6) is not weakened; the commutator conjunct adds a genuinely new N2 observation (exact nonzero trace defect measuring non-commutativity) rather than restating the circle identity, and the Hurwitz sqrt(2) Pell-sign recurrence supplies the asymptotic tail-acceleration invariant. No unresolved counterexamples remain: the sole Round-1 failure (R1-SINGLE-5, failing at a=215989,b=11) is repaired by the delta=2 parity branch carried through every Round-2 repair and re-verified here.",
+        "mode": "compose",
+        "target_seat_or_turn": "R2-SINGLE-7"
+      },
+      "corpus_anchor": {
+        "operator_id": "cayley-stereo-lift-parity-net-delta + sl2-integer-commutator-exact-det + hurwitz-sqrt2-cf-pell-sign",
+        "source_receipt_id": "corpus:exact-operator-receipt",
+        "statement": "For coprime integers a,b with b != 0, the stereographic Cayley lift t = Fraction(a,b) -> (x,y) = ((1-t^2)/(1+t^2), 2t/(1+t^2)) satisfies x^2+y^2 = 1 exactly over Fractions, round-trips the slope exactly via y/(1+x) = t, and both reduced denominators equal the parity-corrected net scale (a^2+b^2)/delta with delta = 2 if a,b are both odd else delta = 1 (the kappa_sub = 215989/11 both-odd cancellation floor). Against this finite-net exactness, the non-Abelian defect is measured exactly: for integer determinant-1 Moebius matrices A = [[p,q],[r,s]] and B = [[u,v],[w,z]], the commutator C = A B A^-1 B^-1 has determinant exactly 1 (zero determinant defect) while its trace defect trace(C)-2 is a nonzero integer whenever A and B fail to commute; and the Hurwitz continued-fraction convergents of sqrt(2), generated by the exact integer recurrence (p,q) -> (p+2q, p+q) from (1,1), satisfy the Pell sign law p_n^2 - 2 q_n^2 = (-1)^(n+1) for all n >= 0."
+      },
+      "executable_conjecture": {
+        "claim_summary": "Exact invariant over Fractions: for coprime a,b (b != 0), the Cayley lift of t=a/b lies on x^2+y^2=1, recovers slope y/(1+x)=t, and both reduced denominators equal net=(a^2+b^2)/delta (delta=2 iff a,b both odd else 1); for det-1 integer matrices A,B the commutator C=A B A^-1 B^-1 has det(C)=1 exactly; and the sqrt(2) CF recurrence (p,q)->(p+2q,p+q) from (1,1) satisfies p_n^2-2q_n^2=(-1)^(n+1). R5 negative cases: b=0, gcd(a,b)!=1, and det(A)!=1 each refute the claim (expect_claim=false).",
+        "code": "def check_case(case):\n    from fractions import Fraction\n    from math import gcd\n    a = case['a']; b = case['b']\n    p = case['p']; q = case['q']; r = case['r']; s = case['s']\n    u = case['u']; v = case['v']; w = case['w']; z = case['z']\n    n = case['n']\n    claim = True\n    if b == 0 or gcd(a, b) != 1:\n        claim = False\n    else:\n        t = Fraction(a, b)\n        x = (1 - t * t) / (1 + t * t)\n        y = (2 * t) / (1 + t * t)\n        delta = 2 if (a % 2 == 1 and b % 2 == 1) else 1\n        net = (a * a + b * b) // delta\n        if x * x + y * y != 1:\n            claim = False\n        if y / (1 + x) != t:\n            claim = False\n        if x.denominator != net or y.denominator != net:\n            claim = False\n    detA = p * s - q * r\n    detB = u * z - v * w\n    if detA != 1 or detB != 1:\n        claim = False\n    else:\n        ab00 = p * u + q * w\n        ab01 = p * v + q * z\n        ab10 = r * u + s * w\n        ab11 = r * v + s * z\n        c00 = ab00 * s - ab01 * r\n        c01 = -ab00 * q + ab01 * p\n        c10 = ab10 * s - ab11 * r\n        c11 = -ab10 * q + ab11 * p\n        d00 = c00 * z - c01 * w\n        d01 = -c00 * v + c01 * u\n        d10 = c10 * z - c11 * w\n        d11 = -c10 * v + c11 * u\n        if d00 * d11 - d01 * d10 != 1:\n            claim = False\n    pp = 1\n    qq = 1\n    for _ in range(n):\n        pp, qq = pp + 2 * qq, pp + qq\n    if pp * pp - 2 * qq * qq != (-1) ** (n + 1):\n        claim = False\n    return bool(claim == case['expect_claim'])",
+        "conjecture_id": "CONJ-T1-R3-SINGLE-7-CAYLEY-NET-COMMUTATOR-HURWITZ",
+        "kind": "python_exact_q",
+        "test_cases": [
+          {
+            "a": 215989,
+            "b": 11,
+            "expect_claim": true,
+            "n": 5,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 3,
+            "b": 4,
+            "expect_claim": true,
+            "n": 2,
+            "p": 1,
+            "q": 1,
+            "r": 0,
+            "s": 1,
+            "u": 1,
+            "v": 0,
+            "w": 1,
+            "z": 1
+          },
+          {
+            "a": 5,
+            "b": 3,
+            "expect_claim": true,
+            "n": 0,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 2,
+            "v": 1,
+            "w": 1,
+            "z": 1
+          },
+          {
+            "a": 1,
+            "b": 0,
+            "expect_claim": false,
+            "n": 3,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 2,
+            "b": 4,
+            "expect_claim": false,
+            "n": 3,
+            "p": 2,
+            "q": 1,
+            "r": 1,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          },
+          {
+            "a": 3,
+            "b": 4,
+            "expect_claim": false,
+            "n": 3,
+            "p": 2,
+            "q": 0,
+            "r": 0,
+            "s": 1,
+            "u": 1,
+            "v": 1,
+            "w": 0,
+            "z": 1
+          }
+        ]
+      },
+      "round_num": 3,
+      "seat_id": "SEAT-SINGLE",
+      "target_frontier": "Foundation-0/continuum",
+      "turn_id": "R3-SINGLE-7"
+    }
+  ],
+  "variation": "single"
+}

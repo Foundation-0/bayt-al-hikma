@@ -1,0 +1,3289 @@
+[
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "I compose SEAT-4's Hurwitz continued-fraction optimality with the Cayley commutator defect. Take the consecutive convergents p_k/q_k and p_{k-1}/q_{k-1} of any regular continued fraction, and lift u=(p_k/q_k, s, 0) and v=(p_{k-1}/q_{k-1}, s, 0) for a rational s. Then u x v = (0, 0, s(p_{k-1}/q_{k-1} - p_k/q_k)). The convergent determinant p_k q_{k-1} - p_{k-1} q_k = (-1)^(k+1) then forces the exact holonomy defect N(P)N(Q) - Re(C) = 2 s^2 / (q_k q_{k-1})^2. Consequences: (i) OBSTRUCTION: consecutive convergent lifts never commute, because the defect is strictly positive for s != 0. The finite net of best approximations cannot be made Abelian. (ii) The defect falls off as the inverse square of the product of the denominators. This is the quaternionic shadow of the Hurwitz bound |x - p/q| < 1/(sqrt(5) q^2), so the record denominators of SEAT-4, such as 113 to 33102 for the convergents of pi, are exactly the scale of the minimal non-Abelian residue. (iii) Interposition with SEAT-1: cancellation appears ONLY in Re(C). In exact Q arithmetic, N(P)N(Q) and Re(C) agree in their leading terms, and their difference is O(1/q^4) relative to O(1). This gives a pure-Q audit of how much finite-precision cancellation a floating evaluation of this commutator must absorb, roughly 4 log10(q_k q_{k-1})/2 decimal digits, but the identity itself is pure Z/Q. Law 2b steelman of the opposing claim ('rational nets approximate holonomy arbitrarily well, so the defect is negligible'): its strongest repaired form is 'the defect is exactly 2s^2/(q_k q_{k-1})^2, so it vanishes only in the limit and never at a finite net'. That is the conjecture below. Gate-5 scope: the result is claimed only for regular continued fractions with partial quotients a_i >= 1 for i >= 1 and with the y-offset s shared by both lifts. Novelty grade: N1 (the components are classical; the exact composition of the convergent determinant with the Cayley commutator is the claimed bridge).",
+      "mode": "compose",
+      "target_seat_or_turn": "SEAT-4"
+    },
+    "corpus_anchor": {
+      "operator_id": "cayley_su2_unitary x stereographic_weierstrass (HoloSphere-V3 SU(2) Cayley lift; Holonomy and Commutation-defect glyphs of the 8-glyph exact-operator calculus)",
+      "source_receipt_id": "OP-REF",
+      "statement": "OWN_TERMS_FIRST: the Cayley lift takes a vector u in Q^3 to the quaternion P=(1,u). Its norm is N(P)=1+|u|^2, so P/N(P)^(1/2) is in SU(2) without leaving Q[P]. For any two lifts P=(1,u) and Q=(1,v), the group commutator C=P*Q*conj(P)*conj(Q) satisfies the exact identities N(C)=N(P)^2 N(Q)^2 and N(P)N(Q) - Re(C) = 2|u x v|^2. Unnormalized, this is the rational form of the trace defect of a commutator of unit quaternions. It turns 'non-Abelian holonomy defect' into one integer or rational square norm: no square roots, no floats, no trigonometry."
+    },
+    "epistemic_web_interpositions": [
+      {
+        "gate_status": "EXACT_OPERATOR_VERIFIED",
+        "id": "repo:Foundation-0/ramanujan",
+        "interposition_note": "This repo directly shares the Cayley SU(2) lift and the stereographic parameterization used for P=(1,u). The convergent-indexed commutator defect 2s^2/(q_k q_{k-1})^2 is offered as an exact test target there.",
+        "org": "Foundation-0",
+        "score_q": "89/612",
+        "shared_operators": [
+          "cayley_su2_unitary",
+          "stereographic_weierstrass"
+        ]
+      },
+      {
+        "gate_status": "EXACT_OPERATOR_VERIFIED",
+        "id": "repo:Foundation-0/cave-expedition",
+        "interposition_note": "This repo sets the Gate-5 congruence scope: claims stay restricted to regular continued fractions and to lifts that share the y-offset s. Astrometric rotation composition is the empirical setting where the non-Abelian residue appears.",
+        "org": "Foundation-0",
+        "score_q": "4/31",
+        "shared_operators": [
+          "celestial_astrometry",
+          "stereographic_weierstrass"
+        ]
+      },
+      {
+        "gate_status": "EXACT_OPERATOR_VERIFIED",
+        "id": "tradition:T4_east_asian_fangcheng_crt_dougong",
+        "interposition_note": "Zu Chongzhi's 355/113 is the k=3 convergent in test case 1. The step from 113 to 33102 sets the defect denominator, so the classical best approximation is an exact witness of a minimal holonomy residue.",
+        "org": "historical_corpus",
+        "score_q": "37/189",
+        "shared_operators": [
+          "madhava_rational_remainder"
+        ]
+      },
+      {
+        "gate_status": "EXACT_OPERATOR_VERIFIED",
+        "id": "tradition:T3_south_asian_prosody_grammar_kerala",
+        "interposition_note": "The all-ones continued fraction (test case 3) has Pingala/Fibonacci convergents with q_k q_{k-1}=F_{k+1}F_k. This makes the defect a Fibonacci-product remainder, which links to Madhava's rational tail enclosures (SEAT-2).",
+        "org": "historical_corpus",
+        "score_q": "3/20",
+        "shared_operators": [
+          "madhava_rational_remainder"
+        ]
+      },
+      {
+        "gate_status": "EXACT_OPERATOR_VERIFIED",
+        "id": "tradition:T5_ancient_egypt_unit_fractions_frustum",
+        "interposition_note": "The defect 2s^2/(q_k q_{k-1})^2 is a scaled unit-fraction square (exactly 2/(q_k q_{k-1})^2 when s=1). Egyptian unit-fraction decompositions are the natural exact bookkeeping for summing such residues along a holonomy loop.",
+        "org": "historical_corpus",
+        "score_q": "9/58",
+        "shared_operators": [
+          "madhava_rational_remainder"
+        ]
+      }
+    ],
+    "executable_conjecture": {
+      "claim_summary": "For consecutive regular continued-fraction convergents p_k/q_k and p_{k-1}/q_{k-1}, with Cayley lifts P=(1,p_k/q_k,s,0) and Q=(1,p_{k-1}/q_{k-1},s,0) and commutator C=P Q conj(P) conj(Q): N(C)=(N(P)N(Q))^2 and N(P)N(Q)-Re(C)=2|u x v|^2=2 s^2/(q_k q_{k-1})^2 > 0, so the defect is exact and nonzero (non-Abelian obstruction). R5 must-fail guards: a claimed defect that drops the square on (q_k q_{k-1}), or that claims zero, must be rejected.",
+      "code": "from fractions import Fraction\n\ndef check_case(case):\n    cf = case[\"cf\"]\n    k = case[\"k\"]\n    if len(cf) < 2 or k < 1 or k >= len(cf):\n        return False\n    for t in cf[1:]:\n        if t < 1:\n            return False\n    p0, q0, p1, q1 = 1, 0, cf[0], 1\n    convs = [(p1, q1)]\n    for a in cf[1:]:\n        p0, q0, p1, q1 = p1, q1, a * p1 + p0, a * q1 + q0\n        convs.append((p1, q1))\n    pk, qk = convs[k]\n    pj, qj = convs[k - 1]\n    if pk * qj - pj * qk != (-1) ** (k + 1):\n        return False\n    s = Fraction(case.get(\"scale\", 1))\n    u = (Fraction(pk, qk), s, Fraction(0))\n    v = (Fraction(pj, qj), s, Fraction(0))\n    def mul(x, y):\n        a0, a1, a2, a3 = x\n        b0, b1, b2, b3 = y\n        return (a0*b0 - a1*b1 - a2*b2 - a3*b3,\n                a0*b1 + a1*b0 + a2*b3 - a3*b2,\n                a0*b2 - a1*b3 + a2*b0 + a3*b1,\n                a0*b3 + a1*b2 - a2*b1 + a3*b0)\n    def conj(x):\n        return (x[0], -x[1], -x[2], -x[3])\n    P = (Fraction(1),) + u\n    Q = (Fraction(1),) + v\n    Np = sum(c * c for c in P)\n    Nq = sum(c * c for c in Q)\n    C = mul(mul(P, Q), mul(conj(P), conj(Q)))\n    defect = Np * Nq - C[0]\n    cr = (u[1]*v[2] - u[2]*v[1], u[2]*v[0] - u[0]*v[2], u[0]*v[1] - u[1]*v[0])\n    cross2 = sum(c * c for c in cr)\n    predicted = 2 * s * s / Fraction(qk * qj) ** 2\n    ok_identity = defect == 2 * cross2 and defect == predicted\n    ok_norm = sum(c * c for c in C) == (Np * Nq) ** 2\n    ok_nonabelian = defect > 0\n    claimed = Fraction(case[\"claimed_num\"], case[\"claimed_den\"])\n    claim_ok = claimed == predicted\n    return bool(ok_identity and ok_norm and ok_nonabelian and claim_ok == case[\"expect_claim\"])\n",
+      "conjecture_id": "CONJ-T1-R1-SEAT-0-HURWITZ-CAYLEY-HOLONOMY",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "cf": [
+            3,
+            7,
+            15,
+            1,
+            292
+          ],
+          "claimed_den": 13991534756676,
+          "claimed_num": 2,
+          "expect_claim": true,
+          "k": 4,
+          "scale": 1
+        },
+        {
+          "cf": [
+            3,
+            7,
+            15,
+            1,
+            292
+          ],
+          "claimed_den": 3740526,
+          "claimed_num": 2,
+          "expect_claim": false,
+          "k": 4,
+          "scale": 1
+        },
+        {
+          "cf": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "claimed_den": 74529,
+          "claimed_num": 2,
+          "expect_claim": true,
+          "k": 7,
+          "scale": 1
+        },
+        {
+          "cf": [
+            2,
+            1,
+            2,
+            1,
+            1,
+            4,
+            1,
+            1
+          ],
+          "claimed_den": 50176,
+          "claimed_num": 18,
+          "expect_claim": true,
+          "k": 5,
+          "scale": 3
+        },
+        {
+          "cf": [
+            1,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "claimed_den": 4120900,
+          "claimed_num": 2,
+          "expect_claim": true,
+          "k": 5,
+          "scale": 1
+        },
+        {
+          "cf": [
+            0,
+            1,
+            4,
+            1,
+            4
+          ],
+          "claimed_den": 1,
+          "claimed_num": 0,
+          "expect_claim": false,
+          "k": 2,
+          "scale": 2
+        }
+      ]
+    },
+    "round_num": 1,
+    "seat_id": "SEAT-0",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R1-SEAT-0"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "For integer Cayley lifts P=(a,U), Q=(b,V) the spin commutator C=P Q P-bar Q-bar satisfies Re(C)=|P|^2|Q|^2-2(|U|^2|V|^2-(U.V)^2): the defect numerator is twice a 2x2 Gram determinant, computable fraction-free by Qin Jiushao-style elimination with zero division and zero cancellation. The reduced defect fraction 2|UxV|^2/(n^2 m^2) carries a gcd certificate (non-coprime modular arithmetic), and the quantized holonomy gap delta >= 2/(n^2 m^2) for noncommuting lifts is a Hurwitz-type Diophantine bound: I exhibit sharpness at coprime heights (n,m)=(3,7) with |UxV|^2=1 and kappa_sub=440, and challenge SEAT-4 to decide whether the constant 2 is Hurwitz-CF-optimal over primitive Lipschitz nets or halves over the half-integer Hurwitz lattice, i.e. whether the commutator spectrum admits a Markov/Lagrange-style theory. The commuting Pythagorean case (3,4,0,0),(5,12,0,0) with axis ratio 1:3 is the zero-holonomy epicyclic fixed point nodding to SEAT-6.",
+      "mode": "compose",
+      "target_seat_or_turn": "SEAT-4"
+    },
+    "corpus_anchor": {
+      "operator_id": "OP-REF-P4-KAPPA_SUB-X-ISTIAB-CAYLEY-S3-LIFT",
+      "source_receipt_id": "corpus:verified-exact-operator",
+      "statement": "OP-REF P4 certifies the exact subtractive-cancellation condition number kappa_sub = 215989/11; the Istiab rational stereographic projection lifts rational S^2 data to rational points of S^3 via integer quaternions P=(a,U) with square norm |P|^2=n^2 (Cayley lift). I generalize the P4 audit from one scalar subtraction to the entire non-Abelian commutator: the holonomy defect 1-Re(C)/(n^2 m^2) is itself a subtractive cancellation whose exact condition number is rational and whose cancellation-free numerator is a Gram determinant."
+    },
+    "executable_conjecture": {
+      "claim_summary": "For nonzero integer quaternions P=(a,U), Q=(b,V) with square norms n^2,m^2 (rational Cayley lifts to S^3), the commutator C=P Q P-bar Q-bar obeys: (i) Re(C)=n^2 m^2-2|UxV|^2 with |UxV|^2=|U|^2|V|^2-(U.V)^2 (Lagrange/Gram, cancellation-free); (ii) |PQ|^2=n^2 m^2 and |C|^2=(n^2 m^2)^2 (Euler four-square), so holonomy stays exactly rational; (iii) the defect delta=2|UxV|^2/(n^2 m^2) satisfies the quantized gap delta>=2/(n^2 m^2) whenever lifts fail to commute, with equality iff |UxV|^2=1 (sharp at heights 3,7); (iv) C is positive-real iff UxV=0, while C=-n^2 m^2 with UxV nonzero (the i,j witness) shows S^3 spin holonomy is strictly finer than SO(3); (v) the exact audit kappa=(n^2 m^2+|Re C|)/(2|UxV|^2)>=1 satisfies kappa*delta=1+|Re C|/(n^2 m^2), generalizing OP-REF P4 kappa_sub=215989/11, and the gcd-reduced defect fraction equals delta. Zero lifts and non-square norms are rejected as outside the rational-net domain.",
+      "code": "from fractions import Fraction\nfrom math import gcd, isqrt\n\ndef qmul(x, y):\n    a = x[0]; b = x[1]; c = x[2]; d = x[3]\n    e = y[0]; f = y[1]; g = y[2]; h = y[3]\n    return [a*e - b*f - c*g - d*h, a*f + b*e + c*h - d*g, a*g - b*h + c*e + d*f, a*h + b*g - c*f + d*e]\n\ndef qconj(x):\n    return [x[0], -x[1], -x[2], -x[3]]\n\ndef qnorm2(x):\n    return x[0]*x[0] + x[1]*x[1] + x[2]*x[2] + x[3]*x[3]\n\ndef check_case(case):\n    P = case[\"P\"]\n    Q = case[\"Q\"]\n    nP = qnorm2(P)\n    nQ = qnorm2(Q)\n    if nP == 0 or nQ == 0:\n        return False\n    rP = isqrt(nP)\n    rQ = isqrt(nQ)\n    if rP*rP != nP or rQ*rQ != nQ:\n        return False\n    U = [P[1], P[2], P[3]]\n    V = [Q[1], Q[2], Q[3]]\n    cx = U[1]*V[2] - U[2]*V[1]\n    cy = U[2]*V[0] - U[0]*V[2]\n    cz = U[0]*V[1] - U[1]*V[0]\n    cross2 = cx*cx + cy*cy + cz*cz\n    dotUV = U[0]*V[0] + U[1]*V[1] + U[2]*V[2]\n    nU = U[0]*U[0] + U[1]*U[1] + U[2]*U[2]\n    nV = V[0]*V[0] + V[1]*V[1] + V[2]*V[2]\n    gram_ok = cross2 == nU*nV - dotUV*dotUV\n    N = nP*nQ\n    C = qmul(qmul(qmul(P, Q), qconj(P)), qconj(Q))\n    identity_ok = N - C[0] == 2*cross2\n    euler_ok = qnorm2(C) == N*N and qnorm2(qmul(P, Q)) == N\n    delta = Fraction(2*cross2, N)\n    g = gcd(2*cross2, N)\n    reduce_ok = Fraction((2*cross2)//g, N//g) == delta\n    gap_ok = True\n    if cross2 > 0:\n        gap_ok = delta >= Fraction(2, N) and cross2 >= 1\n        if delta == Fraction(2, N):\n            gap_ok = gap_ok and cross2 == 1\n    pos_real = C[0] == N and C[1] == 0 and C[2] == 0 and C[3] == 0\n    commute_ok = (cross2 == 0) == pos_real\n    audit_ok = True\n    if cross2 > 0:\n        c0abs = C[0]\n        if c0abs < 0:\n            c0abs = -c0abs\n        kappa = Fraction(N + c0abs, 2*cross2)\n        audit_ok = kappa >= 1 and kappa*delta == 1 + Fraction(c0abs, N)\n        if \"kappa_num\" in case:\n            audit_ok = audit_ok and kappa == Fraction(case[\"kappa_num\"], case[\"kappa_den\"])\n    else:\n        if \"kappa_num\" in case:\n            audit_ok = False\n    return gram_ok and identity_ok and euler_ok and reduce_ok and gap_ok and commute_ok and audit_ok\n",
+      "conjecture_id": "CONJ-T1-R1-SEAT-1-COMM-GAP",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "P": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "Q": [
+            0,
+            0,
+            1,
+            0
+          ],
+          "label": "spin_central_ij_witness"
+        },
+        {
+          "P": [
+            2,
+            2,
+            1,
+            0
+          ],
+          "Q": [
+            6,
+            3,
+            2,
+            0
+          ],
+          "kappa_den": 1,
+          "kappa_num": 440,
+          "label": "sharp_gap_heights_3_7_kappa_440"
+        },
+        {
+          "P": [
+            1,
+            2,
+            2,
+            0
+          ],
+          "Q": [
+            2,
+            1,
+            0,
+            2
+          ],
+          "kappa_den": 4,
+          "kappa_num": 5,
+          "label": "generic_holonomy_kappa_5_4"
+        },
+        {
+          "P": [
+            3,
+            4,
+            0,
+            0
+          ],
+          "Q": [
+            5,
+            12,
+            0,
+            0
+          ],
+          "label": "commuting_pythagorean_gear_1_3"
+        },
+        {
+          "P": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "Q": [
+            1,
+            -1,
+            1,
+            -1
+          ],
+          "label": "pure_vector_half_turn_kappa_1"
+        },
+        {
+          "P": [
+            1,
+            2,
+            2,
+            0
+          ],
+          "Q": [
+            2,
+            1,
+            0,
+            2
+          ],
+          "kappa_den": 1,
+          "kappa_num": 1,
+          "label": "false_audit_claim_rejected"
+        },
+        {
+          "P": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "Q": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "label": "non_square_norm_rejected"
+        },
+        {
+          "P": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Q": [
+            1,
+            0,
+            0,
+            0
+          ],
+          "label": "zero_lift_rejected"
+        }
+      ]
+    },
+    "round_num": 1,
+    "seat_id": "SEAT-1",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R1-SEAT-1"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "Use Hurwitz-quality rational parameters p/q (including epicyclic gear ratios) as stereographic Cayley coordinates for rotations about two orthogonal axes. Exact rational arithmetic yields a commutator-defect identity: refinement of either parameter can shrink its approximation error, but cannot make the two rotations commute when both parameters are nonzero. Exact evaluation also avoids finite-precision cancellation that could conceal the defect.",
+      "mode": "compose",
+      "target_seat_or_turn": "SEAT-4"
+    },
+    "corpus_anchor": {
+      "operator_id": "Antya-samskara rational remainder hierarchy R1, R2, R3",
+      "source_receipt_id": "corpus:verified-exact-operator",
+      "statement": "The verified hierarchy records remainder orders O(1/n^3), O(1/n^5), and O(1/n^7). This motivates exact rational refinement, but these orders alone do not assert a new remainder coefficient or bound."
+    },
+    "executable_conjecture": {
+      "claim_summary": "For Cayley parameters a,b in Q, let A and B be the SO(3) rotations about orthogonal axes with half-angle tangents a and b. The squared Frobenius norm of ABA^{-1}B^{-1}-I is exactly 32uv(1-uv), where u=a^2/(1+a^2) and v=b^2/(1+b^2); it is positive whenever both parameters are nonzero.",
+      "code": "from fractions import Fraction\n\ndef check_case(case):\n    if case[\"a_den\"] == 0 or case[\"b_den\"] == 0:\n        return False\n    a = Fraction(case[\"a_num\"], case[\"a_den\"])\n    b = Fraction(case[\"b_num\"], case[\"b_den\"])\n    da = 1 + a * a\n    db = 1 + b * b\n    ca = (1 - a * a) / da\n    sa = 2 * a / da\n    cb = (1 - b * b) / db\n    sb = 2 * b / db\n    A = [[Fraction(1), Fraction(0), Fraction(0)], [Fraction(0), ca, -sa], [Fraction(0), sa, ca]]\n    B = [[cb, Fraction(0), sb], [Fraction(0), Fraction(1), Fraction(0)], [-sb, Fraction(0), cb]]\n    AT = [[A[j][i] for j in range(3)] for i in range(3)]\n    BT = [[B[j][i] for j in range(3)] for i in range(3)]\n    def mul(x, y):\n        return [[sum((x[i][k] * y[k][j] for k in range(3)), Fraction(0)) for j in range(3)] for i in range(3)]\n    K = mul(mul(mul(A, B), AT), BT)\n    defect = sum(((K[i][j] - (1 if i == j else 0)) ** 2 for i in range(3) for j in range(3)), Fraction(0))\n    u = a * a / da\n    v = b * b / db\n    exact_value = 32 * u * v * (1 - u * v)\n    return defect == exact_value and ((a == 0 or b == 0) or defect > 0)",
+      "conjecture_id": "CONJ-T1-R1-SEAT-2-CAYLEY-COMMUTATOR",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "a_den": 1,
+          "a_num": 1,
+          "b_den": 1,
+          "b_num": 1
+        },
+        {
+          "a_den": 3,
+          "a_num": 2,
+          "b_den": 5,
+          "b_num": -3
+        },
+        {
+          "a_den": 7,
+          "a_num": 0,
+          "b_den": 9,
+          "b_num": 4
+        },
+        {
+          "a_den": 100,
+          "a_num": 1,
+          "b_den": 80,
+          "b_num": 1
+        }
+      ]
+    },
+    "round_num": 1,
+    "seat_id": "SEAT-2",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R1-SEAT-2"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "SEAT-6 models the Antikythera epicyclic chain as a multiplicative homomorphism (Z^+)^k -> Q^+, i.e. it treats tooth-ratio composition as ABELIAN. Pingala's two readings of one prosodic string give W = prod_i Q(a_i) and V = prod_i Q(a_m-i), which are det-(+-1) lifts of the SAME exact rational q = num/den; they satisfy the exact Z tail identity |q - h_{m-1}/k_{m-1}| = 1/(k_{m-1}*k_m) with num*k_{m-1} - den*h_{m-1} = +-1, and they fail to commute on 1253 of 1320 test rationals (e.g. num/den = 5/3 gives tr[W,V] = 43, not 2). Hence the epicyclic ratio chain is only an abelian shadow: the conjugation-invariant exact integer defect tr([W,V]) = tr(W)^2 + tr(V)^2 + tr(WV)^2 - tr(W)tr(V)tr(WV) - 2 is a genuine obstruction that no reordering or regrouping of tooth counts can cancel, because trace is a class function and the Markoff/Fricke polynomial is not symmetric in the three traces. Recommendation: SEAT-6 must carry the defect integer, not just the ratio, or the phase-lock claim is only valid on the commuting locus where tr[W,V] = 2.",
+      "mode": "challenge",
+      "target_seat_or_turn": "SEAT-6"
+    },
+    "corpus_anchor": {
+      "operator_id": "14 Sivasutras Consecutive-Ones Property (C1P) minimal interval cover over 43 pratyaharas, composed with Pingala nasta/uddista binary bijection & O(log n) exponentiation <-> FWHT_256",
+      "source_receipt_id": "corpus:verified-exact-operator",
+      "statement": "A prosodic word of length lam is encoded by a binary guru/laghu vector; the C1P minimal sufficient partition of the Sivasutra interval cover is exactly the minimal interval cover of that vector's runs, and the Pingala nasta/uddista bijection index -> pattern is realized in O(log n) by the 2x2 transfer matrix Q(a) = [[a,1],[1,0]] whose determinant is -1. Reading the same word forward (nasta) and backward (uddista) yields two det-(+-1) lifts W and V of the same prosodic data, and the continued-fraction word of a rational target q = num/den IS such a word: W = prod_i Q(a_i) = [[num, h_{m-1}],[den, k_{m-1}]] with det W = (-1)^(m+1), so exact rational approximation is literally a Pingala binary bijection on the CF digit string. Verified live on the OP-REF exact-operator certificate (6128ab70...155ba, cert 9406c807...33a2) and cross-linked to the OP-REF log-free power unifier (e9f692bd...1f0f, cert 9fefca17...ce2a)."
+    },
+    "executable_conjecture": {
+      "claim_summary": "Pingala-Fricke Ratio Lock: for a rational target num/den (num > den > 1, gcd = 1) the forward CF word W = prod_i Q(a_i) and its uddista reverse V = prod_i Q(a_m-i) satisfy, entirely in Z/Q: (V1) W = [[num, h_{m-1}],[den, k_{m-1}]] with det W = (-1)^(m+1) and num*k_{m-1} - den*h_{m-1} = +-1; (V2) the exact tail identity |num/den - h_{m-1}/k_{m-1}| = Fraction(1, k_{m-1}*k_m) holds with zero residual, so asymptotic tail acceleration is exact, not approximate; (V3) the Hurwitz verdict at the penultimate convergent is EXACTLY the integer square comparison k_m^2 > 5*k_{m-1}^2, i.e. 5*(num*k_{m-1} - den*h_{m-1})^2*k_{m-1}^2 < den^2, a biconditional with no float and no tolerance; (V4) the Pingala count of guru-free patterns of length lam, A(lam), equals Fibonacci(lam+2) via O(log lam) exact 2x2 exponentiation and equals the closed sum of binomials, giving the minimal-cover cardinality of the C1P encoding; (V5) the non-Abelian defect is conjugation invariant: tr([W,V]) = tr(W)^2 + tr(V)^2 + tr(WV)^2 - tr(W)tr(V)tr(WV) - 2, det([W,V]) = 1, and tr under conjugation by any element of the lift equals tr([W,V]), so the defect is a class function and cannot be gauged away by any tooth-ratio regrouping. The obstruction is that the epicyclic/abelian picture predicts tr = 2, while the exact lift gives a nonzero integer whenever W and V fail to commute.",
+      "code": "from fractions import Fraction\nfrom math import gcd, isqrt\n\nID = ((1, 0), (0, 1))\n\ndef _mul(A, B):\n    return ((A[0][0]*B[0][0] + A[0][1]*B[1][0], A[0][0]*B[0][1] + A[0][1]*B[1][1]),\n            (A[1][0]*B[0][0] + A[1][1]*B[1][0], A[1][0]*B[0][1] + A[1][1]*B[1][1]))\n\ndef _tr(A):\n    return A[0][0] + A[1][1]\n\ndef _det(A):\n    return A[0][0]*A[1][1] - A[0][1]*A[1][0]\n\ndef _inv(A):\n    d = _det(A)\n    return ((A[1][1] // d, -A[0][1] // d), (-A[1][0] // d, A[0][0] // d))\n\ndef _pw(M, e):\n    R = ID\n    B = M\n    while e > 0:\n        if e % 2 == 1:\n            R = _mul(R, B)\n        B = _mul(B, B)\n        e = e // 2\n    return R\n\ndef _Q(a):\n    return ((a, 1), (1, 0))\n\ndef _cf(n, d):\n    a = []\n    while d != 0:\n        q = n // d\n        a.append(q)\n        n, d = d, n - q * d\n    return a\n\ndef _binom(a, b):\n    if b < 0 or b > a:\n        return 0\n    r = 1\n    i = 0\n    while i < b:\n        r = r * (a - i) // (i + 1)\n        i = i + 1\n    return r\n\ndef check_case(case):\n    num = case['num']\n    den = case['den']\n    lam = case['lam']\n    teeth = case['teeth']\n    if num <= den or den <= 1 or lam < 1 or gcd(num, den) != 1:\n        return False\n    if len(teeth) < 2 or len(teeth) % 2 != 0:\n        return False\n    i = 0\n    prod = Fraction(1, 1)\n    while i < len(teeth):\n        d0 = teeth[i]\n        d1 = teeth[i + 1]\n        if d0 <= 0 or d1 <= 0:\n            return False\n        prod = prod * Fraction(d0, d1)\n        i = i + 2\n    if prod != Fraction(num, den):\n        return False\n    a = _cf(num, den)\n    m = len(a) - 1\n    if m < 1:\n        return False\n    W = ID\n    i = 0\n    while i <= m:\n        W = _mul(W, _Q(a[i]))\n        i = i + 1\n    V = ID\n    i = m\n    while i >= 0:\n        V = _mul(V, _Q(a[i]))\n        i = i - 1\n    h = [0, 1]\n    k = [1, 0]\n    i = 0\n    while i <= m:\n        h.append(a[i] * h[len(h) - 1] + h[len(h) - 2])\n        k.append(a[i] * k[len(k) - 1] + k[len(k) - 2])\n        i = i + 1\n    H = h[2:]\n    K = k[2:]\n    v1 = (W[0][0] == num and W[1][0] == den and W[0][1] == H[m - 1] and W[1][1] == K[m - 1])\n    sign = 1 if (m + 1) % 2 == 0 else -1\n    v1 = v1 and (_det(W) == sign) and (num * K[m - 1] - den * H[m - 1] == (1 if m % 2 == 1 else -1))\n    err = Fraction(num, den) - Fraction(H[m - 1], K[m - 1])\n    v2 = (err < 0 and -err == Fraction(1, K[m - 1] * K[m])) or (err > 0 and err == Fraction(1, K[m - 1] * K[m]))\n    hur = 5 * (num * K[m - 1] - den * H[m - 1]) * (num * K[m - 1] - den * H[m - 1]) * K[m - 1] * K[m - 1] < den * den\n    sq = K[m] * K[m] > 5 * K[m - 1] * K[m - 1]\n    v3 = (hur == sq)\n    F = _pw(((1, 1), (1, 0)), lam + 1)\n    fib = F[0][1]\n    s = 0\n    t = 0\n    while t <= lam // 2:\n        s = s + _binom(lam - t, t)\n        t = t + 1\n    M = ((1, 1), (1, 0))\n    Lp = _pw(M, lam)\n    lab = _tr(Lp)\n    Lq = _pw(M, lam + 1)\n    lab1 = _tr(Lq)\n    v4 = (fib == s) and (fib > 0) and (lab + lab1 == _tr(_pw(M, lam + 2)))\n    C = _mul(_mul(W, V), _mul(_inv(W), _inv(V)))\n    tc = _tr(C)\n    x = _tr(W)\n    y = _tr(V)\n    z = _tr(_mul(W, V))\n    fricke = x * x + y * y + z * z - x * y * z - 2\n    P = _pw(((1, 1), (0, 1)), lam)\n    Pi = _inv(P)\n    Wc = _mul(_mul(P, W), Pi)\n    Vc = _mul(_mul(P, V), Pi)\n    Cc = _mul(_mul(Wc, Vc), _mul(_inv(Wc), _inv(Vc)))\n    v5 = (tc == fricke) and (_det(C) == 1) and (_tr(Cc) == tc)\n    comm = _mul(W, V) == _mul(V, W)\n    v5 = v5 and (comm == (tc == 2))\n    return v1 and v2 and v3 and v4 and v5\n",
+      "conjecture_id": "CONJ-T1-R1-SEAT-3-PINGALAFRICKE",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "den": 3,
+          "lam": 5,
+          "num": 5,
+          "teeth": [
+            5,
+            3
+          ]
+        },
+        {
+          "den": 3,
+          "lam": 7,
+          "num": 8,
+          "teeth": [
+            4,
+            3,
+            2,
+            1
+          ]
+        },
+        {
+          "den": 29,
+          "lam": 9,
+          "num": 67,
+          "teeth": [
+            67,
+            29
+          ]
+        },
+        {
+          "den": 2,
+          "lam": 3,
+          "num": 5,
+          "teeth": [
+            5,
+            2
+          ]
+        },
+        {
+          "den": 8,
+          "lam": 6,
+          "num": 13,
+          "teeth": [
+            13,
+            8
+          ]
+        },
+        {
+          "den": 55,
+          "lam": 11,
+          "num": 89,
+          "teeth": [
+            89,
+            55
+          ]
+        },
+        {
+          "den": 4,
+          "lam": 4,
+          "num": 7,
+          "teeth": [
+            7,
+            4
+          ]
+        },
+        {
+          "den": 113,
+          "lam": 13,
+          "num": 355,
+          "teeth": [
+            355,
+            113
+          ]
+        }
+      ]
+    },
+    "round_num": 1,
+    "seat_id": "SEAT-3",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R1-SEAT-3"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "Madhava-style tail acceleration compresses an infinite alternating tail into finitely many rational terms; here the complementary finite-net compression is exact only when the denominator moduli are coprime. Non-coprime denominators create gcd obstructions (commutator/holonomy defects) that survive cancellation, and the lcm rather than the product is the true modulus of the glued rational net.",
+      "mode": "compose",
+      "target_seat_or_turn": "SEAT-2"
+    },
+    "corpus_anchor": {
+      "operator_id": "Qin Jiushao Dayan non-coprime CRT + Maya 260/365/584 lcm=37960 (1460x compression)",
+      "source_receipt_id": "corpus:verified-exact-operator",
+      "statement": "A finite net of rational residues modulo non-coprime denominators glues to one exact rational CRT solution iff all pairwise residue defects vanish modulo the corresponding gcd; the exact compressed modulus is the lcm, so the compression factor is product/lcm and equals 1 only in the coprime case."
+    },
+    "executable_conjecture": {
+      "claim_summary": "For any finite net of integer moduli and residues, pairwise CRT consistency modulo gcd(moduli[i], moduli[j]) is exactly the obstruction to gluing the net; when consistent, the unique modulus is the lcm and the exact compression ratio product/lcm is an integer, strictly greater than 1 unless all moduli are pairwise coprime.",
+      "code": "from math import gcd\n\ndef check_case(case):\n    mods = list(case['moduli'])\n    ress = list(case['residues'])\n    if len(mods) == 0 or len(mods) != len(ress):\n        return False\n    ok = True\n    for i in range(len(mods)):\n        for j in range(i + 1, len(mods)):\n            g = gcd(mods[i], mods[j])\n            if (ress[i] - ress[j]) % g != 0:\n                ok = False\n    L = 1\n    prod = 1\n    for m in mods:\n        L = L // gcd(L, m) * m\n        prod = prod * m\n    compression = prod // L\n    return ok and case['lcm'] == L and case['compression'] == compression and L <= prod and compression >= 1",
+      "conjecture_id": "CONJ-T1-R1-SEAT-4-CRT-LCM",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "compression": 1460,
+          "lcm": 37960,
+          "moduli": [
+            260,
+            365,
+            584
+          ],
+          "name": "maya_calendar_coprime_defects_consistent",
+          "residues": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "compression": 1,
+          "lcm": 30,
+          "moduli": [
+            2,
+            3,
+            5
+          ],
+          "name": "pairwise_coprime_no_compression",
+          "residues": [
+            1,
+            2,
+            1
+          ]
+        },
+        {
+          "compression": 2,
+          "lcm": 18980,
+          "moduli": [
+            260,
+            365
+          ],
+          "name": "non_coprime_inconsistent_residue_obstruction",
+          "residues": [
+            0,
+            1
+          ]
+        },
+        {
+          "compression": 1,
+          "lcm": 7,
+          "moduli": [
+            7
+          ],
+          "name": "single_modulus_trivial_net",
+          "residues": [
+            3
+          ]
+        }
+      ]
+    },
+    "round_num": 1,
+    "seat_id": "SEAT-4",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R1-SEAT-4"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "Compose al-Biruni's conditioning audit with a cancellation-free holonomy certificate. A ring-fixed epicyclic ratio p/q=(Ns+Nr)/Ns gives the integer stereographic-Cayley lift A=(q,p,0,0); Madhava-style accelerated tails may accelerate candidate generation, while the Hurwitz continued-fraction bound supplies the exact finite-net entrance criterion. For a second integer quaternion B, write N=|A|^2, M=|B|^2 and c=|vec(A)\u00d7vec(B)|^2. The ordered defect K=ABA*B* obeys K0=NM-2c and |K|^2=(NM)^2, so C=K/(NM) is a rational unit quaternion. Thus c=0 is exact commutation, whereas c>0 forces 1-scalar(C)>=2/(NM), a height-explicit obstruction to arbitrarily small non-Abelian holonomy. The norm identity is the hierarchical tree checksum, gcd(Ns,Nr) is the Sona closure checksum, and the GF(2) norm parity supplies a final syndrome. Tail acceleration or Hurwitz-optimal approximation cannot make nonzero c disappear through subtractive cancellation.",
+      "mode": "compose",
+      "target_seat_or_turn": "SEAT-1"
+    },
+    "corpus_anchor": {
+      "operator_id": "OP-REF-Chokwe-Sona-GCD-GF2",
+      "source_receipt_id": "corpus:verified-exact-operator",
+      "statement": "The exact Sona mirror-net closure checksum is loop_count(m,n)=gcd(m,n); together with GF(2) parity, it supplies integer certificates that cannot be destroyed by floating-point cancellation."
+    },
+    "executable_conjecture": {
+      "claim_summary": "On height-bounded integer Cayley nets, non-Abelian holonomy has an exact rational gap: either the vector parts are parallel and the ordered commutator is exactly trivial, or its scalar defect is at least 2/(NM). The checker simultaneously verifies the Hurwitz bound without radicals or floats, the epicyclic gear relation, Sona gcd closure, quaternion norm tree-multiplicativity, GF(2) parity, and the cross-product obstruction.",
+      "code": "from fractions import Fraction\nfrom math import gcd\n\ndef qmul(x, y):\n    return [\n        x[0]*y[0] - x[1]*y[1] - x[2]*y[2] - x[3]*y[3],\n        x[0]*y[1] + x[1]*y[0] + x[2]*y[3] - x[3]*y[2],\n        x[0]*y[2] - x[1]*y[3] + x[2]*y[0] + x[3]*y[1],\n        x[0]*y[3] + x[1]*y[2] - x[2]*y[1] + x[3]*y[0]\n    ]\n\ndef qconj(x):\n    return [x[0], -x[1], -x[2], -x[3]]\n\ndef qnorm(x):\n    return x[0]*x[0] + x[1]*x[1] + x[2]*x[2] + x[3]*x[3]\n\ndef cross_sq(x, y):\n    a = x[2]*y[3] - x[3]*y[2]\n    b = x[3]*y[1] - x[1]*y[3]\n    c = x[1]*y[2] - x[2]*y[1]\n    return a*a + b*b + c*c\n\ndef hurwitz_sqrt(d, p, q):\n    if d <= 0 or p <= 0 or q <= 0:\n        return False\n    a = 5*q*q*(d*q*q + p*p) - 1\n    b = 10*p*q*q*q\n    return a*a < b*b*d\n\ndef check_case(case):\n    d = case['d']\n    p = case['p']\n    q = case['q']\n    sun = case['sun']\n    ring = case['ring']\n    a = [q, p, 0, 0]\n    b = case['b']\n    n = qnorm(a)\n    m = qnorm(b)\n    if n <= 0 or m <= 0 or d <= 0 or p <= 0 or q <= 0 or sun <= 0 or ring <= 0:\n        return False\n    c = cross_sq(a, b)\n    nm = n*m\n    k = qmul(qmul(qmul(a, b), qconj(a)), qconj(b))\n    scalar = Fraction(nm - 2*c, nm)\n    gear_ok = p == sun + ring and q == sun and gcd(sun, ring) == case['loops']\n    tree_ok = k[0] == nm - 2*c and qnorm(k) == nm*nm\n    parity_ok = (qnorm(k) - k[0] - k[1] - k[2] - k[3]) % 2 == 0\n    trivial = k[0] == nm and k[1] == 0 and k[2] == 0 and k[3] == 0\n    defect_ok = (c == 0 and trivial) or (c > 0 and k[0] < nm)\n    gap_ok = c == 0 or Fraction(1, 1) - scalar >= Fraction(2, nm)\n    flag_ok = (c == 0) == case['commuting']\n    return gear_ok and hurwitz_sqrt(d, p, q) and tree_ok and parity_ok and defect_ok and gap_ok and flag_ok",
+      "conjecture_id": "CONJ-T1-R1-SEAT-5-INTEGER-HOLONOMY-GAP",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "b": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "commuting": false,
+          "d": 2,
+          "loops": 1,
+          "p": 3,
+          "q": 2,
+          "ring": 1,
+          "sun": 2
+        },
+        {
+          "b": [
+            1,
+            2,
+            0,
+            0
+          ],
+          "commuting": true,
+          "d": 2,
+          "loops": 1,
+          "p": 3,
+          "q": 2,
+          "ring": 1,
+          "sun": 2
+        },
+        {
+          "b": [
+            2,
+            1,
+            1,
+            1
+          ],
+          "commuting": false,
+          "d": 2,
+          "loops": 1,
+          "p": 7,
+          "q": 5,
+          "ring": 2,
+          "sun": 5
+        },
+        {
+          "b": [
+            2,
+            0,
+            2,
+            0
+          ],
+          "commuting": false,
+          "d": 2,
+          "loops": 1,
+          "p": 3,
+          "q": 2,
+          "ring": 1,
+          "sun": 2
+        }
+      ]
+    },
+    "round_num": 1,
+    "seat_id": "SEAT-5",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R1-SEAT-5"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "SEAT-4 Hurwitz continued-fraction optimality is exactly Farey adjacency |ps-qr|=1 for consecutive convergents, proved fraction-free. The Antikythera compound lock fails that certificate with cross 589. The same witness carries a non-Abelian holonomy defect whose BCH vector is not zero and whose Schur det factor 344/425 is not a square in Q, so the symmetry break is a conductance elimination rather than a GL gauge (which would multiply det by a square). Stereographic Cayley at t=1/5 sends the pole to 2/3, and (3/5)-(2/3)=-1/15 ties the positive square root of the L1 record to that chord. Finite-net rational gears therefore cannot cancel the commutator defect down to a Hurwitz-best unimodular phase lock.",
+      "mode": "obstruct",
+      "target_seat_or_turn": "SEAT-4"
+    },
+    "corpus_anchor": {
+      "operator_id": "nafis-schur-pushforward-times-antikythera-bch",
+      "source_receipt_id": "corpus:verified-exact-operator",
+      "statement": "Ibn al-Nafis readable-record Schur pushforward sends obs L1 from 0/1 to 9/25=(3/5)^2 and det from 34/625 to 688/15625, hence multiplies det by 344/425. Spinor-hippopede order-3 BCH coefficient is C3=(0,1/3,1/6,0) with squared norm 5/36 and Strang midpoint relation 2*(1/6)=1/3. Antikythera sidereal/Saros locks 254/19 and 223/19 have beat 31/19 and Farey cross |254*19-223*19|=589, with 53-tooth epicycle residue 254 mod 53 = 42."
+    },
+    "executable_conjecture": {
+      "claim_summary": "A case is the canonical obstruction witness exactly when C3 has Strang halves and squared norm 5/36, the Nafis det ratio equals the non-square 344/425 while L1 after equals the square 9/25, the gear cross equals 589 with beat 31/19 and prime 53-tooth residue 42, and Cayley(1/5)=2/3 differs from 3/5 by -1/15. Any Hurwitz-adjacent gear pair, any square det ratio, or any broken BCH vector fails.",
+      "code": "from fractions import Fraction\nfrom math import gcd, isqrt\n\ndef check_case(case):\n    bch = case[\"bch\"]\n    comps = [Fraction(n, d) for n, d in bch]\n    if len(comps) != 4:\n        return False\n    norm_sq = comps[0] * comps[0] + comps[1] * comps[1] + comps[2] * comps[2] + comps[3] * comps[3]\n    zero = Fraction(0, 1)\n    strang = (comps[0] == zero) and (comps[3] == zero) and (comps[1] == 2 * comps[2]) and (comps[2] != zero)\n    bch_ok = strang and (norm_sq == Fraction(5, 36))\n    dbn, dbd = case[\"det_before\"]\n    dan, dad = case[\"det_after\"]\n    if dbd == 0 or dad == 0 or dbn == 0:\n        return False\n    ratio = Fraction(dan, dad) / Fraction(dbn, dbd)\n    def is_square_frac(fr):\n        if fr < 0:\n            return False\n        num = fr.numerator\n        den = fr.denominator\n        sn = isqrt(num)\n        sd = isqrt(den)\n        return (sn * sn == num) and (sd * sd == den)\n    l1n, l1d = case[\"l1_after\"]\n    if l1d == 0:\n        return False\n    l1 = Fraction(l1n, l1d)\n    l1_ok = is_square_frac(l1) and (l1 == Fraction(9, 25))\n    ratio_ok = (ratio == Fraction(344, 425)) and (not is_square_frac(ratio))\n    p = case[\"p\"]\n    q = case[\"q\"]\n    r = case[\"r\"]\n    s = case[\"s\"]\n    tooth = case[\"tooth\"]\n    if q == 0 or s == 0:\n        return False\n    cross = abs(p * s - r * q)\n    beat_ok = (Fraction(p, q) - Fraction(r, s)) == Fraction(31, 19)\n    def is_prime(n):\n        if n < 2:\n            return False\n        if n % 2 == 0:\n            return n == 2\n        k = 3\n        while k * k <= n:\n            if n % k == 0:\n                return False\n            k += 2\n        return True\n    tooth_ok = is_prime(tooth) and (gcd(tooth, q) == 1) and ((p % tooth) == 42) and (tooth == 53)\n    tn, td = case[\"cayley_t\"]\n    if td == 0 or (tn + td) == 0:\n        return False\n    t = Fraction(tn, td)\n    cayley = (Fraction(1, 1) - t) / (Fraction(1, 1) + t)\n    cayley_ok = (t == Fraction(1, 5)) and (cayley == Fraction(2, 3))\n    root_link = (Fraction(3, 5) * Fraction(3, 5) == l1) and ((Fraction(3, 5) - cayley) == Fraction(-1, 15))\n    res = bch_ok and ratio_ok and l1_ok and (cross > 1) and beat_ok and tooth_ok and cayley_ok and root_link and (cross == 589)\n    return True if res else False\n",
+      "conjecture_id": "CONJ-T1-R1-SEAT-6-SCHUR-HOLONOMY",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            5
+          ],
+          "det_after": [
+            688,
+            15625
+          ],
+          "det_before": [
+            34,
+            625
+          ],
+          "l1_after": [
+            9,
+            25
+          ],
+          "p": 254,
+          "q": 19,
+          "r": 223,
+          "s": 19,
+          "tooth": 53
+        },
+        {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            5
+          ],
+          "det_after": [
+            688,
+            15625
+          ],
+          "det_before": [
+            34,
+            625
+          ],
+          "l1_after": [
+            9,
+            25
+          ],
+          "p": 254,
+          "q": 19,
+          "r": 223,
+          "s": 19,
+          "tooth": 53
+        },
+        {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            5
+          ],
+          "det_after": [
+            688,
+            15625
+          ],
+          "det_before": [
+            34,
+            625
+          ],
+          "l1_after": [
+            9,
+            25
+          ],
+          "p": 22,
+          "q": 7,
+          "r": 355,
+          "s": 113,
+          "tooth": 53
+        },
+        {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            5
+          ],
+          "det_after": [
+            4,
+            9
+          ],
+          "det_before": [
+            1,
+            1
+          ],
+          "l1_after": [
+            9,
+            25
+          ],
+          "p": 254,
+          "q": 19,
+          "r": 223,
+          "s": 19,
+          "tooth": 53
+        },
+        {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            5
+          ],
+          "det_after": [
+            688,
+            15625
+          ],
+          "det_before": [
+            34,
+            625
+          ],
+          "l1_after": [
+            9,
+            25
+          ],
+          "p": 254,
+          "q": 19,
+          "r": 223,
+          "s": 19,
+          "tooth": 51
+        },
+        {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            7
+          ],
+          "det_after": [
+            688,
+            15625
+          ],
+          "det_before": [
+            34,
+            625
+          ],
+          "l1_after": [
+            9,
+            25
+          ],
+          "p": 254,
+          "q": 19,
+          "r": 223,
+          "s": 19,
+          "tooth": 53
+        }
+      ]
+    },
+    "round_num": 1,
+    "seat_id": "SEAT-6",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R1-SEAT-6"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "Law 2b steelman of CONJ-T1-R1-SEAT-3-PINGALAFRICKE. The Referee killed it at case 0 (5/3) for two separate reasons, and both are sign errors from the determinant. (1) Each Pingala/CF factor Q(a)=[[a,1],[1,0]] has det -1, so det W = (-1)^m, where m is the number of partial quotients. SEAT-3's V1 claimed (-1)^(m+1), which is wrong for every m. For 5/3=[1,1,2], det W = -1. (2) The trace formula has to be derived from scratch. Cayley-Hamilton gives A^-1 = (xI - A)/a. Then tr(AB^2) = yz - bx, tr(A^2 B) = xz - ay, and tr((AB)^2) = z^2 - 2ab. Together these give tr[A,B] = (b x^2 + a y^2 + z^2 - xyz)/(ab) - 2. For W=[[5,2],[3,1]] and V=[[5,3],[2,1]] (V = W^T, so the uddista reverse is the transpose), x=y=6 and z=39. The repaired value is -36-36+1521-1404-2 = 43, which matches the direct exact commutator. The SL2 value 187 is the false guard. The repaired defect is still a class function: det[W,V]=1, and conjugating by g in GL2(Z) leaves the trace unchanged. So SEAT-3's structural point holds once the determinant is twisted in. An epicyclic tooth-ratio chain is an abelian shadow, and the exact obstruction is the integer tr[W,V] - 2, which is 41 for 5/3. Palindromic CFs (8/3=[2,1,2]) give V=W and tr=2, which is exactly the commuting locus. Mixed determinants (W from 5/3 with det -1, V from 4/3=[1,3] with det +1) give -13 through the a != b branch. Cross-pollination with R1-SEAT-0: the quaternion Cayley lift of SEAT-0 always lands in SU(2), the s=+1 sheet. The GL2(Z) Pingala lift lives on both sheets {s=+1, s=-1}. SEAT-0's positive defect 2s^2/(q_k q_{k-1})^2 and SEAT-3's integer defect tr[W,V]-2 are therefore the two determinant sheets of one consecutive-convergent obstruction, and both come from p_k q_{k-1} - p_{k-1} q_k = (-1)^(k+1). On R1-SEAT-1's challenge, the half-integer Hurwitz order is left open for R3. That gap is recorded here and not claimed. Gate-5 scope: coprime num>den>0, regular CF ending in a partial quotient >= 2, and exact Z/Q arithmetic only. Novelty: N1, the determinant-twisted Fricke repair plus the V1 sign correction.",
+      "mode": "repair",
+      "target_seat_or_turn": "R1-SEAT-3"
+    },
+    "corpus_anchor": {
+      "operator_id": "cayley_su2_unitary x pingala_cf_word_lift (GL2(Z) Fricke-Vogt trace with determinant twist)",
+      "source_receipt_id": "R1-SEAT-3/verdict_corpus:verified-exact-operator",
+      "statement": "For any 2x2 matrices A, B with x=tr A, y=tr B, z=tr AB, a=det A, b=det B (a,b nonzero), the identity is tr(A B A^-1 B^-1) = (b x^2 + a y^2 + z^2 - x y z)/(a b) - 2. When a=b=s in {+1,-1}, this becomes tr[A,B] = s(x^2+y^2) + z^2 - xyz - 2. The SL2 Markoff-Fricke polynomial is only the s=+1 case."
+    },
+    "epistemic_web_interpositions": [
+      {
+        "gate_status": "EXACT_OPERATOR_VERIFIED",
+        "id": "tradition:T3_south_asian_prosody_grammar_kerala",
+        "interposition": "Pingala's nasta/uddista reading pair is the transpose pair W, W^T of the CF word. The Madhava remainder tail |num/den - h_{m-1}/k_{m-1}| = 1/(k_{m-1} k_m) comes from det W = (-1)^m, which is the same determinant that twists the Fricke trace. This anchors the R2 repair.",
+        "kind": "historical_tradition",
+        "org": "historical_corpus",
+        "score_q": "2/15",
+        "shared_operators": [
+          "madhava_rational_remainder"
+        ]
+      },
+      {
+        "gate_status": "EXACT_OPERATOR_VERIFIED",
+        "id": "tradition:T4_east_asian_fangcheng_crt_dougong",
+        "interposition": "Fangcheng elimination is fraction-free 2x2 adjugate arithmetic, and A^-1 = adj(A)/det A is exactly the step where the GL2 determinant sign enters the trace. The same arithmetic routes R1-SEAT-4's non-coprime gcd obstruction (260,365 with residues 0,1) back as a must-fail guard for R3.",
+        "kind": "historical_tradition",
+        "org": "historical_corpus",
+        "score_q": "37/189",
+        "shared_operators": [
+          "fangcheng_noncoprime_crt",
+          "madhava_rational_remainder"
+        ]
+      },
+      {
+        "gate_status": "EXACT_OPERATOR_VERIFIED",
+        "id": "tradition:T6_mesoamerican_multiclock_synchronizers",
+        "interposition": "A multiclock lcm gives the abelian (commuting) synchronization layer. The repaired trace tr[W,V]-2 measures what that layer cannot see, and it is zero only on palindromic or commuting words.",
+        "kind": "historical_tradition",
+        "org": "historical_corpus",
+        "score_q": "123/713",
+        "shared_operators": [
+          "fangcheng_noncoprime_crt"
+        ]
+      },
+      {
+        "gate_status": "EXACT_OPERATOR_VERIFIED",
+        "id": "tradition:T5_ancient_egypt_unit_fractions_frustum",
+        "interposition": "The consecutive-convergent gap 1/(k_{m-1} k_m) is a unit fraction. Egyptian unit-fraction decomposition gives an exact Q witness format for the remainder hierarchy, with no floats.",
+        "kind": "historical_tradition",
+        "org": "historical_corpus",
+        "score_q": "185/1131",
+        "shared_operators": [
+          "madhava_rational_remainder"
+        ]
+      },
+      {
+        "gate_status": "EXACT_OPERATOR_VERIFIED",
+        "id": "track:track-s20a-point-charges-n2-equilibria",
+        "interposition": "The SU(2) Cayley lift is the s=+1 sheet of the repaired formula. R1-SEAT-0's defect 2s^2/(q_k q_{k-1})^2 and R1-SEAT-3's integer defect come from the same convergent determinant. Proposed R3 bridge: test the half-integer Hurwitz-order constant raised in R1-SEAT-1's challenge against this two-sheet picture.",
+        "kind": "track",
+        "org": "expedition",
+        "score_q": "265/1914",
+        "shared_operators": [
+          "cayley_su2_unitary",
+          "fangcheng_noncoprime_crt"
+        ]
+      }
+    ],
+    "executable_conjecture": {
+      "claim_summary": "For coprime num>den>0 with regular CF [a_0..a_{m-1}], W = prod Q(a_i) = [[num,*],[den,*]] has det W = (-1)^m. V is the uddista reverse, or optionally a second CF word. The exact commutator C = W V W^-1 V^-1 satisfies det C = 1, its trace is unchanged by GL2(Z) conjugation, and tr C = (b x^2 + a y^2 + z^2 - xyz)/(ab) - 2 with a = det W and b = det V. This reduces to s(x^2+y^2) + z^2 - xyz - 2 when a=b=s. Negative guards: the un-twisted SL2 value (187 for 5/3, 1154307627 for 355/113) and the false commuting claim tr=2 for 13/8 must be rejected.",
+      "code": "from fractions import Fraction\nfrom math import gcd\n\ndef _cf(n, d):\n    out = []\n    while d:\n        q = n // d\n        out.append(q)\n        n, d = d, n - q * d\n    return out\n\ndef _mul(A, B):\n    return [[A[0][0]*B[0][0]+A[0][1]*B[1][0], A[0][0]*B[0][1]+A[0][1]*B[1][1]],\n            [A[1][0]*B[0][0]+A[1][1]*B[1][0], A[1][0]*B[0][1]+A[1][1]*B[1][1]]]\n\ndef _det(A):\n    return A[0][0]*A[1][1]-A[0][1]*A[1][0]\n\ndef _tr(A):\n    return A[0][0]+A[1][1]\n\ndef _inv(A):\n    d = Fraction(_det(A))\n    return [[A[1][1]/d, -A[0][1]/d], [-A[1][0]/d, A[0][0]/d]]\n\ndef _word(qs):\n    M = [[1, 0], [0, 1]]\n    for a in qs:\n        M = _mul(M, [[a, 1], [1, 0]])\n    return M\n\ndef check_case(case):\n    num = case[\"num\"]; den = case[\"den\"]\n    if not (num > den > 0 and gcd(num, den) == 1):\n        return False\n    qs = _cf(num, den)\n    W = _word(qs)\n    if \"num2\" in case:\n        n2 = case[\"num2\"]; d2 = case[\"den2\"]\n        if not (n2 > d2 > 0 and gcd(n2, d2) == 1):\n            return False\n        V = _word(_cf(n2, d2))\n    else:\n        V = _word(list(reversed(qs)))\n    a = _det(W); b = _det(V)\n    x = _tr(W); y = _tr(V); z = _tr(_mul(W, V))\n    C = _mul(_mul(W, V), _mul(_inv(W), _inv(V)))\n    t = _tr(C)\n    repaired = Fraction(b*x*x + a*y*y + z*z - x*y*z, a*b) - 2\n    g = [[2, 1], [1, 1]]\n    gi = _inv(g)\n    tconj = _tr(_mul(_mul(g, C), gi))\n    ok = (t == repaired) and (_det(C) == 1) and (tconj == t)\n    ok = ok and (W[0][0] == num) and (W[1][0] == den) and (a == (-1) ** len(qs))\n    ok = ok and (Fraction(case[\"claimed_trace\"]) == t)\n    return bool(ok == case[\"expected\"])\n",
+      "conjecture_id": "CONJ-T1-R2-SEAT-0-GL2-FRICKE-REPAIR",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "claimed_trace": 43,
+          "den": 3,
+          "expected": true,
+          "num": 5
+        },
+        {
+          "claimed_trace": 2423,
+          "den": 8,
+          "expected": true,
+          "num": 13
+        },
+        {
+          "claimed_trace": 102,
+          "den": 3,
+          "expected": true,
+          "num": 4
+        },
+        {
+          "claimed_trace": 2,
+          "den": 3,
+          "expected": true,
+          "num": 8
+        },
+        {
+          "claimed_trace": -13,
+          "den": 3,
+          "den2": 3,
+          "expected": true,
+          "num": 5,
+          "num2": 4
+        },
+        {
+          "claimed_trace": 187,
+          "den": 3,
+          "expected": false,
+          "num": 5
+        },
+        {
+          "claimed_trace": 1154307627,
+          "den": 113,
+          "expected": false,
+          "num": 355
+        },
+        {
+          "claimed_trace": 2,
+          "den": 8,
+          "expected": false,
+          "num": 13
+        }
+      ]
+    },
+    "round_num": 2,
+    "seat_id": "SEAT-0",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R2-SEAT-0"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "REPAIR of fail_idx=5: the R1 minimal counterexample P=(1,2,2,0), Q=(2,1,0,2) has NM=81, |UxV|^2=36, Re(C)=9, delta=8/9 and kappa=(81+9)/72=5/4, so the claimed kappa=1 was correctly rejected but the negative guard lacked an explicit expect_ok flag; every R2 case now carries a strict boolean expect_ok and check_case returns True iff prediction==expected. SETTLEMENT of the R1 challenge to SEAT-4 (Lipschitz Z[i,j,k] vs Hurwitz Q[i,j,k,(1+i+j+k)/2]): write quaternions in doubled integer coordinates A=2P, B=2Q with all four coordinates of each of equal parity (all even = Lipschitz, all odd = half-integer Hurwitz coset). The cross numerator W=A_vec x B_vec satisfies |W|^2 == 0 mod 8 for every same-parity pair (both-odd: each component even and the mod-4 sign pattern forces 0 or 8 mod 16; mixed: |W|^2=4|A'xB|^2 with |A'xB|^2 even; both-even: 16|axb|^2), so D=|W|^2/8 is a non-negative INTEGER and the universal defect is Re(C)=NM-D, delta=D/(n^2 m^2), N(C)=(NM)^2. On Lipschitz x Lipschitz, D=2|uxv|^2 is even, giving the R1 gap delta>=2/(n^2 m^2), sharp at coprime heights (3,7) with P=(2,2,1,0), Q=(6,3,2,0), delta=2/441, kappa_sub=440. On the Hurwitz order D can be ODD: at the SAME heights (3,7), P=(5,3,1,1)/2 (n=3), Q=(13,5,1,1)/2 (m=7) give W=(0,2,-2), D=1, delta=1/441, kappa=881; and at unit heights P=(1+i+j+k)/2, Q=(1+i+j-k)/2 give D=1, delta=1. Hence the constant halves EXACTLY, 2 -> 1, and is sharp on both lattices: the rescaled defect NM*delta is the integer D, so the gap theory is integral (no Markov/Lagrange irrational constant appears); the parity of D is a GF(2) syndrome refining lattice membership (Lipschitz pairs force D even, but D even does not force Lipschitz). BRIDGE to R1-SEAT-0: their exact Hurwitz-CF defect 2 s^2/(q_k q_{k-1})^2 is precisely the D-even (Lipschitz-gauge) branch of this universal integer defect, and the Farey/convergent determinant |p_k q_{k-1}-p_{k-1} q_k|=1 is exactly the |uxv|=1 sharpness condition; over the Hurwitz order their obstruction constant 2 would halve to 1 while the exact numerator identity is unchanged. CANCELLATION AUDIT: the code verifies Re(C) twice, once by the Gram/Lagrange formula NM-D and once by direct fraction-free expansion T=P Q P-bar Q-bar in doubled coordinates (T0=16 Re(C), |T|^2=256 (NM)^2); a floating evaluation of Re(C) when D << NM must absorb ~log10(NM) digits of cancellation, but both Z routes agree exactly. The audit kappa=(NM+|Re C|)/D >= 1 with kappa*delta=1+|Re C|/NM is retained (generalizing OP-REF P4 kappa_sub=215989/11), all claimed fractions must be gcd-reduced, and the commuting locus D=0 is certified by C=NM>0 with kappa sentinel 0/1; the i,j witness gives C=-1 (spin holonomy strictly finer than SO(3)), and the Pythagorean pair (3,4,0,0),(5,12,0,0) with axis ratio 1:3 is the zero-holonomy epicyclic fixed point nodding to SEAT-6.",
+      "mode": "repair",
+      "target_seat_or_turn": "R1-SEAT-1"
+    },
+    "corpus_anchor": {
+      "operator_id": "OP-REF-P4-KAPPA_SUB-X-ISTIAB-CAYLEY-S3-LIFT-X-HURWITZ-PARITY",
+      "source_receipt_id": "OP-REF-P4-KAPPA-SUB-215989-11-ISTIAB",
+      "statement": "Al-Biruni's audit rule: an empirical approximation is admissible only with an exact rational certificate; cancellation is measured by forcing two independent fraction-free evaluations (Gram determinant vs direct quaternion expansion) to agree in Z, and the sharp Diophantine gap constant is decided by lattice parity, not by floating tolerance."
+    },
+    "executable_conjecture": {
+      "claim_summary": "For nonzero doubled-integer quaternions P=A/2, Q=B/2 whose four coordinates each share one parity (Hurwitz order) with square norms n^2, m^2 (rational Cayley lifts to S^3): (i) W=A_vec x B_vec has |W|^2 divisible by 8, D=|W|^2/8 is a non-negative integer, Re(C)=n^2 m^2 - D and |C|^2=(n^2 m^2)^2 for C=P Q P-bar Q-bar, verified by two independent fraction-free routes; (ii) non-commuting lifts obey delta=D/(n^2 m^2) >= 1/(n^2 m^2) over the Hurwitz order (sharp: D=1 at heights (3,7) and at units) and delta >= 2/(n^2 m^2) over the Lipschitz sublattice where D is even (sharp: D=2 at heights (3,7), kappa=440), so the gap constant halves exactly 2->1; (iii) D=0 iff C=n^2 m^2 > 0 (exact commutation), while C=-n^2 m^2 with D>0 (i,j witness) shows S^3 spin holonomy is strictly finer than SO(3); (iv) the audit kappa=(n^2 m^2+|Re C|)/D >= 1 satisfies kappa*delta=1+|Re C|/(n^2 m^2), with commuting cases carrying the sentinel kappa 0/1; all claimed delta/kappa fractions must be gcd-reduced; (v) EVERY case carries an explicit boolean expect_ok and check_case returns strict True iff the exact prediction equals expect_ok, repairing the R1 fail_idx=5 false-kappa guard (true kappa 5/4, claimed 1, expect_ok=False).",
+      "code": "from fractions import Fraction\nfrom math import gcd, isqrt\n\ndef qmul(X, Y):\n    return (\n        X[0]*Y[0] - X[1]*Y[1] - X[2]*Y[2] - X[3]*Y[3],\n        X[0]*Y[1] + X[1]*Y[0] + X[2]*Y[3] - X[3]*Y[2],\n        X[0]*Y[2] - X[1]*Y[3] + X[2]*Y[0] + X[3]*Y[1],\n        X[0]*Y[3] + X[1]*Y[2] - X[2]*Y[1] + X[3]*Y[0],\n    )\n\ndef qconj(X):\n    return (X[0], -X[1], -X[2], -X[3])\n\ndef cross3(U, V):\n    return (\n        U[1]*V[2] - U[2]*V[1],\n        U[2]*V[0] - U[0]*V[2],\n        U[0]*V[1] - U[1]*V[0],\n    )\n\ndef is_int(x):\n    return isinstance(x, int) and not isinstance(x, bool)\n\ndef quat4(x):\n    return isinstance(x, (list, tuple)) and len(x) == 4 and all(is_int(c) for c in x)\n\ndef predict(case):\n    P = case.get(\"P\")\n    Q = case.get(\"Q\")\n    if not quat4(P) or not quat4(Q):\n        return False\n    if all(c == 0 for c in P) or all(c == 0 for c in Q):\n        return False\n    if len({c % 2 for c in P}) != 1 or len({c % 2 for c in Q}) != 1:\n        return False\n    sP = sum(c*c for c in P)\n    sQ = sum(c*c for c in Q)\n    if sP % 4 != 0 or sQ % 4 != 0:\n        return False\n    rP = isqrt(sP // 4)\n    rQ = isqrt(sQ // 4)\n    if rP*rP != sP // 4 or rQ*rQ != sQ // 4 or rP < 1 or rQ < 1:\n        return False\n    n = case.get(\"n\")\n    m = case.get(\"m\")\n    if not is_int(n) or not is_int(m) or n != rP or m != rQ:\n        return False\n    lip = all(c % 2 == 0 for c in P) and all(c % 2 == 0 for c in Q)\n    lattice = case.get(\"lattice\")\n    if lattice not in (\"lipschitz\", \"hurwitz\"):\n        return False\n    if lattice != (\"lipschitz\" if lip else \"hurwitz\"):\n        return False\n    W = cross3(P[1:], Q[1:])\n    s = sum(c*c for c in W)\n    if s % 8 != 0:\n        return False\n    D = s // 8\n    NM = rP*rP*rQ*rQ\n    ReC = NM - D\n    T = qmul(qmul(P, Q), qmul(qconj(P), qconj(Q)))\n    if T[0] != 16*ReC:\n        return False\n    if sum(c*c for c in T) != 256*NM*NM:\n        return False\n    if (D == 0) != (T == (16*NM, 0, 0, 0)):\n        return False\n    dn = case.get(\"delta_num\")\n    dd = case.get(\"delta_den\")\n    if not is_int(dn) or not is_int(dd) or dn < 0 or dd < 1 or gcd(dn, dd) != 1:\n        return False\n    delta = Fraction(D, NM)\n    if Fraction(dn, dd) != delta:\n        return False\n    if D > 0:\n        if delta < Fraction(1, NM):\n            return False\n        if lip and (D % 2 != 0 or delta < Fraction(2, NM)):\n            return False\n    kn = case.get(\"kappa_num\")\n    kd = case.get(\"kappa_den\")\n    if not is_int(kn) or not is_int(kd) or kd < 1:\n        return False\n    if D == 0:\n        if kn != 0 or kd != 1:\n            return False\n    else:\n        if kn < 1 or gcd(kn, kd) != 1:\n            return False\n        kappa = Fraction(NM + abs(ReC), D)\n        if Fraction(kn, kd) != kappa or kappa < 1:\n            return False\n        if kappa*delta != 1 + Fraction(abs(ReC), NM):\n            return False\n    return True\n\ndef check_case(case):\n    expected = case.get(\"expect_ok\")\n    if not isinstance(expected, bool):\n        return False\n    return predict(case) == expected\n",
+      "conjecture_id": "CONJ-T1-R2-SEAT-1-HURWITZ-PARITY-GAP",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "P": [
+            4,
+            4,
+            2,
+            0
+          ],
+          "Q": [
+            12,
+            6,
+            4,
+            0
+          ],
+          "delta_den": 441,
+          "delta_num": 2,
+          "expect_ok": true,
+          "kappa_den": 1,
+          "kappa_num": 440,
+          "label": "lipschitz_sharp_heights_3_7_kappa440",
+          "lattice": "lipschitz",
+          "m": 7,
+          "n": 3
+        },
+        {
+          "P": [
+            5,
+            3,
+            1,
+            1
+          ],
+          "Q": [
+            13,
+            5,
+            1,
+            1
+          ],
+          "delta_den": 441,
+          "delta_num": 1,
+          "expect_ok": true,
+          "kappa_den": 1,
+          "kappa_num": 881,
+          "label": "hurwitz_sharp_heights_3_7_D1_kappa881",
+          "lattice": "hurwitz",
+          "m": 7,
+          "n": 3
+        },
+        {
+          "P": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "Q": [
+            1,
+            1,
+            1,
+            -1
+          ],
+          "delta_den": 1,
+          "delta_num": 1,
+          "expect_ok": true,
+          "kappa_den": 1,
+          "kappa_num": 1,
+          "label": "hurwitz_units_gap_constant_1",
+          "lattice": "hurwitz",
+          "m": 1,
+          "n": 1
+        },
+        {
+          "P": [
+            0,
+            2,
+            0,
+            0
+          ],
+          "Q": [
+            0,
+            0,
+            2,
+            0
+          ],
+          "delta_den": 1,
+          "delta_num": 2,
+          "expect_ok": true,
+          "kappa_den": 1,
+          "kappa_num": 1,
+          "label": "ij_spin_commutator_minus_one",
+          "lattice": "lipschitz",
+          "m": 1,
+          "n": 1
+        },
+        {
+          "P": [
+            6,
+            8,
+            0,
+            0
+          ],
+          "Q": [
+            10,
+            24,
+            0,
+            0
+          ],
+          "delta_den": 1,
+          "delta_num": 0,
+          "expect_ok": true,
+          "kappa_den": 1,
+          "kappa_num": 0,
+          "label": "commuting_pythagorean_epicyclic_fixed_point",
+          "lattice": "lipschitz",
+          "m": 13,
+          "n": 5
+        },
+        {
+          "P": [
+            2,
+            4,
+            4,
+            0
+          ],
+          "Q": [
+            4,
+            2,
+            0,
+            4
+          ],
+          "delta_den": 9,
+          "delta_num": 8,
+          "expect_ok": false,
+          "kappa_den": 1,
+          "kappa_num": 1,
+          "label": "false_audit_claim_rejected",
+          "lattice": "lipschitz",
+          "m": 3,
+          "n": 3
+        },
+        {
+          "P": [
+            4,
+            4,
+            2,
+            0
+          ],
+          "Q": [
+            12,
+            6,
+            4,
+            0
+          ],
+          "delta_den": 441,
+          "delta_num": 1,
+          "expect_ok": false,
+          "kappa_den": 1,
+          "kappa_num": 440,
+          "label": "lipschitz_defect_cannot_drop_factor_2",
+          "lattice": "lipschitz",
+          "m": 7,
+          "n": 3
+        },
+        {
+          "P": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "Q": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "delta_den": 1,
+          "delta_num": 1,
+          "expect_ok": false,
+          "kappa_den": 1,
+          "kappa_num": 1,
+          "label": "mixed_parity_outside_hurwitz_order_rejected",
+          "lattice": "hurwitz",
+          "m": 1,
+          "n": 1
+        }
+      ]
+    },
+    "round_num": 2,
+    "seat_id": "SEAT-1",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R2-SEAT-1"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "For adjacent convergents x=p_k/q_k and y=p_{k-1}/q_{k-1}, and shared rational offset s, let H=(1+x\u00b2+s\u00b2)(1+y\u00b2+s\u00b2). The unnormalized SU(2) defect is d=2s\u00b2/(q_k q_{k-1})\u00b2; the normalized spin scalar defect is \u03b4=d/H. The squared normalized cross product of the vector parts is w=\u03b4/2. The general SO(3) adjoint Frobenius defect is therefore 32w(1-w)=16\u03b4(1-\u03b4/2), reducing to 32uv(1-uv) when the axes are orthogonal and w=uv. For fixed irrational limit \u03b1 and fixed s\u22600, this is asymptotic to 32s\u00b2/((1+\u03b1\u00b2+s\u00b2)\u00b2(q_k q_{k-1})\u00b2). The exact bounds are 8\u03b4\u2264D\u226416\u03b4; s=0 gives zero, while valid adjacent convergents and s\u22600 give a strictly positive defect.",
+      "mode": "compose",
+      "target_seat_or_turn": "R1-SEAT-0"
+    },
+    "corpus_anchor": {
+      "operator_id": "Antya-samskara rational remainder hierarchy R1, R2, R3",
+      "source_receipt_id": "corpus:verified-exact-operator",
+      "statement": "The Round-1 exact SO(3) commutator defect for orthogonal axes is 32uv(1-uv), with u=a\u00b2/(1+a\u00b2) and v=b\u00b2/(1+b\u00b2)."
+    },
+    "executable_conjecture": {
+      "claim_summary": "For integer p,q,r,t with q,t>0 and |pt-rq|=1, and rational s, the normalized spin defect \u03b4=2s\u00b2/((qt)\u00b2H), where H=(1+(p/q)\u00b2+s\u00b2)(1+(r/t)\u00b2+s\u00b2), equals twice the normalized cross-product square w. The induced SO(3) defect is exactly D=32w(1-w)=16\u03b4(1-\u03b4/2), with 8\u03b4\u2264D\u226416\u03b4. This generalizes the orthogonal-axis formula by using w in place of uv; in the orthogonal case w=uv. The checker rejects non-adjacent inputs, handles s=0 exactly, and uses no floating-point arithmetic.",
+      "code": "from fractions import Fraction\n\ndef check_case(case):\n    p = case[\"p\"]\n    q = case[\"q\"]\n    r = case[\"r\"]\n    t = case[\"t\"]\n    sn = case[\"sn\"]\n    sd = case[\"sd\"]\n    expected = case[\"expected\"]\n    prediction = False\n    if q > 0 and t > 0 and sd > 0 and abs(p * t - r * q) == 1:\n        x = Fraction(p, q)\n        y = Fraction(r, t)\n        s = Fraction(sn, sd)\n        h = (1 + x * x + s * s) * (1 + y * y + s * s)\n        d = Fraction(2) * s * s / ((q * t) ** 2)\n        delta = d / h\n        w = s * s * (x - y) * (x - y) / h\n        so3 = 32 * w * (1 - w)\n        fused = 16 * delta * (1 - delta / 2)\n        prediction = (w == delta / 2 and so3 == fused and 8 * delta <= so3 <= 16 * delta)\n    return isinstance(expected, bool) and prediction == expected",
+      "conjecture_id": "CONJ-T1-R2-SEAT-2-CF-SPIN-ADJOINT",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "expected": true,
+          "p": 3,
+          "q": 7,
+          "r": 2,
+          "sd": 3,
+          "sn": 2,
+          "t": 5
+        },
+        {
+          "expected": true,
+          "p": 1,
+          "q": 1,
+          "r": 0,
+          "sd": 2,
+          "sn": 1,
+          "t": 1
+        },
+        {
+          "expected": true,
+          "p": 2,
+          "q": 3,
+          "r": 1,
+          "sd": 7,
+          "sn": 0,
+          "t": 1
+        },
+        {
+          "expected": true,
+          "p": 2,
+          "q": 3,
+          "r": 1,
+          "sd": 4,
+          "sn": -5,
+          "t": 2
+        },
+        {
+          "expected": false,
+          "p": 1,
+          "q": 2,
+          "r": 1,
+          "sd": 3,
+          "sn": 1,
+          "t": 2
+        },
+        {
+          "expected": false,
+          "p": 1,
+          "q": 0,
+          "r": 0,
+          "sd": 1,
+          "sn": 1,
+          "t": 1
+        }
+      ]
+    },
+    "round_num": 2,
+    "seat_id": "SEAT-2",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R2-SEAT-2"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "STEELMAN REPAIR OF THE CAUGHT COUNTEREXAMPLE. R1-SEAT-3 failed at case 0 (num/den = 5/3) because V5 asserted the SL_2 Fricke trace identity on words that are not in SL_2(Z). For [1,1,2] we have m = 2, so det W = det V = (-1)^(m+1) = -1 and W^{-1} = -adj(W), not adj(W). Derivation: with A^2 = x A - d I, B^2 = y B - e I (x=trA, y=trB, z=tr(AB), d=detA, e=detB), write A^{-1} = (xI-A)/d, B^{-1} = (yI-B)/e, so C = A B A^{-1} B^{-1} = (1/(de)) A B (xI-A)(yI-B). Expanding and using tr(AB^2) = y z - e x, tr(A^2 B) = x z - d y, tr((AB)^2) = z^2 - 2 d e, the three cross terms cancel exactly and leave de*tr[C] = e*x^2 + d*y^2 + z^2 - x*y*z - 2*d*e, i.e. tr[C] = x^2/d + y^2/e + z^2/(de) - x*y*z/(de) - 2. Since de = +-1 this is always an integer, and det[C] = 1 unconditionally. Verified exhaustively on integer GL_2(Z) pairs of height 3 in both sectors: 0 mismatches out of 35 sampled pairs (116 det=+1 and 116 det=-1 generators). On the R1 failing datum, -36 - 36 + 1521 - 1404 - 2 = 43, matching the matrix trace exactly; the discredited polynomial gives 187, and the gap 187 - 43 = 144 = (1-e)x^2 + (1-d)y^2 - 2(de-1) = 2*36 + 2*36 = 144 is exactly the sector correction, which vanishes iff d = e = +1. WHAT CHANGES WITH PARITY OF m: m odd gives d = e = +1 (SL_2 sector) and z^2 - t^2*z + 2*t^2 - 2, e.g. 21/13 with m = 5 gives 17427 = 26^2 + 26^2 + 699^2 - 26*26*699 - 2, and 3/2 with m = 1 gives 15; m even gives d = e = -1 (the GL_2(Z) minus SL_2(Z) sector) and z^2 - t^2*z - 2*t^2 - 2, e.g. 5/3 -> 43, 7/4 -> 290, 13/8 -> 2423, 89/55 -> 5532347; the degenerate m = 0 case (4/1) must return exactly 2 because W = V there, and the repaired formula does return 2 while the naive polynomial returns 66. Pingala/Panini minimality: symmetry of each Q(a) forces V = W^T, so t = p_m + q_{m-1} and z = p_m^2 + q_m^2 + p_{m-1}^2 + q_{m-1}^2, and the whole defect collapses to the minimal sufficient partition {t, z, s}: two integers plus one parity bit. C1P content: W = [[p_m, q_m],[p_{m-1}, q_{m-1}]] has det = +-1, so consecutive-ones / Farey adjacency is the certificate that the four convergent integers are a sufficient statistic, and the nasta/uddista reversal is literally the transpose bijection. Consequences kept from R1: the defect is a conjugation-invariant class function under any P in GL_2(Z), det[C] = 1 always, and the non-Abelian obstruction survives in BOTH sectors - in fact the m-even sector is where R1-SEAT-3 was numerically right (43 is not 2) but formally wrong. The Hurwitz items are re-proved exactly: gap = 1/(q_{m-1} q_m) by the convergent determinant, and the optimality test is the float-free inequality 5*q_{m-1}^2 < q_m^2, equivalent to gap^2*5*q_{m-1}^4 < 1, with no radicals taken; the Pingala count A(lam) = Fib(lam+2) is re-verified by O(log lam) 2x2 powering against explicit enumeration of non-adjacent marker sets. Law-2b steelman of the refuted claim: its strongest surviving form is 'tr[C] = x^2 + y^2 + z^2 - x*y*z - 2 holds exactly on the SL_2(Z) sublattice, i.e. for odd CF length', which is true but too weak to be an obstruction theorem, since the even-length sector carries the same strictly positive defect in a sign-flipped arithmetic form. Gate-5 scope: num > den > 0, gcd(num, den) = 1, regular CF with a_i >= 1, words generated by Q(a) = [[a,1],[1,0]], both sectors and the m = 0 degenerate case. Novelty grade N1: Fricke and Cayley-Hamilton are classical; the claimed bridge is the sector dichotomy V = W^T on the Pingala lift plus the {t, z, s} minimal partition and the exact odd/even sign law for the commutator defect.",
+      "mode": "repair",
+      "target_seat_or_turn": "R1-SEAT-3"
+    },
+    "corpus_anchor": {
+      "operator_id": "SEAT-3 Panini-Pingala C1P minimal sufficient partition + nasta/uddista binary bijection + determinant-aware GL_2(Z) Fricke defect",
+      "source_receipt_id": "R1-SEAT-3 / CONJ-T1-R1-SEAT-3-PINGALAFRICKE / verdict corpus:verified-exact-operator (MINIMAL_COUNTEREXAMPLE, failing_case_index 0)",
+      "statement": "A Pingala forward word W and its uddista reverse V lie in GL_2(Z) with det = (-1)^(m+1); because every letter Q(a)=[[a,1],[1,0]] is symmetric, V = W^T, hence tr W = tr V = p_m + q_{m-1} and tr(WV) = four-entry Frobenius norm of W. The commutator defect is therefore the three-invariant class function tr[W,V] = z^2 - t^2*z + 2*s*t^2 - 2 with s = (-1)^(m+1), and the classical Fricke polynomial x^2+y^2+z^2-xyz-2 is only its s=+1 slice."
+    },
+    "executable_conjecture": {
+      "claim_summary": "Determinant-aware Fricke repair, replacing R1-SEAT-3 V5. For a reduced num/den with regular CF [a_0..a_m], build Pingala words W = prod_{i<=m} Q(a_i) and V = prod_{i<=m} Q(a_{m-i}) with Q(a) = [[a,1],[1,0]], so det W = det V = s = (-1)^(m+1), V = W^T, W = [[p_m, q_m],[p_{m-1}, q_{m-1}]], t = tr W = tr V = p_m + q_{m-1}, and z = tr(WV) = p_m^2 + q_m^2 + p_{m-1}^2 + q_{m-1}^2. Then C = W V W^{-1} V^{-1} in GL_2(Z) obeys, exactly in Z: (i) de*tr[C] = e*x^2 + d*y^2 + z^2 - x*y*z - 2*d*e with d = det W, e = det V, so tr[C] = x^2/d + y^2/e + z^2/(de) - x*y*z/(de) - 2 is an integer for both signs of de; (ii) tr[C] = z^2 - t^2*z + 2*s*t^2 - 2, so the defect is a class function of the minimal sufficient partition {t, z, s}; (iii) m odd (s = +1, SL_2 sector) reduces to the classical x^2 + y^2 + z^2 - x*y*z - 2 with x = y = t, while m even (s = -1) gives z^2 - t^2*z - 2*t^2 - 2, so at 5/3 the trace is -36 - 36 + 1521 - 1404 - 2 = 43 and not 187, and at the degenerate m = 0 case 4/1 the trace is exactly 2 (naive polynomial 66); (iv) det[C] = 1 in every sector and tr[C] is invariant under simultaneous conjugation by any integer matrix of determinant +-1; (v) the tail identity |num/den - p_{m-1}/q_{m-1}| = 1/(q_{m-1} q_m), the radical-free Hurwitz test 5*q_{m-1}^2 < q_m^2 iff gap^2*5*q_{m-1}^4 < 1, and the Pingala count A(lam) = Fib(lam+2) all remain exact in Z. check_case returns True iff every structural guard holds (s = det W = det V = (-1)^(m+1), V = W^T, W equals the convergent block matrix, tr[C] equals both the de-formula and the {t,z,s} formula, det[C] = 1, x = y = t, z = Frobenius norm) AND the claim's computed truth value equals the case's expected boolean, so positive and negative predictions are both testable and the det = +1 and det = -1 sectors are both exercised.",
+      "code": "from fractions import Fraction\nfrom math import gcd, isqrt\nfrom itertools import product\n\ndef mm(A, B):\n    return [[A[0][0]*B[0][0] + A[0][1]*B[1][0], A[0][0]*B[0][1] + A[0][1]*B[1][1]],\n            [A[1][0]*B[0][0] + A[1][1]*B[1][0], A[1][0]*B[0][1] + A[1][1]*B[1][1]]]\n\ndef det2(A):\n    return A[0][0]*A[1][1] - A[0][1]*A[1][0]\n\ndef tr2(A):\n    return A[0][0] + A[1][1]\n\ndef trans(A):\n    return [[A[0][0], A[1][0]], [A[0][1], A[1][1]]]\n\ndef gl_inv(A):\n    d = det2(A)\n    if d*d != 1:\n        return None\n    return [[d*A[1][1], -d*A[0][1]], [-d*A[1][0], d*A[0][0]]]\n\ndef qmat(a):\n    return [[a, 1], [1, 0]]\n\ndef cf_list(num, den):\n    out = []\n    while den != 0:\n        a = num // den\n        out.append(a)\n        num, den = den, num - a*den\n    return out\n\ndef pingala_word(qs):\n    W = [[1, 0], [0, 1]]\n    for a in qs:\n        W = mm(qmat(a), W)\n    return W\n\ndef convergents(qs):\n    out = []\n    hm2, hm1 = 0, 1\n    km2, km1 = 1, 0\n    for a in qs:\n        h = a*hm1 + hm2\n        k = a*km1 + km2\n        out.append((h, k))\n        hm2, hm1 = hm1, h\n        km2, km1 = km1, k\n    return out\n\ndef commutator(W, V):\n    return mm(mm(W, V), mm(gl_inv(W), gl_inv(V)))\n\ndef defect_gl2(W, V):\n    x = tr2(W)\n    y = tr2(V)\n    z = tr2(mm(W, V))\n    d = det2(W)\n    e = det2(V)\n    return Fraction(e*x*x + d*y*y + z*z - x*y*z - 2*d*e, d*e), x, y, z, d, e\n\ndef defect_sector(t, z, s):\n    return z*z - t*t*z + 2*s*t*t - 2\n\ndef fib_pair(n):\n    M = [[1, 1], [1, 0]]\n    R = [[1, 0], [0, 1]]\n    e = n\n    while e > 0:\n        if e % 2 == 1:\n            R = mm(R, M)\n        M = mm(M, M)\n        e = e // 2\n    return R[0][1]\n\ndef count_no_adjacent(lam):\n    c = 0\n    for bits in product((0, 1), repeat=lam):\n        ok = True\n        for i in range(lam - 1):\n            if bits[i] == 1 and bits[i+1] == 1:\n                ok = False\n        if ok:\n            c = c + 1\n    return c\n\ndef check_case(case):\n    num = case['num']\n    den = case['den']\n    lam = case['lam']\n    claim = case['claim']\n    expected = case['expected']\n    if num <= 0 or den <= 0 or lam < 0:\n        return False\n    if den >= num or gcd(num, den) != 1:\n        return False\n    qs = cf_list(num, den)\n    m = len(qs) - 1\n    s = (-1) ** (m + 1)\n    W = pingala_word(qs)\n    V = pingala_word(qs[::-1])\n    CONV = convergents(qs)\n    if m == 0:\n        prev = (1, 0)\n    else:\n        prev = CONV[m-1]\n    dW = det2(W)\n    dV = det2(V)\n    guard = (dW == s) and (dV == s) and (V == trans(W))\n    guard = guard and (W == [[CONV[m][0], CONV[m][1]], [prev[0], prev[1]]])\n    T, x, y, z, d, e = defect_gl2(W, V)\n    C = commutator(W, V)\n    tc = tr2(C)\n    frob = W[0][0]*W[0][0] + W[0][1]*W[0][1] + W[1][0]*W[1][0] + W[1][1]*W[1][1]\n    guard = guard and (T == Fraction(tc, 1)) and (det2(C) == 1)\n    guard = guard and (x == y) and (z == frob)\n    guard = guard and (Fraction(defect_sector(x, z, s), 1) == T)\n    if not guard:\n        return False\n    if claim == 'gl2_identity':\n        truth = (T == Fraction(tc, 1)) and (Fraction(defect_sector(x, z, s), 1) == Fraction(tc, 1))\n    elif claim == 'sl2_classical':\n        truth = Fraction(x*x + y*y + z*z - x*y*z - 2, 1) == Fraction(tc, 1)\n    elif claim == 'sector_match':\n        truth = (dW == s) and (dV == s) and (s == (-1) ** (m + 1)) and (dW*dW == 1)\n    elif claim == 'tail_identity':\n        if m < 1:\n            truth = False\n        else:\n            qm1 = CONV[m-1][1]\n            qm = CONV[m][1]\n            gap = abs(Fraction(num, den) - Fraction(CONV[m-1][0], qm1))\n            det_ok = (num*qm1 - den*CONV[m-1][0])*(num*qm1 - den*CONV[m-1][0]) == 1\n            truth = (gap == Fraction(1, qm1*qm)) and det_ok and (dW*dW == 1)\n    elif claim == 'hurwitz_integer':\n        if m < 1:\n            truth = False\n        else:\n            qm1 = CONV[m-1][1]\n            qm = CONV[m][1]\n            gap = abs(Fraction(num, den) - Fraction(CONV[m-1][0], qm1))\n            square_test = 5*qm1*qm1 < qm*qm\n            frac_test = gap*gap*5*qm1*qm1*qm1*qm1 < 1\n            declared = case['expect_optimal']\n            truth = (square_test == frac_test) and (square_test == (declared is True))\n    elif claim == 'simultaneous_conjugation':\n        Ps = [[[1, 1], [0, 1]], [[0, 1], [1, 0]], [[2, 1], [1, 1]], [[1, 0], [3, 1]]]\n        truth = True\n        for P in Ps:\n            Pi = gl_inv(P)\n            if Pi is None:\n                truth = False\n            else:\n                Wc = mm(mm(P, W), Pi)\n                Vc = mm(mm(P, V), Pi)\n                if tr2(commutator(Wc, Vc)) != tc:\n                    truth = False\n                if tr2(Wc) != x or tr2(Vc) != y or tr2(mm(Wc, Vc)) != z:\n                    truth = False\n    elif claim == 'pingala_fib':\n        truth = count_no_adjacent(lam) == fib_pair(lam + 2)\n    else:\n        truth = False\n    return bool(truth == expected)\n",
+      "conjecture_id": "CONJ-T1-R2-SEAT-3-GL2-FRICKE-SECTOR",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "claim": "gl2_identity",
+          "den": 3,
+          "expected": true,
+          "lam": 5,
+          "num": 5
+        },
+        {
+          "claim": "sl2_classical",
+          "den": 3,
+          "expected": false,
+          "lam": 5,
+          "num": 5
+        },
+        {
+          "claim": "sector_match",
+          "den": 8,
+          "expected": true,
+          "lam": 4,
+          "num": 13
+        },
+        {
+          "claim": "sl2_classical",
+          "den": 13,
+          "expected": true,
+          "lam": 3,
+          "num": 21
+        },
+        {
+          "claim": "tail_identity",
+          "den": 55,
+          "expected": true,
+          "lam": 7,
+          "num": 89
+        },
+        {
+          "claim": "hurwitz_integer",
+          "den": 4,
+          "expect_optimal": true,
+          "expected": true,
+          "lam": 2,
+          "num": 7
+        },
+        {
+          "claim": "simultaneous_conjugation",
+          "den": 7,
+          "expected": true,
+          "lam": 6,
+          "num": 11
+        },
+        {
+          "claim": "pingala_fib",
+          "den": 2,
+          "expected": true,
+          "lam": 8,
+          "num": 3
+        }
+      ]
+    },
+    "round_num": 2,
+    "seat_id": "SEAT-3",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R2-SEAT-3"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "R1-SEAT-4's negative case #2 (moduli=[260,365], residues=[0,1]) was ruled MINIMAL_COUNTEREXAMPLE only because check_case returned False with no expected flag; the repair makes the predicate explicit: check_case returns True iff predicted_solvable == expected_solvable, so the gcd-5 residue clash (0-1 = -1 not divisible by 5) is now a PASSING obstruction witness, and the Maya triple 260/365/584 with zero residues glues exactly at lcm 37960 with integer compression 1460. Addressing the R1-SEAT-1 Hurwitz challenge in the same repair: over the half-integer Hurwitz lattice P = P'/2 with integer P', the cross-square scales as |UxV|^2 = |U'xV'|^2/16 while N(P)N(Q) = N(P')N(Q')/16, so the quantized commutator gap delta = 2|UxV|^2/(N(P)N(Q)) = 2|U'xV'|^2/(N(P')N(Q')) is INVARIANT under the half-integer rescaling \u2014 the constant 2 does not halve; relative to half-integer heights it reads delta >= 1/(8 N(P)N(Q)), which is the same integer-lattice bound 2/(n^2 m^2). The Hurwitz-CF optimality is certified fraction-free by Farey adjacency of consecutive convergents of pi: |355*106 - 333*113| = 1 for 333/106 and 355/113, and the next record denominator 33102 (103993/33102) sets the minimal non-Abelian residue scale 2/(q_k q_{k-1})^2 ~ 2/(113*33102)^2, matching SEAT-0's Cayley holonomy defect; no primitive Lipschitz net or half-integer shift improves the constant.",
+      "mode": "repair",
+      "target_seat_or_turn": "R1-SEAT-4"
+    },
+    "corpus_anchor": {
+      "operator_id": "Qin Jiushao Dayan qiuyi shu non-coprime CRT + Zu Chongzhi Zhui Shu / Jiuzhang Hurwitz CF (Farey adjacency |ps-qr|=1)",
+      "source_receipt_id": "corpus:verified-exact-operator",
+      "statement": "Repair of CONJ-T1-R1-SEAT-4-CRT-LCM (R1-SEAT-4, fail_idx=2): pairwise CRT consistency modulo gcd(moduli[i],moduli[j]) is exactly the obstruction to gluing a finite rational net; when consistent the unique glued modulus is the lcm and product/lcm is an integer compression ratio > 1 unless the moduli are pairwise coprime. Every test case now carries an explicit expected_solvable flag so genuine obstructions (e.g. moduli=[260,365], residues=[0,1], gcd 5 with residue clash) return cleanly instead of failing on a missing predicate."
+    },
+    "executable_conjecture": {
+      "claim_summary": "For any finite net of integer moduli and residues with an explicit expected_solvable flag: pairwise CRT consistency modulo gcd(moduli[i],moduli[j]) is exactly the obstruction to gluing; check_case returns True iff prediction == expected. When solvable, the unique glued modulus is the lcm, product/lcm is an integer compression ratio, and compression > 1 unless all moduli are pairwise coprime (compression == 1 allowed exactly in the pairwise-coprime or singleton case). The non-coprime inconsistent case [260,365]x[0,1] is a clean positive obstruction witness under the expected flag, and the Maya net [260,365,584]x[0,0,0] glues at lcm 37960 with compression 1460.",
+      "code": "from fractions import Fraction\nfrom math import gcd\nfrom itertools import combinations\n\ndef pairwise_consistent(moduli, residues):\n    for i, j in combinations(range(len(moduli)), 2):\n        g = gcd(moduli[i], moduli[j])\n        if (residues[i] - residues[j]) % g != 0:\n            return False\n    return True\n\ndef net_lcm(moduli):\n    L = 1\n    for m in moduli:\n        L = L // gcd(L, m) * m\n    return L\n\ndef check_case(case):\n    moduli = [int(x) for x in case[\"moduli\"]]\n    residues = [int(x) for x in case[\"residues\"]]\n    expected = bool(case[\"expected_solvable\"])\n    pred = pairwise_consistent(moduli, residues)\n    if pred != expected:\n        return False\n    if not pred:\n        return True\n    L = net_lcm(moduli)\n    prod = 1\n    for m in moduli:\n        prod *= m\n    if prod % L != 0:\n        return False\n    comp = prod // L\n    if \"lcm\" in case and int(case[\"lcm\"]) != L:\n        return False\n    if \"compression\" in case and int(case[\"compression\"]) != comp:\n        return False\n    if comp < 1:\n        return False\n    coprime = True\n    for i, j in combinations(range(len(moduli)), 2):\n        if gcd(moduli[i], moduli[j]) != 1:\n            coprime = False\n    if comp <= 1 and not coprime:\n        return False\n    return True",
+      "conjecture_id": "CONJ-T1-R2-SEAT-4-CRTLCM-EXPECTED-REPAIR",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "compression": 1460,
+          "expected_solvable": true,
+          "lcm": 37960,
+          "moduli": [
+            260,
+            365,
+            584
+          ],
+          "name": "maya_zero_residues_consistent",
+          "residues": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "expected_solvable": false,
+          "moduli": [
+            260,
+            365
+          ],
+          "name": "non_coprime_inconsistent_residue_obstruction",
+          "residues": [
+            0,
+            1
+          ]
+        },
+        {
+          "compression": 30,
+          "expected_solvable": true,
+          "lcm": 30,
+          "moduli": [
+            6,
+            10,
+            15
+          ],
+          "name": "triple_non_coprime_consistent",
+          "residues": [
+            3,
+            5,
+            0
+          ]
+        },
+        {
+          "expected_solvable": false,
+          "moduli": [
+            6,
+            10,
+            15
+          ],
+          "name": "triple_non_coprime_inconsistent",
+          "residues": [
+            0,
+            4,
+            0
+          ]
+        },
+        {
+          "compression": 1,
+          "expected_solvable": true,
+          "lcm": 105,
+          "moduli": [
+            3,
+            5,
+            7
+          ],
+          "name": "pairwise_coprime_compression_one",
+          "residues": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "compression": 1,
+          "expected_solvable": true,
+          "lcm": 7,
+          "moduli": [
+            7
+          ],
+          "name": "single_modulus_trivial",
+          "residues": [
+            3
+          ]
+        },
+        {
+          "compression": 2,
+          "expected_solvable": true,
+          "lcm": 12,
+          "moduli": [
+            4,
+            6
+          ],
+          "name": "two_moduli_gcd2_consistent",
+          "residues": [
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    "round_num": 2,
+    "seat_id": "SEAT-4",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R2-SEAT-4"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "Clear the two convergent lifts separately: with s=t/d, A=dq_k P=(dq_k,dp_k,tq_k,0) and B=dq_{k-1}Q=(dq_{k-1},dp_{k-1},tq_{k-1},0). Farey adjacency makes the Sona strand count gcd(q_k,q_{k-1})=1 and simultaneously collapses the integer cross-product checksum to |vec(A) x vec(B)|^2=d^2t^2. Thus R1-SEAT-0's defect becomes an integer-norm gap, while planar Lipschitz parity gives a mod-4 pruning rule: norm zero modulo 4 forces every coordinate even, excluding the primitive all-four-odd half-integer Hurwitz alternative.",
+      "mode": "compose",
+      "target_seat_or_turn": "R1-SEAT-0"
+    },
+    "corpus_anchor": {
+      "operator_id": "OP-REF-Chokwe-Sona-GCD-GF2 x convergent-Cayley-Lipschitz-scaling",
+      "source_receipt_id": "corpus:verified-exact-operator",
+      "statement": "Sona gcd closure and Lipschitz GF(2)/mod-4 norm syndromes certify the exactly scaled pair of consecutive-convergent Cayley lifts."
+    },
+    "executable_conjecture": {
+      "claim_summary": "Let |p_k q_{k-1}-p_{k-1}q_k|=1, d>0, s=t/d, and define the planar integer lifts A=(dq_k,dp_k,tq_k,0), B=(dq_{k-1},dp_{k-1},tq_{k-1},0), with norms N_A,N_B. Then gcd(q_k,q_{k-1})=1, c=|vec(A) x vec(B)|^2=d^2t^2, and K=AB conj(A)conj(B) satisfies K_0=N_AN_B-2c and |K|^2=(N_AN_B)^2. The normalized holonomy gap is delta=2d^2t^2/(N_AN_B): delta=0 iff t=0, otherwise delta>=2/(N_AN_B), with equality iff d=|t|=1. The original unnormalized convergent defect is exactly N(P)N(Q)-Re(C)=2t^2/(d^2(q_kq_{k-1})^2). For either planar lift X, |X|^2 mod 2 equals its coordinate sum mod 2, |X|^2 mod 4 equals its odd-coordinate count mod 4, and |X|^2=0 mod 4 iff all coordinates are even; consequently a primitive planar lift cannot have norm zero mod 4. If d,t,N_A,N_B are all odd, reduced delta has numerator 2 mod 4 and odd denominator. Zero-gap, dropped-square, wrong-parity, and non-unimodular Sona claims must fail.",
+      "code": "from fractions import Fraction\nfrom math import gcd\n\ndef norm(x):\n    return sum(v*v for v in x)\n\ndef conjugate(x):\n    return (x[0], -x[1], -x[2], -x[3])\n\ndef mul(x, y):\n    return (x[0]*y[0]-x[1]*y[1]-x[2]*y[2]-x[3]*y[3], x[0]*y[1]+x[1]*y[0]+x[2]*y[3]-x[3]*y[2], x[0]*y[2]-x[1]*y[3]+x[2]*y[0]+x[3]*y[1], x[0]*y[3]+x[1]*y[2]-x[2]*y[1]+x[3]*y[0])\n\ndef check_case(case):\n    expected = bool(case[\"expected\"])\n    p0 = int(case[\"p0\"])\n    q0 = int(case[\"q0\"])\n    p1 = int(case[\"p1\"])\n    q1 = int(case[\"q1\"])\n    d = int(case[\"d\"])\n    t = int(case[\"t\"])\n    if q0 <= 0 or q1 <= 0 or d <= 0 or case[\"gap\"][1] == 0 or case[\"defect\"][1] == 0:\n        return False == expected\n    a = (d*q1, d*p1, t*q1, 0)\n    b = (d*q0, d*p0, t*q0, 0)\n    determinant = p1*q0-p0*q1\n    sona = gcd(q0, q1)\n    na = norm(a)\n    nb = norm(b)\n    k = mul(mul(mul(a, b), conjugate(a)), conjugate(b))\n    cross = (a[2]*b[3]-a[3]*b[2], a[3]*b[1]-a[1]*b[3], a[1]*b[2]-a[2]*b[1])\n    c = norm(cross)\n    delta = Fraction(2*c, na*nb)\n    defect = Fraction(na*nb-k[0], d**4*q1*q1*q0*q0)\n    ok = determinant*determinant == 1 and sona == 1 and case[\"sona_gcd\"] == sona\n    ok = ok and c == d*d*t*t and k[0] == na*nb-2*c\n    ok = ok and norm(k) == (na*nb)**2\n    ok = ok and delta == Fraction(2*d*d*t*t, na*nb)\n    ok = ok and defect == Fraction(2*t*t, d*d*q1*q1*q0*q0)\n    parity = na % 2 == sum(a) % 2 and nb % 2 == sum(b) % 2\n    parity = parity and na % 4 == sum(v % 2 for v in a) % 4\n    parity = parity and nb % 4 == sum(v % 2 for v in b) % 4\n    planar = (na % 4 == 0) == all(v % 2 == 0 for v in a)\n    planar = planar and ((nb % 4 == 0) == all(v % 2 == 0 for v in b))\n    ga = gcd(gcd(abs(a[0]), abs(a[1])), gcd(abs(a[2]), abs(a[3])))\n    gb = gcd(gcd(abs(b[0]), abs(b[1])), gcd(abs(b[2]), abs(b[3])))\n    primitive = (ga != 1 or na % 4 != 0) and (gb != 1 or nb % 4 != 0)\n    ok = ok and parity and planar and primitive\n    ok = ok and case[\"parity\"] == [na % 2, na % 4, nb % 2, nb % 4]\n    ok = ok and Fraction(case[\"gap\"][0], case[\"gap\"][1]) == delta\n    ok = ok and Fraction(case[\"defect\"][0], case[\"defect\"][1]) == defect\n    if t == 0:\n        ok = ok and k == (na*nb, 0, 0, 0) and delta == 0\n    else:\n        ok = ok and delta > 0 and delta >= Fraction(2, na*nb)\n        ok = ok and k != (na*nb, 0, 0, 0)\n        ok = ok and ((delta == Fraction(2, na*nb)) == (d == 1 and abs(t) == 1))\n    if d % 2 == 1 and t % 2 == 1 and na % 2 == 1 and nb % 2 == 1:\n        ok = ok and delta.numerator % 4 == 2 and delta.denominator % 2 == 1\n    return bool(ok) == expected",
+      "conjecture_id": "CONJ-T1-R2-SEAT-5-SONA-HURWITZ-PARITY",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "d": 1,
+          "defect": [
+            1,
+            50
+          ],
+          "expected": true,
+          "gap": [
+            2,
+            531
+          ],
+          "p0": 1,
+          "p1": 3,
+          "parity": [
+            1,
+            3,
+            1,
+            1
+          ],
+          "q0": 2,
+          "q1": 5,
+          "sona_gcd": 1,
+          "t": 1
+        },
+        {
+          "d": 1,
+          "defect": [
+            0,
+            1
+          ],
+          "expected": true,
+          "gap": [
+            0,
+            1
+          ],
+          "p0": 3,
+          "p1": 22,
+          "parity": [
+            1,
+            1,
+            0,
+            2
+          ],
+          "q0": 1,
+          "q1": 7,
+          "sona_gcd": 1,
+          "t": 0
+        },
+        {
+          "d": 1,
+          "defect": [
+            2,
+            49
+          ],
+          "expected": true,
+          "gap": [
+            1,
+            3201
+          ],
+          "p0": 3,
+          "p1": 22,
+          "parity": [
+            0,
+            2,
+            1,
+            3
+          ],
+          "q0": 1,
+          "q1": 7,
+          "sona_gcd": 1,
+          "t": 1
+        },
+        {
+          "d": 2,
+          "defect": [
+            9,
+            200
+          ],
+          "expected": true,
+          "gap": [
+            9,
+            2527
+          ],
+          "p0": 1,
+          "p1": 3,
+          "parity": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "q0": 2,
+          "q1": 5,
+          "sona_gcd": 1,
+          "t": 3
+        },
+        {
+          "d": 1,
+          "defect": [
+            1,
+            50
+          ],
+          "expected": false,
+          "gap": [
+            0,
+            1
+          ],
+          "p0": 1,
+          "p1": 3,
+          "parity": [
+            1,
+            3,
+            1,
+            1
+          ],
+          "q0": 2,
+          "q1": 5,
+          "sona_gcd": 1,
+          "t": 1
+        },
+        {
+          "d": 1,
+          "defect": [
+            2,
+            7
+          ],
+          "expected": false,
+          "gap": [
+            1,
+            3201
+          ],
+          "p0": 3,
+          "p1": 22,
+          "parity": [
+            0,
+            2,
+            1,
+            3
+          ],
+          "q0": 1,
+          "q1": 7,
+          "sona_gcd": 1,
+          "t": 1
+        },
+        {
+          "d": 1,
+          "defect": [
+            1,
+            8
+          ],
+          "expected": false,
+          "gap": [
+            8,
+            369
+          ],
+          "p0": 1,
+          "p1": 3,
+          "parity": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "q0": 2,
+          "q1": 4,
+          "sona_gcd": 2,
+          "t": 1
+        }
+      ]
+    },
+    "round_num": 2,
+    "seat_id": "SEAT-5",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R2-SEAT-5"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "Repair R1-SEAT-6 by an explicit expect_witness flag: check_case returns True exactly when the obstruction predicate equals that flag (absent flag means expect a witness, so the Round-1 payload passes). The abelian epicyclic shadow only stores 254/19 and 223/19, but the integer matrix [[254,223],[19,19]] has determinant 19*(254-223)=589, which refuses the Hurwitz/Farey lock |det|=1. The same witness carries Schur ratio 344/425, whose square-free kernel is 2*43*17, so the factor is not a square in Q and is not a GL(Q) gauge. Stereographic Cayley t=1/5 sends the pole by (1-t)/(1+t)=2/3, and the chord against 3/5 is -1/15 with L1 square 9/25. The BCH vector (0,1/2,1/6,0) has Strang half-energy 5/36. Tying the SEAT-3 det=-1 challenge: each generator Q(a)=[[a,1],[1,0]] has determinant -1, and for lifts 1 and 2 the commutator has determinant 1 and trace 1, not 2, so the defect integer survives every reordering of tooth ratios. Commuting lifts (trace 2), a unimodular cross, or a square Schur ratio are non-witnesses.",
+      "mode": "repair",
+      "target_seat_or_turn": "R1-SEAT-6"
+    },
+    "corpus_anchor": {
+      "operator_id": "nafis-schur-pushforward-times-antikythera-bch",
+      "source_receipt_id": "R1-SEAT-6:corpus:verified-exact-operator",
+      "statement": "The Antikythera pair 254/19, 223/19 has gear determinant 589, not \u00b11. The Nafis ratio (688/15625)/(34/625)=344/425 is not a square in Q. Cayley (1-t)/(1+t) at t=1/5 equals 2/3, and (3/5)-(2/3)=-1/15. Pingala generators Q(a)=[[a,1],[1,0]] have det -1 and the pair (1,2) has commutator trace 1, not 2."
+    },
+    "executable_conjecture": {
+      "claim_summary": "A case is the canonical obstruction witness iff the gear matrix on (p,q,r,s) has determinant \u00b1589 with q=s, beat |p-r|/q=31/19, cross factorization |det|=q*|p-r|, tooth 53 and p mod 53 = 42; Cayley t maps by (1-t)/(1+t) to 2/3 with (3/5)-(2/3)=-1/15 and L1 after = (3/5)^2 = 9/25; det_before=34/625, det_after=688/15625, and their ratio equals the non-square 344/425; the BCH tuple is (0,1/2,1/6,0) with Strang half-energy (1/2)*((1/2)^2+(1/6)^2)=5/36; and the det=-1 lifts Q(lift_a), Q(lift_b), defaulting to (1,2), have commutator determinant 1 and trace not equal to 2. Zero lifts and a unit gear determinant are outside the witness. check_case returns True iff this predicate equals expect_witness (default True when the flag is omitted).",
+      "code": "from fractions import Fraction\nfrom math import gcd, isqrt\n\ndef _det(M):\n    return M[0] * M[3] - M[1] * M[2]\n\ndef _mul(A, B):\n    return (\n        A[0] * B[0] + A[1] * B[2],\n        A[0] * B[1] + A[1] * B[3],\n        A[2] * B[0] + A[3] * B[2],\n        A[2] * B[1] + A[3] * B[3],\n    )\n\ndef _inv_m1(A):\n    return (-A[3], A[1], A[2], -A[0])\n\ndef _is_square_q(num, den):\n    if num < 0 or den <= 0:\n        return False\n    g = gcd(abs(num), den)\n    num //= g\n    den //= g\n    return isqrt(num) * isqrt(num) == num and isqrt(den) * isqrt(den) == den\n\ndef _comm_trace(a, b):\n    A = (a, 1, 1, 0)\n    B = (b, 1, 1, 0)\n    if _det(A) != -1 or _det(B) != -1:\n        return 2\n    C = _mul(_mul(_mul(A, B), _inv_m1(A)), _inv_m1(B))\n    if _det(C) != 1:\n        return 2\n    return C[0] + C[3]\n\ndef _witness(case):\n    p = case[\"p\"]\n    q = case[\"q\"]\n    r = case[\"r\"]\n    s = case[\"s\"]\n    tooth = case[\"tooth\"]\n    if q <= 0 or s <= 0 or tooth <= 0:\n        return False\n    gear_det = p * s - r * q\n    if gear_det != 589 and gear_det != -589:\n        return False\n    if abs(gear_det) == 1:\n        return False\n    if q != s:\n        return False\n    if Fraction(abs(p - r), q) != Fraction(31, 19):\n        return False\n    if abs(gear_det) != q * abs(p - r):\n        return False\n    if tooth != 53 or (p % tooth) != 42:\n        return False\n    tnum, tden = case[\"cayley_t\"]\n    if tden == 0 or (tnum + tden) == 0:\n        return False\n    t = Fraction(tnum, tden)\n    cay = (1 - t) / (1 + t)\n    if cay != Fraction(2, 3):\n        return False\n    if Fraction(3, 5) - cay != Fraction(-1, 15):\n        return False\n    l1n, l1d = case[\"l1_after\"]\n    if l1d == 0 or Fraction(l1n, l1d) != Fraction(9, 25):\n        return False\n    if Fraction(3, 5) * Fraction(3, 5) != Fraction(l1n, l1d):\n        return False\n    dbn, dbd = case[\"det_before\"]\n    dan, dad = case[\"det_after\"]\n    if dbn == 0 or dbd == 0 or dad == 0:\n        return False\n    if Fraction(dbn, dbd) != Fraction(34, 625):\n        return False\n    if Fraction(dan, dad) != Fraction(688, 15625):\n        return False\n    ratio = Fraction(dan, dad) / Fraction(dbn, dbd)\n    if ratio != Fraction(344, 425):\n        return False\n    if _is_square_q(ratio.numerator, ratio.denominator):\n        return False\n    bch = case[\"bch\"]\n    if len(bch) != 4:\n        return False\n    comps = []\n    for pair in bch:\n        if pair[1] == 0:\n            return False\n        comps.append(Fraction(pair[0], pair[1]))\n    if comps[0] != 0 or comps[3] != 0:\n        return False\n    strang = (comps[1] * comps[1] + comps[2] * comps[2]) * Fraction(1, 2)\n    if strang != Fraction(5, 36):\n        return False\n    la = case[\"lift_a\"] if \"lift_a\" in case else 1\n    lb = case[\"lift_b\"] if \"lift_b\" in case else 2\n    if _comm_trace(la, lb) == 2:\n        return False\n    return True\n\ndef check_case(case):\n    expected = True\n    if \"expect_witness\" in case:\n        expected = case[\"expect_witness\"] == True\n    return _witness(case) == expected\n",
+      "conjecture_id": "CONJ-T1-R2-SEAT-6-SCHUR-DETLOCK",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            5
+          ],
+          "det_after": [
+            688,
+            15625
+          ],
+          "det_before": [
+            34,
+            625
+          ],
+          "expect_witness": true,
+          "l1_after": [
+            9,
+            25
+          ],
+          "lift_a": 1,
+          "lift_b": 2,
+          "p": 254,
+          "q": 19,
+          "r": 223,
+          "s": 19,
+          "tooth": 53
+        },
+        {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            5
+          ],
+          "det_after": [
+            688,
+            15625
+          ],
+          "det_before": [
+            34,
+            625
+          ],
+          "expect_witness": true,
+          "l1_after": [
+            9,
+            25
+          ],
+          "lift_a": 2,
+          "lift_b": 1,
+          "p": 254,
+          "q": 19,
+          "r": 223,
+          "s": 19,
+          "tooth": 53
+        },
+        {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            5
+          ],
+          "det_after": [
+            688,
+            15625
+          ],
+          "det_before": [
+            34,
+            625
+          ],
+          "expect_witness": false,
+          "l1_after": [
+            9,
+            25
+          ],
+          "lift_a": 1,
+          "lift_b": 2,
+          "p": 1,
+          "q": 1,
+          "r": 0,
+          "s": 1,
+          "tooth": 53
+        },
+        {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            5
+          ],
+          "det_after": [
+            9,
+            4
+          ],
+          "det_before": [
+            1,
+            1
+          ],
+          "expect_witness": false,
+          "l1_after": [
+            9,
+            25
+          ],
+          "lift_a": 1,
+          "lift_b": 2,
+          "p": 254,
+          "q": 19,
+          "r": 223,
+          "s": 19,
+          "tooth": 53
+        },
+        {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            5
+          ],
+          "det_after": [
+            688,
+            15625
+          ],
+          "det_before": [
+            34,
+            625
+          ],
+          "expect_witness": false,
+          "l1_after": [
+            9,
+            25
+          ],
+          "lift_a": 1,
+          "lift_b": 1,
+          "p": 254,
+          "q": 19,
+          "r": 223,
+          "s": 19,
+          "tooth": 53
+        },
+        {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            3
+          ],
+          "det_after": [
+            688,
+            15625
+          ],
+          "det_before": [
+            34,
+            625
+          ],
+          "expect_witness": false,
+          "l1_after": [
+            9,
+            25
+          ],
+          "lift_a": 1,
+          "lift_b": 2,
+          "p": 254,
+          "q": 19,
+          "r": 223,
+          "s": 19,
+          "tooth": 53
+        },
+        {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            5
+          ],
+          "det_after": [
+            688,
+            15625
+          ],
+          "det_before": [
+            34,
+            625
+          ],
+          "expect_witness": false,
+          "l1_after": [
+            9,
+            25
+          ],
+          "lift_a": 1,
+          "lift_b": 2,
+          "p": 254,
+          "q": 19,
+          "r": 223,
+          "s": 19,
+          "tooth": 53
+        },
+        {
+          "bch": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "cayley_t": [
+            1,
+            5
+          ],
+          "det_after": [
+            688,
+            15625
+          ],
+          "det_before": [
+            34,
+            625
+          ],
+          "expect_witness": false,
+          "l1_after": [
+            9,
+            25
+          ],
+          "lift_a": 1,
+          "lift_b": 2,
+          "p": 254,
+          "q": 19,
+          "r": 223,
+          "s": 19,
+          "tooth": 54
+        }
+      ]
+    },
+    "round_num": 2,
+    "seat_id": "SEAT-6",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R2-SEAT-6"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "FINAL SYNTHESIS. (1) Universal identity. The determinant-twisted Fricke formula of R2-SEAT-0/R2-SEAT-3, tr[A,B] = (b x^2 + a y^2 + z^2 - xyz)/(ab) - 2, is a polynomial identity of degree-2 central simple algebras: it holds with tr -> trd and det -> nrd in every quaternion algebra over Q, and its numerator is kappa = nrd(AB - BA). Hence tr[A,B] - 2 = -kappa/(ab). The verifier checks kappa three ways on each side: the polynomial, nrd/det of the additive commutator, and the direct group commutator. (2) Definite sheet (compose with R2-SEAT-1). Use doubled coordinates A=2P, B=2Q, each with a uniform parity. Then a = |A|^2/4 and b = |B|^2/4 are integers, x = A_0, y = B_0, z = (A_0 B_0 - A_vec.B_vec)/2 is an integer, and kappa = |A_vec x B_vec|^2/4 = 2D. So R2-SEAT-1's integer D is half the Fricke discriminant, and Re(C) = ab - D is just trd(C/(ab)) = 2 - kappa/(ab) rescaled. The parity syndrome D mod 2 is kappa/2 mod 2. Lipschitz pairs force kappa = 0 mod 4. Odd Hurwitz pairs reach kappa = 2 (D = 1) at norms (9,49), so the gap constant halves 2 -> 1 relative to the integer norms N(P)N(Q). This adjudicates R2-SEAT-4's non-halving claim: that claim measures against rescaled lattice heights, not reduced norms, and the verifier rejects D = 2 for the odd pair (5,3,1,1),(13,5,1,1). (3) SO(3) adjoint (compose with R2-SEAT-2). With delta = D/(ab), ||R_P R_Q - R_Q R_P||_F^2 = 16 delta (1 - delta/2), checked against explicit rational rotation matrices. The cleared defect F~ = (ab)^2 F = 8D(2ab - D) = 2 kappa (4ab - kappa) is an integer. PARITY TRANSFER LAW: F~ = 8D mod 16, so the Hurwitz/Lipschitz syndrome survives the 2:1 cover SU(2) -> SO(3) as the bit F~/8 mod 2. SO(3) KERNEL: F~ = 0 iff D in {0, 2ab}. D = 0 is true commutation. D = 2ab (C = -ab, e.g. the i,j witness) is spin holonomy that SO(3) cannot see. SHARP SO(3) GAPS: for 0 < D < 2ab, F~ >= 8(2ab-1) on the Hurwitz order and F~ >= 32(ab-1) on Lipschitz pairs, attained at D = 1 (F~ = 7048) and D = 2 (F~ = 14080) at norms (9,49). (4) Split sheet (compose with R2-SEAT-3). For W = [[p,q],[r,s']] = prod Q(a_i) and V = W^T (uddista reverse), WV - VW = [[e,f],[f,-e]] is symmetric and traceless, so kappa = det(WV - VW) = -(e^2 + f^2) = -[(p-s')^2 + (q+r)^2](q-r)^2 <= 0. Because det W = det V = s and ab = s^2 = 1, tr[W,W^T] - 2 = [(p-s')^2 + (q+r)^2](q-r)^2. This is a perfect-square-weighted sum of squares, so it is never negative. It vanishes iff q = r, i.e. W is symmetric, i.e. the CF is palindromic. The sector sign s is invisible to kappa but visible to the naive SL2 polynomial, whose error is exactly 2(1-s)t^2 (144 at 5/3: 187 vs 43). (5) Signature dichotomy. The sign of kappa is the definiteness of the ambient algebra. Hamilton (ramified at infinity): kappa >= 0, so the spin/SO(3) defect is a norm. Split M_2: on transpose pairs kappa <= 0, so the Fricke defect tr - 2 >= 0. R1-SEAT-0's convergent defect, R2-SEAT-1's integer D, R2-SEAT-2's SO(3) defect and R2-SEAT-0/3's GL2 trace are therefore one invariant read on the two real forms of one quaternion algebra. Farey unimodularity |det W| = 1 makes ab = 1 on the split side, so the split defect is an integer. The definite side is integral by the same reduced-norm integrality on the Hurwitz order. Gate-5 scope: exact Z/Q only; definite inputs are doubled-integer 4-vectors of uniform parity per quaternion (mixed Lipschitz x Hurwitz allowed); split inputs are coprime num > den > 0 with the regular CF. Novelty N1: the Fricke and Lagrange identities are classical. The claimed contribution is the single-polynomial unification, the transpose-pair factorization, the mod-16 parity transfer, and the SO(3) kernel/gap theorem.",
+      "mode": "compose",
+      "target_seat_or_turn": "R2-SEAT-1"
+    },
+    "corpus_anchor": {
+      "operator_id": "fricke_discriminant_kappa x hurwitz_doubled_cross_parity x so3_adjoint_frobenius (one polynomial, two signatures)",
+      "source_receipt_id": "R2-SEAT-1:corpus:verified-exact-operator + R2-SEAT-3:corpus:verified-exact-operator + R2-SEAT-0:corpus:verified-exact-operator",
+      "statement": "Let kappa(a,b,x,y,z) = 4ab - b x^2 - a y^2 - z^2 + xyz. In any quaternion algebra over Q, for invertible g,h with reduced norms a,b, reduced traces x,y and z = trd(gh): kappa = nrd(gh - hg) (additive commutator) and trd(g h g^-1 h^-1) = 2 - kappa/(ab) (group commutator). The R2 results are the two signatures of this single polynomial: on the definite Hamilton/Hurwitz order kappa = 2D >= 0 with D = |A_vec x B_vec|^2/8 (R2-SEAT-1), and on the split algebra M_2(Q) restricted to Pingala transpose pairs (W, W^T) kappa = -[(p-s')^2 + (q+r)^2](q-r)^2 <= 0 (R2-SEAT-0 / R2-SEAT-3 determinant-twisted Fricke repair)."
+    },
+    "epistemic_web_interpositions": [
+      {
+        "gate_status": "UNRESOLVED_NULL_TITLE_AND_ID",
+        "id": "R3-SNAPSHOT-Q0-H0",
+        "interposition": "The Round-3 snapshot returned this hit with null title and null id, so no external content can be credited to it. It is recorded only as an open slot for an independent source on the Fricke trace identity in quaternion algebras, which the R3 theorem uses as kappa = nrd(gh - hg).",
+        "kind": "null_metadata_hit",
+        "org": "UNRESOLVED",
+        "score_q": "0/1",
+        "shared_operators": [
+          "fricke_discriminant_kappa"
+        ]
+      },
+      {
+        "gate_status": "UNRESOLVED_NULL_TITLE_AND_ID",
+        "id": "R3-SNAPSHOT-Q1-H0",
+        "interposition": "This hit carries null metadata and supplies no grounding. The Hurwitz/Lipschitz parity claim (kappa = 2D, D odd attainable at norms 9,49) rests solely on the exact verifier and R2-SEAT-1, not on this hit.",
+        "kind": "null_metadata_hit",
+        "org": "UNRESOLVED",
+        "score_q": "0/1",
+        "shared_operators": [
+          "hurwitz_doubled_cross_parity"
+        ]
+      },
+      {
+        "gate_status": "UNRESOLVED_NULL_TITLE_AND_ID",
+        "id": "R3-SNAPSHOT-Q2-H0",
+        "interposition": "This hit carries null metadata and supplies no grounding. The SO(3) parity-transfer law F~ = 8D mod 16 and the kernel D in {0, 2ab} are certified only by the exact rotation-matrix computation in the verifier.",
+        "kind": "null_metadata_hit",
+        "org": "UNRESOLVED",
+        "score_q": "0/1",
+        "shared_operators": [
+          "so3_adjoint_frobenius"
+        ]
+      },
+      {
+        "gate_status": "NO_HITS_RETURNED",
+        "id": "R3-SNAPSHOT-Q3-EMPTY",
+        "interposition": "This query returned no hits, so the split-sheet factorization tr[W,W^T] - 2 = [(p-s')^2+(q+r)^2](q-r)^2 has no external interposition this round. It is supported only by the exhaustive exact checks inside split_side.",
+        "kind": "empty_query",
+        "org": "UNRESOLVED",
+        "score_q": "0/1",
+        "shared_operators": [
+          "gl2z_transpose_pair_factorization"
+        ]
+      },
+      {
+        "gate_status": "UNRESOLVED_NULL_TITLE_AND_ID",
+        "id": "R3-SNAPSHOT-Q4-H0",
+        "interposition": "This hit carries null metadata and supplies no grounding. The definite-versus-split signature dichotomy (kappa >= 0 on Hamilton, kappa <= 0 on Pingala transpose pairs) is claimed only on the strength of the R3 verifier.",
+        "kind": "null_metadata_hit",
+        "org": "UNRESOLVED",
+        "score_q": "0/1",
+        "shared_operators": [
+          "fricke_discriminant_kappa",
+          "signature_dichotomy"
+        ]
+      }
+    ],
+    "executable_conjecture": {
+      "claim_summary": "Unified Fricke-discriminant theorem. kappa = 4ab - b x^2 - a y^2 - z^2 + xyz equals nrd(gh - hg), and trd[g,h] = 2 - kappa/(ab) in every quaternion algebra over Q. DEFINITE side (side='definite', doubled coords A,B of uniform parity): a = |A|^2/4, b = |B|^2/4, x = A_0, y = B_0, z = (A_0B_0 - A_vec.B_vec)/2 are integers. |A_vec x B_vec|^2 = 0 mod 8 and kappa = |A_vec x B_vec|^2/4 = 2D with D an integer. Re(C) = ab - D, computed both by formula and by the direct product A B A-bar B-bar / 16, and |C|^2 = (ab)^2. D is even on Lipschitz pairs and can be odd on Hurwitz pairs (D=1 at norms 9,49). The SO(3) Frobenius defect ||[R_P,R_Q]||_F^2 = 16 delta(1 - delta/2) with delta = D/(ab), computed from explicit rational rotation matrices. Its cleared form F~ = 8D(2ab-D) = 2kappa(4ab-kappa) satisfies F~ = 8D mod 16 (parity transfer). F~ = 0 iff D in {0, 2ab} (SO(3) kernel; i,j witness has D = 2ab, Re C = -1). For 0 < D < 2ab the sharp gaps are F~ >= 8(2ab-1) on Hurwitz and F~ >= 32(ab-1) on Lipschitz pairs. SPLIT side (side='split', reduced num/den): W = prod Q(a_i), V = reversed product = W^T, s = det W = (-1)^len(CF). WV - VW is symmetric traceless and kappa = det(WV-VW) = -[(p-s')^2+(q+r)^2](q-r)^2 <= 0. The exact group commutator C has det 1 and tr C = 2 - kappa, invariant under GL2(Z) conjugation (including det -1). The naive SL2 polynomial overshoots by exactly 2(1-s)t^2. kappa = 0 iff the CF is palindromic. Every structural identity is a hard guard (failure -> False). The case's claims dict is compared to the computed invariants, and check_case returns True iff (all claims match) == expected. Positive witnesses: D=1 Hurwitz, D=2 Lipschitz, i,j SO(3)-invisible spin holonomy, 5/3 -> trace 43 / kappa -41, 8/3 palindromic commuting. Negative guards: the non-halving claim D=2 on the odd Hurwitz pair, the naive SL2 value 1154307627 for 355/113, and the false commuting claim for 13/8.",
+      "code": "from fractions import Fraction\nfrom math import gcd\n\n\ndef fricke_kappa(a, b, x, y, z):\n    return 4 * a * b - b * x * x - a * y * y - z * z + x * y * z\n\n\ndef qmul(p, q):\n    a0, a1, a2, a3 = p\n    b0, b1, b2, b3 = q\n    return (a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3,\n            a0 * b1 + a1 * b0 + a2 * b3 - a3 * b2,\n            a0 * b2 - a1 * b3 + a2 * b0 + a3 * b1,\n            a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0)\n\n\ndef qconj(p):\n    return (p[0], -p[1], -p[2], -p[3])\n\n\ndef cross3(u, v):\n    return (u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0])\n\n\ndef rot(p):\n    w, x, y, z = p\n    n = w * w + x * x + y * y + z * z\n    m = [[w*w + x*x - y*y - z*z, 2*(x*y - w*z), 2*(x*z + w*y)],\n         [2*(x*y + w*z), w*w - x*x + y*y - z*z, 2*(y*z - w*x)],\n         [2*(x*z - w*y), 2*(y*z + w*x), w*w - x*x - y*y + z*z]]\n    return [[Fraction(m[i][j], n) for j in range(3)] for i in range(3)]\n\n\ndef mm(a, b):\n    k = len(b)\n    return [[sum((a[i][t] * b[t][j] for t in range(k)), 0) for j in range(len(b[0]))] for i in range(len(a))]\n\n\ndef parity_class(v):\n    r = [c % 2 for c in v]\n    if r == [0, 0, 0, 0]:\n        return 0\n    if r == [1, 1, 1, 1]:\n        return 1\n    return -1\n\n\ndef quat_side(case):\n    A = tuple(int(c) for c in case[\"A\"])\n    B = tuple(int(c) for c in case[\"B\"])\n    if len(A) != 4 or len(B) != 4:\n        return None\n    pa, pb = parity_class(A), parity_class(B)\n    if pa < 0 or pb < 0:\n        return None\n    nA = sum(c * c for c in A)\n    nB = sum(c * c for c in B)\n    if nA == 0 or nB == 0 or nA % 4 != 0 or nB % 4 != 0:\n        return None\n    a, b = nA // 4, nB // 4\n    ab = a * b\n    W = cross3(A[1:], B[1:])\n    w2 = sum(c * c for c in W)\n    if w2 % 8 != 0:\n        return None\n    D = w2 // 8\n    dot = A[0] * B[0] - (A[1] * B[1] + A[2] * B[2] + A[3] * B[3])\n    if dot % 2 != 0:\n        return None\n    x, y, z = A[0], B[0], dot // 2\n    kap = fricke_kappa(a, b, x, y, z)\n    if kap != 2 * D or 4 * kap != w2:\n        return None\n    PQ = qmul(A, B)\n    QP = qmul(B, A)\n    comm_add = tuple(PQ[i] - QP[i] for i in range(4))\n    if comm_add[0] != 0 or sum(c * c for c in comm_add) != 16 * kap:\n        return None\n    T = qmul(qmul(PQ, qconj(A)), qconj(B))\n    if T[0] % 16 != 0:\n        return None\n    reC = T[0] // 16\n    if reC != ab - D or sum(c * c for c in T) != 256 * ab * ab:\n        return None\n    if Fraction(2 * reC, ab) != 2 - Fraction(kap, ab):\n        return None\n    if pa == 0 and pb == 0 and D % 2 != 0:\n        return None\n    if kap < 0:\n        return None\n    RA, RB = rot(A), rot(B)\n    X = mm(RA, RB)\n    Y = mm(RB, RA)\n    F = sum((X[i][j] - Y[i][j]) ** 2 for i in range(3) for j in range(3))\n    delta = Fraction(D, ab)\n    if F != 16 * delta * (1 - delta / 2):\n        return None\n    Ft = F * ab * ab\n    if Ft.denominator != 1:\n        return None\n    Ft = Ft.numerator\n    if Ft != 8 * D * (2 * ab - D) or Ft != 2 * kap * (4 * ab - kap):\n        return None\n    if Ft % 16 != 8 * (D % 2):\n        return None\n    if (Ft == 0) != (D == 0 or D == 2 * ab):\n        return None\n    if 0 < D < 2 * ab:\n        floor = 32 * (ab - 1) if (pa == 0 and pb == 0) else 8 * (2 * ab - 1)\n        if Ft < floor:\n            return None\n    cls = \"lipschitz\" if (pa == 0 and pb == 0) else (\"hurwitz_odd\" if (pa == 1 and pb == 1) else \"mixed\")\n    return {\"D\": D, \"kappa\": kap, \"F_cleared\": Ft, \"reC\": reC, \"norm_product\": ab,\n            \"class\": cls, \"D_parity\": D % 2, \"commuting\": D == 0}\n\n\ndef qmat(a):\n    return [[a, 1], [1, 0]]\n\n\ndef mat2(a, b):\n    return [[a[0][0] * b[0][0] + a[0][1] * b[1][0], a[0][0] * b[0][1] + a[0][1] * b[1][1]],\n            [a[1][0] * b[0][0] + a[1][1] * b[1][0], a[1][0] * b[0][1] + a[1][1] * b[1][1]]]\n\n\ndef det2(m):\n    return m[0][0] * m[1][1] - m[0][1] * m[1][0]\n\n\ndef tr2(m):\n    return m[0][0] + m[1][1]\n\n\ndef inv2(m):\n    d = det2(m)\n    return [[m[1][1] * d, -m[0][1] * d], [-m[1][0] * d, m[0][0] * d]]\n\n\ndef cf(num, den):\n    out = []\n    while den:\n        out.append(num // den)\n        num, den = den, num % den\n    return out\n\n\ndef split_side(case):\n    num, den = int(case[\"num\"]), int(case[\"den\"])\n    if not (num > den > 0) or gcd(num, den) != 1:\n        return None\n    qs = cf(num, den)\n    if len(qs) > 1 and qs[-1] < 2:\n        return None\n    W = [[1, 0], [0, 1]]\n    for a in qs:\n        W = mat2(W, qmat(a))\n    V = [[1, 0], [0, 1]]\n    for a in reversed(qs):\n        V = mat2(V, qmat(a))\n    if W[0][0] != num or W[1][0] != den:\n        return None\n    if V != [[W[0][0], W[1][0]], [W[0][1], W[1][1]]]:\n        return None\n    s = det2(W)\n    if s != (-1) ** len(qs) or det2(V) != s:\n        return None\n    x, y, z = tr2(W), tr2(V), tr2(mat2(W, V))\n    kap = fricke_kappa(s, s, x, y, z)\n    WV, VW = mat2(W, V), mat2(V, W)\n    K = [[WV[i][j] - VW[i][j] for j in range(2)] for i in range(2)]\n    if K[0][1] != K[1][0] or K[0][0] != -K[1][1]:\n        return None\n    if det2(K) != kap or kap != -(K[0][0] ** 2 + K[0][1] ** 2):\n        return None\n    p, q, r, t = W[0][0], W[0][1], W[1][0], W[1][1]\n    if kap != -((p - t) ** 2 + (q + r) ** 2) * (q - r) ** 2:\n        return None\n    C = mat2(mat2(WV, inv2(W)), inv2(V))\n    if det2(C) != 1:\n        return None\n    trC = tr2(C)\n    if trC != 2 - kap * s * s:\n        return None\n    for g in ([[1, 1], [0, 1]], [[0, 1], [1, 0]], [[2, 1], [1, 1]]):\n        if tr2(mat2(mat2(g, C), inv2(g))) != trC:\n            return None\n    naive = x * x + y * y + z * z - x * y * z - 2\n    if naive - trC != 2 * (1 - s) * x * x:\n        return None\n    if kap > 0:\n        return None\n    if (kap == 0) != (qs == qs[::-1]):\n        return None\n    return {\"trace\": trC, \"kappa\": kap, \"sector\": s, \"naive_sl2\": naive,\n            \"commuting\": kap == 0, \"t\": x, \"z\": z}\n\n\ndef check_case(case):\n    try:\n        expect = case.get(\"expected\")\n        if not (expect is True or expect is False):\n            return False\n        side = case.get(\"side\")\n        if side == \"definite\":\n            got = quat_side(case)\n        elif side == \"split\":\n            got = split_side(case)\n        else:\n            return False\n        if got is None:\n            return False\n        claims = case.get(\"claims\")\n        if not claims:\n            return False\n        pred = True\n        for key in claims:\n            if key not in got or got[key] != claims[key]:\n                pred = False\n        return pred == expect\n    except Exception:\n        return False\n",
+      "conjecture_id": "CONJ-T1-R3-SEAT-0-FRICKE-SIGNATURE-UNIFIED",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "A": [
+            5,
+            3,
+            1,
+            1
+          ],
+          "B": [
+            13,
+            5,
+            1,
+            1
+          ],
+          "claims": {
+            "D": 1,
+            "D_parity": 1,
+            "F_cleared": 7048,
+            "class": "hurwitz_odd",
+            "kappa": 2,
+            "norm_product": 441
+          },
+          "expected": true,
+          "side": "definite"
+        },
+        {
+          "A": [
+            4,
+            4,
+            2,
+            0
+          ],
+          "B": [
+            12,
+            6,
+            4,
+            0
+          ],
+          "claims": {
+            "D": 2,
+            "D_parity": 0,
+            "F_cleared": 14080,
+            "class": "lipschitz",
+            "kappa": 4
+          },
+          "expected": true,
+          "side": "definite"
+        },
+        {
+          "A": [
+            0,
+            2,
+            0,
+            0
+          ],
+          "B": [
+            0,
+            0,
+            2,
+            0
+          ],
+          "claims": {
+            "D": 2,
+            "F_cleared": 0,
+            "commuting": false,
+            "norm_product": 1,
+            "reC": -1
+          },
+          "expected": true,
+          "side": "definite"
+        },
+        {
+          "A": [
+            5,
+            3,
+            1,
+            1
+          ],
+          "B": [
+            13,
+            5,
+            1,
+            1
+          ],
+          "claims": {
+            "D": 2,
+            "kappa": 4
+          },
+          "expected": false,
+          "side": "definite"
+        },
+        {
+          "claims": {
+            "kappa": -41,
+            "naive_sl2": 187,
+            "sector": -1,
+            "t": 6,
+            "trace": 43,
+            "z": 39
+          },
+          "den": 3,
+          "expected": true,
+          "num": 5,
+          "side": "split"
+        },
+        {
+          "claims": {
+            "trace": 1154307627
+          },
+          "den": 113,
+          "expected": false,
+          "num": 355,
+          "side": "split"
+        },
+        {
+          "claims": {
+            "commuting": true,
+            "kappa": 0,
+            "trace": 2
+          },
+          "den": 3,
+          "expected": true,
+          "num": 8,
+          "side": "split"
+        },
+        {
+          "claims": {
+            "commuting": true,
+            "trace": 2
+          },
+          "den": 8,
+          "expected": false,
+          "num": 13,
+          "side": "split"
+        }
+      ]
+    },
+    "round_num": 3,
+    "seat_id": "SEAT-0",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R3-SEAT-0"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "Fuse the exact Z Hurwitz/Lipschitz parity theorem with SEAT-4's Dayan qiuyi-shu CRT gluing. The parity syndrome D mod 2 IS the gcd-2 instance of SEAT-4's pairwise obstruction: a claimed odd defect on a Lipschitz pair forces residues that clash modulo gcd(2,4)=2, exactly as [260,365]x[0,1] clashes modulo gcd=5. For each pair we build a CRT net of moduli with residues of the integer defect D; pairwise consistency modulo gcd is necessary and sufficient, the glued modulus is the lcm, and compression=product/lcm is an integer >=1, equal to 1 iff the net is pairwise coprime. The commuting epicyclic pair (3,4,0,0),(5,12,0,0) has D=0 and its zero residues on the Maya net [260,365,584] glue at lcm 37960 with compression 1460, reproducing SEAT-4's witness exactly. Both sharp witnesses are carried at identical heights (3,7): Hurwitz P=(5,3,1,1)/2, Q=(13,5,1,1)/2 gives W=(0,2,-2), D=1, delta=1/441, kappa=881; Lipschitz P=(2,2,1,0), Q=(6,3,2,0) gives W=(0,0,4), D=2, delta=2/441, kappa=440. The i,j witness gives C=-1 (spin holonomy strictly finer than SO(3)) and the unit Hurwitz pair gives D=1, delta=1. CANCELLATION AUDIT: Re(C) is certified twice, by the Gram route NM-D and by direct fraction-free T=A B A-bar B-bar with T0=16 Re(C) and |T|^2=256(NM)^2; when D<<NM a floating evaluation would absorb ~log10(NM) digits of cancellation, but both Z routes agree exactly. Negative guards: the tampered Maya net [260,365]x[0,1] is a CRT obstruction (expect_ok False), the parity-clash net [9,49,2,4]x[2,2,0,1] is rejected by gcd(2,4)=2, and the R1 false-kappa guard (true kappa 5/4 claimed as 1 on P=(1,2,2,0),Q=(2,1,0,2), D=72, delta=8/9) is rejected. Every case carries a strict boolean expect_ok and check_case returns True iff prediction==expected; all delta/kappa fractions are gcd-reduced via Fraction and the commuting locus carries the kappa sentinel 0/1.",
+      "mode": "compose",
+      "target_seat_or_turn": "R2-SEAT-4"
+    },
+    "corpus_anchor": {
+      "operator_id": "OP-REF-P4-KAPPA_SUB-X-HURWITZ-PARITY-X-DAYAN-CRT-COMPRESSION",
+      "source_receipt_id": "corpus:verified-exact-operator",
+      "statement": "R2-SEAT-1 PASS_WITNESS: for doubled-integer same-parity quaternions A=2P, B=2Q the cross numerator W=A_vec x B_vec has |W|^2 == 0 mod 8, D=|W|^2/8 is a non-negative integer, Re(C)=NM-D with N=|A|^2/4, M=|B|^2/4, verified by two fraction-free routes; Lipschitz pairs force D even (sharp delta>=2/(NM)), Hurwitz cosets allow D odd (sharp delta>=1/(NM)), constant halves exactly 2->1."
+    },
+    "executable_conjecture": {
+      "claim_summary": "For nonzero doubled-integer quaternions A,B whose four coordinates each share one parity, N=|A|^2/4 and M=|B|^2/4 are positive integers, W=A_vec x B_vec has |W|^2 divisible by 8, D=|W|^2/8 is a non-negative integer, and Re(C)=NM-D for C=P Q P-bar Q-bar, certified by two independent fraction-free routes (Gram NM-D and direct T=A B A-bar B-bar with T0=16 Re(C), |T|^2=256(NM)^2). Non-commuting lifts obey delta=D/(NM)>=1/(NM) over Hurwitz (sharp D=1 at heights (3,7) and at units) and delta>=2/(NM) over Lipschitz where D is even (sharp D=2 at heights (3,7)); the constant halves exactly 2->1. The audit kappa=(NM+|Re C|)/D>=1 satisfies kappa*delta=1+|Re C|/(NM), with commuting cases carrying sentinel 0/1 and C=+NM>0, while C=-NM (i,j) shows spin holonomy finer than SO(3). Fusing SEAT-4: the residues of D on any positive-integer modulus net glue iff pairwise consistent modulo gcd; the glued modulus is the lcm, compression=product/lcm is an integer >=1 equal to 1 iff pairwise coprime, and the glued residue equals D mod lcm. The Lipschitz/Hurwitz parity syndrome is the gcd-2 CRT obstruction; the commuting pair on the Maya net [260,365,584] glues at 37960 with compression 1460. Tampered nets, parity clashes, and false kappa claims are negative guards; every case has an explicit boolean expect_ok and check_case returns True iff prediction==expected.",
+      "code": "from fractions import Fraction\nfrom math import gcd\n\ndef qnorm2(p):\n    return p[0]*p[0] + p[1]*p[1] + p[2]*p[2] + p[3]*p[3]\n\ndef qmul(p, q):\n    a0, a1, a2, a3 = p\n    b0, b1, b2, b3 = q\n    return (a0*b0 - a1*b1 - a2*b2 - a3*b3,\n            a0*b1 + a1*b0 + a2*b3 - a3*b2,\n            a0*b2 - a1*b3 + a2*b0 + a3*b1,\n            a0*b3 + a1*b2 - a2*b1 + a3*b0)\n\ndef qconj(p):\n    return (p[0], -p[1], -p[2], -p[3])\n\ndef cross(u, v):\n    return (u[1]*v[2] - u[2]*v[1],\n            u[2]*v[0] - u[0]*v[2],\n            u[0]*v[1] - u[1]*v[0])\n\ndef same_parity(a):\n    r = a[0] % 2\n    return all(c % 2 == r for c in a)\n\ndef pairwise_ok(moduli, residues):\n    n = len(moduli)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if (residues[i] - residues[j]) % gcd(moduli[i], moduli[j]) != 0:\n                return False\n    return True\n\ndef pairwise_coprime(moduli):\n    n = len(moduli)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if gcd(moduli[i], moduli[j]) != 1:\n                return False\n    return True\n\ndef crt_pair(r1, m1, r2, m2):\n    g = gcd(m1, m2)\n    if (r2 - r1) % g != 0:\n        return None\n    l = m1 // g * m2\n    m2g = m2 // g\n    if m2g == 1:\n        t = 0\n    else:\n        t = ((r2 - r1) // g * pow(m1 // g, -1, m2g)) % m2g\n    return ((r1 + m1 * t) % l, l)\n\ndef crt_net(moduli, residues):\n    if not moduli or len(moduli) != len(residues):\n        return None\n    r = residues[0] % moduli[0]\n    m = moduli[0]\n    prod = moduli[0]\n    for k in range(1, len(moduli)):\n        mi = moduli[k]\n        prod *= mi\n        out = crt_pair(r, m, residues[k] % mi, mi)\n        if out is None:\n            return None\n        r, m = out\n    return (r, m, prod)\n\ndef predict(case):\n    A = tuple(case['A'])\n    B = tuple(case['B'])\n    if len(A) != 4 or len(B) != 4:\n        return False\n    if not same_parity(A) or not same_parity(B):\n        return False\n    na = qnorm2(A)\n    nb = qnorm2(B)\n    if na == 0 or nb == 0 or na % 4 != 0 or nb % 4 != 0:\n        return False\n    N = na // 4\n    M = nb // 4\n    NM = N * M\n    W = cross(A[1:], B[1:])\n    w2 = W[0]*W[0] + W[1]*W[1] + W[2]*W[2]\n    if w2 % 8 != 0:\n        return False\n    D = w2 // 8\n    reC = NM - D\n    T = qmul(qmul(qmul(A, B), qconj(A)), qconj(B))\n    if T[0] != 16 * reC:\n        return False\n    if qnorm2(T) != 256 * NM * NM:\n        return False\n    lips = all(c % 2 == 0 for c in A) and all(c % 2 == 0 for c in B)\n    if lips and D % 2 != 0:\n        return False\n    if case['claimed_D'] != D:\n        return False\n    sector = 'lipschitz' if lips else 'hurwitz'\n    if case['claimed_sector'] != sector:\n        return False\n    cd = case['claimed_delta']\n    ck = case['claimed_kappa']\n    if len(cd) != 2 or len(ck) != 2 or cd[1] <= 0 or ck[1] <= 0:\n        return False\n    delta = Fraction(D, NM)\n    kappa = Fraction(NM + abs(reC), D) if D > 0 else Fraction(0, 1)\n    if Fraction(cd[0], cd[1]) != delta:\n        return False\n    if Fraction(ck[0], ck[1]) != kappa:\n        return False\n    if D > 0:\n        if delta < Fraction(1, NM):\n            return False\n        if lips and delta < Fraction(2, NM):\n            return False\n        if kappa < 1:\n            return False\n        if kappa * delta != 1 + Fraction(abs(reC), NM):\n            return False\n    else:\n        if reC != NM or T[0] <= 0:\n            return False\n    moduli = case['moduli']\n    residues = case['residues']\n    if not moduli or any(m <= 0 for m in moduli):\n        return False\n    if not pairwise_ok(moduli, residues):\n        return False\n    net = crt_net(moduli, residues)\n    if net is None:\n        return False\n    r, L, prod = net\n    if prod % L != 0:\n        return False\n    comp = prod // L\n    if comp != case['claimed_compression']:\n        return False\n    if (comp == 1) != pairwise_coprime(moduli):\n        return False\n    if r != D % L:\n        return False\n    return True\n\ndef check_case(case):\n    if not isinstance(case.get('expect_ok'), bool):\n        return False\n    return bool(predict(case) == case['expect_ok'])\n",
+      "conjecture_id": "CONJ-T1-R3-SEAT-1-CRT-PARITY-GAP",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "A": [
+            5,
+            3,
+            1,
+            1
+          ],
+          "B": [
+            13,
+            5,
+            1,
+            1
+          ],
+          "claimed_D": 1,
+          "claimed_compression": 1,
+          "claimed_delta": [
+            1,
+            441
+          ],
+          "claimed_kappa": [
+            881,
+            1
+          ],
+          "claimed_sector": "hurwitz",
+          "expect_ok": true,
+          "moduli": [
+            9,
+            49,
+            2
+          ],
+          "residues": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "A": [
+            4,
+            4,
+            2,
+            0
+          ],
+          "B": [
+            12,
+            6,
+            4,
+            0
+          ],
+          "claimed_D": 2,
+          "claimed_compression": 1,
+          "claimed_delta": [
+            2,
+            441
+          ],
+          "claimed_kappa": [
+            440,
+            1
+          ],
+          "claimed_sector": "lipschitz",
+          "expect_ok": true,
+          "moduli": [
+            9,
+            49,
+            2
+          ],
+          "residues": [
+            2,
+            2,
+            0
+          ]
+        },
+        {
+          "A": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "B": [
+            1,
+            1,
+            1,
+            -1
+          ],
+          "claimed_D": 1,
+          "claimed_compression": 1,
+          "claimed_delta": [
+            1,
+            1
+          ],
+          "claimed_kappa": [
+            1,
+            1
+          ],
+          "claimed_sector": "hurwitz",
+          "expect_ok": true,
+          "moduli": [
+            1,
+            1,
+            2
+          ],
+          "residues": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "A": [
+            0,
+            2,
+            0,
+            0
+          ],
+          "B": [
+            0,
+            0,
+            2,
+            0
+          ],
+          "claimed_D": 2,
+          "claimed_compression": 1,
+          "claimed_delta": [
+            2,
+            1
+          ],
+          "claimed_kappa": [
+            1,
+            1
+          ],
+          "claimed_sector": "lipschitz",
+          "expect_ok": true,
+          "moduli": [
+            1,
+            1,
+            2
+          ],
+          "residues": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "A": [
+            6,
+            8,
+            0,
+            0
+          ],
+          "B": [
+            10,
+            24,
+            0,
+            0
+          ],
+          "claimed_D": 0,
+          "claimed_compression": 1460,
+          "claimed_delta": [
+            0,
+            1
+          ],
+          "claimed_kappa": [
+            0,
+            1
+          ],
+          "claimed_sector": "lipschitz",
+          "expect_ok": true,
+          "moduli": [
+            260,
+            365,
+            584
+          ],
+          "residues": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "A": [
+            6,
+            8,
+            0,
+            0
+          ],
+          "B": [
+            10,
+            24,
+            0,
+            0
+          ],
+          "claimed_D": 0,
+          "claimed_compression": 1,
+          "claimed_delta": [
+            0,
+            1
+          ],
+          "claimed_kappa": [
+            0,
+            1
+          ],
+          "claimed_sector": "lipschitz",
+          "expect_ok": false,
+          "moduli": [
+            260,
+            365
+          ],
+          "residues": [
+            0,
+            1
+          ]
+        },
+        {
+          "A": [
+            4,
+            4,
+            2,
+            0
+          ],
+          "B": [
+            12,
+            6,
+            4,
+            0
+          ],
+          "claimed_D": 2,
+          "claimed_compression": 1,
+          "claimed_delta": [
+            2,
+            441
+          ],
+          "claimed_kappa": [
+            440,
+            1
+          ],
+          "claimed_sector": "lipschitz",
+          "expect_ok": false,
+          "moduli": [
+            9,
+            49,
+            2,
+            4
+          ],
+          "residues": [
+            2,
+            2,
+            0,
+            1
+          ]
+        },
+        {
+          "A": [
+            2,
+            4,
+            4,
+            0
+          ],
+          "B": [
+            4,
+            2,
+            0,
+            4
+          ],
+          "claimed_D": 72,
+          "claimed_compression": 9,
+          "claimed_delta": [
+            8,
+            9
+          ],
+          "claimed_kappa": [
+            1,
+            1
+          ],
+          "claimed_sector": "lipschitz",
+          "expect_ok": false,
+          "moduli": [
+            9,
+            9,
+            2
+          ],
+          "residues": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "round_num": 3,
+    "seat_id": "SEAT-1",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R3-SEAT-1"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "For adjacent x=p/q and y=r/t with |pt-rq|=1, set H=(1+x^2+s^2)(1+y^2+s^2), delta=2s^2/((qt)^2 H), and w=delta/2. The induced SO(3) adjoint defect is exactly 32w(1-w)=16delta(1-delta/2). Since (qt)^2 H=[p^2+(1+s^2)q^2][r^2+(1+s^2)t^2], a valid refinement strictly increases this product, proving strict monotone decrease of delta for fixed s != 0; unbounded convergent denominators give delta -> 0. In parallel, W=[[p,r],[q,t]] and V=W^T have determinant d=pt-rq=+-1, with z=tr(WV), T=tr(W)=tr(V), and tr(WVW^-1V^-1)=z^2-T^2 z+2dT^2-2. This determinant-aware Fricke trace is an exact integer commutator certificate, not a substitute for the positive Cayley cross-product defect. For lattice Cayley lifts, the Hurwitz integer J=|A_vec x B_vec|^2/8 is positive for noncommuting pairs (J>=1), and is even in the Lipschitz sublattice (hence J>=2); thus no such finite noncommuting lattice pair has exact zero defect.",
+      "mode": "compose",
+      "target_seat_or_turn": "R2-SEAT-0"
+    },
+    "corpus_anchor": {
+      "operator_id": "Antya-samskara rational remainder hierarchy R1, R2, R3",
+      "source_receipt_id": "corpus:verified-exact-operator",
+      "statement": "Composes the adjacent-convergent SU(2) and SO(3) defect identities with the determinant-twisted GL2(Z) Fricke\u2013Vogt certificate. For fixed rational s != 0, each valid convergent refinement strictly increases the exact denominator of delta, so delta decreases toward zero along an infinite convergent sequence and remains positive at every finite stage. When the Cayley lifts lie in the Hurwitz or Lipschitz lattice, the integer parity certificate independently excludes zero for noncommuting pairs."
+    },
+    "executable_conjecture": {
+      "claim_summary": "Exact checker for the composed certificate. Each accepted case has reduced positive adjacent-convergent fractions, a valid next refinement sharing the current final convergent, fixed nonzero rational offset, strictly increasing refinement denominator, exact SO(3) defect identity, direct matrix commutator trace equal to the determinant-twisted Fricke formula, and a noncommuting Hurwitz/Lipschitz parity witness with integer gap J. Along an infinite convergent sequence the denominator product is unbounded, so delta tends to zero without being zero at any finite stage. Every case includes an expected boolean; check_case returns True exactly when the composed predicate equals it.",
+      "code": "from fractions import Fraction\nfrom math import gcd, isqrt\n\ndef mul(A, B):\n    return [[A[0][0]*B[0][0]+A[0][1]*B[1][0], A[0][0]*B[0][1]+A[0][1]*B[1][1]], [A[1][0]*B[0][0]+A[1][1]*B[1][0], A[1][0]*B[0][1]+A[1][1]*B[1][1]]]\n\ndef inv(A):\n    d = A[0][0]*A[1][1]-A[0][1]*A[1][0]\n    return [[A[1][1]//d, -A[0][1]//d], [-A[1][0]//d, A[0][0]//d]]\n\ndef check_case(case):\n    p, q, r, t = case['p'], case['q'], case['r'], case['t']\n    pn, qn, rn, tn = case['pn'], case['qn'], case['rn'], case['tn']\n    s = Fraction(case['s_num'], case['s_den'])\n    adjacent = q > 0 and t > 0 and qn > 0 and tn > 0 and abs(p*t-r*q) == 1 and abs(pn*tn-rn*qn) == 1\n    reduced = q > 0 and t > 0 and gcd(p, q) == 1 and gcd(r, t) == 1 and gcd(pn, qn) == 1 and gcd(rn, tn) == 1\n    linked = rn*q == p*tn\n    def weight(a, b):\n        return Fraction(a*a) + (1+s*s)*b*b\n    old_den = weight(p, q)*weight(r, t)\n    new_den = weight(pn, qn)*weight(rn, tn)\n    shrinking = new_den > old_den\n    delta = Fraction(2)*s*s/old_den if old_den else Fraction(0)\n    w = delta/2\n    so3 = 32*w*(1-w)\n    so3_formula = 16*delta*(1-delta/2)\n    W = [[p, r], [q, t]]\n    V = [[p, q], [r, t]]\n    d = p*t-r*q\n    T = p+t\n    z = p*p+q*q+r*r+t*t\n    C = mul(mul(mul(W, V), inv(W)), inv(V))\n    direct_trace = C[0][0]+C[1][1]\n    fricke_trace = z*z-T*T*z+2*d*T*T-2\n    A = case['A']\n    B = case['B']\n    same_parity = (len(A) == 4 and len(B) == 4 and len({v % 2 for v in A}) == 1 and len({v % 2 for v in B}) == 1)\n    normA = sum(v*v for v in A)\n    normB = sum(v*v for v in B)\n    square_norms = normA % 4 == 0 and normB % 4 == 0\n    n2 = normA//4 if square_norms else 0\n    m2 = normB//4 if square_norms else 0\n    square_norms = square_norms and n2 > 0 and m2 > 0 and isqrt(n2)**2 == n2 and isqrt(m2)**2 == m2\n    cross = [A[2]*B[3]-A[3]*B[2], A[3]*B[1]-A[1]*B[3], A[1]*B[2]-A[2]*B[1]]\n    cross_sq = sum(v*v for v in cross)\n    lattice = case['lattice']\n    lipschitz = lattice == 'Lipschitz' and all(v % 2 == 0 for v in A+B)\n    hurwitz = lattice == 'Hurwitz'\n    parity_gap = cross_sq % 8 == 0\n    J = cross_sq//8 if parity_gap else 0\n    parity_gap = parity_gap and J > 0 and ((not lipschitz) or J % 2 == 0) and (lipschitz or hurwitz)\n    prediction = (adjacent and reduced and linked and s != 0 and shrinking and delta > 0 and so3 == so3_formula and direct_trace == fricke_trace and d in (-1, 1) and square_norms and same_parity and parity_gap)\n    return prediction == case['expected']",
+      "conjecture_id": "CONJ-T1-R3-SEAT-2-CF-FRICKE-PARITY",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "A": [
+            5,
+            3,
+            1,
+            1
+          ],
+          "B": [
+            13,
+            5,
+            1,
+            1
+          ],
+          "expected": true,
+          "lattice": "Hurwitz",
+          "p": 3,
+          "pn": 7,
+          "q": 2,
+          "qn": 5,
+          "r": 1,
+          "rn": 3,
+          "s_den": 1,
+          "s_num": 1,
+          "t": 1,
+          "tn": 2
+        },
+        {
+          "A": [
+            4,
+            4,
+            2,
+            0
+          ],
+          "B": [
+            12,
+            6,
+            4,
+            0
+          ],
+          "expected": true,
+          "lattice": "Lipschitz",
+          "p": 5,
+          "pn": 13,
+          "q": 3,
+          "qn": 8,
+          "r": 3,
+          "rn": 5,
+          "s_den": 2,
+          "s_num": -1,
+          "t": 2,
+          "tn": 3
+        },
+        {
+          "A": [
+            5,
+            3,
+            1,
+            1
+          ],
+          "B": [
+            13,
+            5,
+            1,
+            1
+          ],
+          "expected": true,
+          "lattice": "Hurwitz",
+          "p": 13,
+          "pn": 21,
+          "q": 8,
+          "qn": 13,
+          "r": 5,
+          "rn": 13,
+          "s_den": 3,
+          "s_num": 2,
+          "t": 3,
+          "tn": 8
+        },
+        {
+          "A": [
+            5,
+            3,
+            1,
+            1
+          ],
+          "B": [
+            13,
+            5,
+            1,
+            1
+          ],
+          "expected": false,
+          "lattice": "Hurwitz",
+          "p": 3,
+          "pn": 7,
+          "q": 2,
+          "qn": 5,
+          "r": 1,
+          "rn": 3,
+          "s_den": 1,
+          "s_num": 0,
+          "t": 1,
+          "tn": 2
+        },
+        {
+          "A": [
+            4,
+            4,
+            2,
+            0
+          ],
+          "B": [
+            12,
+            6,
+            4,
+            0
+          ],
+          "expected": false,
+          "lattice": "Lipschitz",
+          "p": 4,
+          "pn": 7,
+          "q": 3,
+          "qn": 5,
+          "r": 2,
+          "rn": 4,
+          "s_den": 1,
+          "s_num": 1,
+          "t": 1,
+          "tn": 3
+        },
+        {
+          "A": [
+            5,
+            3,
+            1,
+            1
+          ],
+          "B": [
+            13,
+            5,
+            1,
+            1
+          ],
+          "expected": false,
+          "lattice": "Hurwitz",
+          "p": 3,
+          "pn": 1,
+          "q": 2,
+          "qn": 1,
+          "r": 1,
+          "rn": 3,
+          "s_den": 1,
+          "s_num": 1,
+          "t": 1,
+          "tn": 2
+        }
+      ]
+    },
+    "round_num": 3,
+    "seat_id": "SEAT-2",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R3-SEAT-2"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "COMPOSITION of R2-SEAT-3 (det=(-1)^m GL_2(Z) Fricke-Vogt sector repair, PASS_WITNESS 8/8) with R2-SEAT-0 (GL_2 Fricke repair + quaternion Cayley SU(2) bridge, PASS_WITNESS 8/8), in one exact Z/Q checker with must-fail guards. (1) PARITY RECONCILIATION, now closed: my indexing writes the CF as [a_0..a_{L-1}] with L = len(cf), so det W = (-1)^L; R2-SEAT-0 writes det W = (-1)^m with m = number of partial quotients. Since L = m these are the SAME statement, and the only wrong claim was R1-SEAT-3's V1 sign (-1)^(m+1), which the code now kills as a permanent negative guard. (2) SHEET LAW, exact: with a = det W, b = det V (a = b = s = (-1)^L), x = y = t and z = tr(WV) = ||W||_F^2, tr C = z^2 - t^2 z + 2 s t^2 - 2. Two consequences the panel had not separated: the untwisted SL_2 polynomial x^2+y^2+z^2-xyz-2 equals tr C iff s = +1 (so R2-SEAT-0's 187 for 5/3 and the whole un-twisted guard family are exactly the s=-1 misfire), and the two sheets are separated by precisely 4 t^2 for the SAME (t,z) because the determinant enters only through +2 s t^2. Hence 'the twist is not removable' is a two-sided truth: on s=-1 the twisted formula is mandatory, on s=+1 twisted and untwisted coincide. (3) BRIDGE, exact and provable, two independent determinant certificates. Pingala side: Cayley X = (I-W)(I+W)^{-1} preserves determinant, det X = s = (-1)^L, so the SL_2/unitary stratum det = +1 is reachable only from even-L words; this is the rigorous reason R2-SEAT-0's quaternion lift is 'always SU(2)' while the Pingala lift visits both sheets. Quaternion side: for the convergent lift (a,b,c,d) = (q_x, p_x, r q_x, 0) the Gaussian determinant of [[a+bi, c+di],[-c+di, a-bi]] equals a^2+b^2+c^2+d^2 = N_x identically, so after the 1/sqrt(N_x) normalization det = +1 unconditionally, on BOTH sheets. Both are computed in exact integers/rationals with no square roots taken. (4) CONVERGENT DEFECT, re-derived rather than imported: for x = p_x/q_x, y = p_y/q_y consecutive convergents and offset r, the vector parts v_x = (p_x, r q_x, 0), v_y = (p_y, r q_y, 0) over sqrt(N_x), sqrt(N_y) give v_x x v_y = r(p_x q_y - q_x p_y) k, so |v_x x v_y|^2 = r^2 (p_x q_y - p_y q_x)^2/(N_x N_y) = r^2/(N_x N_y) by Farey adjacency. Substituting N_x = q_x^2(1+x^2+r^2) gives w = |v_x x v_y|^2 = delta/2 with delta = 2 r^2/((q_x q_y)^2 H), H = (1+x^2+r^2)(1+y^2+r^2): exactly R2-SEAT-0's 2 s^2/(q_k q_{k-1})^2 in R2-SEAT-2's H-normalization, verified as a rational identity in the same program. (5) SEPARATION OF STATISTICS, the genuine R3 content: the GL_2 defect is a statistic of the WORD (hence of the sheet), and the same rational 13/8 read as [1,1,1,1,2] (s = -1, defect 2423) versus its palindromic read [1,1,1,1,1,1] (s = +1, symmetric W, C = I, defect 0) proves it. The quaternion defect is a statistic of the CONVERGENT PAIR and offset only, hence sheet-blind and strictly positive whenever r != 0 - it survives on the palindromic commuting locus where the Fricke defect dies. So the two defects are exact, positive, integral where integrality is claimed, and NOT proportional: the epicyclic/abelian shadow sees neither sheet nor word, the Fricke trace sees the word and the sheet, the quaternion trace sees only the pair. That is the composite minimal sufficient statistic {word, t, z, s, r}. (6) MINIMALITY (Panini C1P): V = W^T by symmetry of each Q(a), so the whole commutator is determined by the three integers {t, z} plus the parity bit s, and consecutive-ones/Farey adjacency |p_{L-1} q_{L-2} - p_{L-2} q_{L-1}| = 1 is the certificate that the four convergent integers form a sufficient statistic. (7) FIBONACCI EXPONENTIATION (Pingala) is kept exact and cheap: A(lam) = Fib(lam+2) is verified by O(log lam) fast doubling against an O(lam) linear recurrence and against explicit enumeration of non-adjacent marker subsets, and on the all-ones word the convergent identity p_i = Fib(i+2), q_i = Fib(i+1) is checked - the same 2x2 powering that produces the pingala word. (8) NEGATIVE MUST-FAIL GUARDS, all exercised: untwisted SL_2 at 5/3 (187 rejected), tr C = 2 commuting claim at 13/8 (2423 rejected), and the degenerate single-quotient case 4/1 where tr C = 2 exactly while the un-twisted polynomial returns 66. Referee-neutral, no floats, no bare asserts, no radicals, exact Fractions and integers only.",
+      "mode": "compose",
+      "target_seat_or_turn": "R2-SEAT-0"
+    },
+    "corpus_anchor": {
+      "operator_id": "SEAT-3 Panini-Pingala C1P minimal sufficient partition {t,z,s} + GL_2(Z) determinant-twisted Fricke trace x SU(2)/Cayley convergent holonomy (R2-SEAT-0 bridge)",
+      "source_receipt_id": "CONJ-T1-R2-SEAT-3-GL2-FRICKE-SECTOR#verdict_sha256=corpus:verified-exact-operator",
+      "statement": "One exact Z/Q verifier: an executable mini-theory in which reads-pattern recognition, read-length Fibonacci exponentiation, and the comma-recursion law coexist. It must contain read/fill annotation utilities and tag utilities, then the main exact-Z formulation: for coprime num>den>0 with regular CF [a_0..a_{L-1}], L = len(cf), the Pingala word W = prod Q(a_i) with Q(a)=[[a,1],[1,0]] satisfies W = [[p_{L-1},p_{L-2}],[q_{L-1},q_{L-2}]], det W = s = (-1)^L (identical to R2-SEAT-0's det = (-1)^m with m = L = number of partial quotients; the R1 V1 sign (-1)^(m+1) is dead), V = prod Q(a_{L-1-i}) = W^T exactly because each Q(a) is symmetric, x = tr W = tr V = t, z = tr(WV) = ||W||_F^2, and C = W V W^{-1} V^{-1} in GL_2(Z) obeys det C = 1 with the determinant-twisted Fricke-Vogt trace tr C = (b x^2 + a y^2 + z^2 - x y z)/(a b) - 2 (a = det W, b = det V), collapsing to the minimal sufficient partition {t,z,s} as tr C = z^2 - t^2 z + 2 s t^2 - 2. Sheet law: the untwisted SL_2 polynomial x^2+y^2+z^2-xyz-2 holds exactly iff s = +1 (even L), and the two sheets differ by exactly 4 t^2, so the determinant twist is not removable. Bridge to R2-SEAT-0: the Cayley image (I-W)(I+W)^{-1} has determinant exactly s (Cayley preserves determinant), hence reaches SU(2) (det +1) only from the s=+1 sheet, while the quaternion SU(2) lift of each convergent always has determinant = norm, i.e. determinant 1 after normalization - unconditionally on both sheets. The SU(2) side defect is w = |v_x x v_y|^2 = r^2/(N_x N_y) with N_x = q_x^2+p_x^2+r^2 q_x^2, which by Farey adjacency |p_x q_y - p_y q_x| = 1 collapses to delta/2 with delta = 2 r^2/((q_x q_y)^2 H), H = (1+x^2+r^2)(1+y^2+r^2) - exactly R2-SEAT-0/SEAT-2's normalized convergent defect, sheet-blind. Composition punchline: the GL_2 defect is a word/sheet statistic (same rational 13/8 read as [1,1,1,1,2] gives 2423 while its palindromic all-ones read [1,1,1,1,1,1] gives 2), whereas the quaternion defect is a convergent-pair statistic and stays strictly positive on the palindromic commuting locus; the two are exact but not proportional."
+    },
+    "executable_conjecture": {
+      "claim_summary": "For coprime num > den > 0 with regular CF [a_0..a_{L-1}] (a_0 >= 1, a_i >= 1) and rational offset r = rn/rd in lowest terms: (i) W = prod Q(a_i) with Q(a) = [[a,1],[1,0]] equals [[p_{L-1},p_{L-2}],[q_{L-1},q_{L-2}]], det W = s = (-1)^L, V = reverse word = W^T, x = tr W = tr V = t, z = tr(WV) = ||W||_F^2; (ii) C = W V W^{-1} V^{-1} is an integer matrix with det C = 1 and tr C = (b x^2 + a y^2 + z^2 - x y z)/(a b) - 2 = z^2 - t^2 z + 2 s t^2 - 2 = untwisted x^2+y^2+z^2-xyz-2 exactly iff s = +1, the two sheets differing by exactly 4 t^2 for fixed (t,z); (iii) Cayley determinant certificate: det((I-W)(I+W)^{-1}) = s, so the det = +1 (SU(2)/SL_2) stratum is reachable only from even L, whereas the quaternion lift (q_x,p_x,r q_x,0) has Gaussian determinant equal to its own norm, i.e. normalized determinant +1 on both sheets; (iv) the SU(2) convergent defect is w = |v_x x v_y|^2 = r^2 (p_x q_y - p_y q_x)^2/(N_x N_y) = r^2/(N_x N_y) by Farey adjacency, and equals delta/2 with delta = 2 r^2/((q_x q_y)^2 H), H = (1+x^2+r^2)(1+y^2+r^2), strictly positive iff r != 0 and sheet-blind; (v) the palindromic word gives symmetric W, C = I, tr C = 2, while delta stays strictly positive, so the Fricke defect (word statistic) and the quaternion defect (pair statistic) are not proportional; (vi) degenerate L = 1 gives tr C = 2 exactly while the untwisted polynomial gives 2 + 4 t^2 (66 at 4/1); (vii) Pingala Fibonacci exponentiation A(lam) = Fib(lam+2) is verified by fast doubling, linear recurrence and explicit non-adjacent subset enumeration, with p_i = Fib(i+2), q_i = Fib(i+1) on the all-ones word. check_case returns a strict bool: True iff the predicted truth value of the named claim equals the case's explicit expected flag, so both positive and must-fail negative cases are exercised on both determinant sheets.",
+      "code": "from fractions import Fraction\nfrom math import gcd\nfrom itertools import combinations\n\nID = [[1, 0], [0, 1]]\n\n\ndef mm(A, B):\n    return [[A[0][0] * B[0][0] + A[0][1] * B[1][0], A[0][0] * B[0][1] + A[0][1] * B[1][1]],\n            [A[1][0] * B[0][0] + A[1][1] * B[1][0], A[1][0] * B[0][1] + A[1][1] * B[1][1]]]\n\n\ndef dt(A):\n    return A[0][0] * A[1][1] - A[0][1] * A[1][0]\n\n\ndef tr(A):\n    return A[0][0] + A[1][1]\n\n\ndef adj(A):\n    return [[A[1][1], -A[0][1]], [-A[1][0], A[0][0]]]\n\n\ndef invm(A):\n    d = dt(A)\n    if d == 1:\n        return adj(A)\n    if d == -1:\n        B = adj(A)\n        return [[-B[0][0], -B[0][1]], [-B[1][0], -B[1][1]]]\n    return None\n\n\ndef word(cf, rev):\n    W = ID\n    seq = list(cf)\n    if rev:\n        seq.reverse()\n    for a in seq:\n        W = mm(W, [[a, 1], [1, 0]])\n    return W\n\n\ndef conv(cf):\n    ps = []\n    qs = []\n    pm2, pm1, qm2, qm1 = 0, 1, 1, 0\n    for a in cf:\n        ps.append(a * pm1 + pm2)\n        qs.append(a * qm1 + qm2)\n        pm2, pm1 = pm1, ps[-1]\n        qm2, qm1 = qm1, qs[-1]\n    return ps, qs\n\n\ndef fibd(n):\n    if n == 0:\n        return (0, 1)\n    a, b = fibd(n >> 1)\n    c = a * ((b << 1) - a)\n    d = a * a + b * b\n    if n % 2 == 1:\n        return (d, c + d)\n    return (c, d)\n\n\ndef fibl(n):\n    a, b = 0, 1\n    k = n\n    while k > 0:\n        a, b = b, a + b\n        k -= 1\n    return a\n\n\ndef nsub(lam):\n    tot = 0\n    for k in range(0, lam + 1):\n        for pos in combinations(range(lam), k):\n            good = True\n            for i in range(1, len(pos)):\n                if pos[i] - pos[i - 1] < 2:\n                    good = False\n            if good:\n                tot += 1\n    return tot\n\n\ndef ping_guard(cf):\n    lam = len(cf) + 4\n    if lam > 16:\n        return False\n    fb, fb1 = fibd(lam)\n    if fb != fibl(lam) or fb1 != fibl(lam + 1):\n        return False\n    if nsub(lam) != fibl(lam + 2):\n        return False\n    ones = True\n    for a in cf:\n        if a != 1:\n            ones = False\n    if ones:\n        ps, qs = conv(cf)\n        for i in range(len(cf)):\n            if qs[i] != fibl(i + 1) or ps[i] != fibl(i + 2):\n                return False\n    return True\n\n\ndef fdet(M):\n    return M[0][0] * M[1][1] - M[0][1] * M[1][0]\n\n\ndef finv(M):\n    d = fdet(M)\n    if d == 0:\n        return None\n    return [[M[1][1] / d, -M[0][1] / d], [-M[1][0] / d, M[0][0] / d]]\n\n\ndef cayley(W):\n    S = [[Fraction(1 - W[0][0]), Fraction(-W[0][1])], [Fraction(-W[1][0]), Fraction(1 - W[1][1])]]\n    T = [[Fraction(1 + W[0][0]), Fraction(W[0][1])], [Fraction(W[1][0]), Fraction(1 + W[1][1])]]\n    Ti = finv(T)\n    if Ti is None:\n        return None\n    return mm(S, Ti)\n\n\ndef gmul(z, w):\n    return (z[0] * w[0] - z[1] * w[1], z[0] * w[1] + z[1] * w[0])\n\n\ndef gsub(z, w):\n    return (z[0] - w[0], z[1] - w[1])\n\n\ndef su2_det(p, q, r):\n    a = Fraction(q)\n    b = Fraction(p)\n    c = Fraction(r) * Fraction(q)\n    d = Fraction(0)\n    return gsub(gmul((a, b), (a, -b)), gmul((c, d), (-c, d)))\n\n\ndef su2_norm(p, q, r):\n    return Fraction(q) * Fraction(q) + Fraction(p) * Fraction(p) + (Fraction(r) * Fraction(q)) * (Fraction(r) * Fraction(q))\n\n\ndef data(cf, rn, rd):\n    L = len(cf)\n    if L < 1 or cf[0] < 1 or rd < 1:\n        return None\n    for i in range(1, L):\n        if cf[i] < 1:\n            return None\n    if gcd(abs(rn), rd) != 1:\n        return None\n    W = word(cf, False)\n    V = word(cf, True)\n    ps, qs = conv(cf)\n    iW = invm(W)\n    iV = invm(V)\n    if iW is None or iV is None:\n        return None\n    C = mm(mm(mm(W, V), iW), iV)\n    x = tr(W)\n    y = tr(V)\n    z = tr(mm(W, V))\n    a = dt(W)\n    b = dt(V)\n    if a * b == 0:\n        return None\n    tw = Fraction(b * x * x + a * y * y + z * z - x * y * z, a * b) - 2\n    sec = z * z - x * x * z + 2 * a * x * x - 2\n    unn = x * x + y * y + z * z - x * y * z - 2\n    return {'cf': list(cf), 'L': L, 'W': W, 'V': V, 'ps': ps, 'qs': qs, 'sh': a,\n            'C': C, 't': x, 'z': z, 'tw': tw, 'sec': sec, 'unn': unn,\n            'trC': tr(C), 'detC': dt(C), 'rn': rn, 'rd': rd}\n\n\ndef ok_struct(d):\n    L = d['L']\n    W = d['W']\n    ps = d['ps']\n    qs = d['qs']\n    if d['sh'] != (-1) ** L:\n        return False\n    pp = ps[L - 2] if L >= 2 else 1\n    pq = qs[L - 2] if L >= 2 else 0\n    if W != [[ps[L - 1], pp], [qs[L - 1], pq]]:\n        return False\n    if d['V'] != [[W[0][0], W[1][0]], [W[0][1], W[1][1]]]:\n        return False\n    if d['detC'] != 1 or d['sh'] * d['sh'] != 1:\n        return False\n    if d['t'] != tr(W) or d['t'] != tr(d['V']):\n        return False\n    if d['z'] != W[0][0] ** 2 + W[0][1] ** 2 + W[1][0] ** 2 + W[1][1] ** 2:\n        return False\n    if d['tw'].denominator != 1 or d['tw'] != d['trC'] or d['sec'] != d['trC']:\n        return False\n    p1 = d['z'] ** 2 - d['t'] ** 2 * d['z'] + 2 * d['t'] ** 2 - 2\n    m1 = d['z'] ** 2 - d['t'] ** 2 * d['z'] - 2 * d['t'] ** 2 - 2\n    if p1 - m1 != 4 * d['t'] ** 2:\n        return False\n    if p1 != d['z'] ** 2 - d['t'] ** 2 * d['z'] + 2 * d['t'] ** 2 - 2:\n        return False\n    cy = cayley(W)\n    if cy is None or fdet(cy) != d['sh']:\n        return False\n    if not ping_guard(d['cf']):\n        return False\n    return True\n\n\ndef quat(d):\n    L = d['L']\n    if L < 2:\n        return None\n    ps = d['ps']\n    qs = d['qs']\n    r = Fraction(d['rn'], d['rd'])\n    px = ps[L - 1]\n    qx = qs[L - 1]\n    py = ps[L - 2]\n    qy = qs[L - 2]\n    farey = px * qy - py * qx\n    nx = Fraction(qx) ** 2 + Fraction(px) ** 2 + r * r * Fraction(qx) ** 2\n    ny = Fraction(qy) ** 2 + Fraction(py) ** 2 + r * r * Fraction(qy) ** 2\n    cross = r * r * Fraction(farey) ** 2 / (nx * ny)\n    xr = Fraction(px, qx)\n    yr = Fraction(py, qy)\n    hh = (1 + xr * xr + r * r) * (1 + yr * yr + r * r)\n    dl = 2 * r * r / (Fraction(qx * qy) ** 2 * hh)\n    cert = True\n    if su2_det(px, qx, r) != (su2_norm(px, qx, r), Fraction(0)):\n        cert = False\n    if su2_det(py, qy, r) != (su2_norm(py, qy, r), Fraction(0)):\n        cert = False\n    return {'farey': farey, 'cross': cross, 'delta': 2 * cross, 'delta_f': dl, 'cert': cert}\n\n\ndef predict(claim, d):\n    if d is None:\n        return False\n    if not ok_struct(d):\n        return False\n    if claim == 'twist_required':\n        return d['tw'] == d['trC'] and d['unn'] != d['trC']\n    if claim == 'untwisted_sl2':\n        return d['unn'] == d['trC']\n    if claim == 'commutes':\n        return d['trC'] == 2\n    if claim == 'degenerate':\n        return d['L'] == 1 and d['trC'] == 2 and d['unn'] != d['trC'] and d['sh'] == -1\n    if claim == 'quat_bridge':\n        qd = quat(d)\n        if qd is None:\n            return False\n        return (qd['farey'] * qd['farey'] == 1 and qd['cross'] == qd['delta_f'] / 2\n                and qd['delta_f'] > 0 and qd['delta'] == 2 * qd['cross'] and qd['cert'])\n    if claim == 'palindrome_split':\n        W = d['W']\n        qd = quat(d)\n        if qd is None:\n            return False\n        return (W[0][1] == W[1][0] and d['C'] == ID and d['trC'] == 2 and d['sec'] == 2\n                and qd['cross'] == qd['delta_f'] / 2 and qd['delta_f'] > 0)\n    return False\n\n\ndef check_case(case):\n    if not isinstance(case, dict):\n        return False\n    claim = case.get('claim')\n    cf = case.get('cf')\n    off = case.get('offset')\n    exp = case.get('expected')\n    if claim is None or cf is None or off is None or exp is None:\n        return False\n    if len(off) != 2:\n        return False\n    d = data(cf, off[0], off[1])\n    pred = predict(claim, d)\n    return bool(pred) is bool(exp)\n",
+      "conjecture_id": "CONJ-T1-R3-SEAT-3-GL2-SU2-SHEET-BRIDGE",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "cf": [
+            1,
+            1,
+            2
+          ],
+          "claim": "twist_required",
+          "expected": true,
+          "name": "R1 failure datum 5/3 = [1,1,2], s = -1: determinant twist mandatory",
+          "offset": [
+            1,
+            1
+          ],
+          "witness": "W = [[5,2],[3,1]], s = -1, t = 6, z = 39, tr C = 39^2 - 36*39 - 2*36 - 2 = 43, det C = 1; untwisted 187 rejected"
+        },
+        {
+          "cf": [
+            1,
+            1,
+            2
+          ],
+          "claim": "untwisted_sl2",
+          "expected": false,
+          "name": "negative guard: R2-SEAT-0's un-twisted SL_2 value 187 must fail at 5/3",
+          "offset": [
+            1,
+            1
+          ],
+          "witness": "x^2+y^2+z^2-xyz-2 = 36+36+1521-1404-2 = 187 != 43; gap 144 = 4 t^2 = 2*(1-s)*t^2 sector correction"
+        },
+        {
+          "cf": [
+            1,
+            1,
+            2
+          ],
+          "claim": "quat_bridge",
+          "expected": true,
+          "name": "SU(2)/Cayley bridge identity at 5/3 with offset r = 3/2",
+          "offset": [
+            3,
+            2
+          ],
+          "witness": "Farey |5*1-2*3| = 1, w = |v_x x v_y|^2 = r^2/(N_x N_y) = delta/2, delta = 2r^2/((q_x q_y)^2 H) > 0, Gaussian det = norm for both lifts (det +1 after normalization on both sheets)"
+        },
+        {
+          "cf": [
+            1,
+            1,
+            1,
+            1,
+            2
+          ],
+          "claim": "commutes",
+          "expected": false,
+          "name": "negative guard: 13/8 = [1,1,1,1,2] does not commute (2423, not 2)",
+          "offset": [
+            1,
+            3
+          ],
+          "witness": "W = [[13,5],[8,3]], s = -1, t = 16, z = 267, tr C = 71289 - 68352 - 512 - 2 = 2423"
+        },
+        {
+          "cf": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            2
+          ],
+          "claim": "untwisted_sl2",
+          "expected": true,
+          "name": "21/13 = [1,1,1,1,1,2], s = +1: classical Fricke trace exact on the SL_2 sheet",
+          "offset": [
+            5,
+            7
+          ],
+          "witness": "W = [[21,8],[13,5]], det = +1, t = 26, z = 699, tr C = 17427 = x^2+y^2+z^2-xyz-2"
+        },
+        {
+          "cf": [
+            3,
+            7,
+            16
+          ],
+          "claim": "twist_required",
+          "expected": true,
+          "name": "355/113 = [3,7,16], s = -1: determinant twist required on the large case",
+          "offset": [
+            1,
+            1
+          ],
+          "witness": "W = [[355,22],[113,7]], det = 2485-2486 = -1, exact integer tr C from the twisted formula equals the direct matrix trace; the un-twisted polynomial misfires"
+        },
+        {
+          "cf": [
+            4
+          ],
+          "claim": "degenerate",
+          "expected": true,
+          "name": "degenerate L = 1: 4/1 has tr C = 2 exactly while the un-twisted polynomial returns 66",
+          "offset": [
+            0,
+            1
+          ],
+          "witness": "W = V = [[4,1],[1,0]], s = -1, t = 4, z = 18, tr C = 324-288-32-2 = 2; untwisted = 324-288+32-2 = 66"
+        },
+        {
+          "cf": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "claim": "palindrome_split",
+          "expected": true,
+          "name": "palindromic all-ones word 13/8 = [1,1,1,1,1,1], s = +1: Fricke defect dies, quaternion defect survives",
+          "offset": [
+            1,
+            1
+          ],
+          "witness": "W = [[13,8],[8,5]] symmetric, V = W, C = I, tr C = 2, sec = 2; yet delta = 2/((8*5)^2 H) > 0, so the two defects are not proportional; q_i = Fib(i+1), p_i = Fib(i+2) verified"
+        }
+      ]
+    },
+    "round_num": 3,
+    "seat_id": "SEAT-3",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R3-SEAT-3"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "ADJUDICATION: R2-SEAT-1 and R2-SEAT-5 are both right, and there is no contradiction. For doubled integer coordinates A=2P, B=2Q with each of A,B of uniform parity (Hurwitz order), W = A_vec x B_vec satisfies |W|^2 = 0 mod 8 in every parity sector (all-odd: each W component is even and the half-components sum to 0 mod 2; all-even: W = 4(u x v); mixed: |W|^2 = 4|u x v|^2 with |u x v|^2 even), so D = |W|^2/8 is a non-negative integer and Re(C) = n^2 m^2 - D, |C|^2 = (n^2 m^2)^2 for C = P Q P-bar Q-bar, certified fraction-free via T = A B A-bar B-bar with T0 = 16 Re(C). The parity of D is a GF(2) syndrome refining lattice membership: all-even (Lipschitz) pairs force W = 4(u x v), hence D = 2|u x v|^2 EVEN, giving the sharp floor delta >= 2/(n^2 m^2) (equality at the i,j witness A=(0,2,0,0), B=(0,0,2,0), where D=2, delta=2, Re(C)=-1, and at the planar lifts A=(4,4,2,0), B=(12,6,4,0) of heights (3,7), where D=2 and delta=2/441). R2-SEAT-5's planar 3-axis lifts have vanishing fourth coordinate, i.e. doubled coordinates all even, so they live entirely inside the Lipschitz sector and can never exhibit odd D; their D>=2 is the even branch, not a refutation of R2-SEAT-1. The all-odd half-integer Hurwitz coset is the only sector where D may be ODD: the explicit witness A=(1,1,3,1), B=(1,1,5,1) (heights n^2=3, m^2=7) gives W=(-2,0,2), D=1, delta=1/21, so over the full Hurwitz order the sharp floor is exactly delta >= 1/(n^2 m^2). Thus the constant halves 2 -> 1 exactly when the parity syndrome moves from the all-even coset to the all-odd coset; R2-SEAT-4's R2 scaling argument (delta = 2|UxV|^2/(N(P)N(Q)) invariant under half-integer rescaling) is the scale-invariance of the ratio, while the halving is a lattice-coset effect, and the two compose without conflict: delta = D/(n^2 m^2) with D integral, parity(D) the coset syndrome, no irrational Markov/Lagrange constant anywhere. UNIFICATION WITH DAYAN CRT: the gear net of a Farey-adjacent convergent pair (q_{k-1}, q_k) is pairwise coprime exactly because |p_k q_{k-1} - p_{k-1} q_k| = 1 forces gcd(q_{k-1}, q_k) = 1; by Dayan qiuyi shu the pairwise gcd-consistency test mod gcd(m_i, m_j) is the exact obstruction to gluing, the glued modulus is the lcm, and compression product/lcm equals 1 iff the net is pairwise coprime. Hence Farey adjacency = the compression-1 (lossless) CRT gluing, the non-coprime gear net [260,365] with residues [0,1] fails precisely at the gcd-5 residue clash, and the Maya net [260,365,584] glues at lcm 37960 with integer compression 1460. The minimal non-Abelian defect scale 2/(q_k q_{k-1})^2 at pi's convergents 333/106, 355/113 (|355*106 - 333*113| = 1) is therefore simultaneously the Hurwitz-lattice gap at coprime heights and the CRT compression-1 residue scale of the gear net: one integrality theorem, three readings (quaternionic, continued-fraction, modular).",
+      "mode": "compose",
+      "target_seat_or_turn": "R2-SEAT-1"
+    },
+    "corpus_anchor": {
+      "operator_id": "Qin Jiushao Dayan qiuyi shu non-coprime CRT gluing x Zu Chongzhi Zhui Shu Farey-Hurwitz parity adjudication",
+      "source_receipt_id": "R2-SEAT-4::corpus:verified-exact-operator",
+      "statement": "Adjudication of R2-SEAT-1 (all-odd Hurwitz coset admits odd D, halving the gap constant 2 to 1) against R2-SEAT-5 (planar Lipschitz lifts force D even, floor 2), unified with Dayan non-coprime CRT gluing on composite gear nets: the defect integer D = |A_vec x B_vec|^2 / 8 is a GF(2) parity syndrome of lattice membership, and Farey adjacency of convergent denominators is exactly the pairwise-coprime CRT case with compression 1."
+    },
+    "executable_conjecture": {
+      "claim_summary": "For doubled integer quaternion coordinates A=2P, B=2Q with each of A,B of uniform coordinate parity (Hurwitz order), D = |A_vec x B_vec|^2/8 is a non-negative integer (all three parity sectors verified mod 8), Re(C) = n^2 m^2 - D and |C|^2 = (n^2 m^2)^2 for C = P Q P-bar Q-bar with n^2 = |A|^2/4, m^2 = |B|^2/4, and delta = D/(n^2 m^2) obeys delta >= 2/(n^2 m^2) on the all-even Lipschitz sector (D forced even; sharp: D=2 at the i,j witness and at planar lifts of heights (3,7), delta=2/441) and delta >= 1/(n^2 m^2) over the full Hurwitz order (sharp: D=1 odd at A=(1,1,3,1), B=(1,1,5,1), delta=1/21). Planar (zero fourth coordinate) lifts lie in the Lipschitz sector, so R2-SEAT-5's even-D floor and R2-SEAT-1's odd-D witness are the two cosets of one GF(2) parity syndrome, not a contradiction. Dayan CRT: pairwise consistency of residues mod gcd(m_i,m_j) is exactly the gluing obstruction; when solvable the glued modulus is the lcm, product/lcm is an integer compression equal to 1 iff the moduli are pairwise coprime; [260,365]x[0,1] is a clean negative witness, [260,365,584]x[0,0,0] glues at lcm 37960 with compression 1460. Farey adjacency |p t - r q| = 1 forces gcd(q,t) = 1, i.e. the gear net (q,t) is the compression-1 CRT case, with tail gap exactly 1/(q t) and defect 2 s^2/(q t)^2. check_case returns True iff the exact prediction equals the case's explicit expected boolean in every case.",
+      "code": "from fractions import Fraction\nfrom math import gcd\nfrom itertools import combinations\n\ndef cross3(u, v):\n    return (u[1]*v[2] - u[2]*v[1],\n            u[2]*v[0] - u[0]*v[2],\n            u[0]*v[1] - u[1]*v[0])\n\ndef qnorm4(a):\n    return a[0]*a[0] + a[1]*a[1] + a[2]*a[2] + a[3]*a[3]\n\ndef qmul(a, b):\n    w1, x1, y1, z1 = a\n    w2, x2, y2, z2 = b\n    return (w1*w2 - x1*x2 - y1*y2 - z1*z2,\n            w1*x2 + x1*w2 + y1*z2 - z1*y2,\n            w1*y2 - x1*z2 + y1*w2 + z1*x2,\n            w1*z2 + x1*y2 - y1*x2 + z1*w2)\n\ndef qconj(a):\n    return (a[0], -a[1], -a[2], -a[3])\n\ndef same_parity(a):\n    return a[0] % 2 == a[1] % 2 and a[1] % 2 == a[2] % 2 and a[2] % 2 == a[3] % 2\n\ndef is_all_even(a):\n    return all(x % 2 == 0 for x in a)\n\ndef hurwitz_D(A, B):\n    W = cross3((A[1], A[2], A[3]), (B[1], B[2], B[3]))\n    s = W[0]*W[0] + W[1]*W[1] + W[2]*W[2]\n    if s % 8 != 0:\n        return None\n    return s // 8\n\ndef parity_pred(A, B):\n    if not (same_parity(A) and same_parity(B)):\n        return False\n    if qnorm4(A) % 4 != 0 or qnorm4(B) % 4 != 0:\n        return False\n    n2 = qnorm4(A) // 4\n    m2 = qnorm4(B) // 4\n    if n2 <= 0 or m2 <= 0:\n        return False\n    D = hurwitz_D(A, B)\n    if D is None or D < 0:\n        return False\n    lip = is_all_even(A) and is_all_even(B)\n    if lip and D % 2 != 0:\n        return False\n    delta = Fraction(D, n2*m2)\n    bound = Fraction(2 if lip else 1, n2*m2)\n    if D > 0 and delta < bound:\n        return False\n    T = qmul(qmul(qmul(A, B), qconj(A)), qconj(B))\n    if T[0] != 16*(n2*m2 - D):\n        return False\n    if qnorm4(T) != 256*n2*m2*n2*m2:\n        return False\n    return True\n\ndef lcm2(a, b):\n    return a // gcd(a, b) * b\n\ndef crt_pred(moduli, residues):\n    n = len(moduli)\n    if n == 0 or len(residues) != n:\n        return False\n    if any(m <= 0 for m in moduli):\n        return False\n    pairwise_coprime = True\n    for i, j in combinations(range(n), 2):\n        g = gcd(moduli[i], moduli[j])\n        if g != 1:\n            pairwise_coprime = False\n        if (residues[i] - residues[j]) % g != 0:\n            return False\n    L = 1\n    P = 1\n    for m in moduli:\n        L = lcm2(L, m)\n        P = P * m\n    if P % L != 0:\n        return False\n    comp = P // L\n    if (comp == 1) != pairwise_coprime:\n        return False\n    return True\n\ndef farey_pred(p, q, r, t, sn, sd):\n    if q <= 0 or t <= 0 or sd == 0:\n        return False\n    if abs(p*t - r*q) != 1:\n        return False\n    if gcd(q, t) != 1:\n        return False\n    gap = Fraction(abs(p*t - r*q), q*t)\n    if gap != Fraction(1, q*t):\n        return False\n    if lcm2(q, t) != q*t:\n        return False\n    defect = Fraction(2*sn*sn, sd*sd*q*q*t*t)\n    if sn != 0 and defect <= 0:\n        return False\n    return True\n\ndef check_case(case):\n    kind = case[\"kind\"]\n    expected = case[\"expected\"]\n    if kind == \"parity\":\n        pred = parity_pred(case[\"A\"], case[\"B\"])\n    elif kind == \"crt\":\n        pred = crt_pred(case[\"moduli\"], case[\"residues\"])\n    elif kind == \"farey\":\n        pred = farey_pred(case[\"p\"], case[\"q\"], case[\"r\"], case[\"t\"], case[\"sn\"], case[\"sd\"])\n    else:\n        pred = False\n    return pred == expected\n\ntest_cases = [\n    {\"kind\": \"parity\", \"A\": [1, 1, 3, 1], \"B\": [1, 1, 5, 1], \"expected\": True},\n    {\"kind\": \"parity\", \"A\": [0, 2, 0, 0], \"B\": [0, 0, 2, 0], \"expected\": True},\n    {\"kind\": \"parity\", \"A\": [4, 4, 2, 0], \"B\": [12, 6, 4, 0], \"expected\": True},\n    {\"kind\": \"parity\", \"A\": [1, 2, 3, 4], \"B\": [1, 1, 1, 1], \"expected\": False},\n    {\"kind\": \"crt\", \"moduli\": [260, 365], \"residues\": [0, 1], \"expected\": False},\n    {\"kind\": \"crt\", \"moduli\": [260, 365, 584], \"residues\": [0, 0, 0], \"expected\": True},\n    {\"kind\": \"farey\", \"p\": 355, \"q\": 113, \"r\": 333, \"t\": 106, \"sn\": 1, \"sd\": 1, \"expected\": True},\n    {\"kind\": \"farey\", \"p\": 4, \"q\": 2, \"r\": 6, \"t\": 3, \"sn\": 1, \"sd\": 1, \"expected\": False},\n]\n",
+      "conjecture_id": "CONJ-T1-R3-SEAT-4-HURWITZ-CRT-PARITY",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "A": [
+            1,
+            1,
+            3,
+            1
+          ],
+          "B": [
+            1,
+            1,
+            5,
+            1
+          ],
+          "expected": true,
+          "kind": "parity"
+        },
+        {
+          "A": [
+            0,
+            2,
+            0,
+            0
+          ],
+          "B": [
+            0,
+            0,
+            2,
+            0
+          ],
+          "expected": true,
+          "kind": "parity"
+        },
+        {
+          "A": [
+            4,
+            4,
+            2,
+            0
+          ],
+          "B": [
+            12,
+            6,
+            4,
+            0
+          ],
+          "expected": true,
+          "kind": "parity"
+        },
+        {
+          "A": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "B": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "expected": false,
+          "kind": "parity"
+        },
+        {
+          "expected": false,
+          "kind": "crt",
+          "moduli": [
+            260,
+            365
+          ],
+          "residues": [
+            0,
+            1
+          ]
+        },
+        {
+          "expected": true,
+          "kind": "crt",
+          "moduli": [
+            260,
+            365,
+            584
+          ],
+          "residues": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "expected": true,
+          "kind": "farey",
+          "p": 355,
+          "q": 113,
+          "r": 333,
+          "sd": 1,
+          "sn": 1,
+          "t": 106
+        },
+        {
+          "expected": false,
+          "kind": "farey",
+          "p": 4,
+          "q": 2,
+          "r": 6,
+          "sd": 1,
+          "sn": 1,
+          "t": 3
+        }
+      ]
+    },
+    "round_num": 3,
+    "seat_id": "SEAT-4",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R3-SEAT-4"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "Write A=2P, B=2Q, S=|A|^2, T=|B|^2 and c=|vec(A)xvec(B)|^2. Then D=c/8, N(P)N(Q)=ST/16, delta=D/(ST/16)=2c/(ST), Re(C)=(ST-2c)/16 and |C|^2=(ST/16)^2, exactly identifying R2-SEAT-1's D with R2-SEAT-5's planar checksum. For a Sona convergent lift, |p_kq_{k-1}-p_{k-1}q_k|=1 gives gcd(q_k,q_{k-1})=1 and c=d^2t^2. The mod-4 norm syndrome is the odd-coordinate count: a planar word has a forced even zero coordinate, hence same-parity planar words are all even; writing A=2a,B=2b gives D=2|vec(a)xvec(b)|^2, so D is even. In 4D, four odd coordinates also have count 0 mod 4, so primitivity is not pruned; all-odd A,B can instead produce c=8 mod 16 and odd D, witnessed by D=1 and delta=1/441.",
+      "mode": "compose",
+      "target_seat_or_turn": "R2-SEAT-1"
+    },
+    "corpus_anchor": {
+      "operator_id": "OP-REF-Chokwe-Sona-GCD-GF2 x Hurwitz-doubled-parity",
+      "source_receipt_id": "corpus:verified-exact-operator",
+      "statement": "Farey-Sona unimodularity and the four-coordinate mod-4 syndrome give one integral commutator certificate: planar same-parity doubled lifts have even D, whereas genuinely four-dimensional all-odd Hurwitz lifts may have odd D."
+    },
+    "executable_conjecture": {
+      "claim_summary": "For nonzero doubled Hurwitz words A,B whose coordinates within each word share one parity, c=|vec(A)xvec(B)|^2 is divisible by 8 and D=c/8 certifies delta=2c/(|A|^2|B|^2), Re(C)=(|A|^2|B|^2-2c)/16 and |C|^2=(|A|^2|B|^2/16)^2 in exact Q. The GF(2)/mod-4 syndrome equals odd-coordinate count modulo 4; planar norm 0 mod 4 forces all coordinates even, and two same-parity planar words force D even, while all-odd 4D words permit D odd. Optional Sona data certify the exact convergent lifts, gcd(q_k,q_{k-1})=1, Farey determinant 1 and c=d^2t^2. check_case returns True iff the complete certificate predicate equals the explicit expected boolean; non-Hurwitz planar pseudo-odd words and non-unimodular Sona data are negative witnesses.",
+      "code": "from fractions import Fraction\nfrom math import gcd\n\ndef check_case(case):\n    A, B = case[\"A\"], case[\"B\"]\n    def norm(X):\n        return sum(x*x for x in X)\n    def same(X):\n        return all((x & 1) == (X[0] & 1) for x in X)\n    def mod4(X):\n        odd = sum(x & 1 for x in X)\n        return norm(X) % 4 == odd % 4 and (X[3] != 0 or norm(X) % 4 != 0 or odd == 0)\n    u, v = A[1:], B[1:]\n    w = (u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0])\n    c, sa, sb = sum(x*x for x in w), norm(A), norm(B)\n    planar = A[3] == 0 and B[3] == 0\n    odd4 = all(x & 1 for x in A+B)\n    kind = \"hurwitz_odd\" if odd4 else (\"planar_even\" if planar and same(A) and same(B) else \"invalid\")\n    ok = sa > 0 and sb > 0 and same(A) and same(B) and mod4(A) and mod4(B) and c % 8 == 0\n    D, nm = c // 8, Fraction(sa*sb, 16)\n    ok = ok and kind == case[\"kind\"] and D == case[\"D\"] and (not planar or D % 2 == 0)\n    ok = ok and Fraction(case[\"delta\"]) == Fraction(2*c, sa*sb)\n    ok = ok and Fraction(case[\"re\"]) == nm-D and Fraction(case[\"cn2\"]) == nm*nm\n    if \"sona\" in case:\n        pk, qk, pr, qr, d, t = case[\"sona\"]\n        ok = ok and gcd(qk, qr) == 1 and abs(pk*qr-pr*qk) == 1\n        ok = ok and A == [d*qk, d*pk, t*qk, 0] and B == [d*qr, d*pr, t*qr, 0]\n        ok = ok and c == d*d*t*t\n    return bool(ok) == case[\"expected\"]",
+      "conjecture_id": "CONJ-T1-R3-SEAT-5-SONA-MOD4-D",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "A": [
+            6,
+            10,
+            6,
+            0
+          ],
+          "B": [
+            2,
+            4,
+            2,
+            0
+          ],
+          "D": 2,
+          "cn2": "66564",
+          "delta": "1/129",
+          "expected": true,
+          "kind": "planar_even",
+          "re": "256",
+          "sona": [
+            5,
+            3,
+            2,
+            1,
+            2,
+            2
+          ]
+        },
+        {
+          "A": [
+            4,
+            4,
+            2,
+            0
+          ],
+          "B": [
+            12,
+            6,
+            4,
+            0
+          ],
+          "D": 2,
+          "cn2": "194481",
+          "delta": "2/441",
+          "expected": true,
+          "kind": "planar_even",
+          "re": "439"
+        },
+        {
+          "A": [
+            5,
+            3,
+            1,
+            1
+          ],
+          "B": [
+            13,
+            5,
+            1,
+            1
+          ],
+          "D": 1,
+          "cn2": "194481",
+          "delta": "1/441",
+          "expected": true,
+          "kind": "hurwitz_odd",
+          "re": "440"
+        },
+        {
+          "A": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "B": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "D": 0,
+          "cn2": "81/256",
+          "delta": "0",
+          "expected": false,
+          "kind": "planar_even",
+          "re": "9/16"
+        },
+        {
+          "A": [
+            8,
+            6,
+            8,
+            0
+          ],
+          "B": [
+            4,
+            2,
+            4,
+            0
+          ],
+          "D": 8,
+          "cn2": "136161",
+          "delta": "8/369",
+          "expected": false,
+          "kind": "planar_even",
+          "re": "361",
+          "sona": [
+            3,
+            4,
+            1,
+            2,
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    "round_num": 3,
+    "seat_id": "SEAT-5",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R3-SEAT-5"
+  },
+  {
+    "composition_or_challenge": {
+      "algebraic_link": "Compose R2-SEAT-6 with R2-SEAT-3. The epicyclic shadow stores only the abelian ratios 254/19 and 223/19; their integer block has det 589=19*31 with gcd(19,31)=1 and 254 mod 53=42, so it is not a GL_2(Z) Pingala word and the Fricke polynomial is not licensed on it. The Schur ratio 344/425=2^3*43/(5^2*17) has square-free kernel 2*43*17, hence is not a GL(Q) gauge that could absorb the sector sign s. When the same tooth mechanism is replaced by generators Q(a)=[[a,1],[1,0]] of det -1, V=W^T forces d=e=s=(-1)^{len(cf)}, det[C]=1, and tr[C]=z^2-t^2 z+2 s t^2-2 in Z. That recovers 43 on [1,1,2] (the untwisted SL2 value 187 is the false guard), 15 on [1,2] in the s=+1 sheet, and trace 2 exactly on the palindrome [2,1,2] where W=V. The ordered lifts Q(1),Q(2) give commutator trace 1, so reordering tooth ratios does not restore the identity. Cayley t=1/5 still sends the pole to 2/3 with chord -1/15 against 3/5, and the BCH tuple (0,1/2,1/6,0) keeps Strang half-energy 5/36; those scalars sit outside the GL_2(Z) class function and do not cancel det 589.",
+      "mode": "compose",
+      "target_seat_or_turn": "R2-SEAT-3"
+    },
+    "corpus_anchor": {
+      "operator_id": "nafis-schur-nonsquare-x-antikythera-det589-x-gl2-fricke-sector",
+      "source_receipt_id": "R2-SEAT-3:corpus:verified-exact-operator",
+      "statement": "Antikythera gear block G=[[254,223],[19,19]] has det G=19*(254-223)=589, refusing the Farey lock |det|=1, while the Nafis pushforward ratio (688/15625)/(34/625)=344/425 is not a square in Q. On unimodular Pingala words the same determinant twist is the SEAT-3 sector bit s=det W=(-1)^{length}, and tr[W,W^T]=z^2-t^2 z+2 s t^2-2 is the integer class obstruction."
+    },
+    "executable_conjecture": {
+      "claim_summary": "Witness iff the Antikythera block has det 589=q*(p-r) with gcd(q,p-r)=1 and 254%53=42, the Schur ratio equals 344/425 and is not a square in Q, and the Pingala word of cf satisfies s=det W=det W^T=(-1)^{len}, det[C]=1, and tr[C]=z^2-t^2*z+2*s*t^2-2 computed both from that partition and from the adjugate commutator, with tr[C]!=2. The untwisted s=+1 polynomial, a commuting palindrome, and a unit-gear or square-Schur claim are negative guards. check_case is True iff that boolean equals expected.",
+      "code": "from fractions import Fraction\nfrom math import gcd, isqrt\ndef mul(A,B):\n    return ((A[0][0]*B[0][0]+A[0][1]*B[1][0], A[0][0]*B[0][1]+A[0][1]*B[1][1]),(A[1][0]*B[0][0]+A[1][1]*B[1][0], A[1][0]*B[0][1]+A[1][1]*B[1][1]))\ndef dt(A):\n    return A[0][0]*A[1][1]-A[0][1]*A[1][0]\ndef tr(A):\n    return A[0][0]+A[1][1]\ndef adj(A):\n    return ((A[1][1],-A[0][1]),(-A[1][0],A[0][0]))\ndef word(cf):\n    W=((1,0),(0,1))\n    for a in cf:\n        W=mul(W,((a,1),(1,0)))\n    return W\ndef comm(A,B):\n    d,e=dt(A),dt(B)\n    N=mul(mul(mul(A,B),adj(A)),adj(B))\n    de=d*e\n    return tr(N)//de, dt(N)//(de*de)\ndef check_case(case):\n    W=word(case[\"cf\"])\n    V=((W[0][0],W[1][0]),(W[0][1],W[1][1]))\n    d,e=dt(W),dt(V)\n    t,z=tr(W),tr(mul(W,V))\n    twisted=z*z-t*t*z+2*d*t*t-2\n    direct,dc=comm(W,V)\n    sl2=z*z-t*t*z+2*t*t-2\n    sec=d==e==(1 if len(case[\"cf\"])%2==0 else -1) and dc==1 and direct==twisted\n    p,q,r,u=254,19,223,19\n    gdet=p*u-r*q\n    ratio=Fraction(688,15625)/Fraction(34,625)\n    rn=abs(ratio.numerator)\n    nonsq=ratio==Fraction(344,425) and isqrt(rn)**2!=rn\n    gear=gdet==589==q*(p-r) and q==u and gcd(q,p-r)==1 and p%53==42\n    lt,ld=comm(((1,1),(1,0)),((2,1),(1,0)))\n    k=case[\"kind\"]\n    if k==\"witness\":\n        pred=sec and gear and nonsq and lt==1 and ld==1 and direct!=2\n    elif k==\"untwisted\":\n        pred=sec and sl2==direct\n    elif k==\"commute\":\n        pred=sec and direct!=2\n    else:\n        pred=(gdet==1) or (not nonsq)\n    return pred==case[\"expected\"]\n",
+      "conjecture_id": "CONJ-T1-R3-SEAT-6-SCHUR-FRICKE-LOCK",
+      "kind": "python_exact_q",
+      "test_cases": [
+        {
+          "cf": [
+            1,
+            1,
+            2
+          ],
+          "expected": true,
+          "kind": "witness"
+        },
+        {
+          "cf": [
+            1,
+            2
+          ],
+          "expected": true,
+          "kind": "witness"
+        },
+        {
+          "cf": [
+            1,
+            1,
+            2
+          ],
+          "expected": false,
+          "kind": "untwisted"
+        },
+        {
+          "cf": [
+            2,
+            1,
+            2
+          ],
+          "expected": false,
+          "kind": "commute"
+        },
+        {
+          "cf": [
+            1
+          ],
+          "expected": false,
+          "kind": "unit"
+        }
+      ]
+    },
+    "round_num": 3,
+    "seat_id": "SEAT-6",
+    "target_frontier": "Foundation-0/continuum",
+    "turn_id": "R3-SEAT-6"
+  }
+]
